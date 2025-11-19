@@ -5,6 +5,7 @@ import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES, localizedContent } from "@/lib/l
 import { LANGUAGE_COOKIE, LANGUAGE_STORAGE_KEY } from "@/lib/i18n";
 import { SKILLS } from "@/lib/skills";
 import { AIChatWidget } from "./home/AIChatWidget";
+import { Contact } from "./home/Contact";
 import { Experience } from "./home/Experience";
 import { Footer } from "./home/Footer";
 import { Hero } from "./home/Hero";
@@ -106,6 +107,7 @@ export default function Home({ initialLanguage = DEFAULT_LANGUAGE }) {
           skillsHeading={content.sections.skillsHeading}
           skills={SKILLS}
         />
+        <Contact title={content.sections.contact} content={content.contact} />
         <Footer personalInfo={content.personalInfo} footerContent={content.footer} />
         <AIChatWidget
           personalInfo={content.personalInfo}
