@@ -1,4 +1,4 @@
-import { Brain, Code, Container, Database, Search, Terminal } from "lucide-react";
+import { Brain, Cloud, Code, Coffee, Container, Database, Search, Terminal } from "lucide-react";
 import { GlassCard } from "./GlassCard";
 import { SectionHeader } from "./SectionHeader";
 
@@ -6,9 +6,11 @@ const ICON_MAP = {
   Code,
   Brain,
   Terminal,
+  Coffee,
   Database,
   Container,
   Search,
+  Cloud,
 };
 
 export function Skills({ title, aboutText, skillsHeading, skills }) {
@@ -34,7 +36,6 @@ export function Skills({ title, aboutText, skillsHeading, skills }) {
                     <Icon size={18} />
                   </div>
                   <span className="text-sm font-medium text-white/80">{skill.name}</span>
-                  <span className="text-xs uppercase tracking-wide text-white/40">{skill.level}</span>
                 </div>
               );
             })}
