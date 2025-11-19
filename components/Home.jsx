@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from "react";
-import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES, localizedContent } from "@/lib/localizedContent";
+import { DEFAULT_LANGUAGE, localizedContent } from "@/lib/localizedContent";
 import { LANGUAGE_COOKIE, LANGUAGE_STORAGE_KEY } from "@/lib/i18n";
 import { SKILLS } from "@/lib/skills";
 import { AIChatWidget } from "./home/AIChatWidget";
@@ -62,12 +62,6 @@ export default function Home({ initialLanguage = DEFAULT_LANGUAGE }) {
     }
   }, [language]);
 
-  const handleLanguageChange = useCallback((nextLanguage) => {
-    if (localizedContent[nextLanguage]) {
-      setLanguage(nextLanguage);
-    }
-  }, []);
-
   const scrollToSection = useCallback((id) => {
     const element = document.getElementById(id);
     if (element) {
@@ -89,9 +83,6 @@ export default function Home({ initialLanguage = DEFAULT_LANGUAGE }) {
           scrollToSection={scrollToSection}
           navItems={content.nav}
           personalInfo={content.personalInfo}
-          language={language}
-          onLanguageChange={handleLanguageChange}
-          supportedLanguages={SUPPORTED_LANGUAGES}
         />
         <Hero
           scrollToSection={scrollToSection}
