@@ -45,10 +45,10 @@ options:
   substitutionOption: ALLOW_LOOSE
 
 substitutions:
-  _AR_HOSTNAME: europe-west1-docker.pkg.dev
+  _AR_HOSTNAME: us-central1-docker.pkg.dev
   _AR_PROJECT_ID: canvas-advice-478216-k6
   _AR_REPOSITORY: cloud-run-source-deploy
-  _DEPLOY_REGION: europe-west1
+  _DEPLOY_REGION: us-central1
   _SERVICE_NAME: portfoliowebsite
   _NEXT_PUBLIC_GEMINI_API_KEY: 'AIzaSyBRA-cEFLgTQpLuwUw3GDmD3AK6ggKg2dk'
   _RESEND_API_KEY: 're_ZqULU9v7_5Mob12ond2n45xRftUQFHfnY'
