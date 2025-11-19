@@ -1,6 +1,9 @@
 const nextConfig = {
   reactStrictMode: true,
 
+  // Output mode for Cloud Run
+  output: 'standalone',
+
   // Performance optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
