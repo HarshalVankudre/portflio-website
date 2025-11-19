@@ -1,4 +1,4 @@
-import { Brain, Cloud, Code, Coffee, Container, Database, Search, Terminal } from "lucide-react";
+import { Bot, Brain, Cloud, Code, Coffee, Container, Database, Search, Terminal } from "lucide-react";
 import { GlassCard } from "./GlassCard";
 import { SectionHeader } from "./SectionHeader";
 
@@ -10,6 +10,7 @@ const ICON_MAP = {
   Database,
   Container,
   Search,
+  Bot,
   Cloud,
 };
 
