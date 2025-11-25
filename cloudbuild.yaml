@@ -50,7 +50,7 @@ substitutions:
   _AR_REPOSITORY: cloud-run-source-deploy
   _DEPLOY_REGION: us-central1
   _SERVICE_NAME: portfoliowebsite
-  _NEXT_PUBLIC_GEMINI_API_KEY: 'AIzaSyBRA-cEFLgTQpLuwUw3GDmD3AK6ggKg2dk'
+  _NEXT_PUBLIC_GEMINI_API_KEY: 'AIzaSyAkx8E2d6fcU05MEjcgEH1462bljjjwXnI'
   _RESEND_API_KEY: 're_ZqULU9v7_5Mob12ond2n45xRftUQFHfnY'
 
 tags:
