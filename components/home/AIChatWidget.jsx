@@ -65,23 +65,24 @@ export function AIChatWidget({ personalInfo, aiAssistantStrings, experiences, pr
                 `}
               >
                 {msg.role === "assistant" ? (
-                  <ReactMarkdown
-                    className="prose prose-invert prose-sm max-w-none"
-                    components={{
-                      p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
-                      ul: ({node, ...props}) => <ul className="list-disc list-inside mb-2" {...props} />,
-                      ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-2" {...props} />,
-                      li: ({node, ...props}) => <li className="mb-1" {...props} />,
-                      code: ({node, inline, ...props}) =>
-                        inline ?
-                          <code className="bg-white/10 px-1 rounded" {...props} /> :
-                          <code className="block bg-white/10 p-2 rounded my-2" {...props} />,
-                      strong: ({node, ...props}) => <strong className="font-semibold" {...props} />,
-                      em: ({node, ...props}) => <em className="italic" {...props} />,
-                    }}
-                  >
-                    {msg.text}
-                  </ReactMarkdown>
+                  <div className="prose prose-invert prose-sm max-w-none">
+                    <ReactMarkdown
+                      components={{
+                        p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                        ul: ({node, ...props}) => <ul className="list-disc list-inside mb-2" {...props} />,
+                        ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-2" {...props} />,
+                        li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                        code: ({node, inline, ...props}) =>
+                          inline ?
+                            <code className="bg-white/10 px-1 rounded" {...props} /> :
+                            <code className="block bg-white/10 p-2 rounded my-2" {...props} />,
+                        strong: ({node, ...props}) => <strong className="font-semibold" {...props} />,
+                        em: ({node, ...props}) => <em className="italic" {...props} />,
+                      }}
+                    >
+                      {msg.text}
+                    </ReactMarkdown>
+                  </div>
                 ) : (
                   msg.text
                 )}

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Mail, Send, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import { GlassCard } from './GlassCard';
+import { AnimateOnScroll } from "@/hooks/useInView";
 
 export function Contact({ title, content }) {
   const [formData, setFormData] = useState({
@@ -49,23 +50,26 @@ export function Contact({ title, content }) {
   };
 
   return (
-    <section id="contact" className="py-20 px-6 relative">
+    <section id="contact" className="py-20 px-6 relative" aria-label="Contact section">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-4">
-            <Mail className="text-blue-400" size={20} />
-            <span className="text-sm font-semibold text-white/80 uppercase tracking-wider">{title}</span>
+        <AnimateOnScroll>
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-4">
+              <Mail className="text-blue-400" size={20} aria-hidden="true" />
+              <span className="text-sm font-semibold text-white/80 uppercase tracking-wider">{title}</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">
+              {content.heading}
+            </h2>
+            <p className="text-white/60 mt-4 text-lg max-w-2xl mx-auto">
+              {content.subheading}
+            </p>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">
-            {content.heading}
-          </h2>
-          <p className="text-white/60 mt-4 text-lg max-w-2xl mx-auto">
-            {content.subheading}
-          </p>
-        </div>
+        </AnimateOnScroll>
 
-        <GlassCard className="p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <AnimateOnScroll delay={200}>
+          <GlassCard className="p-8">
+            <form onSubmit={handleSubmit} className="space-y-6" aria-label="Contact form">
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label htmlFor="firstName" className="text-sm font-medium text-white/80">
@@ -132,20 +136,22 @@ export function Contact({ title, content }) {
               />
             </div>
 
-            {status.message && (
-              <div className={`flex items-center gap-3 p-4 rounded-xl ${
-                status.type === 'success'
-                  ? 'bg-green-500/10 border border-green-500/20 text-green-400'
-                  : 'bg-red-500/10 border border-red-500/20 text-red-400'
-              }`}>
-                {status.type === 'success' ? (
-                  <CheckCircle size={20} />
-                ) : (
-                  <AlertCircle size={20} />
-                )}
-                <p className="text-sm">{status.message}</p>
-              </div>
-            )}
+            <div aria-live="polite" aria-atomic="true">
+              {status.message && (
+                <div className={`flex items-center gap-3 p-4 rounded-xl ${
+                  status.type === 'success'
+                    ? 'bg-green-500/10 border border-green-500/20 text-green-400'
+                    : 'bg-red-500/10 border border-red-500/20 text-red-400'
+                }`} role={status.type === 'error' ? 'alert' : 'status'}>
+                  {status.type === 'success' ? (
+                    <CheckCircle size={20} aria-hidden="true" />
+                  ) : (
+                    <AlertCircle size={20} aria-hidden="true" />
+                  )}
+                  <p className="text-sm">{status.message}</p>
+                </div>
+              )}
+            </div>
 
             <button
               type="submit"
@@ -164,8 +170,9 @@ export function Contact({ title, content }) {
                 </>
               )}
             </button>
-          </form>
-        </GlassCard>
+            </form>
+          </GlassCard>
+        </AnimateOnScroll>
       </div>
     </section>
   );

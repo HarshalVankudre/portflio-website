@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { DEFAULT_LANGUAGE, localizedContent } from "@/lib/localizedContent";
 import { LANGUAGE_COOKIE, LANGUAGE_STORAGE_KEY } from "@/lib/i18n";
-import { SKILLS } from "@/lib/skills";
+import { SKILLS, SKILL_CATEGORIES } from "@/lib/skills";
 import { AIChatWidget } from "./home/AIChatWidget";
 import { Contact } from "./home/Contact";
 import { Experience } from "./home/Experience";
@@ -12,6 +12,7 @@ import { Hero } from "./home/Hero";
 import { Navbar } from "./home/Navbar";
 import { Projects } from "./home/Projects";
 import { Skills } from "./home/Skills";
+import { Testimonials } from "./home/Testimonials";
 
 export default function Home({ initialLanguage = DEFAULT_LANGUAGE }) {
   const resolvedInitialLanguage = localizedContent[initialLanguage] ? initialLanguage : DEFAULT_LANGUAGE;
@@ -78,11 +79,13 @@ export default function Home({ initialLanguage = DEFAULT_LANGUAGE }) {
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-900/20 rounded-full blur-[128px] opacity-50 animate-pulse-slow delay-700" />
       </div>
 
-      <div className="relative z-10">
+      <main id="main-content" className="relative z-10">
         <Navbar
           scrollToSection={scrollToSection}
           navItems={content.nav}
           personalInfo={content.personalInfo}
+          language={language}
+          onLanguageChange={setLanguage}
         />
         <Hero
           scrollToSection={scrollToSection}
@@ -91,12 +94,21 @@ export default function Home({ initialLanguage = DEFAULT_LANGUAGE }) {
           aiAssistantStrings={content.aiAssistant}
         />
         <Experience title={content.sections.experience} experiences={content.experiences} />
-        <Projects title={content.sections.projects} projects={content.projects} />
+        <Projects
+          title={content.sections.projects}
+          projects={content.projects}
+          modalContent={content.projectModal}
+        />
         <Skills
           title={content.sections.about}
           aboutText={content.personalInfo.about}
           skillsHeading={content.sections.skillsHeading}
           skills={SKILLS}
+          categoryLabels={SKILL_CATEGORIES[language]}
+        />
+        <Testimonials
+          title={content.sections.testimonials}
+          testimonials={content.testimonials}
         />
         <Contact title={content.sections.contact} content={content.contact} />
         <Footer personalInfo={content.personalInfo} footerContent={content.footer} />
@@ -107,7 +119,7 @@ export default function Home({ initialLanguage = DEFAULT_LANGUAGE }) {
           projects={content.projects}
           skills={SKILLS}
         />
-      </div>
+      </main>
     </div>
   );
 }
