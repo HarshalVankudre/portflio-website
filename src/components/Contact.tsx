@@ -70,7 +70,7 @@ export default function Contact() {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -84,54 +84,54 @@ export default function Contact() {
             {/* Email */}
             <a
               href="mailto:harshalvankudre@gmail.com"
-              className="neo-card p-4 flex items-center gap-4 hover:bg-[var(--primary)] group"
+              className="neo-card p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:bg-[var(--primary)] group"
             >
-              <div className="w-12 h-12 bg-black flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-cyan)] transition-colors">
-                <Mail className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-cyan)] transition-colors">
+                <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
-              <div>
-                <div className="font-bold">{t("contact.email")}</div>
-                <div className="text-gray-600">harshalvankudre@gmail.com</div>
+              <div className="min-w-0">
+                <div className="font-bold text-sm sm:text-base">{t("contact.email")}</div>
+                <div className="text-gray-600 text-xs sm:text-sm truncate">harshalvankudre@gmail.com</div>
               </div>
             </a>
 
             {/* Phone */}
             <a
               href="tel:+4917687451632"
-              className="neo-card p-4 flex items-center gap-4 hover:bg-[var(--accent-cyan)] group"
+              className="neo-card p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:bg-[var(--accent-cyan)] group"
             >
-              <div className="w-12 h-12 bg-black flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--primary)] transition-colors">
-                <Phone className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--primary)] transition-colors">
+                <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
-                <div className="font-bold">{t("contact.phone")}</div>
-                <div className="text-gray-600">+49 176 87451632</div>
+                <div className="font-bold text-sm sm:text-base">{t("contact.phone")}</div>
+                <div className="text-gray-600 text-xs sm:text-sm">+49 176 87451632</div>
               </div>
             </a>
 
             {/* Location */}
-            <div className="neo-card p-4 flex items-center gap-4">
-              <div className="w-12 h-12 bg-black flex items-center justify-center flex-shrink-0">
-                <MapPin className="w-6 h-6 text-white" />
+            <div className="neo-card p-3 sm:p-4 flex items-center gap-3 sm:gap-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black flex items-center justify-center flex-shrink-0">
+                <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
-                <div className="font-bold">{t("contact.location")}</div>
-                <div className="text-gray-600">{t("hero.location")}</div>
+                <div className="font-bold text-sm sm:text-base">{t("contact.location")}</div>
+                <div className="text-gray-600 text-xs sm:text-sm">{t("hero.location")}</div>
               </div>
             </div>
 
             {/* Social Links */}
-            <div className="flex gap-4 pt-4">
+            <div className="flex gap-3 sm:gap-4 pt-4">
               <motion.a
                 href="https://github.com/HarshalVankudre"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="neo-btn neo-btn-white"
+                className="neo-btn neo-btn-white py-2 px-3 sm:py-3 sm:px-4"
                 aria-label="GitHub"
               >
-                <Github size={24} />
+                <Github size={20} className="sm:w-6 sm:h-6" />
               </motion.a>
               <motion.a
                 href="https://www.linkedin.com/in/harshal-vankudre"
@@ -139,19 +139,19 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="neo-btn neo-btn-cyan"
+                className="neo-btn neo-btn-cyan py-2 px-3 sm:py-3 sm:px-4"
                 aria-label="LinkedIn"
               >
-                <Linkedin size={24} />
+                <Linkedin size={20} className="sm:w-6 sm:h-6" />
               </motion.a>
               <motion.a
                 href="/cv.pdf"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="neo-btn neo-btn-primary"
+                className="neo-btn neo-btn-primary py-2 px-3 sm:py-3 sm:px-4"
                 aria-label="Download CV"
               >
-                <Download size={24} />
+                <Download size={20} className="sm:w-6 sm:h-6" />
               </motion.a>
             </div>
           </motion.div>
@@ -164,15 +164,15 @@ export default function Contact() {
           >
             <form onSubmit={handleSubmit} className="neo-card p-0 overflow-hidden">
               {/* Header */}
-              <div className="p-6 bg-[var(--primary)] border-b-3 border-black">
-                <h3 className="text-2xl font-black uppercase">{t("contact.sendMessage")}</h3>
-                <p className="text-gray-800 mt-2">
+              <div className="p-4 sm:p-6 bg-[var(--primary)] border-b-3 border-black">
+                <h3 className="text-xl sm:text-2xl font-black uppercase">{t("contact.sendMessage")}</h3>
+                <p className="text-gray-800 mt-2 text-sm sm:text-base">
                   {t("contact.formSubtitle")}
                 </p>
               </div>
 
               {/* Form Fields */}
-              <div className="p-6 bg-white space-y-4">
+              <div className="p-4 sm:p-6 bg-white space-y-4">
                 <div>
                   <label htmlFor="name" className="font-bold uppercase text-sm block mb-2">
                     {t("contact.name")} *

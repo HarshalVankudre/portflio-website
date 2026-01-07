@@ -121,28 +121,28 @@ export default function Experience() {
                 <div className="neo-card p-0 overflow-hidden">
                   {/* Header */}
                   <div 
-                    className="p-6 border-b-3 border-black"
+                    className="p-4 sm:p-6 border-b-3 border-black"
                     style={{ background: exp.color }}
                   >
-                    <div className="flex flex-wrap items-start justify-between gap-4">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
                       <div>
-                        <div className="flex items-center gap-3">
-                          <h3 className="text-2xl font-black uppercase">{exp.company}</h3>
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                          <h3 className="text-lg sm:text-2xl font-black uppercase">{exp.company}</h3>
                           {exp.current && (
                             <span className="neo-tag neo-tag-lime text-xs py-1">{t("experience.current")}</span>
                           )}
                         </div>
-                        <div className="flex items-center gap-2 mt-1 font-bold">
+                        <div className="flex items-center gap-2 mt-1 font-bold text-sm sm:text-base">
                           <Briefcase size={16} />
                           <span>{exp.role}</span>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="flex items-center gap-2 font-bold">
+                      <div className="sm:text-right">
+                        <div className="flex items-center gap-2 font-bold text-sm sm:text-base">
                           <Calendar size={16} />
                           <span>{exp.period}</span>
                         </div>
-                        <div className="flex items-center gap-2 mt-1 text-gray-700">
+                        <div className="flex items-center gap-2 mt-1 text-gray-700 text-sm">
                           <MapPin size={14} />
                           <span>{exp.location}</span>
                         </div>
@@ -151,13 +151,13 @@ export default function Experience() {
                   </div>
 
                   {/* Content */}
-                  <div className="p-6 bg-white">
+                  <div className="p-4 sm:p-6 bg-white">
                     {/* Highlights */}
                     <ul className="space-y-2 mb-6">
                       {exp.highlights.map((highlight, i) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                          <span className="text-gray-700">{highlight}</span>
+                        <li key={i} className="flex items-start gap-2 sm:gap-3">
+                          <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                          <span className="text-gray-700 text-sm sm:text-base">{highlight}</span>
                         </li>
                       ))}
                     </ul>
