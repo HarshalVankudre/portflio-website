@@ -104,38 +104,38 @@ export default function Projects() {
             >
               {/* Header */}
               <div 
-                className="p-4 border-b-4 border-black flex items-center gap-3"
+                className="p-3 sm:p-4 border-b-4 border-black flex items-center gap-2 sm:gap-3"
                 style={{ background: project.color }}
               >
-                <project.icon className="w-6 h-6" />
-                <h3 className="text-xl font-black uppercase">{project.title}</h3>
+                <project.icon className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
+                <h3 className="text-base sm:text-xl font-black uppercase">{project.title}</h3>
               </div>
 
               {/* Content */}
-              <div className="p-6 flex flex-col flex-grow">
-                <p className="text-gray-700 leading-relaxed min-h-[80px]">
+              <div className="p-4 sm:p-6 flex flex-col flex-grow">
+                <p className="text-gray-700 leading-relaxed text-sm sm:text-base min-h-[60px] sm:min-h-[80px]">
                   {project.description}
                 </p>
 
                 {/* Technologies */}
-                <div className="flex flex-wrap gap-2 my-4 min-h-[60px] content-start">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 my-3 sm:my-4 min-h-[50px] sm:min-h-[60px] content-start">
                   {project.technologies.map((tech) => (
-                    <span key={tech} className="neo-tag text-xs h-fit">
+                    <span key={tech} className="neo-tag text-[10px] sm:text-xs h-fit">
                       {tech}
                     </span>
                   ))}
                 </div>
 
                 {/* Links */}
-                <div className="flex gap-3 mt-auto">
+                <div className="flex gap-2 sm:gap-3 mt-auto">
                   {project.github && (
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="neo-btn neo-btn-white text-sm py-2 px-4"
+                      className="neo-btn neo-btn-white text-xs sm:text-sm py-2 px-3 sm:px-4"
                     >
-                      <Github size={16} />
+                      <Github size={14} className="sm:w-4 sm:h-4" />
                       {t("projects.code")}
                     </a>
                   )}
@@ -162,12 +162,12 @@ export default function Projects() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <h3 className="text-2xl font-black uppercase mb-6 flex items-center gap-3">
-            <Github size={28} />
+          <h3 className="text-xl sm:text-2xl font-black uppercase mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
+            <Github size={24} className="sm:w-7 sm:h-7" />
             {t("projects.recentGithub")}
           </h3>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
             {recentRepos.map((repo, index) => (
               <motion.a
                 key={repo.name}
@@ -177,17 +177,17 @@ export default function Projects() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
-                className="flex items-center justify-between p-4 bg-white/5 border-2 border-white/20 hover:border-[var(--primary)] hover:bg-white/10 transition-all group"
+                className="flex items-center justify-between p-3 sm:p-4 bg-white/5 border-2 border-white/20 hover:border-[var(--primary)] hover:bg-white/10 transition-all group"
               >
-                <div>
-                  <div className="font-bold text-lg group-hover:text-[var(--primary)] transition-colors">
+                <div className="min-w-0 flex-1">
+                  <div className="font-bold text-sm sm:text-lg group-hover:text-[var(--primary)] transition-colors truncate">
                     {repo.name}
                   </div>
-                  <div className="text-gray-400 text-sm">
+                  <div className="text-gray-400 text-xs sm:text-sm truncate">
                     {repo.owner} • {repo.language}
                   </div>
                 </div>
-                <div className="text-right text-sm text-gray-500">
+                <div className="text-right text-xs sm:text-sm text-gray-500 ml-2 hidden sm:block">
                   <div>Updated {repo.updated}</div>
                 </div>
               </motion.a>

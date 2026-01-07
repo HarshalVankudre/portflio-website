@@ -47,7 +47,7 @@ function ScrambleText({ text }: { text: string }) {
     return () => clearInterval(interval);
   }, [isScrambling, scramble]);
 
-  return <span className="bg-[var(--primary)] px-2">{displayText}</span>;
+  return <span className="bg-[var(--primary)] px-1 sm:px-2">{displayText}</span>;
 }
 
 export default function Hero() {
@@ -118,7 +118,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-xl sm:text-2xl font-bold mb-8 h-8"
+            className="text-base sm:text-xl md:text-2xl font-bold mb-8 h-8"
           >
             <span className="text-gray-600">{displayText}</span>
             <span className="cursor-blink text-[var(--accent-red)]">|</span>
@@ -129,13 +129,13 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="flex flex-wrap justify-center gap-4"
+            className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4"
           >
-            <a href="#projects" className="neo-btn neo-btn-primary">
+            <a href="#projects" className="neo-btn neo-btn-primary text-sm sm:text-base justify-center">
               {t("hero.viewProjects")}
               <ArrowRight size={18} />
             </a>
-            <a href="/cv.pdf" download className="neo-btn neo-btn-white">
+            <a href="/cv.pdf" download className="neo-btn neo-btn-white text-sm sm:text-base justify-center">
               <Download size={18} />
               {t("hero.downloadCV")}
             </a>
