@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🟨 Harshal Vankudre | Portfolio
 
-## Getting Started
+A modern, neobrutalist portfolio website built with Next.js 16, TypeScript, and Tailwind CSS.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?style=flat-square&logo=tailwindcss)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-ff69b4?style=flat-square&logo=framer)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Features
+
+- **Neobrutalist Design** — Bold borders, harsh shadows, high-contrast colors
+- **Bilingual Support** — English & German language toggle
+- **Contact Form** — Powered by Resend API
+- **Responsive** — Mobile-first, works on all devices
+- **Animations** — Smooth transitions with Framer Motion
+- **Scramble Effect** — Cool text decode animation on hero
+
+---
+
+## 🎨 Design System
+
+| Color | Hex | Usage |
+|-------|-----|-------|
+| 🟨 Primary | `#FFE500` | Highlights, CTAs |
+| 🔴 Red | `#FF6B6B` | Accents |
+| 🔵 Cyan | `#4ECDC4` | Accents |
+| 🟣 Purple | `#A855F7` | Accents |
+| 🟢 Lime | `#84CC16` | Accents |
+
+---
+
+## 🛠️ Tech Stack
+
+```
+Frontend        Next.js 16, React 19, TypeScript
+Styling         Tailwind CSS 4, Framer Motion
+Email           Resend API
+Deployment      Vercel
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Quick Start
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Clone the repo
+git clone https://github.com/HarshalVankudre/portflio-website.git
 
-## Learn More
+# Install dependencies
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# Set up environment variables
+cp .env.example .env.local
+# Add your RESEND_API_KEY
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Run development server
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open [http://localhost:3000](http://localhost:3000)
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📁 Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+├── app/
+│   ├── api/send/      # Contact form API
+│   ├── globals.css    # Global styles
+│   ├── layout.tsx     # Root layout
+│   └── page.tsx       # Home page
+├── components/
+│   ├── Hero.tsx       # Landing section
+│   ├── About.tsx      # About section
+│   ├── Skills.tsx     # Skills grid
+│   ├── Experience.tsx # Work timeline
+│   ├── Projects.tsx   # Featured projects
+│   ├── Education.tsx  # Academic background
+│   ├── Contact.tsx    # Contact form
+│   ├── Navbar.tsx     # Navigation
+│   └── Footer.tsx     # Footer
+└── context/
+    └── LanguageContext.tsx  # i18n
+```
+
+---
+
+## 📧 Contact
+
+**Harshal Vankudre**
+
+- 🌐 [vankudre.com](https://vankudre.com)
+- 📧 harshalvankudre@gmail.com
+- 💼 [LinkedIn](https://linkedin.com/in/harshal-vankudre)
+- 🐙 [GitHub](https://github.com/HarshalVankudre)
+
+---
+
+<p align="center">
+  <strong>Built with ☕ in Karlsruhe, Germany</strong>
+</p>
