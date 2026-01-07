@@ -1,26 +1,215 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FFFEF5;
+  --foreground: #1A1A1A;
+  --primary: #FFE500;
+  --accent-red: #FF6B6B;
+  --accent-cyan: #4ECDC4;
+  --accent-purple: #A855F7;
+  --accent-lime: #84CC16;
+  --accent-orange: #F97316;
+  --accent-pink: #EC4899;
+  --border: #000000;
+  --shadow: #000000;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  overflow-x: hidden;
 }
+
+/* Scrollbar Styling - Neobrutalist */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+  border-left: 3px solid var(--border);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border: 3px solid var(--border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-cyan);
+}
+
+/* Selection */
+::selection {
+  background: var(--primary);
+  color: var(--foreground);
+}
+
+/* Neobrutalist Utilities */
+.neo-shadow {
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.neo-shadow-lg {
+  box-shadow: 8px 8px 0 var(--shadow);
+}
+
+.neo-border {
+  border: 3px solid var(--border);
+}
+
+.neo-border-thick {
+  border: 4px solid var(--border);
+}
+
+.neo-card {
+  background: white;
+  border: 3px solid var(--border);
+  box-shadow: 6px 6px 0 var(--shadow);
+  transition: all 0.2s ease;
+}
+
+.neo-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--shadow);
+}
+
+.neo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  border: 3px solid var(--border);
+  box-shadow: 4px 4px 0 var(--shadow);
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.neo-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--shadow);
+}
+
+.neo-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--shadow);
+}
+
+.neo-btn-primary {
+  background: var(--primary);
+  color: var(--foreground);
+}
+
+.neo-btn-cyan {
+  background: var(--accent-cyan);
+  color: var(--foreground);
+}
+
+.neo-btn-red {
+  background: var(--accent-red);
+  color: var(--foreground);
+}
+
+.neo-btn-white {
+  background: white;
+  color: var(--foreground);
+}
+
+/* Tag/Badge styles */
+.neo-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2px solid var(--border);
+  background: white;
+}
+
+.neo-tag-primary {
+  background: var(--primary);
+}
+
+.neo-tag-cyan {
+  background: var(--accent-cyan);
+}
+
+.neo-tag-purple {
+  background: var(--accent-purple);
+  color: white;
+}
+
+.neo-tag-lime {
+  background: var(--accent-lime);
+}
+
+/* Section title */
+.neo-title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* Highlight box */
+.neo-highlight {
+  display: inline;
+  background: var(--primary);
+  padding: 0 0.25rem;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Grid pattern background */
+.neo-grid-bg {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Striped pattern */
+.neo-stripes {
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 10px,
+    rgba(0, 0, 0, 0.03) 10px,
+    rgba(0, 0, 0, 0.03) 20px
+  );
+}
+
+/* Marquee animation for skills */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* Typing cursor */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+
