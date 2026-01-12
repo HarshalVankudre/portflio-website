@@ -2,15 +2,6 @@ import { NextRequest } from "next/server";
 import Groq from "groq-sdk";
 import { getResumeContextForAI } from "@/lib/portfolioData";
 
-// Initialize Groq client lazily to avoid build-time errors
-const getGroqClient = () => {
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) {
-    return null;
-  }
-  return new Groq({ apiKey });
-};
-
 export async function POST(request: NextRequest) {
   try {
     const { message, history = [] } = await request.json();
@@ -22,14 +13,16 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const groq = getGroqClient();
-    if (!groq) {
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) {
+      console.error("GROQ_API_KEY is not set");
       return new Response(JSON.stringify({ error: "API key not configured" }), {
         status: 500,
         headers: { "Content-Type": "application/json" },
       });
     }
 
+    const groq = new Groq({ apiKey });
     const systemPrompt = getResumeContextForAI();
 
     // Build messages array with history
@@ -85,9 +78,12 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Chat API error:", error);
+    console.error("Chat API error:", error instanceof Error ? error.message : error);
     return new Response(
-      JSON.stringify({ error: "Failed to process message" }),
+      JSON.stringify({ 
+        error: "Failed to process message",
+        details: error instanceof Error ? error.message : "Unknown error"
+      }),
       {
         status: 500,
         headers: { "Content-Type": "application/json" },

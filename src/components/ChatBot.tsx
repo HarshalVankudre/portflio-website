@@ -136,7 +136,9 @@ export default function ChatBot() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get response");
+        const errorData = await response.json().catch(() => ({}));
+        console.error("Chat API error:", errorData);
+        throw new Error(errorData.details || "Failed to get response");
       }
 
       const reader = response.body?.getReader();
