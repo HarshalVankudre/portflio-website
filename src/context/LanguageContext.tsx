@@ -285,6 +285,9 @@ const translations: Record<Language, Record<string, string>> = {
   },
 };
 
+// Export translations for use in API routes
+export { translations };
+
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
