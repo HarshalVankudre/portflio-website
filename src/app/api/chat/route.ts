@@ -2,9 +2,14 @@ import { NextRequest } from "next/server";
 import Groq from "groq-sdk";
 import { getResumeContextForAI } from "@/lib/portfolioData";
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+// Initialize Groq client lazily to avoid build-time errors
+const getGroqClient = () => {
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) {
+    return null;
+  }
+  return new Groq({ apiKey });
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +22,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    if (!process.env.GROQ_API_KEY) {
+    const groq = getGroqClient();
+    if (!groq) {
       return new Response(JSON.stringify({ error: "API key not configured" }), {
         status: 500,
         headers: { "Content-Type": "application/json" },
