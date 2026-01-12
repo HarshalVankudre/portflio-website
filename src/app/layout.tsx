@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   description: "Portfolio of Harshal Vankudre - AI Developer specializing in RAG systems, chatbots, and modern web development. Building intelligent solutions with Python, Next.js, and OpenAI.",
   keywords: ["AI Developer", "Software Engineer", "Portfolio", "Harshal Vankudre", "Machine Learning", "RAG", "Chatbot", "Next.js", "Python"],
   authors: [{ name: "Harshal Vankudre" }],
+  manifest: "/manifest.json",
   openGraph: {
     title: "Harshal Vankudre | AI Developer",
     description: "AI Developer & Business Informatics Student building intelligent systems",

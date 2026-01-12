@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, Terminal } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
@@ -22,6 +22,23 @@ export default function Footer() {
               © {currentYear} Harshal Vankudre
             </p>
           </div>
+
+          {/* Terminal Hint - Center */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="flex items-center gap-2 text-sm font-mono"
+          >
+            <Terminal size={16} className="text-[var(--primary)]" />
+            <span className="text-gray-400">
+              Press{" "}
+              <kbd className="bg-[var(--primary)] text-black px-2 py-0.5 font-bold text-xs rounded">
+                `
+              </kbd>{" "}
+              for a surprise
+            </span>
+          </motion.div>
 
           {/* Back to Top */}
           <motion.a
