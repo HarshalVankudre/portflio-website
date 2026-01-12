@@ -158,13 +158,15 @@ export default function ChatBot() {
 
           for (const line of lines) {
             if (line.startsWith("data: ")) {
-              const data = line.slice(6);
+              const data = line.slice(6).trim();
               if (data === "[DONE]") continue;
 
               try {
                 const parsed = JSON.parse(data);
-                if (parsed.content) {
-                  assistantMessage += parsed.content;
+                // Handle both Groq API format and our custom format
+                const content = parsed.choices?.[0]?.delta?.content || parsed.content || "";
+                if (content) {
+                  assistantMessage += content;
                   // Update the last message
                   setMessages((prev) => {
                     const updated = [...prev];
