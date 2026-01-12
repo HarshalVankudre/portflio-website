@@ -303,7 +303,10 @@ export default function ChatBot() {
                       className="space-y-4"
                     >
                       <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 bg-accent-cyan border-2 border-black flex items-center justify-center flex-shrink-0">
+                        <div 
+                          className="w-8 h-8 border-2 border-black flex items-center justify-center flex-shrink-0"
+                          style={{ backgroundColor: "#4ECDC4" }}
+                        >
                           <Bot size={16} />
                         </div>
                         <div className="bg-white border-2 border-black p-3 neo-shadow max-w-[85%]">
@@ -346,20 +349,22 @@ export default function ChatBot() {
                       }`}
                     >
                       <div
-                        className={`w-8 h-8 border-2 border-black flex items-center justify-center flex-shrink-0 ${
-                          msg.role === "user"
-                            ? "bg-accent-purple text-white"
-                            : "bg-accent-cyan"
-                        }`}
+                        className="w-8 h-8 border-2 border-black flex items-center justify-center flex-shrink-0"
+                        style={{
+                          backgroundColor: msg.role === "user" ? "#A855F7" : "#4ECDC4",
+                          color: msg.role === "user" ? "white" : "black"
+                        }}
                       >
                         {msg.role === "user" ? <User size={16} /> : <Bot size={16} />}
                       </div>
                       <div
                         className={`p-3 border-2 border-black max-w-[85%] ${
-                          msg.role === "user"
-                            ? "bg-accent-purple text-white"
-                            : "bg-white neo-shadow"
+                          msg.role === "user" ? "" : "neo-shadow"
                         }`}
+                        style={{
+                          backgroundColor: msg.role === "user" ? "#A855F7" : "white",
+                          color: msg.role === "user" ? "white" : "black"
+                        }}
                       >
                         <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                       </div>
@@ -373,7 +378,10 @@ export default function ChatBot() {
                       animate={{ opacity: 1 }}
                       className="flex items-start gap-3"
                     >
-                      <div className="w-8 h-8 bg-accent-cyan border-2 border-black flex items-center justify-center">
+                      <div 
+                        className="w-8 h-8 border-2 border-black flex items-center justify-center"
+                        style={{ backgroundColor: "#4ECDC4" }}
+                      >
                         <Bot size={16} />
                       </div>
                       <div className="bg-white border-2 border-black p-3 neo-shadow">
