@@ -216,7 +216,7 @@ export default function ChatBot() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="fixed right-6 z-50 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center transition-all duration-200 ease-out"
+            className="fixed right-4 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center transition-all duration-200 ease-out"
             style={{
               bottom: buttonBottom,
               backgroundColor: "#FFFEF5",
@@ -243,14 +243,14 @@ export default function ChatBot() {
             }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed right-6 z-50 w-[calc(100vw-3rem)] sm:w-96 bg-[#FFFEF5] border-4 border-black neo-shadow-lg overflow-hidden flex flex-col"
-            style={{ maxHeight: isMinimized ? "auto" : "80vh", bottom: buttonBottom }}
+            className="fixed right-2 left-2 sm:left-auto sm:right-6 z-50 sm:w-96 bg-[#FFFEF5] border-4 border-black neo-shadow-lg overflow-hidden flex flex-col"
+            style={{ maxHeight: isMinimized ? "auto" : "85vh", bottom: Math.max(buttonBottom, 16) }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 bg-primary border-b-4 border-black">
-              <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 bg-primary border-b-4 border-black">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <motion.div 
-                  className="w-9 h-9 rounded-lg flex items-center justify-center bg-white border-2 border-black"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center bg-white border-2 border-black"
                   animate={{
                     scale: [1, 1.05, 1],
                   }}
@@ -260,13 +260,13 @@ export default function ChatBot() {
                     ease: "easeInOut",
                   }}
                 >
-                  <Sparkles size={20} className="text-purple-600" strokeWidth={2.5} />
+                  <Sparkles size={18} className="text-purple-600 sm:w-5 sm:h-5" strokeWidth={2.5} />
                 </motion.div>
                 <div>
-                  <h3 className="font-black text-sm uppercase tracking-wide">
+                  <h3 className="font-black text-xs sm:text-sm uppercase tracking-wide">
                     Ask About Harshal
                   </h3>
-                  <p className="text-xs font-medium opacity-70">AI Assistant</p>
+                  <p className="text-[10px] sm:text-xs font-medium opacity-70">AI Assistant</p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
