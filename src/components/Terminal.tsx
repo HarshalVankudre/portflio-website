@@ -68,7 +68,7 @@ const ASCII_ART = {
 `,
 };
 
-const SECTIONS = ["hero", "about", "skills", "experience", "projects", "github", "education", "contact"];
+const SECTIONS = ["hero", "about", "skills", "experience", "projects", "github", "contact"];
 
 export default function Terminal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -157,7 +157,6 @@ export default function Terminal() {
 │   projects      → Show featured projects     │
 │   experience    → Work history               │
 │   contact       → Get contact info           │
-│   resume        → Download resume            │
 ├──────────────────────────────────────────────┤
 │ FUN STUFF                                    │
 │   hire          → Want to work with me?      │
@@ -189,7 +188,7 @@ export default function Terminal() {
 ╔═══════════════════════════════════════════╗
 ║ HARSHAL VANKUDRE                          ║
 ╠═══════════════════════════════════════════╣
-║ 🎓 Business Informatics Student           ║
+║ 💻 AI Developer & Software Engineer        ║
 ║ 💼 AI Developer at RÜKO GmbH              ║
 ║ 📍 Karlsruhe, Germany                     ║
 ║                                           ║
@@ -350,12 +349,6 @@ Type "cd experience" to see more on page.
         );
         break;
 
-      case "resume":
-        addLine("output", "📄 Opening resume...");
-        window.open("/resume.pdf", "_blank");
-        addLine("output", "Resume opened in new tab! (or check your downloads)");
-        break;
-
       case "open":
         const link = args[1]?.toLowerCase();
         if (!link) {
@@ -413,7 +406,6 @@ drwxr-xr-x  skills/
 drwxr-xr-x  experience/
 drwxr-xr-x  projects/
 drwxr-xr-x  github/
-drwxr-xr-x  education/
 drwxr-xr-x  contact/
         `
         );
@@ -508,7 +500,6 @@ drwxr-xr-x  contact/
         "projects",
         "contact",
         "experience",
-        "resume",
         "hire",
         "coffee",
         "hack",
