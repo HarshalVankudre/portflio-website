@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState, useCallback } from "react";
-import { ArrowRight, MapPin, Download, ChevronDown } from "lucide-react";
+import { ArrowRight, MapPin, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
@@ -134,10 +134,6 @@ export default function Hero() {
             <a href="#projects" className="neo-btn neo-btn-primary text-sm sm:text-base justify-center">
               {t("hero.viewProjects")}
               <ArrowRight size={18} />
-            </a>
-            <a href="/cv.pdf" download className="neo-btn neo-btn-white text-sm sm:text-base justify-center">
-              <Download size={18} />
-              {t("hero.downloadCV")}
             </a>
           </motion.div>
         </div>

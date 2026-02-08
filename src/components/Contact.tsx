@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { MapPin, Send, Github, Linkedin, Mail, Phone, Download, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { MapPin, Send, Github, Linkedin, Mail, Phone, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Contact() {
@@ -143,15 +143,6 @@ export default function Contact() {
                 aria-label="LinkedIn"
               >
                 <Linkedin size={20} className="sm:w-6 sm:h-6" />
-              </motion.a>
-              <motion.a
-                href="/cv.pdf"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="neo-btn neo-btn-primary py-2 px-3 sm:py-3 sm:px-4"
-                aria-label="Download CV"
-              >
-                <Download size={20} className="sm:w-6 sm:h-6" />
               </motion.a>
             </div>
           </motion.div>

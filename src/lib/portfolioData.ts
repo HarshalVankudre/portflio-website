@@ -8,9 +8,9 @@ export const portfolioData = {
     email: "harshalvankudre@gmail.com",
     github: "https://github.com/HarshalVankudre",
     linkedin: "https://linkedin.com/in/harshalvankudre",
-    title: "AI Developer & Business Informatics Student",
+    title: "AI Developer & Software Engineer",
     summary:
-      "Ambitious Business Informatics student with fluent German and English. Passionate about software development and data analysis, with hands-on experience in Java, Python, and modern web frameworks.",
+      "Ambitious developer with fluent German and English. Passionate about software development and data analysis, with hands-on experience in Java, Python, and modern web frameworks.",
     lookingFor:
       "I'm looking for opportunities where I can combine software engineering and data analysis to create measurable impact.",
   },
@@ -89,26 +89,6 @@ export const portfolioData = {
     },
   ],
 
-  education: [
-    {
-      institution: "Hochschule Karlsruhe (HKA)",
-      degree: "Business Informatics (BSc)",
-      period: "2024 - Present",
-      current: true,
-      highlights: [
-        "Focus areas: software engineering, databases, and business applications",
-        "Hands-on coursework in Java, Python, data analysis, and agile methods (Scrum)",
-      ],
-    },
-    {
-      institution: "HTWG Konstanz",
-      degree: "Studienkolleg",
-      period: "2021 - 2022",
-      current: false,
-      highlights: ["Foundation in CS, math, German, economics, and law"],
-    },
-  ],
-
   projects: [
     {
       name: "Baumaschinen KI-Chatbot",
@@ -153,7 +133,7 @@ export const portfolioData = {
 };
 
 export function getResumeContextForAI(): string {
-  const { personal, skills, experience, education, projects, languages, metrics } = portfolioData;
+  const { personal, skills, experience, projects, languages, metrics } = portfolioData;
 
   return `
 You are an AI assistant for Harshal Vankudre's portfolio website.
@@ -200,16 +180,6 @@ Impact: ${exp.impact}
 Key Achievements:
 ${exp.highlights.map((h) => `- ${h}`).join("\n")}
 Technologies: ${exp.technologies.join(", ")}
-`
-  )
-  .join("\n")}
-
-## Education
-${education
-  .map(
-    (edu) => `
-### ${edu.institution} - ${edu.degree} (${edu.period})${edu.current ? " [CURRENT]" : ""}
-${edu.highlights.map((h) => `- ${h}`).join("\n")}
 `
   )
   .join("\n")}
