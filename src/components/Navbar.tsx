@@ -16,30 +16,33 @@ export default function Navbar() {
     { name: t("nav.about"), href: "#about" },
     { name: t("nav.skills"), href: "#skills" },
     { name: t("nav.experience"), href: "#experience" },
+    { name: t("nav.education"), href: "#education" },
     { name: t("nav.projects"), href: "#projects" },
     { name: t("nav.contact"), href: "#contact" },
   ];
 
   useEffect(() => {
+    const sectionIds = ["home", "about", "skills", "experience", "education", "projects", "contact"];
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      const sections = navItems.map((item) => item.href.slice(1));
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section);
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const element = document.getElementById(sectionIds[i]);
         if (element) {
           const rect = element.getBoundingClientRect();
           if (rect.top <= 150) {
-            setActiveSection(section);
+            setActiveSection(sectionIds[i]);
             break;
           }
         }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [navItems]);
+  }, []);
 
   const toggleLanguage = () => {
     setLanguage(language === "en" ? "de" : "en");
