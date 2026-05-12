@@ -17,6 +17,7 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.about": "About",
     "nav.skills": "Skills",
     "nav.experience": "Experience",
+    "nav.education": "Education",
     "nav.projects": "Projects",
     "nav.contact": "Contact",
     "nav.letsTalk": "Let's Talk",
@@ -29,6 +30,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.role4": "Problem Solver",
     "hero.description": "Ambitious developer with fluent German and English. Passionate about software development and data analysis, with hands-on experience in Java, Python, and modern web frameworks.",
     "hero.viewProjects": "View Projects",
+    "hero.downloadCV": "Download CV",
     "hero.contact": "Contact",
     "hero.fasterResponses": "Faster Responses",
     "hero.tierAutomated": "Tier-1 Automated",
@@ -93,6 +95,18 @@ const translations: Record<Language, Record<string, string>> = {
     "exp.bhumi.h2": "Explained concepts through exercises to build thinking skills",
     "exp.bhumi.h3": "Contributed to tackling educational inequality",
 
+    // Education
+    "education.tag": "Academic Background",
+    "education.title": "Where I",
+    "education.titleHighlight": "Studied",
+    "education.subtitle": "Building a foundation in business informatics and computer science.",
+    "education.current": "Current",
+    "edu.hka.degree": "B.Sc. Business Informatics",
+    "edu.hka.h1": "Combining computer science with business administration and economics",
+    "edu.hka.h2": "Focus on data analytics, software engineering, and digital business processes",
+    "edu.htwg.degree": "Computer Science Foundation Year",
+    "edu.htwg.h1": "Built foundations in algorithms, data structures, and programming",
+
     // Projects
     "projects.tag": "Featured Work",
     "projects.title": "Selected",
@@ -139,6 +153,7 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.about": "Über mich",
     "nav.skills": "Fähigkeiten",
     "nav.experience": "Erfahrung",
+    "nav.education": "Ausbildung",
     "nav.projects": "Projekte",
     "nav.contact": "Kontakt",
     "nav.letsTalk": "Kontakt",
@@ -151,6 +166,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.role4": "Problemlöser",
     "hero.description": "Ambitionierter Entwickler mit fließenden Deutsch- und Englischkenntnissen. Leidenschaftlich für Softwareentwicklung und Datenanalyse, mit praktischer Erfahrung in Java, Python und modernen Web-Frameworks.",
     "hero.viewProjects": "Projekte ansehen",
+    "hero.downloadCV": "Lebenslauf",
     "hero.contact": "Kontakt",
     "hero.fasterResponses": "Schnellere Antworten",
     "hero.tierAutomated": "Tier-1 Automatisiert",
@@ -214,6 +230,18 @@ const translations: Record<Language, Record<string, string>> = {
     "exp.bhumi.h1": "Nachhilfe für benachteiligte Schüler in Mathematik",
     "exp.bhumi.h2": "Vermittlung von Konzepten durch Übungen zum Aufbau von Denkfähigkeiten",
     "exp.bhumi.h3": "Beitrag zur Bekämpfung von Bildungsungleichheit",
+
+    // Education
+    "education.tag": "Ausbildung",
+    "education.title": "Wo ich",
+    "education.titleHighlight": "studiere",
+    "education.subtitle": "Eine Grundlage in Wirtschaftsinformatik und Informatik aufbauen.",
+    "education.current": "Aktuell",
+    "edu.hka.degree": "B.Sc. Wirtschaftsinformatik",
+    "edu.hka.h1": "Verbindung von Informatik mit Betriebswirtschaftslehre und Volkswirtschaftslehre",
+    "edu.hka.h2": "Schwerpunkt Datenanalyse, Software-Engineering und digitale Geschäftsprozesse",
+    "edu.htwg.degree": "Studienkolleg Informatik",
+    "edu.htwg.h1": "Grundlagen in Algorithmen, Datenstrukturen und Programmierung aufgebaut",
 
     // Projects
     "projects.tag": "Ausgewählte Arbeiten",

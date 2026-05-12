@@ -3,10 +3,12 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
 });
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://vankudre.com";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -17,11 +19,36 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Harshal Vankudre | AI Developer & Business Informatics Student",
-  description: "Portfolio of Harshal Vankudre - AI Developer specializing in RAG systems, chatbots, and modern web development. Building intelligent solutions with Python, Next.js, and OpenAI.",
-  keywords: ["AI Developer", "Software Engineer", "Portfolio", "Harshal Vankudre", "Machine Learning", "RAG", "Chatbot", "Next.js", "Python"],
-  authors: [{ name: "Harshal Vankudre" }],
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Harshal Vankudre | AI Developer & Business Informatics Student",
+    template: "%s | Harshal Vankudre",
+  },
+  description:
+    "Portfolio of Harshal Vankudre — AI Developer specializing in RAG systems, chatbots, and modern web development. Building intelligent solutions with Python, Next.js, and OpenAI.",
+  keywords: [
+    "AI Developer",
+    "Software Engineer",
+    "Portfolio",
+    "Harshal Vankudre",
+    "Machine Learning",
+    "RAG",
+    "Chatbot",
+    "Next.js",
+    "Python",
+    "Karlsruhe",
+    "Germany",
+  ],
+  authors: [{ name: "Harshal Vankudre", url: SITE_URL }],
+  creator: "Harshal Vankudre",
   manifest: "/manifest.json",
+  alternates: {
+    canonical: "/",
+    languages: {
+      en: "/",
+      de: "/",
+    },
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -29,9 +56,73 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Harshal Vankudre | AI Developer",
-    description: "AI Developer & Business Informatics Student building intelligent systems",
+    description:
+      "AI Developer & Business Informatics Student building intelligent systems with Python, Next.js, and OpenAI.",
+    url: SITE_URL,
+    siteName: "Harshal Vankudre",
     type: "website",
+    locale: "en_US",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Harshal Vankudre | AI Developer",
+    description:
+      "AI Developer & Business Informatics Student building intelligent systems.",
+    creator: "@HarshalVankudre",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Harshal Vankudre",
+  url: SITE_URL,
+  image: `${SITE_URL}/opengraph-image`,
+  jobTitle: "AI Developer",
+  worksFor: {
+    "@type": "Organization",
+    name: "RÜKO GmbH Baumaschinen",
+  },
+  alumniOf: [
+    {
+      "@type": "CollegeOrUniversity",
+      name: "Hochschule Karlsruhe",
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      name: "HTWG Konstanz",
+    },
+  ],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Karlsruhe",
+    addressCountry: "DE",
+  },
+  email: "mailto:harshalvankudre@gmail.com",
+  sameAs: [
+    "https://github.com/HarshalVankudre",
+    "https://linkedin.com/in/harshal-vankudre",
+  ],
+  knowsAbout: [
+    "Artificial Intelligence",
+    "Retrieval Augmented Generation",
+    "Full-Stack Development",
+    "Python",
+    "TypeScript",
+    "Next.js",
+    "OpenAI API",
+  ],
+  knowsLanguage: ["English", "German"],
 };
 
 export default function RootLayout({
@@ -41,10 +132,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+      </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <LanguageProvider>
-          {children}
-        </LanguageProvider>
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

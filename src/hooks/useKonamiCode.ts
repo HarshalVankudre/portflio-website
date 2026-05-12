@@ -26,13 +26,21 @@ export function useKonamiCode(callback?: () => void) {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Backtick key shortcut - instant activation
-      if (event.code === "Backquote" && !event.ctrlKey && !event.altKey) {
+      const target = event.target as HTMLElement | null;
+      const isTyping =
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        target?.isContentEditable;
+
+      // Backtick key shortcut - instant activation (skip when user is typing)
+      if (event.code === "Backquote" && !event.ctrlKey && !event.altKey && !isTyping) {
         event.preventDefault();
         setIsActivated((prev) => !prev);
         if (callback && !isActivated) callback();
         return;
       }
+
+      if (isTyping) return;
 
       // Konami code sequence
       const newSequence = [...inputSequence, event.code].slice(-KONAMI_CODE.length);
