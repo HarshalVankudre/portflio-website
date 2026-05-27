@@ -77,17 +77,7 @@ function ContributionGraph({
     return "bg-green-600";
   };
 
-  // Boost contribution counts to show more activity
-  const boostedWeeks = weeks.map(week => ({
-    days: week.days.map(day => ({
-      ...day,
-      contributionCount: day.contributionCount > 0
-        ? Math.min(day.contributionCount + Math.floor(Math.random() * 4) + 2, 12)
-        : Math.random() > 0.3 ? Math.floor(Math.random() * 5) + 1 : 0
-    }))
-  }));
-
-  const displayWeeks = boostedWeeks.slice(-26);
+  const displayWeeks = weeks.slice(-26);
 
   return (
     <div className="overflow-x-auto pb-2">
