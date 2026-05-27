@@ -21,7 +21,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Harshal Vankudre | AI Developer & Business Informatics Student",
+    default: "Harshal Vankudre | AI Developer & Data Science Student",
     template: "%s | Harshal Vankudre",
   },
   description:
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Harshal Vankudre | AI Developer",
     description:
-      "AI Developer & Business Informatics Student building intelligent systems with Python, Next.js, and OpenAI.",
+      "AI Developer & Data Science Student building intelligent systems with Python, Next.js, and OpenAI.",
     url: SITE_URL,
     siteName: "Harshal Vankudre",
     type: "website",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Harshal Vankudre | AI Developer",
     description:
-      "AI Developer & Business Informatics Student building intelligent systems.",
+      "AI Developer & Data Science Student building intelligent systems.",
     creator: "@HarshalVankudre",
   },
   robots: {
@@ -97,10 +97,6 @@ const personJsonLd = {
     {
       "@type": "CollegeOrUniversity",
       name: "Hochschule Karlsruhe",
-    },
-    {
-      "@type": "CollegeOrUniversity",
-      name: "HTWG Konstanz",
     },
   ],
   address: {
