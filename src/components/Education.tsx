@@ -23,16 +23,6 @@ export default function Education() {
         t("edu.hka.h2"),
       ],
     },
-    {
-      institution: "HTWG Konstanz",
-      degree: t("edu.htwg.degree"),
-      period: "Sep 2021 - Sep 2022",
-      current: false,
-      color: "var(--accent-cyan)",
-      highlights: [
-        t("edu.htwg.h1"),
-      ],
-    },
   ];
 
   return (
@@ -56,7 +46,7 @@ export default function Education() {
         </motion.div>
 
         {/* Education Cards */}
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="max-w-2xl mx-auto">
           {education.map((edu, index) => (
             <motion.div
               key={edu.institution}
