@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
+import Education from "@/components/Education";
 import Projects from "@/components/Projects";
 import GitHubStats from "@/components/GitHubStats";
 
@@ -25,11 +26,19 @@ export default function Home() {
 
       {/* Sections */}
       <Hero />
+      <div className="neo-divider" aria-hidden />
       <About />
+      <div className="neo-divider-bar" aria-hidden />
       <Skills />
+      <div className="neo-divider" aria-hidden />
       <Experience />
+      <div className="neo-divider-bar" aria-hidden />
+      <Education />
+      <div className="neo-divider" aria-hidden />
       <Projects />
+      <div className="neo-divider-bar" aria-hidden />
       <GitHubStats />
+      <div className="neo-divider" aria-hidden />
       <Contact />
       <Footer />
 

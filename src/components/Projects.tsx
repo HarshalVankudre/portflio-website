@@ -99,26 +99,51 @@ export default function Projects() {
               key={project.title}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
+              whileHover={{ y: -8, rotate: index % 2 === 0 ? -1 : 1 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group bg-white text-black border-4 border-black shadow-[6px_6px_0_#FFE500] hover:shadow-[8px_8px_0_#FFE500] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex flex-col"
+              className="group relative bg-white text-black border-4 border-black shadow-[8px_8px_0_#FFE500] hover:shadow-[14px_14px_0_#FFE500] transition-shadow flex flex-col"
             >
-              {/* Header */}
-              <div 
-                className="p-3 sm:p-4 border-b-4 border-black flex items-center gap-2 sm:gap-3"
+              {/* Number badge */}
+              <div className="absolute -top-3 -left-3 z-10 w-10 h-10 bg-black text-[var(--primary)] flex items-center justify-center font-black text-lg border-4 border-[var(--primary)] rotate-[-6deg]">
+                0{index + 1}
+              </div>
+
+              {/* Big colored visual header */}
+              <div
+                className="relative p-6 border-b-4 border-black overflow-hidden"
                 style={{ background: project.color }}
               >
-                <project.icon className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
-                <h3 className="text-base sm:text-xl font-black uppercase">{project.title}</h3>
+                {/* Decorative pattern */}
+                <div
+                  className="absolute inset-0 opacity-10"
+                  style={{
+                    backgroundImage: "repeating-linear-gradient(45deg, black 0, black 2px, transparent 2px, transparent 14px)",
+                  }}
+                />
+                <div className="relative flex items-start justify-between mb-3">
+                  <div className="w-14 h-14 bg-white border-3 border-black flex items-center justify-center neo-shadow">
+                    <project.icon className="w-7 h-7" strokeWidth={2.5} />
+                  </div>
+                  {project.live && (
+                    <span className="flex items-center gap-1.5 px-2 py-1 bg-black text-white text-[10px] font-black uppercase tracking-wider border-2 border-white">
+                      <span className="w-1.5 h-1.5 bg-[var(--accent-lime)] rounded-full animate-pulse" />
+                      Live
+                    </span>
+                  )}
+                </div>
+                <h3 className="relative text-xl sm:text-2xl font-black uppercase leading-tight">
+                  {project.title}
+                </h3>
               </div>
 
               {/* Content */}
-              <div className="p-4 sm:p-6 flex flex-col flex-grow">
-                <p className="text-gray-700 leading-relaxed text-sm sm:text-base min-h-[60px] sm:min-h-[80px]">
+              <div className="p-5 sm:p-6 flex flex-col flex-grow bg-white">
+                <p className="text-gray-700 leading-relaxed text-sm sm:text-base mb-4 flex-grow">
                   {project.description}
                 </p>
 
                 {/* Technologies */}
-                <div className="flex flex-wrap gap-1.5 sm:gap-2 my-3 sm:my-4 min-h-[50px] sm:min-h-[60px] content-start">
+                <div className="flex flex-wrap gap-1.5 mb-4">
                   {project.technologies.map((tech) => (
                     <span key={tech} className="neo-tag text-[10px] sm:text-xs h-fit">
                       {tech}
@@ -127,13 +152,13 @@ export default function Projects() {
                 </div>
 
                 {/* Links */}
-                <div className="flex gap-2 sm:gap-3 mt-auto">
+                <div className="flex gap-2 sm:gap-3 mt-auto pt-3 border-t-2 border-dashed border-gray-300">
                   {project.github && (
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="neo-btn neo-btn-white text-xs sm:text-sm py-2 px-3 sm:px-4"
+                      className="neo-btn neo-btn-white text-xs sm:text-sm py-2 px-3 sm:px-4 flex-1 justify-center"
                     >
                       <Github size={14} className="sm:w-4 sm:h-4" />
                       {t("projects.code")}
@@ -144,7 +169,7 @@ export default function Projects() {
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="neo-btn neo-btn-primary text-sm py-2 px-4"
+                      className="neo-btn neo-btn-primary text-sm py-2 px-4 flex-1 justify-center"
                     >
                       <ExternalLink size={16} />
                       {t("projects.live")}
