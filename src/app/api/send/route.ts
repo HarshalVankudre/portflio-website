@@ -27,7 +27,6 @@ export async function POST(request: Request) {
     );
   }
 
-  const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const { name, email, subject, message } = await request.json();
 
@@ -61,6 +60,13 @@ export async function POST(request: Request) {
     ) {
       return invalid;
     }
+
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      console.error("RESEND_API_KEY is not set");
+      return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
+    }
+    const resend = new Resend(apiKey);
 
     const safeName = escapeHtml(name);
     const safeEmail = escapeHtml(email);
