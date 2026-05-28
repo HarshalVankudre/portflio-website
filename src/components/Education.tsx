@@ -36,7 +36,7 @@ export default function Education() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <span className="neo-tag neo-tag-purple text-white mb-4">{t("education.tag")}</span>
+          <span className="neo-tag neo-tag-cyan mb-4">{t("education.tag")}</span>
           <h2 className="neo-title mt-4">
             {t("education.title")} <span className="neo-highlight">{t("education.titleHighlight")}</span>
           </h2>
@@ -72,7 +72,7 @@ export default function Education() {
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-bold text-sm">{edu.period}</span>
                       {edu.current && (
-                        <span className="neo-tag neo-tag-lime text-xs py-0.5">
+                        <span className="neo-tag neo-tag-primary text-xs py-0.5">
                           {t("education.current")}
                         </span>
                       )}

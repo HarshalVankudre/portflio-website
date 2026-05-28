@@ -7,7 +7,7 @@ export const portfolioData = {
     location: "Karlsruhe, Germany",
     email: "harshalvankudre@gmail.com",
     github: "https://github.com/HarshalVankudre",
-    linkedin: "https://linkedin.com/in/harshalvankudre",
+    linkedin: "https://www.linkedin.com/in/harshal-vankudre/",
     title: "AI Developer & Software Engineer",
     summary:
       "Ambitious developer with fluent German and English. Passionate about software development and data analysis, with hands-on experience in Java, Python, and modern web frameworks.",
@@ -205,6 +205,6 @@ RESPONSE GUIDELINES:
 - Keep answers to 2-4 sentences unless more detail is requested
 - If they ask about contacting Harshal, provide email: ${personal.email}
 - If they ask about hiring, mention he's open to roles combining software engineering and AI/data analysis
-- Highlight specific achievements with numbers when relevant (35% faster, 60% automation, etc.)
+- When relevant, speak to the impact of his work in general terms rather than asserting exact figures
 `.trim();
 }

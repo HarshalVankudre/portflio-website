@@ -104,7 +104,7 @@ export default function Projects() {
               className="group relative bg-white text-black border-4 border-black shadow-[8px_8px_0_#FFE500] hover:shadow-[14px_14px_0_#FFE500] transition-shadow flex flex-col"
             >
               {/* Number badge */}
-              <div className="absolute -top-3 -left-3 z-10 w-10 h-10 bg-black text-[var(--primary)] flex items-center justify-center font-black text-lg border-4 border-[var(--primary)] rotate-[-6deg]">
+              <div className="font-display absolute -top-3 -left-3 z-10 w-10 h-10 bg-black text-[var(--primary)] flex items-center justify-center font-black text-lg border-4 border-[var(--primary)] rotate-[-6deg]">
                 0{index + 1}
               </div>
 
@@ -126,7 +126,7 @@ export default function Projects() {
                   </div>
                   {project.live && (
                     <span className="flex items-center gap-1.5 px-2 py-1 bg-black text-white text-[10px] font-black uppercase tracking-wider border-2 border-white">
-                      <span className="w-1.5 h-1.5 bg-[var(--accent-lime)] rounded-full animate-pulse" />
+                      <span className="w-1.5 h-1.5 bg-[var(--accent-cyan)] rounded-full animate-pulse" />
                       Live
                     </span>
                   )}

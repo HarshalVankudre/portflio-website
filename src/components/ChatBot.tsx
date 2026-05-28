@@ -45,12 +45,15 @@ export default function ChatBot() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
-  const [isOnDarkSection, setIsOnDarkSection] = useState(false);
   const [buttonBottom, setButtonBottom] = useState(24);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  // Latest assistant message text, mirrored into an sr-only aria-live region.
+  const lastAssistantMessage =
+    [...messages].reverse().find((m) => m.role === "assistant")?.content ?? "";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -66,16 +69,55 @@ export default function ChatBot() {
     }
   }, [isOpen, isMinimized]);
 
-  // Detect dark sections and adjust position/color
+  // Close on Escape and trap Tab focus within the dialog while open.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setIsOpen(false);
+        setIsMinimized(false);
+        buttonRef.current?.focus();
+        return;
+      }
+
+      if (e.key === "Tab") {
+        const dialog = dialogRef.current;
+        if (!dialog) return;
+
+        const focusable = dialog.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const active = document.activeElement;
+
+        if (e.shiftKey) {
+          if (active === first || !dialog.contains(active)) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else if (active === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
+
+  // Detect when the button overlaps the footer and adjust its bottom offset.
+  // Uses a functional setButtonBottom update so this callback can keep a stable
+  // (empty) dep array and the scroll/resize listeners attach only once.
   const checkDarkSection = useCallback(() => {
     const footer = document.querySelector("footer");
-    const projectsSection = document.getElementById("projects");
     const windowHeight = window.innerHeight;
 
-    // Button position (bottom-right corner)
-    const buttonY = windowHeight - buttonBottom - 32; // 32 is half the button height
-
-    let onDark = false;
     let newBottom = 24;
 
     // Check if button overlaps with footer
@@ -84,22 +126,11 @@ export default function ChatBot() {
       if (footerRect.top < windowHeight - 20) {
         // Footer is visible, move button up
         newBottom = Math.max(24, windowHeight - footerRect.top + 24);
-        onDark = buttonY >= footerRect.top;
       }
     }
 
-    // Check if button overlaps with projects section (dark bg)
-    if (projectsSection) {
-      const projRect = projectsSection.getBoundingClientRect();
-      // Check if button center is within projects section
-      if (buttonY >= projRect.top && buttonY <= projRect.bottom) {
-        onDark = true;
-      }
-    }
-
-    setIsOnDarkSection(onDark);
-    setButtonBottom(newBottom);
-  }, [buttonBottom]);
+    setButtonBottom((prev) => (prev === newBottom ? prev : newBottom));
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -119,11 +150,34 @@ export default function ChatBot() {
   const sendMessage = async (messageText: string) => {
     if (!messageText.trim() || isLoading) return;
 
-    setHasInteracted(true);
     const userMessage: Message = { role: "user", content: messageText };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
+
+    // Throttle per-token re-renders: buffer accumulated text and flush on rAF.
+    let rafId: number | null = null;
+    let pendingFlush = false;
+    const flush = () => {
+      rafId = null;
+      pendingFlush = false;
+      setMessages((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1] = {
+          role: "assistant",
+          content: assistantMessage,
+        };
+        return updated;
+      });
+    };
+    const scheduleFlush = () => {
+      pendingFlush = true;
+      if (rafId === null) {
+        rafId = requestAnimationFrame(flush);
+      }
+    };
+
+    let assistantMessage = "";
 
     try {
       const response = await fetch("/api/chat", {
@@ -143,18 +197,23 @@ export default function ChatBot() {
 
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
-      let assistantMessage = "";
 
       // Add empty assistant message that we'll update
       setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
       if (reader) {
+        // Buffer carries any partial line between chunks so we never drop a
+        // token when a chunk splits mid-line.
+        let buffer = "";
+
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
 
-          const chunk = decoder.decode(value);
-          const lines = chunk.split("\n");
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n");
+          // Keep the last (possibly partial) line for the next iteration.
+          buffer = lines.pop() ?? "";
 
           for (const line of lines) {
             if (line.startsWith("data: ")) {
@@ -167,15 +226,7 @@ export default function ChatBot() {
                 const content = parsed.choices?.[0]?.delta?.content || parsed.content || "";
                 if (content) {
                   assistantMessage += content;
-                  // Update the last message
-                  setMessages((prev) => {
-                    const updated = [...prev];
-                    updated[updated.length - 1] = {
-                      role: "assistant",
-                      content: assistantMessage,
-                    };
-                    return updated;
-                  });
+                  scheduleFlush();
                 }
               } catch {
                 // Ignore parse errors for incomplete chunks
@@ -184,8 +235,21 @@ export default function ChatBot() {
           }
         }
       }
+
+      // Ensure any buffered text is committed before we finish.
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+      if (pendingFlush) {
+        flush();
+      }
     } catch (error) {
       console.error("Chat error:", error);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
       setMessages((prev) => [
         ...prev,
         {
@@ -238,6 +302,10 @@ export default function ChatBot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Chat with Harshal's AI assistant"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{
               opacity: 1,
@@ -250,6 +318,13 @@ export default function ChatBot() {
             className="fixed right-2 left-2 sm:left-auto sm:right-6 z-50 sm:w-96 bg-[#FFFEF5] border-4 border-black neo-shadow-lg overflow-hidden flex flex-col"
             style={{ maxHeight: isMinimized ? "auto" : "85vh", bottom: Math.max(buttonBottom, 16) }}
           >
+            {/* Screen-reader live region: mirrors the latest assistant message
+                so updates are announced without re-announcement churn from the
+                per-token-mutated message node. */}
+            <div className="sr-only" aria-live="polite" aria-atomic="true">
+              {lastAssistantMessage}
+            </div>
+
             {/* Header */}
             <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 bg-primary border-b-4 border-black">
               <div className="flex items-center gap-2 sm:gap-3">
@@ -315,9 +390,9 @@ export default function ChatBot() {
                         </div>
                         <div className="bg-white border-2 border-black p-3 neo-shadow max-w-[85%]">
                           <p className="text-sm">
-                            Hi! I'm Harshal's AI assistant. Ask me anything about
-                            his skills, projects, experience, or how to get in
-                            touch!
+                            Hi! I&apos;m Harshal&apos;s AI assistant. Ask me
+                            anything about his skills, projects, experience, or
+                            how to get in touch!
                           </p>
                         </div>
                       </div>
@@ -355,7 +430,7 @@ export default function ChatBot() {
                       <div
                         className="w-8 h-8 border-2 border-black flex items-center justify-center flex-shrink-0"
                         style={{
-                          backgroundColor: msg.role === "user" ? "#A855F7" : "#4ECDC4",
+                          backgroundColor: msg.role === "user" ? "#FF6B6B" : "#4ECDC4",
                           color: msg.role === "user" ? "white" : "black"
                         }}
                       >
@@ -366,7 +441,7 @@ export default function ChatBot() {
                           msg.role === "user" ? "" : "neo-shadow"
                         }`}
                         style={{
-                          backgroundColor: msg.role === "user" ? "#A855F7" : "white",
+                          backgroundColor: msg.role === "user" ? "#FF6B6B" : "white",
                           color: msg.role === "user" ? "white" : "black"
                         }}
                       >
@@ -389,7 +464,7 @@ export default function ChatBot() {
                         <Bot size={16} />
                       </div>
                       <div className="bg-white border-2 border-black p-3 neo-shadow">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2" role="status">
                           <Sparkles size={16} className="animate-spin" />
                           <span className="text-sm font-medium">Thinking...</span>
                         </div>

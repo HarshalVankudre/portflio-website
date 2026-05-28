@@ -2,12 +2,19 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Minus, Square } from "lucide-react";
+import { X, Minus } from "lucide-react";
 import { useKonamiCode } from "@/hooks/useKonamiCode";
 
 interface TerminalLine {
   type: "input" | "output" | "error" | "ascii";
   content: string;
+}
+
+interface MatrixColumn {
+  left: number;
+  duration: number;
+  delay: number;
+  chars: string;
 }
 
 const ASCII_ART = {
@@ -70,6 +77,19 @@ const ASCII_ART = {
 
 const SECTIONS = ["hero", "about", "skills", "experience", "projects", "github", "contact"];
 
+// Generate matrix-rain columns once on activation (outside render) so the
+// render body stays pure and free of Math.random calls.
+function createMatrixColumns(): MatrixColumn[] {
+  return Array.from({ length: 50 }, () => ({
+    left: Math.random() * 100,
+    duration: Math.random() * 2 + 1,
+    delay: Math.random() * 2,
+    chars: Array.from({ length: 20 }, () =>
+      String.fromCharCode(0x30a0 + Math.random() * 96)
+    ).join("\n"),
+  }));
+}
+
 export default function Terminal() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
@@ -78,24 +98,11 @@ export default function Terminal() {
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [matrixActive, setMatrixActive] = useState(false);
+  const [matrixColumns, setMatrixColumns] = useState<MatrixColumn[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
-
-  const { isActivated, setIsActivated } = useKonamiCode(() => {
-    if (!isOpen) {
-      setIsOpen(true);
-      addLine("ascii", ASCII_ART.welcome);
-      addLine("output", 'Welcome! Type "help" for available commands.');
-    }
-  });
-
-  useEffect(() => {
-    if (isActivated && !isOpen) {
-      setIsOpen(true);
-      addLine("ascii", ASCII_ART.welcome);
-      addLine("output", 'Welcome! Type "help" for available commands.');
-    }
-  }, [isActivated, isOpen]);
+  const windowRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const addLine = useCallback((type: TerminalLine["type"], content: string) => {
     setLines((prev) => [...prev, { type, content }]);
@@ -107,6 +114,26 @@ export default function Terminal() {
     }
   }, []);
 
+  const { isActivated, setIsActivated } = useKonamiCode(() => {
+    if (!isOpen) {
+      setIsOpen(true);
+      addLine("ascii", ASCII_ART.welcome);
+      addLine("output", 'Welcome! Type "help" for available commands.');
+    }
+  });
+
+  // Fallback sync: open the terminal when the konami hook reports activation
+  // (covers any path where the hook's callback did not already open it). This
+  // intentionally syncs React state to an external trigger held by the hook.
+  useEffect(() => {
+    if (isActivated && !isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing to external konami activation
+      setIsOpen(true);
+      addLine("ascii", ASCII_ART.welcome);
+      addLine("output", 'Welcome! Type "help" for available commands.');
+    }
+  }, [isActivated, isOpen, addLine]);
+
   useEffect(() => {
     scrollToBottom();
   }, [lines, scrollToBottom]);
@@ -116,6 +143,67 @@ export default function Terminal() {
       inputRef.current.focus();
     }
   }, [isOpen, isMinimized]);
+
+  const closeTerminal = useCallback(() => {
+    setIsOpen(false);
+    setIsActivated(false);
+    setLines([]);
+    setMatrixActive(false);
+    setMatrixColumns([]);
+  }, [setIsActivated]);
+
+  // Capture the previously focused element on open and restore it on close.
+  useEffect(() => {
+    if (isOpen) {
+      previousFocusRef.current = document.activeElement as HTMLElement | null;
+      return () => {
+        previousFocusRef.current?.focus();
+      };
+    }
+  }, [isOpen]);
+
+  // Handle Escape to close and trap focus within the terminal window.
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+    const handleDocumentKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeTerminal();
+        return;
+      }
+      if (e.key !== "Tab") {
+        return;
+      }
+      const container = windowRef.current;
+      if (!container) {
+        return;
+      }
+      const focusable = container.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) {
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey) {
+        if (active === first || !container.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (active === last || !container.contains(active)) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", handleDocumentKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleDocumentKeyDown);
+    };
+  }, [isOpen, closeTerminal]);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -247,7 +335,7 @@ Type "cd projects" to view on page.
 │ CONTACT INFO                            │
 ├─────────────────────────────────────────┤
 │ 📧 harshalvankudre@gmail.com            │
-│ 💼 linkedin.com/in/harshalvankudre      │
+│ 💼 linkedin.com/in/harshal-vankudre     │
 │ 🐙 github.com/HarshalVankudre           │
 └─────────────────────────────────────────┘
         `
@@ -264,9 +352,11 @@ Type "cd projects" to view on page.
 
       case "matrix":
         addLine("output", "Entering the Matrix...");
+        setMatrixColumns(createMatrixColumns());
         setMatrixActive(true);
         setTimeout(() => {
           setMatrixActive(false);
+          setMatrixColumns([]);
           addLine("output", "You've seen enough. Back to reality.");
         }, 5000);
         break;
@@ -358,7 +448,7 @@ Type "cd experience" to see more on page.
           window.open("https://github.com/HarshalVankudre", "_blank");
           addLine("output", "🐙 Opening GitHub profile...");
         } else if (link === "linkedin") {
-          window.open("https://linkedin.com/in/harshalvankudre", "_blank");
+          window.open("https://www.linkedin.com/in/harshal-vankudre/", "_blank");
           addLine("output", "💼 Opening LinkedIn profile...");
         } else if (link === "email") {
           window.open("mailto:harshalvankudre@gmail.com", "_blank");
@@ -529,13 +619,6 @@ drwxr-xr-x  contact/
     }
   };
 
-  const closeTerminal = () => {
-    setIsOpen(false);
-    setIsActivated(false);
-    setLines([]);
-    setMatrixActive(false);
-  };
-
   return (
     <>
       {/* Matrix Rain Effect */}
@@ -547,22 +630,20 @@ drwxr-xr-x  contact/
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 bg-black overflow-hidden pointer-events-none"
           >
-            {Array.from({ length: 50 }).map((_, i) => (
+            {matrixColumns.map((column, i) => (
               <motion.div
                 key={i}
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: "100vh", opacity: [0, 1, 1, 0] }}
                 transition={{
-                  duration: Math.random() * 2 + 1,
+                  duration: column.duration,
                   repeat: Infinity,
-                  delay: Math.random() * 2,
+                  delay: column.delay,
                 }}
                 className="absolute text-green-500 font-mono text-sm"
-                style={{ left: `${Math.random() * 100}%` }}
+                style={{ left: `${column.left}%` }}
               >
-                {Array.from({ length: 20 })
-                  .map(() => String.fromCharCode(0x30a0 + Math.random() * 96))
-                  .join("\n")}
+                {column.chars}
               </motion.div>
             ))}
           </motion.div>
@@ -573,6 +654,10 @@ drwxr-xr-x  contact/
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={windowRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Interactive terminal"
             initial={{ y: "100%", opacity: 0 }}
             animate={{
               y: isMinimized ? "calc(100% - 48px)" : 0,
@@ -600,13 +685,6 @@ drwxr-xr-x  contact/
                     <Minus size={16} strokeWidth={3} />
                   </button>
                   <button
-                    onClick={() => setIsMinimized(!isMinimized)}
-                    className="p-1 hover:bg-black/10 transition-colors"
-                    aria-label="Maximize"
-                  >
-                    <Square size={14} strokeWidth={3} />
-                  </button>
-                  <button
                     onClick={closeTerminal}
                     className="p-1 hover:bg-red-500 hover:text-white transition-colors"
                     aria-label="Close"
@@ -632,7 +710,7 @@ drwxr-xr-x  contact/
                           : line.type === "error"
                           ? "text-red-500"
                           : line.type === "ascii"
-                          ? "text-accent-cyan text-xs sm:text-sm"
+                          ? "text-cyan text-xs sm:text-sm"
                           : "text-gray-700"
                       }`}
                     >
@@ -642,7 +720,7 @@ drwxr-xr-x  contact/
 
                   {/* Input Line */}
                   <div className="flex items-center gap-2 mt-2">
-                    <span className="text-accent-purple font-bold">
+                    <span className="text-red font-bold">
                       harshal@portfolio:~$
                     </span>
                     <input

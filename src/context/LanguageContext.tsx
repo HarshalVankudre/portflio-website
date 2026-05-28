@@ -1,16 +1,26 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useMemo,
+  ReactNode,
+} from "react";
+import { MotionConfig } from "framer-motion";
 
 type Language = "en" | "de";
+
+type TranslationKey = keyof (typeof translations)["en"];
 
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: TranslationKey) => string;
 }
 
-const translations: Record<Language, Record<string, string>> = {
+const translations = {
   en: {
     // Navbar
     "nav.home": "Home",
@@ -73,7 +83,7 @@ const translations: Record<Language, Record<string, string>> = {
     "exp.ruko.h1": "Designing and building 'Rüko GPT' - an internal AI chatbot for querying company data",
     "exp.ruko.h2": "Full-stack development with Next.js, TypeScript, Prisma, and PostgreSQL",
     "exp.ruko.h3": "Integrating the OpenAI API for intelligent responses",
-    "exp.ruko.h4": "Implementing user authentication with NextAuth.js/route.ts",
+    "exp.ruko.h4": "Implementing user authentication with NextAuth.js",
     "exp.ruko.h5": "Extending with a separate REST API server to improve internal knowledge management",
     // EnBW
     "exp.enbw.role": "Working Student",
@@ -207,7 +217,7 @@ const translations: Record<Language, Record<string, string>> = {
     "exp.ruko.h1": "Entwicklung von 'Rüko GPT' - einem internen KI-Chatbot zur Abfrage von Unternehmensdaten",
     "exp.ruko.h2": "Full-Stack-Entwicklung mit Next.js, TypeScript, Prisma und PostgreSQL",
     "exp.ruko.h3": "Integration der OpenAI API für intelligente Antworten",
-    "exp.ruko.h4": "Implementierung der Benutzerauthentifizierung mit NextAuth.js/route.ts",
+    "exp.ruko.h4": "Implementierung der Benutzerauthentifizierung mit NextAuth.js",
     "exp.ruko.h5": "Erweiterung mit separatem REST-API-Server zur Verbesserung des internen Wissensmanagements",
     // EnBW
     "exp.enbw.role": "Werkstudent",
@@ -279,7 +289,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Footer
     "footer.backToTop": "Nach oben",
   },
-};
+} satisfies Record<Language, Record<string, string>>;
 
 // Export translations for use in API routes
 export { translations };
@@ -289,13 +299,21 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
 
-  const t = (key: string): string => {
-    return translations[language][key] || key;
-  };
+  const t = useCallback(
+    (key: TranslationKey): string => {
+      return translations[language][key] || key;
+    },
+    [language]
+  );
+
+  const value = useMemo<LanguageContextType>(
+    () => ({ language, setLanguage, t }),
+    [language, t]
+  );
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
-      {children}
+    <LanguageContext.Provider value={value}>
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </LanguageContext.Provider>
   );
 }
