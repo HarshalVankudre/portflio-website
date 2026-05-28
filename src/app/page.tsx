@@ -18,6 +18,14 @@ import LoadingScreen from "@/components/LoadingScreen";
 export default function Home() {
   return (
     <main className="relative min-h-screen">
+      {/* Skip Link */}
+      <a
+        href="#home"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-black focus:border-2 focus:border-black focus:px-4 focus:py-2 focus:font-bold"
+      >
+        Skip to content
+      </a>
+
       {/* Loading Screen */}
       <LoadingScreen />
 

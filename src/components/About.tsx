@@ -59,7 +59,7 @@ export default function About() {
             <div className="neo-card p-6">
               <p className="text-lg leading-relaxed">
                 {t("about.chess")}{" "}
-                <span className="font-bold bg-[var(--accent-lime)] px-1">{t("hero.location")}</span>.
+                <span className="font-bold bg-[var(--accent-cyan)] px-1">{t("hero.location")}</span>.
               </p>
             </div>
 

@@ -34,6 +34,7 @@ interface GitHubData {
     totalContributions: number;
     weeks: { days: { contributionCount: number; date: string }[] }[];
   };
+  source: "graphql" | "rest";
 }
 
 function CountUpNumber({ end, duration = 2, suffix = "" }: { end: number; duration?: number; suffix?: string }) {
@@ -66,8 +67,10 @@ function CountUpNumber({ end, duration = 2, suffix = "" }: { end: number; durati
 
 function ContributionGraph({
   weeks,
+  totalContributions,
 }: {
   weeks: { days: { contributionCount: number; date: string }[] }[];
+  totalContributions: number;
 }) {
   const getColor = (count: number) => {
     if (count === 0) return "bg-gray-100";
@@ -80,20 +83,21 @@ function ContributionGraph({
   const displayWeeks = weeks.slice(-26);
 
   return (
-    <div className="overflow-x-auto pb-2">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      viewport={{ once: true }}
+      className="overflow-x-auto pb-2"
+      role="img"
+      aria-label={`Contribution activity graph: ${totalContributions} contributions over the last 26 weeks`}
+    >
       <div className="flex gap-[3px] min-w-fit">
         {displayWeeks.map((week, weekIndex) => (
           <div key={weekIndex} className="flex flex-col gap-[3px]">
             {week.days.map((day, dayIndex) => (
-              <motion.div
+              <div
                 key={`${weekIndex}-${dayIndex}`}
-                initial={{ scale: 0, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                transition={{
-                  delay: weekIndex * 0.02 + dayIndex * 0.01,
-                  duration: 0.2,
-                }}
-                viewport={{ once: true }}
                 className={`w-3 h-3 sm:w-[14px] sm:h-[14px] rounded-sm border-2 border-black ${getColor(
                   day.contributionCount
                 )}`}
@@ -103,7 +107,7 @@ function ContributionGraph({
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -204,7 +208,7 @@ function ActivityFeed({
             <p className="font-bold text-sm truncate">{activity.repo.split("/")[1]}</p>
             <p className="text-sm text-gray-600 truncate">{activity.message}</p>
           </div>
-          <span className="text-xs font-bold text-gray-400 whitespace-nowrap">
+          <span className="text-xs font-bold text-gray-600 whitespace-nowrap">
             {getTimeAgo(activity.date)}
           </span>
         </motion.div>
@@ -233,7 +237,7 @@ function calculateStats(data: GitHubData) {
   const activeDays = last30Days.filter(d => d.contributionCount > 0).length;
 
   // Calculate best day
-  const bestDay = Math.max(...allDays.map(d => d.contributionCount));
+  const bestDay = allDays.length ? Math.max(...allDays.map(d => d.contributionCount)) : 0;
 
   // Calculate total commits this month
   const thisMonth = last30Days.reduce((acc, d) => acc + d.contributionCount, 0);
@@ -274,13 +278,18 @@ export default function GitHubStats() {
 
   const derivedStats = data ? calculateStats(data) : null;
 
+  // Only the GraphQL path returns a real contribution calendar; the REST
+  // fallback has none, so contribution-derived UI must be hidden there.
+  const hasContributions =
+    !!data && data.source === "graphql" && data.contributionData.weeks.length > 0;
+
   const stats = data && derivedStats
     ? [
         {
           label: "Repositories",
           value: data.user.publicRepos,
           icon: FolderGit2,
-          color: "bg-accent-cyan",
+          color: "bg-cyan",
           suffix: "",
         },
         {
@@ -288,22 +297,26 @@ export default function GitHubStats() {
           value: derivedStats.totalLanguages,
           icon: Code2,
           color: "bg-primary",
-          suffix: "+",
-        },
-        {
-          label: "This Month",
-          value: derivedStats.thisMonth,
-          icon: Calendar,
-          color: "bg-accent-purple",
           suffix: "",
         },
-        {
-          label: "Active Days",
-          value: derivedStats.activeDays,
-          icon: Flame,
-          color: "bg-accent-lime",
-          suffix: "/30",
-        },
+        ...(hasContributions
+          ? [
+              {
+                label: "This Month",
+                value: derivedStats.thisMonth,
+                icon: Calendar,
+                color: "bg-red",
+                suffix: "",
+              },
+              {
+                label: "Active Days",
+                value: derivedStats.activeDays,
+                icon: Flame,
+                color: "bg-cyan",
+                suffix: "/30",
+              },
+            ]
+          : []),
       ]
     : [];
 
@@ -323,12 +336,14 @@ export default function GitHubStats() {
         >
           <div className="inline-flex items-center gap-2 neo-tag neo-tag-primary mb-4">
             <Zap size={16} />
-            <span>Live from GitHub</span>
+            <span>{hasContributions ? "Live from GitHub" : "From GitHub"}</span>
           </div>
           <h2 className="neo-title">Code in <span className="neo-highlight">Action</span></h2>
-          <p className="mt-4 text-lg max-w-2xl mx-auto text-gray-600">
-            Real-time coding activity - because talk is cheap, show me the code
-          </p>
+          {hasContributions && (
+            <p className="mt-4 text-lg max-w-2xl mx-auto text-gray-600">
+              Real-time coding activity - because talk is cheap, show me the code
+            </p>
+          )}
         </motion.div>
 
         {loading ? (
@@ -356,7 +371,7 @@ export default function GitHubStats() {
                   >
                     <stat.icon size={24} />
                   </div>
-                  <div className="text-2xl sm:text-4xl font-black">
+                  <div className="font-display text-2xl sm:text-4xl font-black">
                     <CountUpNumber end={stat.value} suffix={stat.suffix} />
                   </div>
                   <div className="text-sm font-bold text-gray-600 uppercase tracking-wide mt-1">
@@ -368,43 +383,48 @@ export default function GitHubStats() {
 
             {/* Main Content Grid */}
             <div className="grid lg:grid-cols-5 gap-6">
-              {/* Contribution Graph - Takes more space */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.3 }}
-                className="lg:col-span-3 neo-card p-4 sm:p-6"
-              >
-                <h3 className="font-black text-lg mb-4 flex items-center gap-2">
-                  <Activity size={20} />
-                  Contribution Activity
-                </h3>
-                <ContributionGraph weeks={data.contributionData.weeks} />
-                <div className="flex items-center justify-between mt-4">
-                  <div className="flex items-center gap-1 text-xs font-bold">
-                    <span className="text-gray-500">Less</span>
-                    <div className="w-3 h-3 bg-gray-100 border border-black" />
-                    <div className="w-3 h-3 bg-green-300 border border-black" />
-                    <div className="w-3 h-3 bg-green-400 border border-black" />
-                    <div className="w-3 h-3 bg-green-500 border border-black" />
-                    <div className="w-3 h-3 bg-green-600 border border-black" />
-                    <span className="text-gray-500">More</span>
-                  </div>
-                  {derivedStats && derivedStats.currentStreak > 0 && (
-                    <div className="flex items-center gap-2 px-3 py-1 bg-accent-lime border-2 border-black">
-                      <Flame size={14} />
-                      <span className="font-black text-sm">{derivedStats.currentStreak} day streak!</span>
+              {/* Contribution Graph - Takes more space (only with real GraphQL data) */}
+              {hasContributions && (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ delay: 0.3 }}
+                  className="lg:col-span-3 neo-card p-4 sm:p-6"
+                >
+                  <h3 className="font-black text-lg mb-4 flex items-center gap-2">
+                    <Activity size={20} />
+                    Contribution Activity
+                  </h3>
+                  <ContributionGraph
+                    weeks={data.contributionData.weeks}
+                    totalContributions={data.contributionData.totalContributions}
+                  />
+                  <div className="flex items-center justify-between mt-4">
+                    <div className="flex items-center gap-1 text-xs font-bold">
+                      <span className="text-gray-500">Less</span>
+                      <div className="w-3 h-3 bg-gray-100 border border-black" />
+                      <div className="w-3 h-3 bg-green-300 border border-black" />
+                      <div className="w-3 h-3 bg-green-400 border border-black" />
+                      <div className="w-3 h-3 bg-green-500 border border-black" />
+                      <div className="w-3 h-3 bg-green-600 border border-black" />
+                      <span className="text-gray-500">More</span>
                     </div>
-                  )}
-                </div>
-              </motion.div>
+                    {derivedStats && derivedStats.currentStreak > 0 && (
+                      <div className="flex items-center gap-2 px-3 py-1 bg-primary border-2 border-black">
+                        <Flame size={14} />
+                        <span className="font-black text-sm">{derivedStats.currentStreak} day streak!</span>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
 
               {/* Languages - Sidebar */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ delay: 0.4 }}
-                className="lg:col-span-2 neo-card p-4 sm:p-6"
+                className={`${hasContributions ? "lg:col-span-2" : "lg:col-span-5"} neo-card p-4 sm:p-6`}
               >
                 <h3 className="font-black text-lg mb-4 flex items-center gap-2">
                   <Code2 size={20} />

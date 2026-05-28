@@ -108,8 +108,8 @@ export default function OpengraphImage() {
             </span>
             <span
               style={{
-                background: "#A855F7",
-                color: "#fff",
+                background: "#FFE500",
+                color: "#1a1a1a",
                 border: "4px solid #000",
                 padding: "6px 18px",
                 boxShadow: "6px 6px 0 #000",
@@ -119,7 +119,7 @@ export default function OpengraphImage() {
             </span>
             <span
               style={{
-                background: "#84CC16",
+                background: "#4ECDC4",
                 border: "4px solid #000",
                 padding: "6px 18px",
                 boxShadow: "6px 6px 0 #000",

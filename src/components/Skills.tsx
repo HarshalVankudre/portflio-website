@@ -27,25 +27,25 @@ export default function Skills() {
     {
       title: t("skills.databases"),
       icon: Database,
-      color: "var(--accent-lime)",
+      color: "var(--accent-red)",
       skills: ["PostgreSQL", "Pinecone", "MongoDB"],
     },
     {
       title: t("skills.cloud"),
       icon: Cloud,
-      color: "var(--accent-red)",
+      color: "var(--primary)",
       skills: ["AWS", "Google Cloud", "Azure", "Docker"],
     },
     {
       title: t("skills.ai"),
       icon: Brain,
-      color: "var(--accent-purple)",
+      color: "var(--accent-cyan)",
       skills: ["OpenAI API", "RAG", "LangChain", "Ollama", "Vector DBs"],
     },
     {
       title: t("skills.tools"),
       icon: Briefcase,
-      color: "var(--accent-orange)",
+      color: "var(--accent-red)",
       skills: ["Git", "Teams API", "HubSpot", "Microsoft Office"],
     },
   ];
@@ -61,7 +61,7 @@ export default function Skills() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <span className="neo-tag neo-tag-lime mb-4">{t("skills.tag")}</span>
+          <span className="neo-tag neo-tag-cyan mb-4">{t("skills.tag")}</span>
           <h2 className="neo-title mt-4">
             {t("skills.title")} <span className="neo-highlight">{t("skills.titleHighlight")}</span>
           </h2>
