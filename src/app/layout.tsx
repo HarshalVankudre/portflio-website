@@ -1,11 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  variable: "--font-bricolage",
+  display: "swap",
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://vankudre.com";
@@ -44,10 +52,6 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   alternates: {
     canonical: "/",
-    languages: {
-      en: "/",
-      de: "/",
-    },
   },
   appleWebApp: {
     capable: true,
@@ -107,7 +111,7 @@ const personJsonLd = {
   email: "mailto:harshalvankudre@gmail.com",
   sameAs: [
     "https://github.com/HarshalVankudre",
-    "https://linkedin.com/in/harshal-vankudre",
+    "https://www.linkedin.com/in/harshal-vankudre/",
   ],
   knowsAbout: [
     "Artificial Intelligence",
@@ -134,7 +138,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${bricolage.variable} font-sans antialiased`}>
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

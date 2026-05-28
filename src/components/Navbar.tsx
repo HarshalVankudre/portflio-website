@@ -68,7 +68,7 @@ export default function Navbar() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className="text-2xl font-black bg-[var(--primary)] px-3 py-1 border-3 border-black shadow-[3px_3px_0_black] group-hover:shadow-[1px_1px_0_black] group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-all inline-block">
+            <span className="font-display text-2xl font-black bg-[var(--primary)] px-3 py-1 border-3 border-black shadow-[3px_3px_0_black] group-hover:shadow-[1px_1px_0_black] group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-all inline-block">
               HV
             </span>
           </motion.a>

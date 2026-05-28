@@ -1,17 +1,40 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Design tokens — tightened neobrutalist palette
+   Signature yellow + cyan & red accents on cream/ink.
+   ============================================================ */
 :root {
-  --background: #FFFEF5;
-  --foreground: #1A1A1A;
-  --primary: #FFE500;
-  --accent-red: #FF6B6B;
+  /* Surfaces */
+  --background: #FFFEF5; /* cream */
+  --foreground: #1A1A1A; /* ink */
+
+  /* Accents (the only three) */
+  --primary: #FFE500;    /* signature yellow */
   --accent-cyan: #4ECDC4;
-  --accent-purple: #A855F7;
-  --accent-lime: #84CC16;
-  --accent-orange: #F97316;
-  --accent-pink: #EC4899;
+  --accent-red: #FF6B6B;
+
+  /* Structure */
   --border: #000000;
   --shadow: #000000;
+
+  /* Hard-offset shadow scale — one consistent set of tiers */
+  --shadow-sm: 3px 3px 0 var(--shadow);
+  --shadow-md: 5px 5px 0 var(--shadow);
+  --shadow-lg: 8px 8px 0 var(--shadow);
+}
+
+/* Bind tokens to Tailwind so utilities resolve:
+   bg-primary / bg-cyan / bg-red / text-ink / bg-cream / font-display … */
+@theme inline {
+  --color-primary: var(--primary);
+  --color-cyan: var(--accent-cyan);
+  --color-red: var(--accent-red);
+  --color-ink: var(--foreground);
+  --color-cream: var(--background);
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 * {
@@ -27,6 +50,21 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
   overflow-x: hidden;
+}
+
+/* Display typeface drives every heading; .font-display opts in elsewhere */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.font-display {
+  font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Scrollbar Styling - Neobrutalist */
@@ -54,13 +92,19 @@ body {
   color: var(--foreground);
 }
 
-/* Neobrutalist Utilities */
+/* ============================================================
+   Neobrutalist utilities
+   ============================================================ */
 .neo-shadow {
-  box-shadow: 4px 4px 0 var(--shadow);
+  box-shadow: var(--shadow-sm);
+}
+
+.neo-shadow-md {
+  box-shadow: var(--shadow-md);
 }
 
 .neo-shadow-lg {
-  box-shadow: 8px 8px 0 var(--shadow);
+  box-shadow: var(--shadow-lg);
 }
 
 .neo-border {
@@ -74,28 +118,23 @@ body {
 .neo-card {
   background: white;
   border: 2px solid var(--border);
-  box-shadow: 4px 4px 0 var(--shadow);
-  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 @media (min-width: 640px) {
   .neo-card {
     border-width: 3px;
-    box-shadow: 6px 6px 0 var(--shadow);
+    box-shadow: var(--shadow-md);
   }
 }
 
 .neo-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--shadow);
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-lg);
 }
 
-@media (min-width: 640px) {
-  .neo-card:hover {
-    box-shadow: 8px 8px 0 var(--shadow);
-  }
-}
-
+/* One shared press physics for every button */
 .neo-btn {
   display: inline-flex;
   align-items: center;
@@ -105,8 +144,8 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.025em;
   border: 2px solid var(--border);
-  box-shadow: 3px 3px 0 var(--shadow);
-  transition: all 0.15s ease;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
   cursor: pointer;
   font-size: 0.875rem;
 }
@@ -116,18 +155,18 @@ body {
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
     border-width: 3px;
-    box-shadow: 4px 4px 0 var(--shadow);
+    box-shadow: var(--shadow-md);
     font-size: 1rem;
   }
 }
 
 .neo-btn:hover {
   transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--shadow);
+  box-shadow: var(--shadow-sm);
 }
 
 .neo-btn:active {
-  transform: translate(4px, 4px);
+  transform: translate(5px, 5px);
   box-shadow: 0 0 0 var(--shadow);
 }
 
@@ -158,6 +197,7 @@ body {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.03em;
   border: 2px solid var(--border);
   background: white;
 }
@@ -170,27 +210,23 @@ body {
   background: var(--accent-cyan);
 }
 
-.neo-tag-purple {
-  background: var(--accent-purple);
-  color: white;
-}
-
-.neo-tag-lime {
-  background: var(--accent-lime);
+.neo-tag-red {
+  background: var(--accent-red);
 }
 
 /* Section title */
 .neo-title {
-  font-size: clamp(1.5rem, 5vw, 4rem);
-  font-weight: 900;
+  font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(1.75rem, 5vw, 4rem);
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
 }
 
 @media (max-width: 640px) {
   .neo-title {
-    font-size: clamp(1.25rem, 7vw, 2rem);
+    font-size: clamp(1.5rem, 7vw, 2rem);
   }
 }
 
@@ -205,7 +241,7 @@ body {
 
 /* Grid pattern background */
 .neo-grid-bg {
-  background-image: 
+  background-image:
     linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
@@ -229,7 +265,7 @@ body {
 }
 
 .animate-marquee {
-  animation: marquee 30s linear infinite;
+  animation: marquee 35s linear infinite;
 }
 
 /* Typing cursor */
@@ -265,14 +301,14 @@ body {
   background: var(--border);
 }
 
-/* Floating animation utility */
+/* Floating animation utility — gentle */
 @keyframes float-slow {
   0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-12px) rotate(2deg); }
+  50% { transform: translateY(-10px) rotate(1.5deg); }
 }
 
 .animate-float-slow {
-  animation: float-slow 6s ease-in-out infinite;
+  animation: float-slow 7s ease-in-out infinite;
 }
 
 /* Wiggle on hover */
@@ -290,4 +326,21 @@ body {
   border-width: 3px;
 }
 
+/* Loading screen shine sweep — kept global so styled-jsx doesn't manage a
+   <style> node inside the AnimatePresence-removed overlay (avoids removeChild races) */
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  50%, 100% { transform: translateX(200%); }
+}
 
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

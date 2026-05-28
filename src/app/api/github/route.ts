@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 
+export const revalidate = 3600; // cross-instance ISR caching (1 hour)
+
 const GITHUB_USERNAME = "HarshalVankudre";
 const CACHE_DURATION = 3600; // 1 hour in seconds
+const DEFAULT_LANG_COLOR = "#858585";
 
 // In-memory cache
 let cachedData: GitHubData | null = null;
@@ -28,6 +31,96 @@ interface GitHubData {
     totalContributions: number;
     weeks: { days: { contributionCount: number; date: string }[] }[];
   };
+  source: "graphql" | "rest";
+}
+
+// GitHub REST event shape (subset we rely on)
+interface GitHubEvent {
+  type: string;
+  repo: { name: string };
+  payload: { commits?: { message: string }[]; ref?: string; ref_type?: string };
+  created_at: string;
+}
+
+// GitHub REST repo shape (subset)
+interface GitHubRestRepo {
+  language?: string | null;
+  stargazers_count: number;
+}
+
+// GitHub REST user shape (subset)
+interface GitHubRestUser {
+  name?: string | null;
+  avatar_url: string;
+  bio?: string | null;
+  followers: number;
+  following: number;
+  public_repos: number;
+}
+
+// GitHub GraphQL response shape (subset)
+interface GitHubGraphQLResponse {
+  data?: {
+    user?: {
+      name: string | null;
+      avatarUrl: string;
+      bio: string | null;
+      followers: { totalCount: number };
+      following: { totalCount: number };
+      repositories: {
+        totalCount: number;
+        nodes: {
+          name: string;
+          stargazerCount: number;
+          languages: {
+            edges: { size: number; node: { name: string; color: string | null } }[];
+          };
+        }[];
+      };
+      contributionsCollection: {
+        totalCommitContributions: number;
+        contributionCalendar: {
+          totalContributions: number;
+          weeks: { contributionDays: { contributionCount: number; date: string }[] }[];
+        };
+      };
+    } | null;
+  };
+  errors?: unknown;
+}
+
+// Map GitHub REST events into the recentActivity shape (handles all 4 event types)
+function mapEventsToActivity(events: GitHubEvent[]): GitHubData["recentActivity"] {
+  return events
+    .filter((event) =>
+      ["PushEvent", "CreateEvent", "PullRequestEvent", "IssuesEvent"].includes(event.type)
+    )
+    .slice(0, 5)
+    .map((event) => {
+      let message = "";
+      switch (event.type) {
+        case "PushEvent":
+          message = event.payload.commits?.[0]?.message || "Pushed commits";
+          break;
+        case "CreateEvent":
+          message = `Created ${event.payload.ref_type} ${event.payload.ref || ""}`;
+          break;
+        case "PullRequestEvent":
+          message = "Pull request activity";
+          break;
+        case "IssuesEvent":
+          message = "Issue activity";
+          break;
+        default:
+          message = event.type;
+      }
+      return {
+        type: event.type,
+        repo: event.repo.name,
+        message: message.slice(0, 50) + (message.length > 50 ? "..." : ""),
+        date: event.created_at,
+      };
+    });
 }
 
 const GITHUB_GRAPHQL_API = "https://api.github.com/graphql";
@@ -100,18 +193,23 @@ async function fetchGitHubData(): Promise<GitHubData> {
     throw new Error(`GitHub API error: ${response.status}`);
   }
 
-  const data = await response.json();
+  const data = (await response.json()) as GitHubGraphQLResponse;
 
   if (data.errors) {
     console.error("GraphQL errors:", data.errors);
     return fetchGitHubDataREST();
   }
 
-  const user = data.data.user;
+  const user = data?.data?.user;
+
+  if (!user) {
+    console.error("GraphQL response missing user");
+    return fetchGitHubDataREST();
+  }
 
   // Calculate total stars
   const totalStars = user.repositories.nodes.reduce(
-    (acc: number, repo: { stargazerCount: number }) => acc + repo.stargazerCount,
+    (acc, repo) => acc + repo.stargazerCount,
     0
   );
 
@@ -123,7 +221,7 @@ async function fetchGitHubData(): Promise<GitHubData> {
     for (const edge of repo.languages.edges) {
       const name = edge.node.name;
       const size = edge.size;
-      const color = edge.node.color || "#858585";
+      const color = edge.node.color || DEFAULT_LANG_COLOR;
 
       if (!languageTotals[name]) {
         languageTotals[name] = { size: 0, color };
@@ -156,15 +254,14 @@ async function fetchGitHubData(): Promise<GitHubData> {
     recentActivity: [], // Will be fetched from REST API
     contributionData: {
       totalContributions: user.contributionsCollection.contributionCalendar.totalContributions,
-      weeks: user.contributionsCollection.contributionCalendar.weeks.map(
-        (week: { contributionDays: { contributionCount: number; date: string }[] }) => ({
-          days: week.contributionDays.map((day) => ({
-            contributionCount: day.contributionCount,
-            date: day.date,
-          })),
-        })
-      ),
+      weeks: user.contributionsCollection.contributionCalendar.weeks.map((week) => ({
+        days: week.contributionDays.map((day) => ({
+          contributionCount: day.contributionCount,
+          date: day.date,
+        })),
+      })),
     },
+    source: "graphql",
   };
 }
 
@@ -179,7 +276,7 @@ async function fetchGitHubDataREST(): Promise<GitHubData> {
     throw new Error(`GitHub API error: ${userResponse.status}`);
   }
 
-  const userData = await userResponse.json();
+  const userData = (await userResponse.json()) as GitHubRestUser;
 
   // Fetch repos for stars and languages
   const reposResponse = await fetch(
@@ -187,11 +284,12 @@ async function fetchGitHubDataREST(): Promise<GitHubData> {
     { next: { revalidate: CACHE_DURATION } }
   );
 
-  const repos = await reposResponse.json();
+  const reposJson = reposResponse.ok ? await reposResponse.json() : [];
+  const repos: GitHubRestRepo[] = Array.isArray(reposJson) ? reposJson : [];
 
   // Calculate total stars
   const totalStars = repos.reduce(
-    (acc: number, repo: { stargazers_count: number }) => acc + repo.stargazers_count,
+    (acc, repo) => acc + repo.stargazers_count,
     0
   );
 
@@ -224,7 +322,7 @@ async function fetchGitHubDataREST(): Promise<GitHubData> {
     .map(([name, count]) => ({
       name,
       percentage: Math.round((count / totalReposWithLang) * 100),
-      color: languageColors[name] || "#858585",
+      color: languageColors[name] || DEFAULT_LANG_COLOR,
     }))
     .sort((a, b) => b.percentage - a.percentage)
     .slice(0, 6);
@@ -235,60 +333,13 @@ async function fetchGitHubDataREST(): Promise<GitHubData> {
     { next: { revalidate: CACHE_DURATION } }
   );
 
-  const events = await eventsResponse.json();
+  const eventsJson = eventsResponse.ok ? await eventsResponse.json() : [];
+  const events: GitHubEvent[] = Array.isArray(eventsJson) ? eventsJson : [];
 
-  const recentActivity = events
-    .filter((event: { type: string }) =>
-      ["PushEvent", "CreateEvent", "PullRequestEvent", "IssuesEvent"].includes(event.type)
-    )
-    .slice(0, 5)
-    .map((event: {
-      type: string;
-      repo: { name: string };
-      payload: { commits?: { message: string }[]; ref?: string; ref_type?: string };
-      created_at: string;
-    }) => {
-      let message = "";
-      switch (event.type) {
-        case "PushEvent":
-          message = event.payload.commits?.[0]?.message || "Pushed commits";
-          break;
-        case "CreateEvent":
-          message = `Created ${event.payload.ref_type} ${event.payload.ref || ""}`;
-          break;
-        case "PullRequestEvent":
-          message = "Pull request activity";
-          break;
-        case "IssuesEvent":
-          message = "Issue activity";
-          break;
-        default:
-          message = event.type;
-      }
-      return {
-        type: event.type,
-        repo: event.repo.name,
-        message: message.slice(0, 50) + (message.length > 50 ? "..." : ""),
-        date: event.created_at,
-      };
-    });
+  const recentActivity = mapEventsToActivity(events);
 
-  // Generate mock contribution data (REST API doesn't provide this)
-  const weeks = [];
-  const now = new Date();
-  for (let w = 52; w >= 0; w--) {
-    const days = [];
-    for (let d = 0; d < 7; d++) {
-      const date = new Date(now);
-      date.setDate(date.getDate() - (w * 7 + (6 - d)));
-      days.push({
-        contributionCount: Math.floor(Math.random() * 8),
-        date: date.toISOString().split("T")[0],
-      });
-    }
-    weeks.push({ days });
-  }
-
+  // The REST API does not expose the contribution calendar, so we do not
+  // fabricate one — only the GraphQL path returns real contribution data.
   return {
     user: {
       name: userData.name || GITHUB_USERNAME,
@@ -302,9 +353,10 @@ async function fetchGitHubDataREST(): Promise<GitHubData> {
     languages,
     recentActivity,
     contributionData: {
-      totalContributions: repos.length * 15, // Estimate
-      weeks,
+      totalContributions: 0,
+      weeks: [],
     },
+    source: "rest",
   };
 }
 
@@ -331,36 +383,9 @@ export async function GET() {
       );
 
       if (eventsResponse.ok) {
-        const events = await eventsResponse.json();
-        data.recentActivity = events
-          .filter((event: { type: string }) =>
-            ["PushEvent", "CreateEvent", "PullRequestEvent", "IssuesEvent"].includes(event.type)
-          )
-          .slice(0, 5)
-          .map((event: {
-            type: string;
-            repo: { name: string };
-            payload: { commits?: { message: string }[]; ref?: string; ref_type?: string };
-            created_at: string;
-          }) => {
-            let message = "";
-            switch (event.type) {
-              case "PushEvent":
-                message = event.payload.commits?.[0]?.message || "Pushed commits";
-                break;
-              case "CreateEvent":
-                message = `Created ${event.payload.ref_type} ${event.payload.ref || ""}`;
-                break;
-              default:
-                message = event.type;
-            }
-            return {
-              type: event.type,
-              repo: event.repo.name,
-              message: message.slice(0, 50) + (message.length > 50 ? "..." : ""),
-              date: event.created_at,
-            };
-          });
+        const eventsJson = await eventsResponse.json();
+        const events: GitHubEvent[] = Array.isArray(eventsJson) ? eventsJson : [];
+        data.recentActivity = mapEventsToActivity(events);
       }
     }
 

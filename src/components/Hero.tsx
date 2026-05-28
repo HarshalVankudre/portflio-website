@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useState, useCallback } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import {
   ArrowRight,
   MapPin,
@@ -18,45 +18,51 @@ const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
 
 function ScrambleText({ text }: { text: string }) {
   const [displayText, setDisplayText] = useState(text);
-  const [isScrambling, setIsScrambling] = useState(true);
+  const prefersReducedMotion = useReducedMotion();
 
-  const scramble = useCallback(() => {
-    let iteration = 0;
-    const interval = setInterval(() => {
-      setDisplayText(
-        text
-          .split("")
-          .map((char, index) => {
-            if (index < iteration) return text[index];
-            return chars[Math.floor(Math.random() * chars.length)];
-          })
-          .join("")
-      );
-      iteration += 1 / 3;
-      if (iteration >= text.length) {
-        clearInterval(interval);
-        setDisplayText(text);
-        setIsScrambling(false);
-      }
-    }, 40);
-    return () => clearInterval(interval);
-  }, [text]);
-
-  useEffect(() => {
-    const timeout = setTimeout(scramble, 500);
-    return () => clearTimeout(timeout);
-  }, [scramble]);
+  const scramble = useCallback(
+    (registerInterval: (id: ReturnType<typeof setInterval>) => void) => {
+      let iteration = 0;
+      const interval = setInterval(() => {
+        setDisplayText(
+          text
+            .split("")
+            .map((char, index) => {
+              if (index < iteration) return text[index];
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join("")
+        );
+        iteration += 1 / 3;
+        if (iteration >= text.length) {
+          clearInterval(interval);
+          setDisplayText(text);
+        }
+      }, 40);
+      registerInterval(interval);
+    },
+    [text]
+  );
 
   useEffect(() => {
-    if (isScrambling) return;
-    const interval = setInterval(() => {
-      setIsScrambling(true);
-      scramble();
-    }, 8000);
-    return () => clearInterval(interval);
-  }, [isScrambling, scramble]);
+    if (prefersReducedMotion) return;
+    let interval: ReturnType<typeof setInterval> | undefined;
+    const timeout = setTimeout(() => {
+      scramble((id) => {
+        interval = id;
+      });
+    }, 500);
+    return () => {
+      clearTimeout(timeout);
+      if (interval) clearInterval(interval);
+    };
+  }, [scramble, prefersReducedMotion]);
 
-  return <span className="inline-block">{displayText}</span>;
+  return (
+    <span className="inline-block">
+      {prefersReducedMotion ? text : displayText}
+    </span>
+  );
 }
 
 function FloatingBlob({
@@ -73,10 +79,10 @@ function FloatingBlob({
       aria-hidden
       initial={{ opacity: 0 }}
       animate={{
-        opacity: 0.85,
-        x: [0, 24, -16, 0],
-        y: [0, -28, 14, 0],
-        rotate: [0, 8, -6, 0],
+        opacity: 0.7,
+        x: [0, 18, -12, 0],
+        y: [0, -20, 10, 0],
+        rotate: [0, 6, -4, 0],
       }}
       transition={{
         opacity: { duration: 1.2, delay },
@@ -92,18 +98,18 @@ function FloatingBlob({
 
 export default function Hero() {
   const { t } = useLanguage();
+  const prefersReducedMotion = useReducedMotion();
   const [currentRole, setCurrentRole] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const roles = [
-    t("hero.role1"),
-    t("hero.role2"),
-    t("hero.role3"),
-    t("hero.role4"),
-  ];
+  const roles = useMemo(
+    () => [t("hero.role1"), t("hero.role2"), t("hero.role3"), t("hero.role4")],
+    [t]
+  );
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
     const role = roles[currentRole];
     const timeout = setTimeout(
       () => {
@@ -126,14 +132,14 @@ export default function Hero() {
     );
 
     return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, currentRole, roles]);
+  }, [displayText, isDeleting, currentRole, roles, prefersReducedMotion]);
 
   return (
     <section
       id="home"
       className="relative min-h-screen flex items-center neo-grid-bg pt-28 pb-16 overflow-hidden"
     >
-      {/* Floating background shapes */}
+      {/* Floating background shapes — three accents, kept sparse */}
       <FloatingBlob
         color="var(--primary)"
         className="w-40 h-40 sm:w-56 sm:h-56 top-20 -left-10 sm:left-10 rotate-12"
@@ -145,18 +151,8 @@ export default function Hero() {
       />
       <FloatingBlob
         color="var(--accent-red)"
-        className="w-20 h-20 sm:w-32 sm:h-32 bottom-32 left-1/4 -rotate-12"
+        className="hidden sm:block w-20 h-20 sm:w-32 sm:h-32 bottom-32 left-1/4 -rotate-12"
         delay={2}
-      />
-      <FloatingBlob
-        color="var(--accent-purple)"
-        className="hidden sm:block w-24 h-24 bottom-40 right-1/3 rounded-full"
-        delay={1.5}
-      />
-      <FloatingBlob
-        color="var(--accent-lime)"
-        className="hidden md:block w-16 h-16 top-1/2 left-1/2 rotate-45"
-        delay={2.5}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
@@ -200,7 +196,9 @@ export default function Hero() {
               transition={{ delay: 0.45 }}
               className="text-lg sm:text-2xl md:text-3xl font-bold mb-3 h-9 sm:h-10"
             >
-              <span className="text-gray-700">{displayText}</span>
+              <span className="text-gray-700">
+                {prefersReducedMotion ? roles[currentRole] : displayText}
+              </span>
               <span className="cursor-blink text-[var(--accent-red)] ml-0.5">|</span>
             </motion.div>
 
@@ -212,7 +210,7 @@ export default function Hero() {
               className="text-gray-700 text-base sm:text-lg max-w-xl mb-8 leading-relaxed"
             >
               Building enterprise <span className="font-bold bg-[var(--accent-cyan)] px-1">AI chatbots</span>,{" "}
-              <span className="font-bold bg-[var(--accent-purple)] text-white px-1">RAG systems</span>, and full-stack apps that ship.
+              <span className="font-bold bg-[var(--accent-red)] px-1">RAG systems</span>, and full-stack apps that ship.
             </motion.p>
 
             {/* CTAs */}
@@ -261,7 +259,7 @@ export default function Hero() {
                 <Github size={18} />
               </a>
               <a
-                href="https://www.linkedin.com/in/harshal-vankudre"
+                href="https://www.linkedin.com/in/harshal-vankudre/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 border-3 border-black bg-white hover:bg-[var(--accent-cyan)] hover:-translate-y-0.5 transition-all neo-shadow"
@@ -291,7 +289,7 @@ export default function Hero() {
               initial={{ opacity: 0, scale: 0, rotate: 0 }}
               animate={{ opacity: 1, scale: 1, rotate: -12 }}
               transition={{ delay: 1, type: "spring" }}
-              className="absolute -top-4 -left-4 sm:-top-6 sm:-left-6 z-20 px-3 py-1.5 bg-[var(--accent-purple)] text-white border-3 border-black neo-shadow font-black uppercase text-xs sm:text-sm"
+              className="absolute -top-4 -left-4 sm:-top-6 sm:-left-6 z-20 px-3 py-1.5 bg-[var(--accent-cyan)] border-3 border-black neo-shadow font-black uppercase text-xs sm:text-sm font-display"
             >
               <Sparkles size={14} className="inline -mt-0.5 mr-1" />
               AI Developer
@@ -300,7 +298,7 @@ export default function Hero() {
               initial={{ opacity: 0, scale: 0, rotate: 0 }}
               animate={{ opacity: 1, scale: 1, rotate: 8 }}
               transition={{ delay: 1.15, type: "spring" }}
-              className="absolute -top-3 right-4 sm:-top-5 sm:right-6 z-20 px-3 py-1.5 bg-[var(--accent-red)] border-3 border-black neo-shadow font-black uppercase text-xs sm:text-sm"
+              className="absolute -top-3 right-4 sm:-top-5 sm:right-6 z-20 px-3 py-1.5 bg-[var(--accent-red)] border-3 border-black neo-shadow font-black uppercase text-xs sm:text-sm font-display"
             >
               EN · DE
             </motion.div>
@@ -308,7 +306,7 @@ export default function Hero() {
               initial={{ opacity: 0, scale: 0, rotate: 0 }}
               animate={{ opacity: 1, scale: 1, rotate: -6 }}
               transition={{ delay: 1.3, type: "spring" }}
-              className="absolute -bottom-3 -right-3 sm:-bottom-5 sm:-right-5 z-20 px-3 py-1.5 bg-[var(--accent-lime)] border-3 border-black neo-shadow font-black uppercase text-xs sm:text-sm"
+              className="absolute -bottom-3 -right-3 sm:-bottom-5 sm:-right-5 z-20 px-3 py-1.5 bg-[var(--primary)] border-3 border-black neo-shadow font-black uppercase text-xs sm:text-sm font-display"
             >
               @ RÜKO GmbH
             </motion.div>
@@ -333,7 +331,7 @@ export default function Hero() {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                  className="font-black text-[8rem] sm:text-[10rem] lg:text-[12rem] leading-none bg-[var(--primary)] text-black px-4 sm:px-6 border-4 border-black"
+                  className="font-display font-black text-[8rem] sm:text-[10rem] lg:text-[12rem] leading-none bg-[var(--primary)] text-black px-4 sm:px-6 border-4 border-black"
                   style={{ boxShadow: "8px 8px 0 var(--shadow)" }}
                 >
                   HV
@@ -343,19 +341,19 @@ export default function Hero() {
               {/* Stats grid */}
               <div className="grid grid-cols-3 border-t-4 border-black">
                 <div className="p-3 sm:p-4 text-center border-r-4 border-black">
-                  <div className="text-xl sm:text-3xl font-black">2+</div>
+                  <div className="font-display text-xl sm:text-3xl font-black">2+</div>
                   <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-600 mt-0.5">
                     Years
                   </div>
                 </div>
                 <div className="p-3 sm:p-4 text-center border-r-4 border-black bg-[var(--accent-cyan)]/20">
-                  <div className="text-xl sm:text-3xl font-black">10+</div>
+                  <div className="font-display text-xl sm:text-3xl font-black">10+</div>
                   <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-700 mt-0.5">
                     Projects
                   </div>
                 </div>
                 <div className="p-3 sm:p-4 text-center bg-[var(--primary)]/30">
-                  <div className="text-xl sm:text-3xl font-black">15+</div>
+                  <div className="font-display text-xl sm:text-3xl font-black">15+</div>
                   <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-700 mt-0.5">
                     Tech
                   </div>

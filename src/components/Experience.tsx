@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useSpring, useInView, useMotionValueEvent, AnimatePresence, type MotionValue } from "framer-motion";
+import { useRef, useState } from "react";
 import { MapPin, Calendar, Briefcase, CheckCircle, Sparkles, Trophy, Rocket, Star, Zap, TrendingUp, Users, Bot } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -13,7 +13,7 @@ const storyChapters = [
     year: "2021",
     narrative: "Every expert was once a beginner. Teaching to learn.",
     icon: Users,
-    color: "var(--accent-lime)",
+    color: "var(--accent-red)",
   },
   {
     chapter: "Chapter 2",
@@ -37,7 +37,7 @@ const storyChapters = [
     year: "2025",
     narrative: "Building the future of enterprise AI, one chatbot at a time.",
     icon: Bot,
-    color: "var(--accent-purple)",
+    color: "var(--accent-cyan)",
   },
 ];
 
@@ -96,11 +96,11 @@ function ChapterHeader({
       </div>
       <motion.p
         initial={{ opacity: 0 }}
-        animate={isVisible ? { opacity: 0.7 } : {}}
+        animate={isVisible ? { opacity: 1 } : {}}
         transition={{ delay: 0.5 }}
         className="text-gray-600 italic pl-16 text-sm sm:text-base"
       >
-        "{chapter.narrative}"
+        &ldquo;{chapter.narrative}&rdquo;
       </motion.p>
     </motion.div>
   );
@@ -133,12 +133,37 @@ function ImpactBadge({
   );
 }
 
-function ScrollProgress({ progress, isInSection }: { progress: number; isInSection: boolean }) {
-  // Find current chapter based on progress
-  const currentChapterIndex = Math.min(
-    Math.floor(progress * storyChapters.length),
-    storyChapters.length - 1
+function ScrollProgress({
+  progress,
+  isInSection,
+}: {
+  progress: MotionValue<number>;
+  isInSection: boolean;
+}) {
+  // Find current chapter based on progress. This is genuinely discrete React
+  // state (the active chapter icon/title/dots change), so update it only when
+  // the index actually changes rather than on every scroll frame.
+  const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
+
+  useMotionValueEvent(progress, "change", (v) => {
+    const clamped = Math.max(0, Math.min(1, v));
+    const index = Math.min(
+      Math.floor(clamped * storyChapters.length),
+      storyChapters.length - 1
+    );
+    setCurrentChapterIndex((prev) => (prev === index ? prev : index));
+  });
+
+  // Drive the SVG ring and percentage label directly from the MotionValue.
+  const strokeDasharray = useTransform(
+    progress,
+    (v) => `${Math.max(0, Math.min(1, v)) * 176} 176`
   );
+  const percentText = useTransform(
+    progress,
+    (v) => `${Math.round(Math.max(0, Math.min(1, v)) * 100)}%`
+  );
+
   const currentChapter = storyChapters[currentChapterIndex];
   const Icon = currentChapter?.icon || Rocket;
 
@@ -172,15 +197,13 @@ function ScrollProgress({ progress, isInSection }: { progress: number; isInSecti
                   strokeWidth="6"
                   fill="none"
                   strokeLinecap="square"
-                  initial={{ strokeDasharray: "0 176" }}
-                  animate={{ strokeDasharray: `${progress * 176} 176` }}
-                  transition={{ duration: 0.3 }}
+                  style={{ strokeDasharray }}
                 />
                 <defs>
                   <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="var(--accent-lime)" />
+                    <stop offset="0%" stopColor="var(--accent-red)" />
                     <stop offset="50%" stopColor="var(--primary)" />
-                    <stop offset="100%" stopColor="var(--accent-purple)" />
+                    <stop offset="100%" stopColor="var(--accent-cyan)" />
                   </linearGradient>
                 </defs>
               </svg>
@@ -205,8 +228,7 @@ function ScrollProgress({ progress, isInSection }: { progress: number; isInSecti
             {/* Chapter Dots */}
             <div className="flex justify-center gap-1.5">
               {storyChapters.map((chapter, index) => {
-                const chapterProgress = index / (storyChapters.length - 1);
-                const isReached = progress >= chapterProgress;
+                const isReached = index <= currentChapterIndex;
                 return (
                   <motion.div
                     key={chapter.year}
@@ -223,7 +245,7 @@ function ScrollProgress({ progress, isInSection }: { progress: number; isInSecti
 
             {/* Percentage */}
             <div className="text-center">
-              <span className="text-lg font-black">{Math.round(progress * 100)}%</span>
+              <motion.span className="text-lg font-black">{percentText}</motion.span>
             </div>
           </div>
         </motion.div>
@@ -232,16 +254,22 @@ function ScrollProgress({ progress, isInSection }: { progress: number; isInSecti
   );
 }
 
-function TimelineConnector({ progress }: { progress: number }) {
+function TimelineConnector({ progress }: { progress: MotionValue<number> }) {
+  // Map the timeline MotionValue straight to a CSS height string so the line
+  // animates without copying the value into React state every scroll frame.
+  const height = useTransform(
+    progress,
+    (v) => `${Math.max(0, Math.min(1, v)) * 100}%`
+  );
+
   return (
     <div className="absolute left-6 sm:left-8 top-0 h-full w-1 hidden md:block">
       {/* Background line */}
       <div className="absolute inset-0 bg-gray-200" />
-      {/* Animated gradient line - lime (2021) to purple (2025) */}
+      {/* Animated gradient line - red (2021) to cyan (2025) */}
       <motion.div
-        className="absolute top-0 left-0 right-0 bg-gradient-to-b from-accent-lime via-accent-cyan via-primary to-accent-purple"
-        style={{ height: `${progress * 100}%` }}
-        transition={{ duration: 0.1 }}
+        className="absolute top-0 left-0 right-0 bg-gradient-to-b from-red via-primary to-cyan"
+        style={{ height }}
       />
     </div>
   );
@@ -250,7 +278,6 @@ function TimelineConnector({ progress }: { progress: number }) {
 function ExperienceCard({
   exp,
   chapter,
-  index,
   impactMetric,
 }: {
   exp: {
@@ -264,7 +291,6 @@ function ExperienceCard({
     technologies: string[];
   };
   chapter: typeof storyChapters[0];
-  index: number;
   impactMetric: typeof impactMetrics[0];
 }) {
   const cardRef = useRef(null);
@@ -336,7 +362,7 @@ function ExperienceCard({
                   <motion.span
                     animate={{ scale: [1, 1.05, 1] }}
                     transition={{ repeat: Infinity, duration: 2 }}
-                    className="neo-tag neo-tag-lime text-xs"
+                    className="neo-tag neo-tag-primary text-xs"
                   >
                     NOW
                   </motion.span>
@@ -450,14 +476,16 @@ export default function Experience() {
   });
 
   const timelineProgress = useTransform(smoothProgress, [0.15, 0.85], [0, 1]);
-  const [progress, setProgress] = useState(0);
 
-  useEffect(() => {
-    const unsubscribe = timelineProgress.on("change", (v) => {
-      setProgress(Math.max(0, Math.min(1, v)));
-    });
-    return () => unsubscribe();
-  }, [timelineProgress]);
+  // The "Story Complete" badge toggles on a discrete threshold, so derive a
+  // boolean from the MotionValue instead of mirroring the whole value into
+  // state on every scroll frame.
+  const [isComplete, setIsComplete] = useState(false);
+
+  useMotionValueEvent(timelineProgress, "change", (v) => {
+    const complete = v > 0.85;
+    setIsComplete((prev) => (prev === complete ? prev : complete));
+  });
 
   // Experiences in chronological order - earliest first for storytelling
   const experiences = [
@@ -467,7 +495,7 @@ export default function Experience() {
       location: "India",
       period: "Jun 2021 - Sep 2021",
       current: false,
-      color: "var(--accent-lime)",
+      color: "var(--accent-red)",
       highlights: [
         t("exp.bhumi.h1"),
         t("exp.bhumi.h2"),
@@ -513,7 +541,7 @@ export default function Experience() {
       location: t("hero.location"),
       period: "Oct 2025 - Present",
       current: true,
-      color: "var(--accent-purple)",
+      color: "var(--accent-cyan)",
       highlights: [
         t("exp.ruko.h1"),
         t("exp.ruko.h2"),
@@ -553,11 +581,11 @@ export default function Experience() {
         </motion.div>
 
         {/* Floating Scroll Progress - Shows when in section */}
-        <ScrollProgress progress={progress} isInSection={isSectionInView} />
+        <ScrollProgress progress={timelineProgress} isInSection={isSectionInView} />
 
         {/* Timeline */}
         <div className="relative">
-          <TimelineConnector progress={progress} />
+          <TimelineConnector progress={timelineProgress} />
 
           {/* Experience Cards */}
           {experiences.map((exp, index) => (
@@ -565,7 +593,6 @@ export default function Experience() {
               key={exp.company}
               exp={exp}
               chapter={storyChapters[index]}
-              index={index}
               impactMetric={impactMetrics[index]}
             />
           ))}
@@ -573,12 +600,12 @@ export default function Experience() {
           {/* Story Complete */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={progress > 0.85 ? { opacity: 1, scale: 1 } : {}}
+            animate={isComplete ? { opacity: 1, scale: 1 } : {}}
             transition={{ type: "spring", damping: 15 }}
             className="text-center py-8"
           >
             <motion.div
-              animate={progress > 0.85 ? { rotate: [0, 10, -10, 0] } : {}}
+              animate={isComplete ? { rotate: [0, 10, -10, 0] } : {}}
               transition={{ repeat: Infinity, duration: 2, repeatDelay: 1 }}
               className="inline-flex items-center gap-3 px-6 py-4 bg-primary border-4 border-black neo-shadow-lg"
             >

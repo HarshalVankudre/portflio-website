@@ -92,9 +92,10 @@ cp .env.example .env.local
 
 Add your API keys to `.env.local`:
 ```env
+GROQ_API_KEY=your_groq_key
 RESEND_API_KEY=your_resend_key
-OPENAI_API_KEY=your_openai_key
-GITHUB_TOKEN=your_github_token (optional)
+GITHUB_TOKEN=your_github_token (optional — without it the GitHub section hides contribution stats)
+NEXT_PUBLIC_SITE_URL=https://vankudre.com
 ```
 
 ```bash
@@ -135,8 +136,7 @@ src/
 ├── hooks/
 │   └── useKonamiCode.tsx # Terminal activation hook
 ├── lib/
-│   ├── portfolioData.ts  # Portfolio content
-│   └── resumeContext.ts  # AI chatbot context
+│   └── portfolioData.ts  # Portfolio content + single source for AI chatbot context
 ├── context/
 │   └── LanguageContext.tsx # i18n
 └── public/
@@ -161,7 +161,7 @@ src/
 
 - 🌐 [vankudre.com](https://vankudre.com)
 - 📧 harshalvankudre@gmail.com
-- 💼 [LinkedIn](https://linkedin.com/in/harshal-vankudre)
+- 💼 [LinkedIn](https://www.linkedin.com/in/harshal-vankudre/)
 - 🐙 [GitHub](https://github.com/HarshalVankudre)
 
 ---
