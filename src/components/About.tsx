@@ -40,44 +40,39 @@ export default function About() {
         </motion.div>
 
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-start">
-          {/* Left — Photo */}
+          {/* Left - profile mark */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-5 relative"
           >
-            <div className="relative mx-auto lg:mx-0 w-fit rotate-[-3deg]">
-              {/* tape */}
-              <span
-                aria-hidden
-                className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 rotate-2 bg-[var(--surface-3)]/70 border border-[var(--border)]"
-              />
-              <div className="bg-[var(--surface)] border border-[var(--border-strong)] p-3 shadow-[var(--shadow-lg)]">
-                <div className="relative w-60 sm:w-72 aspect-[4/5] overflow-hidden bg-[var(--surface-2)]">
+            <div className="relative mx-auto lg:mx-0 w-fit">
+              <div className="system-panel p-3">
+                <div className="relative w-60 sm:w-72 aspect-square overflow-hidden rounded-lg bg-[var(--surface-2)] border border-[var(--border)]">
                   {hasPhoto ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src="/profile.jpg"
-                      alt="Harshal Vankudre"
+                      alt="Harshal Vankudre GitHub avatar"
                       onError={() => setHasPhoto(false)}
                       className="w-full h-full object-cover"
                     />
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center gap-2 px-4 text-center">
                       <span className="font-serif text-7xl text-[var(--muted-2)]">HV</span>
-                      <span className="font-mono text-[10px] uppercase tracking-widest text-muted-2">
-                        drop a photo at /public/profile.jpg
+                      <span className="font-mono text-[10px] uppercase text-muted-2">
+                        AI developer
                       </span>
                     </div>
                   )}
                 </div>
-                <p className="font-hand text-xl text-center mt-2.5 text-[var(--foreground)]">
-                  Harshal — probably debugging
+                <p className="font-mono text-xs uppercase text-center mt-3 text-muted">
+                  GitHub profile mark
                 </p>
               </div>
               <span className="hand-note hidden sm:block absolute -right-6 top-8 text-2xl rotate-6 select-none">
-                that&rsquo;s me →
+                builder energy
               </span>
             </div>
 
@@ -122,7 +117,7 @@ export default function About() {
               ))}
             </ul>
 
-            <p className="text-gray-700 font-medium">{t("about.looking")}</p>
+            <p className="text-[var(--foreground)]/80 font-medium">{t("about.looking")}</p>
           </motion.div>
         </div>
       </div>

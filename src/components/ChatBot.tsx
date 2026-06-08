@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Minus, User, Bot, Sparkles } from "lucide-react";
+import { X, Send, Minus, User, Bot, MessageSquareText } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -30,7 +30,7 @@ function ChatIcon() {
         ease: "easeInOut",
       }}
     >
-      <Sparkles
+      <MessageSquareText
         size={26}
         className="text-[var(--background)]"
         strokeWidth={2.2}
@@ -314,7 +314,7 @@ export default function ChatBot() {
             }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed right-2 left-2 sm:left-auto sm:right-6 z-50 sm:w-96 bg-[var(--background)] border-4 border-[var(--border)] neo-shadow-lg overflow-hidden flex flex-col"
+            className="fixed right-2 left-2 sm:left-auto sm:right-6 z-50 sm:w-96 bg-[var(--surface)] border border-[var(--border)] rounded-lg shadow-[var(--shadow-lg)] overflow-hidden flex flex-col"
             style={{ maxHeight: isMinimized ? "auto" : "85vh", bottom: Math.max(buttonBottom, 16) }}
           >
             {/* Screen-reader live region: mirrors the latest assistant message
@@ -338,7 +338,7 @@ export default function ChatBot() {
                     ease: "easeInOut",
                   }}
                 >
-                  <Sparkles size={18} className="text-white sm:w-5 sm:h-5" strokeWidth={2.2} />
+                  <MessageSquareText size={18} className="text-white sm:w-5 sm:h-5" strokeWidth={2.2} />
                 </motion.div>
                 <div>
                   <h3 className="font-mono font-semibold text-xs uppercase tracking-wide">
@@ -382,12 +382,12 @@ export default function ChatBot() {
                     >
                       <div className="flex items-start gap-3">
                         <div 
-                          className="w-8 h-8 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0"
+                          className="w-8 h-8 rounded-lg border border-[var(--border)] flex items-center justify-center flex-shrink-0"
                           style={{ backgroundColor: "var(--accent-cyan)" }}
                         >
                           <Bot size={16} />
                         </div>
-                        <div className="bg-[var(--surface)] border-2 border-[var(--border)] p-3 neo-shadow max-w-[85%]">
+                        <div className="bg-[var(--surface)] border border-[var(--border)] rounded-lg p-3 neo-shadow max-w-[85%]">
                           <p className="text-sm">
                             Hi! I&apos;m Harshal&apos;s AI assistant. Ask me
                             anything about his skills, projects, experience, or
@@ -398,7 +398,7 @@ export default function ChatBot() {
 
                       {/* Quick Questions */}
                       <div className="pl-11">
-                        <p className="text-xs font-bold text-gray-500 mb-2 uppercase">
+                        <p className="text-xs font-bold text-muted-2 mb-2 uppercase">
                           Quick questions:
                         </p>
                         <div className="flex flex-wrap gap-2">
@@ -406,7 +406,7 @@ export default function ChatBot() {
                             <button
                               key={q}
                               onClick={() => handleQuickQuestion(q)}
-                              className="text-xs px-3 py-1.5 bg-[var(--surface)] border-2 border-[var(--border)] hover:bg-primary transition-colors font-bold"
+                              className="text-xs px-3 py-1.5 bg-[var(--surface)] border border-[var(--border)] rounded-full hover:bg-primary hover:text-white transition-colors font-bold"
                             >
                               {q}
                             </button>
@@ -427,7 +427,7 @@ export default function ChatBot() {
                       }`}
                     >
                       <div
-                        className="w-8 h-8 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0"
+                        className="w-8 h-8 rounded-lg border border-[var(--border)] flex items-center justify-center flex-shrink-0"
                         style={{
                           backgroundColor: msg.role === "user" ? "var(--accent-red)" : "var(--accent-cyan)",
                           color: "white"
@@ -436,7 +436,7 @@ export default function ChatBot() {
                         {msg.role === "user" ? <User size={16} /> : <Bot size={16} />}
                       </div>
                       <div
-                        className={`p-3 border-2 border-[var(--border)] max-w-[85%] ${
+                        className={`p-3 border border-[var(--border)] rounded-lg max-w-[85%] ${
                           msg.role === "user" ? "" : "neo-shadow"
                         }`}
                         style={{
@@ -457,14 +457,14 @@ export default function ChatBot() {
                       className="flex items-start gap-3"
                     >
                       <div 
-                        className="w-8 h-8 border-2 border-[var(--border)] flex items-center justify-center"
+                        className="w-8 h-8 rounded-lg border border-[var(--border)] flex items-center justify-center"
                         style={{ backgroundColor: "var(--accent-cyan)" }}
                       >
                         <Bot size={16} />
                       </div>
-                      <div className="bg-[var(--surface)] border-2 border-[var(--border)] p-3 neo-shadow">
+                      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-lg p-3 neo-shadow">
                         <div className="flex items-center gap-2" role="status">
-                          <Sparkles size={16} className="animate-spin" />
+                          <Bot size={16} className="animate-pulse" />
                           <span className="text-sm font-medium">Thinking...</span>
                         </div>
                       </div>
@@ -477,7 +477,7 @@ export default function ChatBot() {
                 {/* Input Area */}
                 <form
                   onSubmit={handleSubmit}
-                  className="p-3 border-t-4 border-[var(--border)] bg-[var(--surface)]"
+                  className="p-3 border-t border-[var(--border)] bg-[var(--surface)]"
                 >
                   <div className="flex items-center gap-2">
                     <input
@@ -487,7 +487,7 @@ export default function ChatBot() {
                       onChange={(e) => setInput(e.target.value)}
                       placeholder="Ask me anything..."
                       disabled={isLoading}
-                      className="flex-1 px-3 py-2 border-2 border-[var(--border)] bg-[var(--background)] font-medium text-sm focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
+                      className="flex-1 px-3 py-2 border border-[var(--border)] rounded-lg bg-[var(--background)] font-medium text-sm focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
                     />
                     <button
                       type="submit"

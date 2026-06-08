@@ -68,7 +68,7 @@ export default function Skills() {
           <h2 className="neo-title mt-4">
             {t("skills.title")} <span className="neo-highlight">{t("skills.titleHighlight")}</span>
           </h2>
-          <p className="text-gray-600 mt-4 text-lg">
+          <p className="text-muted mt-4 text-lg">
             {t("skills.subtitle")}
           </p>
         </motion.div>
@@ -87,7 +87,7 @@ export default function Skills() {
               <div className="relative p-4 border-b border-[var(--border)] flex items-center gap-3 overflow-hidden">
                 <div
                   className="absolute inset-0 opacity-[0.1]"
-                  style={{ background: `radial-gradient(120% 140% at 0% 0%, ${category.color}, transparent 60%)` }}
+                  style={{ backgroundColor: category.color }}
                 />
                 <span
                   className="relative grid place-items-center w-9 h-9 rounded flex-shrink-0"

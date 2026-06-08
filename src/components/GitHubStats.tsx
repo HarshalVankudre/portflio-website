@@ -73,7 +73,7 @@ function ContributionGraph({
   totalContributions: number;
 }) {
   const getColor = (count: number) => {
-    if (count === 0) return "bg-gray-100";
+    if (count === 0) return "bg-[var(--surface-2)]";
     if (count <= 2) return "bg-green-300";
     if (count <= 5) return "bg-green-400";
     if (count <= 8) return "bg-green-500";
@@ -98,7 +98,7 @@ function ContributionGraph({
             {week.days.map((day, dayIndex) => (
               <div
                 key={`${weekIndex}-${dayIndex}`}
-                className={`w-3 h-3 sm:w-[14px] sm:h-[14px] rounded-sm border-2 border-[var(--border)] ${getColor(
+                className={`w-3 h-3 sm:w-[14px] sm:h-[14px] rounded-sm border border-[var(--border)] ${getColor(
                   day.contributionCount
                 )}`}
                 title={`${day.date}: ${day.contributionCount} contributions`}
@@ -130,14 +130,14 @@ function LanguageBar({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div
-                className="w-3 h-3 rounded-full border-2 border-[var(--border)]"
+                className="w-3 h-3 rounded-full border border-[var(--border)]"
                 style={{ backgroundColor: lang.color }}
               />
               <span className="font-bold text-sm">{lang.name}</span>
             </div>
             <span className="font-black text-sm">{lang.percentage}%</span>
           </div>
-          <div className="h-3 bg-gray-200 border-2 border-[var(--border)] overflow-hidden">
+          <div className="h-3 bg-[var(--surface-3)] border border-[var(--border)] overflow-hidden rounded-sm">
             <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: `${lang.percentage}%` }}
@@ -184,7 +184,7 @@ function ActivityFeed({
 
   if (activities.length === 0) {
     return (
-      <div className="text-center py-4 text-gray-500 font-medium">
+      <div className="text-center py-4 text-muted-2 font-medium">
         Building something new...
       </div>
     );
@@ -199,16 +199,16 @@ function ActivityFeed({
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ delay: index * 0.1 }}
           viewport={{ once: true }}
-          className="flex items-start gap-3 p-3 bg-[var(--surface)] border-2 border-[var(--border)] hover:bg-gray-50 transition-colors"
+          className="flex items-start gap-3 p-3 bg-[var(--surface)] border border-[var(--border)] hover:bg-[var(--surface-2)] transition-colors rounded-lg"
         >
           <div className="p-1.5 rounded bg-primary text-white">
             {getEventIcon(activity.type)}
           </div>
           <div className="flex-1 min-w-0">
             <p className="font-bold text-sm truncate">{activity.repo.split("/")[1]}</p>
-            <p className="text-sm text-gray-600 truncate">{activity.message}</p>
+            <p className="text-sm text-muted truncate">{activity.message}</p>
           </div>
-          <span className="text-xs font-bold text-gray-600 whitespace-nowrap">
+          <span className="text-xs font-bold text-muted whitespace-nowrap">
             {getTimeAgo(activity.date)}
           </span>
         </motion.div>
@@ -351,7 +351,7 @@ export default function GitHubStats() {
 
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="w-12 h-12 border-4 border-[var(--border)] border-t-primary animate-spin" />
+            <div className="w-12 h-12 border border-[var(--border)] border-t-primary animate-spin rounded-full" />
           </div>
         ) : error ? (
           <div className="text-center py-10 neo-card p-6">
@@ -377,7 +377,7 @@ export default function GitHubStats() {
                   <div className="font-display text-2xl sm:text-4xl font-black">
                     <CountUpNumber end={stat.value} suffix={stat.suffix} />
                   </div>
-                  <div className="text-sm font-bold text-gray-600 uppercase tracking-wide mt-1">
+                  <div className="text-sm font-bold text-muted uppercase mt-1">
                     {stat.label}
                   </div>
                 </motion.div>
@@ -404,13 +404,13 @@ export default function GitHubStats() {
                   />
                   <div className="flex items-center justify-between mt-4">
                     <div className="flex items-center gap-1 text-xs font-bold">
-                      <span className="text-gray-500">Less</span>
-                      <div className="w-3 h-3 bg-gray-100 border border-[var(--border)]" />
+                      <span className="text-muted-2">Less</span>
+                      <div className="w-3 h-3 bg-[var(--surface-2)] border border-[var(--border)]" />
                       <div className="w-3 h-3 bg-green-300 border border-[var(--border)]" />
                       <div className="w-3 h-3 bg-green-400 border border-[var(--border)]" />
                       <div className="w-3 h-3 bg-green-500 border border-[var(--border)]" />
                       <div className="w-3 h-3 bg-green-600 border border-[var(--border)]" />
-                      <span className="text-gray-500">More</span>
+                      <span className="text-muted-2">More</span>
                     </div>
                     {derivedStats && derivedStats.currentStreak > 0 && (
                       <div className="flex items-center gap-2 px-3 py-1 rounded bg-primary text-white">

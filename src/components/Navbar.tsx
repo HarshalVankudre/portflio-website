@@ -55,7 +55,7 @@ export default function Navbar() {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "glass border-b border-[var(--border)]"
+          ? "glass border-b border-[var(--border-strong)] shadow-[var(--shadow-md)]"
           : "bg-transparent border-b border-transparent"
       }`}
     >
@@ -64,23 +64,26 @@ export default function Navbar() {
           {/* Logo */}
           <motion.a
             href="#home"
-            className="relative group flex items-center"
+            className="relative group flex items-center gap-2"
             whileTap={{ scale: 0.98 }}
           >
-            <span className="font-serif text-xl sm:text-2xl tracking-tight text-[var(--foreground)]">
+            <span className="grid h-8 w-8 place-items-center border border-[var(--foreground)] bg-[var(--foreground)] font-mono text-xs text-[var(--background)]">
+              HV
+            </span>
+            <span className="font-serif text-xl sm:text-2xl leading-none text-[var(--foreground)]">
               Harshal Vankudre<span className="text-[var(--primary)]">.</span>
             </span>
           </motion.a>
 
           {/* Desktop Navigation */}
-          <ul className="hidden lg:flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface)]/60 px-1.5 py-1 backdrop-blur">
+          <ul className="hidden lg:flex items-center border border-[var(--border-strong)] bg-[var(--surface)]/88 backdrop-blur">
             {navItems.map((item) => {
               const active = activeSection === item.href.slice(1);
               return (
-                <li key={item.href}>
+                <li key={item.href} className="border-r border-[var(--border)] last:border-r-0">
                   <a
                     href={item.href}
-                    className={`relative px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] rounded-full transition-colors ${
+                    className={`relative block px-3.5 py-2 font-mono text-[11px] uppercase transition-colors ${
                       active
                         ? "text-[var(--foreground)]"
                         : "text-muted hover:text-[var(--foreground)]"
@@ -89,7 +92,7 @@ export default function Navbar() {
                     {active && (
                       <motion.span
                         layoutId="nav-pill"
-                        className="absolute inset-0 rounded-full bg-[var(--surface-3)] border border-[var(--border)]"
+                        className="absolute inset-x-0 bottom-0 h-[3px] bg-[var(--primary)]"
                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                       />
                     )}
@@ -105,7 +108,7 @@ export default function Navbar() {
             {/* Language Toggle */}
             <motion.button
               onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] text-muted hover:text-[var(--foreground)] hover:border-[var(--border-strong)] transition-all font-mono text-xs"
+              className="flex items-center gap-1.5 border border-[var(--border-strong)] bg-[var(--surface)] px-3 py-2 font-mono text-xs text-muted transition-all hover:border-[var(--foreground)] hover:text-[var(--foreground)]"
               whileTap={{ scale: 0.95 }}
               aria-label="Toggle language"
             >
@@ -128,7 +131,7 @@ export default function Navbar() {
           <div className="flex md:hidden items-center gap-2">
             <motion.button
               onClick={toggleLanguage}
-              className="p-2 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] text-muted font-mono text-xs"
+              className="border border-[var(--border-strong)] bg-[var(--surface)] p-2 font-mono text-xs text-muted"
               whileTap={{ scale: 0.95 }}
               aria-label="Toggle language"
             >
@@ -136,7 +139,7 @@ export default function Navbar() {
             </motion.button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] text-[var(--foreground)]"
+              className="border border-[var(--border-strong)] bg-[var(--surface)] p-2 text-[var(--foreground)]"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -165,7 +168,7 @@ export default function Navbar() {
                   <a
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`block px-4 py-3 rounded-xl font-medium transition-all ${
+                    className={`block border border-transparent px-4 py-3 font-medium transition-all ${
                       activeSection === item.href.slice(1)
                         ? "bg-[var(--surface-3)] border border-[var(--border)] text-[var(--foreground)]"
                         : "text-muted hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"

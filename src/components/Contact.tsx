@@ -81,20 +81,20 @@ export default function Contact() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="space-y-6"
           >
-            <h3 className="text-xl font-bold tracking-tight mb-6">{t("contact.quickLinks")}</h3>
-            <p className="text-gray-600 mb-6">{t("contact.respondFastest")}</p>
+            <h3 className="text-xl font-bold mb-6">{t("contact.quickLinks")}</h3>
+            <p className="text-muted mb-6">{t("contact.respondFastest")}</p>
 
             {/* Email */}
             <a
               href="mailto:harshalvankudre@gmail.com"
               className="neo-card p-4 flex items-center gap-3 sm:gap-4 group"
             >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[var(--primary)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-cyan)] transition-colors">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[var(--primary)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-cyan)] transition-colors">
                 <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div className="min-w-0">
                 <div className="font-bold text-sm sm:text-base">{t("contact.email")}</div>
-                <div className="text-gray-600 text-xs sm:text-sm truncate">harshalvankudre@gmail.com</div>
+                <div className="text-muted text-xs sm:text-sm truncate">harshalvankudre@gmail.com</div>
               </div>
             </a>
 
@@ -103,23 +103,23 @@ export default function Contact() {
               href="tel:+4917687451632"
               className="neo-card p-4 flex items-center gap-3 sm:gap-4 group"
             >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[var(--primary)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--primary)] transition-colors">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[var(--primary)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-cyan)] transition-colors">
                 <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
                 <div className="font-bold text-sm sm:text-base">{t("contact.phone")}</div>
-                <div className="text-gray-600 text-xs sm:text-sm">+49 176 87451632</div>
+                <div className="text-muted text-xs sm:text-sm">+49 176 87451632</div>
               </div>
             </a>
 
             {/* Location */}
             <div className="neo-card p-3 sm:p-4 flex items-center gap-3 sm:gap-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[var(--primary)] flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[var(--primary)] flex items-center justify-center flex-shrink-0">
                 <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
                 <div className="font-bold text-sm sm:text-base">{t("contact.location")}</div>
-                <div className="text-gray-600 text-xs sm:text-sm">{t("hero.location")}</div>
+                <div className="text-muted text-xs sm:text-sm">{t("hero.location")}</div>
               </div>
             </div>
 
@@ -159,8 +159,8 @@ export default function Contact() {
             <form onSubmit={handleSubmit} className="neo-card p-0 overflow-hidden">
               {/* Header */}
               <div className="relative p-5 sm:p-6 border-b border-[var(--border)] overflow-hidden">
-                <div className="absolute inset-0 opacity-[0.12] bg-[radial-gradient(120%_140%_at_0%_0%,var(--primary),transparent_55%)]" />
-                <h3 className="relative text-xl sm:text-2xl font-bold tracking-tight text-[var(--foreground)]">{t("contact.sendMessage")}</h3>
+                <div className="absolute inset-0 bg-[var(--surface-2)]" />
+                <h3 className="relative text-xl sm:text-2xl font-bold text-[var(--foreground)]">{t("contact.sendMessage")}</h3>
                 <p className="relative text-muted mt-2 text-sm sm:text-base">
                   {t("contact.formSubtitle")}
                 </p>
@@ -179,7 +179,7 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full neo-border rounded-xl p-3 bg-gray-50 focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    className="w-full neo-border rounded-lg p-3 bg-[var(--surface-2)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                     placeholder={t("contact.namePlaceholder")}
                   />
                 </div>
@@ -195,7 +195,7 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full neo-border rounded-xl p-3 bg-gray-50 focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    className="w-full neo-border rounded-lg p-3 bg-[var(--surface-2)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                     placeholder={t("contact.emailPlaceholder")}
                   />
                 </div>
@@ -210,7 +210,7 @@ export default function Contact() {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full neo-border rounded-xl p-3 bg-gray-50 focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    className="w-full neo-border rounded-lg p-3 bg-[var(--surface-2)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                     placeholder={t("contact.subjectPlaceholder")}
                   />
                 </div>
@@ -226,7 +226,7 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows={4}
-                    className="w-full neo-border rounded-xl p-3 bg-gray-50 focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] resize-none"
+                    className="w-full neo-border rounded-lg p-3 bg-[var(--surface-2)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] resize-none"
                     placeholder={t("contact.messagePlaceholder")}
                   />
                 </div>

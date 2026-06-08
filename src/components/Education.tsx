@@ -43,7 +43,7 @@ export default function Education() {
           <h2 className="neo-title mt-4">
             {t("education.title")} <span className="neo-highlight">{t("education.titleHighlight")}</span>
           </h2>
-          <p className="text-gray-600 mt-4 text-lg">
+          <p className="text-muted mt-4 text-lg">
             {t("education.subtitle")}
           </p>
         </motion.div>
@@ -62,7 +62,7 @@ export default function Education() {
               <div className="relative p-6 border-b border-[var(--border)] overflow-hidden">
                 <div
                   className="absolute inset-0 opacity-[0.12]"
-                  style={{ background: `radial-gradient(120% 140% at 0% 0%, ${edu.color}, transparent 55%)` }}
+                  style={{ backgroundColor: edu.color }}
                 />
                 <div
                   className="absolute left-0 top-0 bottom-0 w-1"
@@ -88,7 +88,7 @@ export default function Education() {
                         </span>
                       )}
                     </div>
-                    <h3 className="text-xl font-bold tracking-tight">{edu.degree}</h3>
+                    <h3 className="text-xl font-bold">{edu.degree}</h3>
                     <p className="font-bold">{edu.institution}</p>
                   </div>
                 </div>
@@ -100,7 +100,7 @@ export default function Education() {
                   {edu.highlights.map((highlight, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700">{highlight}</span>
+                      <span className="text-[var(--foreground)]/78">{highlight}</span>
                     </li>
                   ))}
                 </ul>

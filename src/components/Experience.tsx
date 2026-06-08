@@ -70,7 +70,7 @@ function ChapterHeader({
           initial={{ scale: 0, rotate: -180 }}
           animate={isVisible ? { scale: 1, rotate: 0 } : {}}
           transition={{ type: "spring", damping: 15, delay: 0.2 }}
-          className="grid place-items-center w-12 h-12 rounded-xl border border-[var(--border)]"
+          className="grid place-items-center w-12 h-12 rounded-lg border border-[var(--border)]"
           style={{ backgroundColor: `${chapter.color}1f`, color: chapter.color }}
         >
           <Icon size={22} />
@@ -88,7 +88,7 @@ function ChapterHeader({
             initial={{ opacity: 0, y: 10 }}
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.4 }}
-            className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--foreground)]"
+            className="text-xl sm:text-2xl font-bold text-[var(--foreground)]"
           >
             {chapter.title}
           </motion.h3>
@@ -124,7 +124,7 @@ function ImpactBadge({
       initial={{ opacity: 0, scale: 0.8 }}
       animate={isVisible ? { opacity: 1, scale: 1 } : {}}
       transition={{ delay, type: "spring" }}
-      className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-[var(--border)] bg-[var(--surface-2)]"
+      className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--surface-2)]"
     >
       <Icon size={16} className="text-primary" />
       <span className="font-display font-black text-lg gradient-text">{metric}</span>
@@ -177,7 +177,7 @@ function ScrollProgress({
           transition={{ duration: 0.3 }}
           className="fixed left-4 sm:left-6 top-1/2 -translate-y-1/2 z-40 hidden md:block"
         >
-          <div className="glass rounded-2xl shadow-[var(--shadow-lg)] p-4 space-y-3">
+          <div className="glass rounded-lg shadow-[var(--shadow-lg)] p-4 space-y-3">
             {/* Mini Progress Circle */}
             <div className="relative w-16 h-16 mx-auto">
               <svg className="w-full h-full transform -rotate-90">
@@ -264,9 +264,9 @@ function TimelineConnector({ progress }: { progress: MotionValue<number> }) {
     <div className="absolute left-6 sm:left-8 top-0 h-full w-px hidden md:block">
       {/* Background line */}
       <div className="absolute inset-0 bg-[var(--border)]" />
-      {/* Animated gradient line - red (2021) to cyan (2025) */}
+      {/* Animated timeline line */}
       <motion.div
-        className="absolute top-0 left-0 right-0 bg-gradient-to-b from-red via-primary to-cyan shadow-[0_0_12px_var(--glow)]"
+        className="absolute top-0 left-0 right-0 bg-[var(--foreground)]"
         style={{ height }}
       />
     </div>
@@ -335,7 +335,7 @@ function ExperienceCard({
           {/* Color tint wash */}
           <div
             className="absolute inset-0 opacity-[0.13]"
-            style={{ background: `radial-gradient(120% 140% at 0% 0%, ${exp.color}, transparent 55%)` }}
+            style={{ backgroundColor: exp.color }}
           />
           <div
             className="absolute left-0 top-0 bottom-0 w-1"
@@ -349,7 +349,7 @@ function ExperienceCard({
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.4 }}
-                  className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--foreground)]"
+                  className="text-xl sm:text-2xl font-bold text-[var(--foreground)]"
                 >
                   {exp.company}
                 </motion.h4>
@@ -383,7 +383,7 @@ function ExperienceCard({
                 <Calendar size={16} />
                 <span>{exp.period}</span>
               </div>
-              <div className="flex items-center gap-2 mt-1 text-gray-700 text-sm">
+              <div className="flex items-center gap-2 mt-1 text-[var(--foreground)]/72 text-sm">
                 <MapPin size={14} />
                 <span>{exp.location}</span>
               </div>
@@ -426,7 +426,7 @@ function ExperienceCard({
                 >
                   <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                 </motion.div>
-                <span className="text-gray-700">{highlight}</span>
+                <span className="text-[var(--foreground)]/78">{highlight}</span>
               </motion.li>
             ))}
           </ul>
@@ -599,8 +599,8 @@ export default function Experience() {
             transition={{ type: "spring", damping: 15 }}
             className="text-center py-8"
           >
-            <motion.div className="gradient-ring inline-flex items-center gap-4 px-6 py-4 rounded-2xl glass shadow-[var(--shadow-lg)]">
-              <span className="grid place-items-center w-11 h-11 rounded-xl bg-gradient-to-br from-[var(--primary)] to-[var(--primary-600)] text-white">
+            <motion.div className="gradient-ring inline-flex items-center gap-4 px-6 py-4 rounded-lg glass shadow-[var(--shadow-lg)]">
+              <span className="grid place-items-center w-11 h-11 rounded-lg bg-[var(--foreground)] text-white">
                 <Trophy size={22} />
               </span>
               <div className="text-left">

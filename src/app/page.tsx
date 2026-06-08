@@ -25,7 +25,7 @@ export default function Home() {
       {/* Skip Link */}
       <a
         href="#home"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-[var(--foreground)] focus:border-2 focus:border-[var(--border)] focus:px-4 focus:py-2 focus:font-bold"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-[var(--foreground)] focus:border focus:border-[var(--border)] focus:px-4 focus:py-2 focus:font-bold"
       >
         Skip to content
       </a>

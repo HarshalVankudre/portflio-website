@@ -111,12 +111,12 @@ export default function Projects() {
                 <div
                   className="absolute inset-0 opacity-[0.18] transition-opacity duration-500 group-hover:opacity-30"
                   style={{
-                    background: `radial-gradient(120% 120% at 0% 0%, ${project.color}, transparent 60%)`,
+                    backgroundColor: project.color,
                   }}
                 />
                 <div className="relative flex items-start justify-between mb-4">
                   <div
-                    className="grid place-items-center w-12 h-12 rounded-xl border border-[var(--border)]"
+                    className="grid place-items-center w-12 h-12 rounded-lg border border-[var(--border)]"
                     style={{ background: `${project.color}1f`, color: project.color }}
                   >
                     <project.icon className="w-6 h-6" strokeWidth={2.2} />
@@ -125,7 +125,7 @@ export default function Projects() {
                     0{index + 1}
                   </span>
                 </div>
-                <h3 className="relative text-xl sm:text-2xl font-bold tracking-tight leading-tight text-[var(--foreground)]">
+                <h3 className="relative text-xl sm:text-2xl font-bold leading-tight text-[var(--foreground)]">
                   {project.title}
                 </h3>
               </div>
@@ -181,7 +181,7 @@ export default function Projects() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <h3 className="text-lg sm:text-xl font-semibold tracking-tight mb-5 sm:mb-6 flex items-center gap-2.5 text-[var(--foreground)]">
+          <h3 className="text-lg sm:text-xl font-semibold mb-5 sm:mb-6 flex items-center gap-2.5 text-[var(--foreground)]">
             <Github size={20} className="text-muted" />
             {t("projects.recentGithub")}
           </h3>
@@ -196,7 +196,7 @@ export default function Projects() {
                 initial={{ opacity: 0, y: 14 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.35, delay: 0.4 + index * 0.08 }}
-                className="flex items-center justify-between gap-3 p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] transition-all group"
+                className="flex items-center justify-between gap-3 p-4 rounded-lg border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] transition-all group"
               >
                 <div className="min-w-0 flex-1">
                   <div className="font-medium text-sm sm:text-base text-[var(--foreground)] group-hover:text-primary transition-colors truncate">

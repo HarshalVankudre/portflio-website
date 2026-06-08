@@ -45,7 +45,7 @@ export default function NowPage() {
     <main className="min-h-screen">
       <div className="max-w-3xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
         {/* Top bar */}
-        <div className="flex items-center justify-between border-b border-[var(--border-strong)] pb-3 font-mono text-[11px] sm:text-xs uppercase tracking-[0.16em] text-muted">
+        <div className="flex items-center justify-between border-b border-[var(--border-strong)] pb-3 font-mono text-[11px] sm:text-xs uppercase text-muted">
           <Link href="/" className="hover:text-[var(--foreground)] transition-colors">
             ← Harshal Vankudre
           </Link>
@@ -56,10 +56,10 @@ export default function NowPage() {
         <p className="hand-note text-3xl mt-12 -rotate-2 inline-block">
           what I&rsquo;m up to these days —
         </p>
-        <h1 className="font-serif font-light tracking-tight text-[var(--foreground)] mt-1" style={{ fontSize: "clamp(3rem, 9vw, 5.5rem)", lineHeight: 1 }}>
+        <h1 className="neo-title mt-1">
           Now
         </h1>
-        <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-2 mt-4">
+        <p className="font-mono text-[11px] uppercase text-muted-2 mt-4">
           Updated June 2026 · Karlsruhe, DE
         </p>
 
@@ -67,7 +67,7 @@ export default function NowPage() {
         <div className="mt-14 divide-y divide-[var(--border)] border-y border-[var(--border)]">
           {sections.map((s) => (
             <div key={s.label} className="grid sm:grid-cols-4 gap-3 sm:gap-6 py-7">
-              <h2 className="font-mono text-xs uppercase tracking-[0.16em] text-[var(--primary)] sm:pt-1">
+              <h2 className="font-mono text-xs uppercase text-[var(--primary)] sm:pt-1">
                 {s.label}
               </h2>
               <ul className="sm:col-span-3 space-y-3">

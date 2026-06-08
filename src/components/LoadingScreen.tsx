@@ -85,7 +85,7 @@ export default function LoadingScreen() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mb-6 sm:mb-8"
           >
-            <div className="grid place-items-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl text-3xl sm:text-4xl font-black font-display text-white bg-gradient-to-br from-[var(--primary)] to-[var(--primary-600)] shadow-[0_18px_50px_-12px_var(--glow)]">
+            <div className="grid place-items-center w-16 h-16 sm:w-20 sm:h-20 text-3xl sm:text-4xl font-black font-display text-white bg-[var(--foreground)] border border-[var(--foreground)] shadow-[var(--shadow-lg)]">
               HV
             </div>
           </motion.div>
@@ -95,7 +95,7 @@ export default function LoadingScreen() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.4 }}
-            className="font-mono text-xs uppercase tracking-[0.25em] mb-5 sm:mb-6 text-muted"
+            className="font-mono text-xs uppercase mb-5 sm:mb-6 text-muted"
           >
             Loading Portfolio
           </motion.p>
@@ -111,12 +111,12 @@ export default function LoadingScreen() {
             transition={{ delay: 0.2, duration: 0.4 }}
             className="w-56 sm:w-72 h-2 rounded-full bg-[var(--surface-2)] border border-[var(--border)] relative overflow-hidden"
           >
-            {/* Progress fill with gradient */}
+            {/* Progress fill */}
             <motion.div
               className="h-full relative"
               style={{
                 width: `${progress}%`,
-                background: "linear-gradient(90deg, var(--primary-600) 0%, var(--primary) 100%)",
+                background: "var(--primary)",
               }}
               transition={{ duration: 0.05, ease: "linear" }}
             >
@@ -146,12 +146,12 @@ export default function LoadingScreen() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.6 }}
             transition={{ delay: 0.6 }}
-            className="mt-4 sm:mt-6 text-[10px] sm:text-xs text-gray-500 font-medium"
+            className="mt-4 sm:mt-6 text-[10px] sm:text-xs text-muted-2 font-medium"
           >
-            {progress < 30 && "Initializing awesomeness..."}
-            {progress >= 30 && progress < 60 && "Loading projects..."}
-            {progress >= 60 && progress < 90 && "Almost there..."}
-            {progress >= 90 && "Ready!"}
+            {progress < 30 && "Indexing profile..."}
+            {progress >= 30 && progress < 60 && "Loading selected work..."}
+            {progress >= 60 && progress < 90 && "Checking sections..."}
+            {progress >= 90 && "Ready"}
           </motion.p>
         </motion.div>
       )}

@@ -479,7 +479,7 @@ Type "cd experience" to see more on page.
      | \\     )|_     Uptime: Since 2024
     /\`\\_\`>  <_/ \\    Shell: harshal-terminal
     \\__/'---'\\__/    Resolution: Responsive
-                     Theme: Neo-Brutalism
+                     Theme: Signal Studio
                      Terminal: Custom
                      CPU: Brain @ 3.4GHz ☕
         `
@@ -667,7 +667,7 @@ drwxr-xr-x  contact/
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="fixed bottom-0 left-0 right-0 z-50 mx-auto max-w-4xl px-4 pb-4"
           >
-            <div className="bg-[var(--background)] border-4 border-[var(--border)] neo-shadow-lg rounded-none overflow-hidden">
+            <div className="bg-[var(--surface)] border border-[var(--border)] neo-shadow-lg rounded-lg overflow-hidden">
               {/* Title Bar */}
               <div className="flex items-center justify-between px-4 py-2 bg-primary text-white border-b border-[var(--border)]">
                 <div className="flex items-center gap-2">
@@ -711,7 +711,7 @@ drwxr-xr-x  contact/
                           ? "text-red-500"
                           : line.type === "ascii"
                           ? "text-cyan text-xs sm:text-sm"
-                          : "text-gray-700"
+                          : "text-[var(--foreground)]/78"
                       }`}
                     >
                       {line.content}
