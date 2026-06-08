@@ -73,21 +73,22 @@ export default function Projects() {
   ];
 
   return (
-    <section id="projects" className="relative py-24 bg-[var(--surface-2)] text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="projects" className="relative py-24 sm:py-28 bg-[var(--background-2)]">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="mb-14 sm:mb-16"
         >
-          <span className="neo-tag neo-tag-primary mb-4">{t("projects.tag")}</span>
-          <h2 className="neo-title mt-4 text-white">
-            {t("projects.title")} <span className="bg-[var(--primary)] text-[var(--foreground)] px-2">{t("projects.titleHighlight")}</span>
+          <span className="neo-eyebrow mb-5">{t("projects.tag")}</span>
+          <h2 className="neo-title mt-4">
+            {t("projects.title")}{" "}
+            <span className="neo-highlight">{t("projects.titleHighlight")}</span>
           </h2>
-          <p className="text-gray-400 mt-4 text-lg">
+          <p className="text-muted mt-4 text-lg max-w-2xl">
             {t("projects.subtitle")}
           </p>
         </motion.div>
@@ -99,68 +100,58 @@ export default function Projects() {
               key={project.title}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              whileHover={{ y: -8, rotate: index % 2 === 0 ? -1 : 1 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative bg-[var(--surface)] text-[var(--foreground)] border-4 border-[var(--border)] shadow-[8px_8px_0_var(--primary)] hover:shadow-[14px_14px_0_var(--primary)] transition-shadow flex flex-col"
+              transition={{ duration: 0.55, delay: index * 0.1, ease: [0.2, 0.7, 0.2, 1] }}
+              className="gradient-ring group relative neo-card overflow-hidden flex flex-col"
             >
-              {/* Number badge */}
-              <div className="font-display absolute -top-3 -left-3 z-10 w-10 h-10 bg-black text-[var(--primary)] flex items-center justify-center font-black text-lg border-4 border-[var(--primary)] rotate-[-6deg]">
-                0{index + 1}
-              </div>
-
-              {/* Big colored visual header */}
-              <div
-                className="relative p-6 border-b-4 border-[var(--border)] overflow-hidden"
-                style={{ background: project.color }}
-              >
-                {/* Decorative pattern */}
+              {/* Visual header */}
+              <div className="relative p-6 overflow-hidden">
                 <div
-                  className="absolute inset-0 opacity-10"
+                  className="absolute inset-0 opacity-[0.18] transition-opacity duration-500 group-hover:opacity-30"
                   style={{
-                    backgroundImage: "repeating-linear-gradient(45deg, black 0, black 2px, transparent 2px, transparent 14px)",
+                    background: `radial-gradient(120% 120% at 0% 0%, ${project.color}, transparent 60%)`,
                   }}
                 />
-                <div className="relative flex items-start justify-between mb-3">
-                  <div className="w-14 h-14 bg-[var(--surface)] border-3 border-[var(--border)] flex items-center justify-center neo-shadow">
-                    <project.icon className="w-7 h-7" strokeWidth={2.5} />
+                <div className="relative flex items-start justify-between mb-4">
+                  <div
+                    className="grid place-items-center w-12 h-12 rounded-xl border border-[var(--border)]"
+                    style={{ background: `${project.color}1f`, color: project.color }}
+                  >
+                    <project.icon className="w-6 h-6" strokeWidth={2.2} />
                   </div>
-                  {project.live && (
-                    <span className="flex items-center gap-1.5 px-2 py-1 bg-black text-white text-[10px] font-black uppercase tracking-wider border-2 border-white">
-                      <span className="w-1.5 h-1.5 bg-[var(--accent-cyan)] rounded-full animate-pulse" />
-                      Live
-                    </span>
-                  )}
+                  <span className="font-mono text-xs text-muted-2">
+                    0{index + 1}
+                  </span>
                 </div>
-                <h3 className="relative text-xl sm:text-2xl font-black uppercase leading-tight">
+                <h3 className="relative text-xl sm:text-2xl font-bold tracking-tight leading-tight text-[var(--foreground)]">
                   {project.title}
                 </h3>
               </div>
 
               {/* Content */}
-              <div className="p-5 sm:p-6 flex flex-col flex-grow bg-[var(--surface)]">
-                <p className="text-gray-700 leading-relaxed text-sm sm:text-base mb-4 flex-grow">
+              <div className="px-6 pb-6 flex flex-col flex-grow">
+                <p className="text-muted leading-relaxed text-sm sm:text-[15px] mb-5 flex-grow">
                   {project.description}
                 </p>
 
                 {/* Technologies */}
-                <div className="flex flex-wrap gap-1.5 mb-4">
+                <div className="flex flex-wrap gap-1.5 mb-5">
                   {project.technologies.map((tech) => (
-                    <span key={tech} className="neo-tag text-[10px] sm:text-xs h-fit">
+                    <span key={tech} className="neo-tag h-fit">
                       {tech}
                     </span>
                   ))}
                 </div>
 
                 {/* Links */}
-                <div className="flex gap-2 sm:gap-3 mt-auto pt-3 border-t-2 border-dashed border-gray-300">
+                <div className="flex gap-2.5 mt-auto pt-4 border-t border-[var(--border)]">
                   {project.github && (
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="neo-btn neo-btn-white text-xs sm:text-sm py-2 px-3 sm:px-4 flex-1 justify-center"
+                      className="neo-btn neo-btn-white text-sm py-2 px-4 flex-1"
                     >
-                      <Github size={14} className="sm:w-4 sm:h-4" />
+                      <Github size={15} />
                       {t("projects.code")}
                     </a>
                   )}
@@ -169,9 +160,9 @@ export default function Projects() {
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="neo-btn neo-btn-primary text-sm py-2 px-4 flex-1 justify-center"
+                      className="neo-btn neo-btn-primary text-sm py-2 px-4 flex-1"
                     >
-                      <ExternalLink size={16} />
+                      <ExternalLink size={15} />
                       {t("projects.live")}
                     </a>
                   )}
@@ -187,8 +178,8 @@ export default function Projects() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <h3 className="text-xl sm:text-2xl font-black uppercase mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
-            <Github size={24} className="sm:w-7 sm:h-7" />
+          <h3 className="text-lg sm:text-xl font-semibold tracking-tight mb-5 sm:mb-6 flex items-center gap-2.5 text-[var(--foreground)]">
+            <Github size={20} className="text-muted" />
             {t("projects.recentGithub")}
           </h3>
 
@@ -199,21 +190,21 @@ export default function Projects() {
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, x: -20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
-                className="flex items-center justify-between p-3 sm:p-4 bg-white/5 border-2 border-white/20 hover:border-[var(--primary)] hover:bg-white/10 transition-all group"
+                initial={{ opacity: 0, y: 14 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.35, delay: 0.4 + index * 0.08 }}
+                className="flex items-center justify-between gap-3 p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] transition-all group"
               >
                 <div className="min-w-0 flex-1">
-                  <div className="font-bold text-sm sm:text-lg group-hover:text-[var(--primary)] transition-colors truncate">
+                  <div className="font-medium text-sm sm:text-base text-[var(--foreground)] group-hover:text-primary transition-colors truncate">
                     {repo.name}
                   </div>
-                  <div className="text-gray-400 text-xs sm:text-sm truncate">
-                    {repo.owner} • {repo.language}
+                  <div className="text-muted-2 font-mono text-xs mt-0.5 truncate">
+                    {repo.owner} · {repo.language}
                   </div>
                 </div>
-                <div className="text-right text-xs sm:text-sm text-gray-500 ml-2 hidden sm:block">
-                  <div>Updated {repo.updated}</div>
+                <div className="text-right font-mono text-[11px] text-muted-2 ml-2 hidden sm:block shrink-0">
+                  {repo.updated}
                 </div>
               </motion.a>
             ))}

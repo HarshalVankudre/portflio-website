@@ -1,38 +1,47 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Design tokens — cosmic / space neobrutalist palette
-   Nebula violet + orbital blue & rose accents on deep space.
+   Design system — "Aurora" refined dark
+   Premium developer-portfolio aesthetic: deep slate canvas,
+   one indigo→cyan gradient accent, soft glows, hairline borders,
+   glass surfaces, fluid type, monospace micro-labels.
    ============================================================ */
 :root {
+  /* Canvas */
+  --background: #08090F;   /* deep slate ink */
+  --background-2: #0B0C14; /* elevated section */
+  --foreground: #ECEEF5;   /* primary text */
+  --muted: #9CA2B6;        /* secondary text */
+  --muted-2: #6A6F82;      /* tertiary text */
+
   /* Surfaces */
-  --background: #060A1A; /* deep space */
-  --foreground: #E7ECFF; /* starlight */
+  --surface: #0F111B;      /* card */
+  --surface-2: #14161F;    /* raised / inputs */
+  --surface-3: #1B1D28;    /* hover */
 
-  /* Panels */
-  --surface: #0E1430;    /* card panel — deep blue */
-  --surface-2: #070B1E;  /* deeper panel / dark sections */
+  /* Lines */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
 
-  /* Accents (the only three) — deep enough that light text sits on them */
-  --primary: #7C5CFF;    /* nebula violet */
-  --accent-cyan: #3B82F6; /* orbital blue */
-  --accent-red: #F43F7A;  /* nebula rose */
+  /* Accents */
+  --primary: #7C5CFF;      /* indigo-violet */
+  --primary-600: #6D4AFF;
+  --accent-cyan: #22D3EE;  /* cyan */
+  --accent-red: #FB7185;   /* rose */
+  --glow: rgba(124, 92, 255, 0.45);
 
-  /* Structure */
-  --border: #3D4A85;     /* cosmic edge */
-  --shadow: #34237A;     /* violet offset glow */
+  /* Soft elevation shadows */
+  --shadow: rgba(0, 0, 0, 0.55);
+  --shadow-sm: 0 2px 10px -4px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 12px 36px -14px rgba(0, 0, 0, 0.65);
+  --shadow-lg: 0 28px 70px -20px rgba(0, 0, 0, 0.8);
 
-  /* Hard-offset shadow scale — one consistent set of tiers */
-  --shadow-sm: 3px 3px 0 var(--shadow);
-  --shadow-md: 5px 5px 0 var(--shadow);
-  --shadow-lg: 8px 8px 0 var(--shadow);
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", Menlo, monospace;
 }
 
-/* Bind tokens to Tailwind so utilities resolve:
-   bg-primary / bg-cyan / bg-red / text-ink / bg-cream / font-display …
-   The gray ramp is inverted into a cosmic slate so existing
-   text-gray-* (muted text) and bg-gray-* (surfaces) both read
-   correctly on a dark canvas without touching every component. */
+/* Bind tokens to Tailwind utilities. The gray ramp is inverted into a
+   refined slate so existing text-gray-* / bg-gray-* read correctly on
+   the dark canvas without per-component edits. */
 @theme inline {
   --color-primary: var(--primary);
   --color-cyan: var(--accent-cyan);
@@ -40,19 +49,20 @@
   --color-ink: var(--foreground);
   --color-cream: var(--background);
 
-  --color-gray-50: #0B1026;
-  --color-gray-100: #10162F;
-  --color-gray-200: #1A2142;
-  --color-gray-300: #2A3360;
-  --color-gray-400: #8089B5;
-  --color-gray-500: #939CC4;
-  --color-gray-600: #AAB2D6;
-  --color-gray-700: #C2C8E4;
-  --color-gray-800: #D5DAEF;
-  --color-gray-900: #E7ECFF;
+  --color-gray-50: #0C0E16;
+  --color-gray-100: #11131C;
+  --color-gray-200: #181B26;
+  --color-gray-300: #262A39;
+  --color-gray-400: #7B8197;
+  --color-gray-500: #8C92A6;
+  --color-gray-600: #9CA2B6;
+  --color-gray-700: #B7BCCB;
+  --color-gray-800: #D2D6E0;
+  --color-gray-900: #ECEEF5;
 
   --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", Menlo, monospace;
 }
 
 * {
@@ -65,49 +75,36 @@ html {
 
 body {
   background-color: var(--background);
-  /* Distant nebula glows fixed behind the page */
+  /* Aurora mesh — soft, fixed gradient glows for depth */
   background-image:
-    radial-gradient(1000px 700px at 82% -12%, rgba(124, 92, 255, 0.20), transparent 60%),
-    radial-gradient(900px 700px at -10% 110%, rgba(59, 130, 246, 0.16), transparent 60%),
-    radial-gradient(700px 500px at 50% 50%, rgba(244, 63, 122, 0.07), transparent 65%);
+    radial-gradient(60rem 40rem at 78% -8%, rgba(124, 92, 255, 0.16), transparent 60%),
+    radial-gradient(55rem 42rem at -8% 18%, rgba(34, 211, 238, 0.10), transparent 60%),
+    radial-gradient(50rem 40rem at 50% 120%, rgba(251, 113, 133, 0.08), transparent 60%);
   background-attachment: fixed;
   background-repeat: no-repeat;
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Tiled starfield, fixed behind all content */
+/* Faint dotted grid layer, fixed behind content */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image:
-    radial-gradient(1px 1px at 25% 15%, rgba(255, 255, 255, 0.9), transparent),
-    radial-gradient(1px 1px at 75% 44%, rgba(255, 255, 255, 0.6), transparent),
-    radial-gradient(1px 1px at 50% 82%, rgba(255, 255, 255, 0.7), transparent),
-    radial-gradient(1.5px 1.5px at 12% 62%, rgba(200, 215, 255, 0.7), transparent),
-    radial-gradient(1.5px 1.5px at 88% 76%, rgba(255, 255, 255, 0.5), transparent),
-    radial-gradient(1px 1px at 60% 8%, rgba(206, 197, 255, 0.7), transparent);
-  background-size: 200px 200px;
-  opacity: 0.55;
-  animation: twinkle 6s ease-in-out infinite;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, #000 40%, transparent 100%);
+  opacity: 0.6;
 }
 
-@keyframes twinkle {
-  0%, 100% { opacity: 0.45; }
-  50% { opacity: 0.7; }
-}
-
-/* Display typeface drives every heading; .font-display opts in elsewhere */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+/* Display typeface drives every heading */
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   letter-spacing: -0.02em;
 }
@@ -116,277 +113,285 @@ h6 {
   font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Scrollbar Styling - Neobrutalist */
-::-webkit-scrollbar {
-  width: 12px;
+.font-mono {
+  font-family: var(--font-mono);
 }
 
-::-webkit-scrollbar-track {
-  background: var(--background);
-  border-left: 3px solid var(--border);
-}
-
+/* Scrollbar */
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: var(--background); }
 ::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border: 3px solid var(--border);
+  background: var(--surface-3);
+  border: 3px solid var(--background);
+  border-radius: 999px;
 }
+::-webkit-scrollbar-thumb:hover { background: #2A2D3C; }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-cyan);
-}
-
-/* Selection */
 ::selection {
-  background: var(--primary);
-  color: var(--foreground);
+  background: rgba(124, 92, 255, 0.32);
+  color: #fff;
 }
 
 /* ============================================================
-   Neobrutalist utilities
+   Surfaces & components
    ============================================================ */
-.neo-shadow {
-  box-shadow: var(--shadow-sm);
-}
+.neo-border { border: 1px solid var(--border); }
+.neo-border-thick { border: 1px solid var(--border-strong); }
+.border-3 { border-width: 1px; }
 
-.neo-shadow-md {
-  box-shadow: var(--shadow-md);
-}
-
-.neo-shadow-lg {
-  box-shadow: var(--shadow-lg);
-}
-
-.neo-border {
-  border: 3px solid var(--border);
-}
-
-.neo-border-thick {
-  border: 4px solid var(--border);
-}
+.neo-shadow { box-shadow: var(--shadow-sm); }
+.neo-shadow-md { box-shadow: var(--shadow-md); }
+.neo-shadow-lg { box-shadow: var(--shadow-lg); }
 
 .neo-card {
+  position: relative;
   background: var(--surface);
-  border: 2px solid var(--border);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-@media (min-width: 640px) {
-  .neo-card {
-    border-width: 3px;
-    box-shadow: var(--shadow-md);
-  }
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), var(--shadow-md);
+  backdrop-filter: blur(6px);
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .neo-card:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-5px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-lg),
+    0 0 0 1px rgba(124, 92, 255, 0.22),
+    0 24px 60px -24px var(--glow);
 }
 
-/* One shared press physics for every button */
+/* Buttons — refined, gradient primary, soft press */
 .neo-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  padding: 0.625rem 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-  border: 2px solid var(--border);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.3rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.005em;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  transition: transform 0.2s ease, box-shadow 0.3s ease,
+    background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
   cursor: pointer;
-  font-size: 0.875rem;
 }
 
 @media (min-width: 640px) {
-  .neo-btn {
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    border-width: 3px;
-    box-shadow: var(--shadow-md);
-    font-size: 1rem;
-  }
+  .neo-btn { padding: 0.8rem 1.6rem; font-size: 0.95rem; }
 }
 
-.neo-btn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: var(--shadow-sm);
-}
-
-.neo-btn:active {
-  transform: translate(5px, 5px);
-  box-shadow: 0 0 0 var(--shadow);
-}
+.neo-btn:hover { transform: translateY(-2px); }
+.neo-btn:active { transform: translateY(0); }
 
 .neo-btn-primary {
-  background: var(--primary);
-  color: var(--foreground);
+  background: linear-gradient(135deg, var(--primary), var(--primary-600));
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 10px 30px -10px var(--glow);
 }
+.neo-btn-primary:hover { box-shadow: 0 16px 40px -10px var(--glow); }
 
 .neo-btn-cyan {
-  background: var(--accent-cyan);
-  color: var(--foreground);
+  background: linear-gradient(135deg, var(--accent-cyan), #38bdf8);
+  color: #04141b;
+  border-color: transparent;
+  box-shadow: 0 10px 30px -12px rgba(34, 211, 238, 0.5);
 }
 
 .neo-btn-red {
-  background: var(--accent-red);
-  color: var(--foreground);
+  background: linear-gradient(135deg, var(--accent-red), #f43f5e);
+  color: #2a0712;
+  border-color: transparent;
+  box-shadow: 0 10px 30px -12px rgba(251, 113, 133, 0.45);
 }
 
 .neo-btn-white {
-  background: var(--surface);
+  background: var(--surface-2);
   color: var(--foreground);
+  border: 1px solid var(--border);
+}
+.neo-btn-white:hover {
+  background: var(--surface-3);
+  border-color: var(--border-strong);
 }
 
-/* Tag/Badge styles */
+/* Tags / badges — pill, monospace micro-label */
 .neo-tag {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  border: 2px solid var(--border);
-  background: var(--surface);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--muted);
 }
 
 .neo-tag-primary {
-  background: var(--primary);
+  color: #cbb9ff;
+  border-color: rgba(124, 92, 255, 0.35);
+  background: rgba(124, 92, 255, 0.12);
 }
-
 .neo-tag-cyan {
-  background: var(--accent-cyan);
+  color: #a5ecf7;
+  border-color: rgba(34, 211, 238, 0.32);
+  background: rgba(34, 211, 238, 0.1);
+}
+.neo-tag-red {
+  color: #ffc2cd;
+  border-color: rgba(251, 113, 133, 0.32);
+  background: rgba(251, 113, 133, 0.1);
 }
 
-.neo-tag-red {
-  background: var(--accent-red);
+/* Section eyebrow label */
+.neo-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.neo-eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--primary), transparent);
 }
 
 /* Section title */
 .neo-title {
   font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(1.75rem, 5vw, 4rem);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.03em;
-  line-height: 1.02;
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
 }
 
-@media (max-width: 640px) {
-  .neo-title {
-    font-size: clamp(1.5rem, 7vw, 2rem);
-  }
+/* Gradient text helpers */
+.gradient-text {
+  background: linear-gradient(120deg, #ffffff 0%, #d6cffb 55%, var(--accent-cyan) 110%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-/* Highlight box */
 .neo-highlight {
-  display: inline;
-  background: var(--primary);
-  padding: 0 0.25rem;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  background: linear-gradient(120deg, var(--primary), var(--accent-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-/* Grid pattern background */
+.glass {
+  background: rgba(15, 17, 27, 0.6);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+}
+
+.text-muted { color: var(--muted); }
+
+/* Gradient hairline dividers */
+.neo-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-strong) 25%, var(--border-strong) 75%, transparent);
+}
+.neo-divider-bar {
+  height: 1px;
+  background: var(--border);
+}
+
+/* Faint grid + stripe backgrounds (kept subtle) */
 .neo-grid-bg {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
 }
 
-/* Striped pattern */
 .neo-stripes {
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 10px,
-    rgba(255, 255, 255, 0.035) 10px,
-    rgba(255, 255, 255, 0.035) 20px
-  );
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 22px 22px;
 }
 
-/* Marquee animation for skills */
+/* Animated gradient border wrapper (for feature cards) */
+.gradient-ring {
+  position: relative;
+}
+.gradient-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(124, 92, 255, 0.6), rgba(34, 211, 238, 0.35), transparent 60%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.gradient-ring:hover::before { opacity: 1; }
+
+/* ============================================================
+   Animations
+   ============================================================ */
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+.animate-marquee { animation: marquee 38s linear infinite; }
 
-.animate-marquee {
-  animation: marquee 35s linear infinite;
-}
-
-/* Typing cursor */
 @keyframes blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
 }
+.cursor-blink { animation: blink 1s step-end infinite; }
 
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
-
-/* Section divider — bold zigzag stripe */
-.neo-divider {
-  height: 8px;
-  background-image: linear-gradient(
-    -45deg,
-    var(--primary) 25%,
-    transparent 25%,
-    transparent 50%,
-    var(--primary) 50%,
-    var(--primary) 75%,
-    transparent 75%
-  );
-  background-size: 24px 24px;
-  border-top: 4px solid var(--border);
-  border-bottom: 4px solid var(--border);
-}
-
-/* Section divider — solid heavy bar */
-.neo-divider-bar {
-  height: 4px;
-  background: var(--border);
-}
-
-/* Floating animation utility — gentle */
 @keyframes float-slow {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(1.5deg); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
 }
+.animate-float-slow { animation: float-slow 7s ease-in-out infinite; }
 
-.animate-float-slow {
-  animation: float-slow 7s ease-in-out infinite;
-}
-
-/* Wiggle on hover */
 @keyframes wiggle {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(3deg); }
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
 }
+.hover-wiggle:hover { animation: wiggle 0.4s ease-in-out; }
 
-.hover-wiggle:hover {
-  animation: wiggle 0.4s ease-in-out;
-}
-
-/* Border-3 utility (Tailwind v4 doesn't include 3px border by default) */
-.border-3 {
-  border-width: 3px;
-}
-
-/* Loading screen shine sweep — kept global so styled-jsx doesn't manage a
-   <style> node inside the AnimatePresence-removed overlay (avoids removeChild races) */
 @keyframes shine {
   0% { transform: translateX(-100%); }
   50%, 100% { transform: translateX(200%); }
 }
 
-/* Respect reduced-motion preferences */
+/* Slow drifting aurora used by hero backdrop */
+@keyframes aurora-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.8; }
+  50% { transform: translate3d(2%, -3%, 0) scale(1.08); opacity: 1; }
+}
+.animate-aurora { animation: aurora-drift 16s ease-in-out infinite; }
+
+@keyframes gradient-pan {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* Respect reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
