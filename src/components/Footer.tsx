@@ -12,10 +12,15 @@ export default function Footer() {
     <footer className="relative py-10 sm:py-12 bg-[var(--foreground)] text-[var(--background)] border-t border-white/10">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
         <div className="flex flex-col items-center gap-6 md:flex-row md:justify-between">
-          {/* Wordmark */}
-          <span className="font-serif text-2xl sm:text-3xl tracking-tight">
-            Harshal Vankudre
-          </span>
+          {/* Wordmark + signature */}
+          <div className="flex flex-col items-center md:items-start gap-1">
+            <span className="font-hand text-2xl text-[var(--primary)] -rotate-2 leading-none">
+              thanks for scrolling
+            </span>
+            <span className="font-serif text-2xl sm:text-3xl tracking-tight">
+              Harshal Vankudre
+            </span>
+          </div>
 
           {/* Terminal Hint */}
           <motion.div
