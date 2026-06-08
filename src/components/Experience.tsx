@@ -561,8 +561,11 @@ export default function Experience() {
           initial={{ opacity: 0, y: 50 }}
           animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-14 flex flex-col items-center"
+          className="relative text-center mb-14 flex flex-col items-center"
         >
+          <span className="hand-note hidden lg:block absolute right-0 top-0 text-2xl rotate-3 select-none">
+            every chapter taught me something
+          </span>
           <span className="neo-eyebrow mb-5">{t("experience.tag")}</span>
           <h2 className="neo-title">
             The <span className="neo-highlight">Story</span> So Far
