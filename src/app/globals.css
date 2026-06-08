@@ -1,47 +1,44 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Design system — "Aurora" refined dark
-   Premium developer-portfolio aesthetic: deep slate canvas,
-   one indigo→cyan gradient accent, soft glows, hairline borders,
-   glass surfaces, fluid type, monospace micro-labels.
+   Design system — "Editorial"
+   Warm paper canvas, ink type, large serif display headlines,
+   hairline rules, restrained earthy spot colors. Built for
+   craft and restraint — no gradients, glass, or glow.
    ============================================================ */
 :root {
   /* Canvas */
-  --background: #08090F;   /* deep slate ink */
-  --background-2: #0B0C14; /* elevated section */
-  --foreground: #ECEEF5;   /* primary text */
-  --muted: #9CA2B6;        /* secondary text */
-  --muted-2: #6A6F82;      /* tertiary text */
+  --background: #F4F1E9;   /* warm paper */
+  --background-2: #ECE8DB; /* deeper section band */
+  --foreground: #1A1813;   /* warm ink */
+  --muted: #6A6456;        /* secondary text */
+  --muted-2: #948D7C;      /* tertiary text */
 
   /* Surfaces */
-  --surface: #0F111B;      /* card */
-  --surface-2: #14161F;    /* raised / inputs */
-  --surface-3: #1B1D28;    /* hover */
+  --surface: #FBFAF4;      /* card */
+  --surface-2: #EDE9DD;    /* raised / inputs */
+  --surface-3: #E4DFD0;    /* hover */
 
-  /* Lines */
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
+  /* Hairlines */
+  --border: rgba(26, 24, 19, 0.16);
+  --border-strong: rgba(26, 24, 19, 0.42);
 
-  /* Accents */
-  --primary: #7C5CFF;      /* indigo-violet */
-  --primary-600: #6D4AFF;
-  --accent-cyan: #22D3EE;  /* cyan */
-  --accent-red: #FB7185;   /* rose */
-  --glow: rgba(124, 92, 255, 0.45);
+  /* Earthy editorial spot colors */
+  --primary: #B4441F;      /* burnt sienna — lead accent */
+  --primary-600: #983817;
+  --accent-cyan: #2E6E66;  /* deep teal */
+  --accent-red: #9C6B2C;   /* ochre */
+  --glow: rgba(180, 68, 31, 0.18);
 
-  /* Soft elevation shadows */
-  --shadow: rgba(0, 0, 0, 0.55);
-  --shadow-sm: 0 2px 10px -4px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 12px 36px -14px rgba(0, 0, 0, 0.65);
-  --shadow-lg: 0 28px 70px -20px rgba(0, 0, 0, 0.8);
+  /* Restrained shadows (mostly flat) */
+  --shadow: rgba(26, 24, 19, 0.12);
+  --shadow-sm: 0 1px 0 rgba(26, 24, 19, 0.05);
+  --shadow-md: 0 1px 2px rgba(26, 24, 19, 0.06);
+  --shadow-lg: 0 16px 40px -22px rgba(26, 24, 19, 0.4);
 
   --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", Menlo, monospace;
 }
 
-/* Bind tokens to Tailwind utilities. The gray ramp is inverted into a
-   refined slate so existing text-gray-* / bg-gray-* read correctly on
-   the dark canvas without per-component edits. */
 @theme inline {
   --color-primary: var(--primary);
   --color-cyan: var(--accent-cyan);
@@ -49,18 +46,7 @@
   --color-ink: var(--foreground);
   --color-cream: var(--background);
 
-  --color-gray-50: #0C0E16;
-  --color-gray-100: #11131C;
-  --color-gray-200: #181B26;
-  --color-gray-300: #262A39;
-  --color-gray-400: #7B8197;
-  --color-gray-500: #8C92A6;
-  --color-gray-600: #9CA2B6;
-  --color-gray-700: #B7BCCB;
-  --color-gray-800: #D2D6E0;
-  --color-gray-900: #ECEEF5;
-
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-serif), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", Menlo, monospace;
 }
@@ -74,14 +60,7 @@ html {
 }
 
 body {
-  background-color: var(--background);
-  /* Aurora mesh — soft, fixed gradient glows for depth */
-  background-image:
-    radial-gradient(60rem 40rem at 78% -8%, rgba(124, 92, 255, 0.16), transparent 60%),
-    radial-gradient(55rem 42rem at -8% 18%, rgba(34, 211, 238, 0.10), transparent 60%),
-    radial-gradient(50rem 40rem at 50% 120%, rgba(251, 113, 133, 0.08), transparent 60%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
   overflow-x: hidden;
@@ -89,28 +68,16 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Faint dotted grid layer, fixed behind content */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 44px 44px;
-  -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, #000 40%, transparent 100%);
-  mask-image: radial-gradient(ellipse 100% 80% at 50% 0%, #000 40%, transparent 100%);
-  opacity: 0.6;
-}
-
-/* Display typeface drives every heading */
+/* Serif display drives headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  letter-spacing: -0.02em;
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
 }
 
-.font-display {
-  font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+.font-display,
+.font-serif {
+  font-family: var(--font-serif), Georgia, serif;
 }
 
 .font-mono {
@@ -118,22 +85,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar { width: 12px; }
 ::-webkit-scrollbar-track { background: var(--background); }
 ::-webkit-scrollbar-thumb {
   background: var(--surface-3);
   border: 3px solid var(--background);
   border-radius: 999px;
 }
-::-webkit-scrollbar-thumb:hover { background: #2A2D3C; }
+::-webkit-scrollbar-thumb:hover { background: #cfc8b6; }
 
 ::selection {
-  background: rgba(124, 92, 255, 0.32);
-  color: #fff;
+  background: var(--foreground);
+  color: var(--background);
 }
 
 /* ============================================================
-   Surfaces & components
+   Components
    ============================================================ */
 .neo-border { border: 1px solid var(--border); }
 .neo-border-thick { border: 1px solid var(--border-strong); }
@@ -143,245 +110,166 @@ h1, h2, h3, h4, h5, h6 {
 .neo-shadow-md { box-shadow: var(--shadow-md); }
 .neo-shadow-lg { box-shadow: var(--shadow-lg); }
 
+/* Flat editorial card with a crisp hairline that inks-up on hover */
 .neo-card {
   position: relative;
-  isolation: isolate;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), var(--shadow-md);
-  backdrop-filter: blur(6px);
-  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
-    border-color 0.4s ease, box-shadow 0.4s ease;
+  border-radius: 3px;
+  transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
 }
-
-/* Cursor-follow spotlight (positioned behind content, above the card bg) */
-.neo-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: radial-gradient(
-    240px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-    rgba(124, 92, 255, 0.16),
-    transparent 65%
-  );
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-.neo-card:hover::after { opacity: 1; }
-
 .neo-card:hover {
-  transform: translateY(-5px);
   border-color: var(--border-strong);
-  box-shadow: var(--shadow-lg),
-    0 0 0 1px rgba(124, 92, 255, 0.22),
-    0 24px 60px -24px var(--glow);
+  transform: translateY(-2px);
 }
 
-/* Buttons — refined, gradient primary, soft press */
+/* Buttons — outline that inverts to ink; primary is solid ink */
 .neo-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   padding: 0.7rem 1.3rem;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.9rem;
   letter-spacing: 0.005em;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  transition: transform 0.2s ease, box-shadow 0.3s ease,
-    background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  border-radius: 2px;
+  border: 1px solid var(--foreground);
+  background: transparent;
+  color: var(--foreground);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   cursor: pointer;
 }
 
 @media (min-width: 640px) {
-  .neo-btn { padding: 0.8rem 1.6rem; font-size: 0.95rem; }
+  .neo-btn { padding: 0.8rem 1.55rem; font-size: 0.95rem; }
 }
 
-.neo-btn:hover { transform: translateY(-2px); }
-.neo-btn:active { transform: translateY(0); }
+.neo-btn:hover { background: var(--foreground); color: var(--background); }
 
 .neo-btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-600));
-  color: #ffffff;
-  border-color: transparent;
-  box-shadow: 0 10px 30px -10px var(--glow);
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
 }
-.neo-btn-primary:hover { box-shadow: 0 16px 40px -10px var(--glow); }
+.neo-btn-primary:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
 
 .neo-btn-cyan {
-  background: linear-gradient(135deg, var(--accent-cyan), #38bdf8);
-  color: #04141b;
-  border-color: transparent;
-  box-shadow: 0 10px 30px -12px rgba(34, 211, 238, 0.5);
+  background: var(--accent-cyan);
+  color: #fff;
+  border-color: var(--accent-cyan);
 }
+.neo-btn-cyan:hover { background: transparent; color: var(--accent-cyan); }
 
 .neo-btn-red {
-  background: linear-gradient(135deg, var(--accent-red), #f43f5e);
-  color: #2a0712;
-  border-color: transparent;
-  box-shadow: 0 10px 30px -12px rgba(251, 113, 133, 0.45);
+  background: var(--accent-red);
+  color: #fff;
+  border-color: var(--accent-red);
 }
+.neo-btn-red:hover { background: transparent; color: var(--accent-red); }
 
 .neo-btn-white {
-  background: var(--surface-2);
+  background: transparent;
   color: var(--foreground);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
 }
 .neo-btn-white:hover {
-  background: var(--surface-3);
-  border-color: var(--border-strong);
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
 }
 
-/* Tags / badges — pill, monospace micro-label */
+/* Tags / badges — hairline chip, monospace small caps */
 .neo-tag {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.28rem 0.7rem;
+  padding: 0.26rem 0.6rem;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 500;
-  letter-spacing: 0.02em;
-  border-radius: 999px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 2px;
   border: 1px solid var(--border);
-  background: var(--surface-2);
+  background: transparent;
   color: var(--muted);
 }
+.neo-tag-primary { color: var(--primary); border-color: rgba(180, 68, 31, 0.4); }
+.neo-tag-cyan { color: var(--accent-cyan); border-color: rgba(46, 110, 102, 0.4); }
+.neo-tag-red { color: var(--accent-red); border-color: rgba(156, 107, 44, 0.42); }
 
-.neo-tag-primary {
-  color: #cbb9ff;
-  border-color: rgba(124, 92, 255, 0.35);
-  background: rgba(124, 92, 255, 0.12);
-}
-.neo-tag-cyan {
-  color: #a5ecf7;
-  border-color: rgba(34, 211, 238, 0.32);
-  background: rgba(34, 211, 238, 0.1);
-}
-.neo-tag-red {
-  color: #ffc2cd;
-  border-color: rgba(251, 113, 133, 0.32);
-  background: rgba(251, 113, 133, 0.1);
-}
-
-/* Section eyebrow label */
+/* Section eyebrow — monospace index with an ink rule */
 .neo-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.65rem;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 500;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--primary);
+  color: var(--muted);
 }
 .neo-eyebrow::before {
   content: "";
   width: 1.75rem;
   height: 1px;
-  background: linear-gradient(90deg, var(--primary), transparent);
+  background: var(--foreground);
 }
 
-/* Section title */
+/* Section title — large light serif */
 .neo-title {
-  font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(2rem, 5vw, 3.75rem);
-  font-weight: 700;
-  letter-spacing: -0.035em;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2.25rem, 5.5vw, 4.25rem);
+  font-weight: 400;
+  letter-spacing: -0.015em;
   line-height: 1.04;
+  color: var(--foreground);
 }
 
-/* Gradient text helpers */
-.gradient-text {
-  background: linear-gradient(120deg, #ffffff 0%, #d6cffb 55%, var(--accent-cyan) 110%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
+/* Accent word inside a title — italic serif in the lead color */
 .neo-highlight {
-  background: linear-gradient(120deg, var(--primary), var(--accent-cyan));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  font-style: italic;
+  color: var(--primary);
 }
 
-/* Animated shimmering gradient text */
+/* Legacy gradient helpers, flattened to editorial ink/accent */
+.gradient-text {
+  color: var(--primary);
+  -webkit-text-fill-color: var(--primary);
+  background: none;
+}
 .text-shimmer {
-  background: linear-gradient(
-    110deg,
-    #ffffff 0%,
-    #c4b6ff 30%,
-    var(--accent-cyan) 50%,
-    #c4b6ff 70%,
-    #ffffff 100%
-  );
-  background-size: 220% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: gradient-pan 6s linear infinite;
-}
-@media (prefers-reduced-motion: reduce) {
-  .text-shimmer { animation: none; }
+  color: var(--foreground);
+  -webkit-text-fill-color: var(--foreground);
+  background: none;
+  animation: none;
 }
 
+/* Translucent paper (nav, floating widgets) */
 .glass {
-  background: rgba(15, 17, 27, 0.6);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: color-mix(in srgb, var(--background) 84%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border);
 }
 
 .text-muted { color: var(--muted); }
+.text-muted-2 { color: var(--muted-2); }
 
-/* Gradient hairline dividers */
-.neo-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border-strong) 25%, var(--border-strong) 75%, transparent);
-}
-.neo-divider-bar {
-  height: 1px;
-  background: var(--border);
-}
+/* Hairline rules between sections */
+.neo-divider { height: 1px; background: var(--border-strong); }
+.neo-divider-bar { height: 1px; background: var(--border); }
 
-/* Faint grid + stripe backgrounds (kept subtle) */
-.neo-grid-bg {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 56px 56px;
-}
-
-.neo-stripes {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 22px 22px;
-}
-
-/* Animated gradient border wrapper (for feature cards) */
-.gradient-ring {
-  position: relative;
-}
-.gradient-ring::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(124, 92, 255, 0.6), rgba(34, 211, 238, 0.35), transparent 60%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-.gradient-ring:hover::before { opacity: 1; }
+/* Texture utilities neutralised for the clean editorial canvas */
+.neo-grid-bg { background-image: none; }
+.neo-stripes { background-image: none; }
+.gradient-ring::before { content: none; }
 
 /* ============================================================
    Animations
@@ -390,7 +278,7 @@ h1, h2, h3, h4, h5, h6 {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-.animate-marquee { animation: marquee 38s linear infinite; }
+.animate-marquee { animation: marquee 40s linear infinite; }
 
 @keyframes blink {
   0%, 50% { opacity: 1; }
@@ -400,34 +288,15 @@ h1, h2, h3, h4, h5, h6 {
 
 @keyframes float-slow {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-10px); }
 }
 .animate-float-slow { animation: float-slow 7s ease-in-out infinite; }
-
-@keyframes wiggle {
-  0%, 100% { transform: rotate(-2deg); }
-  50% { transform: rotate(2deg); }
-}
-.hover-wiggle:hover { animation: wiggle 0.4s ease-in-out; }
 
 @keyframes shine {
   0% { transform: translateX(-100%); }
   50%, 100% { transform: translateX(200%); }
 }
 
-/* Slow drifting aurora used by hero backdrop */
-@keyframes aurora-drift {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.8; }
-  50% { transform: translate3d(2%, -3%, 0) scale(1.08); opacity: 1; }
-}
-.animate-aurora { animation: aurora-drift 16s ease-in-out infinite; }
-
-@keyframes gradient-pan {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-
-/* Respect reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

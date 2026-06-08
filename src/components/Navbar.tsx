@@ -64,15 +64,11 @@ export default function Navbar() {
           {/* Logo */}
           <motion.a
             href="#home"
-            className="relative group flex items-center gap-2.5"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+            className="relative group flex items-center"
+            whileTap={{ scale: 0.98 }}
           >
-            <span className="grid place-items-center w-9 h-9 rounded-lg bg-gradient-to-br from-[var(--primary)] to-[var(--primary-600)] font-display text-sm font-black text-white shadow-[0_6px_18px_-6px_var(--glow)]">
-              HV
-            </span>
-            <span className="hidden sm:block font-display font-bold tracking-tight text-[var(--foreground)]">
-              Harshal
+            <span className="font-serif text-xl sm:text-2xl tracking-tight text-[var(--foreground)]">
+              Harshal Vankudre<span className="text-[var(--primary)]">.</span>
             </span>
           </motion.a>
 
@@ -84,7 +80,7 @@ export default function Navbar() {
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    className={`relative px-3.5 py-1.5 text-sm font-medium rounded-full transition-colors ${
+                    className={`relative px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] rounded-full transition-colors ${
                       active
                         ? "text-[var(--foreground)]"
                         : "text-muted hover:text-[var(--foreground)]"

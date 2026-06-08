@@ -30,10 +30,10 @@ function ChatIcon() {
         ease: "easeInOut",
       }}
     >
-      <Sparkles 
-        size={28} 
-        className="text-purple-600" 
-        strokeWidth={2.5} 
+      <Sparkles
+        size={26}
+        className="text-[var(--background)]"
+        strokeWidth={2.2}
       />
     </motion.div>
   );
@@ -284,12 +284,11 @@ export default function ChatBot() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="fixed right-4 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center transition-all duration-200 ease-out"
+            className="fixed right-4 sm:right-6 z-50 w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center transition-all duration-200 ease-out"
             style={{
               bottom: buttonBottom,
-              backgroundColor: "var(--background)",
-              border: "4px solid var(--border)",
-              boxShadow: "4px 4px 0px 0px var(--shadow)",
+              backgroundColor: "var(--foreground)",
+              boxShadow: "var(--shadow-lg)",
             }}
             aria-label="Open chat"
           >
@@ -326,10 +325,10 @@ export default function ChatBot() {
             </div>
 
             {/* Header */}
-            <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 bg-primary border-b-4 border-[var(--border)]">
+            <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 bg-primary text-white border-b border-[var(--border)]">
               <div className="flex items-center gap-2 sm:gap-3">
-                <motion.div 
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center bg-[var(--surface)] border-2 border-[var(--border)]"
+                <motion.div
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center bg-white/15"
                   animate={{
                     scale: [1, 1.05, 1],
                   }}
@@ -339,13 +338,13 @@ export default function ChatBot() {
                     ease: "easeInOut",
                   }}
                 >
-                  <Sparkles size={18} className="text-purple-600 sm:w-5 sm:h-5" strokeWidth={2.5} />
+                  <Sparkles size={18} className="text-white sm:w-5 sm:h-5" strokeWidth={2.2} />
                 </motion.div>
                 <div>
-                  <h3 className="font-black text-xs sm:text-sm uppercase tracking-wide">
+                  <h3 className="font-mono font-semibold text-xs uppercase tracking-wide">
                     Ask About Harshal
                   </h3>
-                  <p className="text-[10px] sm:text-xs font-medium opacity-70">AI Assistant</p>
+                  <p className="text-[10px] sm:text-xs font-medium text-white/70">AI Assistant</p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
@@ -493,7 +492,7 @@ export default function ChatBot() {
                     <button
                       type="submit"
                       disabled={!input.trim() || isLoading}
-                      className="p-2 bg-primary border-2 border-[var(--border)] neo-shadow hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-2.5 rounded bg-[var(--foreground)] text-[var(--background)] hover:bg-[var(--primary)] hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                       aria-label="Send message"
                     >
                       <Send size={18} />
