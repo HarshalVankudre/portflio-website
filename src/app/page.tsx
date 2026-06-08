@@ -13,7 +13,6 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Terminal from "@/components/Terminal";
 import ChatBot from "@/components/ChatBot";
-import LoadingScreen from "@/components/LoadingScreen";
 import ScrollProgressBar from "@/components/effects/ScrollProgressBar";
 
 export default function Home() {
@@ -30,27 +29,17 @@ export default function Home() {
         Skip to content
       </a>
 
-      {/* Loading Screen */}
-      <LoadingScreen />
-
       {/* Navigation */}
       <Navbar />
 
       {/* Sections */}
       <Hero />
-      <div className="neo-divider" aria-hidden />
-      <About />
-      <div className="neo-divider-bar" aria-hidden />
-      <Skills />
-      <div className="neo-divider" aria-hidden />
-      <Experience />
-      <div className="neo-divider-bar" aria-hidden />
-      <Education />
-      <div className="neo-divider" aria-hidden />
       <Projects />
-      <div className="neo-divider-bar" aria-hidden />
+      <Skills />
+      <Experience />
+      <Education />
+      <About />
       <GitHubStats />
-      <div className="neo-divider" aria-hidden />
       <Contact />
       <Footer />
 

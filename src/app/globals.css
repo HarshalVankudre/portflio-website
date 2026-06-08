@@ -1,34 +1,34 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Design system — "Plain Stack"
+   Design system - "Proof Ledger"
    Dense, direct, and table-led. No fake dashboards, no glow,
    no poetic hero system. Content and structure carry the page.
    ============================================================ */
 :root {
   /* Canvas */
-  --background: #F4F4EF;
-  --background-2: #E7E7DF;
-  --foreground: #111111;
-  --muted: #565850;
-  --muted-2: #76786F;
+  --background: #F3F4F1;
+  --background-2: #E7EAE4;
+  --foreground: #10110F;
+  --muted: #555B52;
+  --muted-2: #73786F;
 
   /* Surfaces */
-  --surface: #FFFFF8;
-  --surface-2: #E9E9E0;
-  --surface-3: #DADAD0;
+  --surface: #FCFCF7;
+  --surface-2: #E9ECE5;
+  --surface-3: #D9DED5;
 
   /* Hairlines */
   --border: rgba(23, 24, 25, 0.15);
   --border-strong: rgba(23, 24, 25, 0.42);
 
   /* Workshop accents */
-  --primary: #D83B24;
-  --primary-600: #A72C1B;
-  --accent-cyan: #00666A;
-  --accent-red: #8E6A00;
-  --accent-blue: #2438D8;
-  --success: #2F6A3F;
+  --primary: #C73622;
+  --primary-600: #972819;
+  --accent-cyan: #006A72;
+  --accent-red: #2E6E47;
+  --accent-blue: #2737A8;
+  --success: #2E6E47;
   --glow: rgba(23, 24, 25, 0.12);
 
   /* Shadows */
@@ -78,8 +78,9 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.22;
-  background-image: repeating-linear-gradient(0deg, rgba(17, 17, 17, 0.08) 0 1px, transparent 1px 12px);
+  opacity: 0.12;
+  background-image: linear-gradient(90deg, rgba(16, 17, 15, 0.08) 1px, transparent 1px);
+  background-size: 25vw 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -156,15 +157,15 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   gap: 0.55rem;
   padding: 0.7rem 1.3rem;
-  font-weight: 500;
+  font-weight: 650;
   font-size: 0.9rem;
   letter-spacing: 0;
   border-radius: 0;
   border: 1px solid var(--foreground);
   background: var(--surface);
   color: var(--foreground);
-  box-shadow: 4px 4px 0 var(--foreground);
-  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: none;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
   cursor: pointer;
 }
 
@@ -175,8 +176,8 @@ h1, h2, h3, h4, h5, h6 {
 .neo-btn:hover {
   background: var(--foreground);
   color: var(--background);
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 var(--foreground);
+  transform: none;
+  box-shadow: none;
 }
 
 .neo-btn-primary {
@@ -230,6 +231,144 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--border-strong);
   background: transparent;
   color: var(--muted);
+}
+
+/* Proof Ledger section system */
+.record-section {
+  position: relative;
+  padding: 5.5rem 0;
+}
+
+@media (min-width: 768px) {
+  .record-section { padding: 7rem 0; }
+}
+
+.record-shell {
+  width: min(100% - 2.5rem, 80rem);
+  margin-inline: auto;
+}
+
+.record-header {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--foreground);
+}
+
+@media (min-width: 900px) {
+  .record-header {
+    grid-template-columns: minmax(0, 0.74fr) minmax(18rem, 0.26fr);
+    align-items: end;
+  }
+}
+
+.record-kicker {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.record-title {
+  margin-top: 0.6rem;
+  max-width: 56rem;
+  font-size: clamp(2.25rem, 6vw, 5.5rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.record-dek {
+  max-width: 32rem;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.record-table {
+  border-top: 1px solid var(--foreground);
+  border-bottom: 1px solid var(--foreground);
+}
+
+.record-row {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.record-row:last-child {
+  border-bottom: 0;
+}
+
+@media (min-width: 760px) {
+  .record-row {
+    grid-template-columns: minmax(7rem, 0.22fr) minmax(0, 0.78fr);
+    padding: 1.15rem 0;
+  }
+}
+
+.record-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+
+.record-value {
+  color: var(--foreground);
+  line-height: 1.6;
+}
+
+.proof-metric {
+  border-top: 1px solid var(--foreground);
+  padding-top: 0.85rem;
+}
+
+.proof-metric strong {
+  display: block;
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+  line-height: 0.9;
+  font-weight: 900;
+}
+
+.proof-metric span {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.case-row {
+  display: grid;
+  gap: 1.1rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.case-row:last-child {
+  border-bottom: 0;
+}
+
+@media (min-width: 900px) {
+  .case-row {
+    grid-template-columns: 4.5rem minmax(12rem, 0.28fr) minmax(0, 0.44fr) minmax(13rem, 0.28fr);
+    align-items: start;
+  }
+}
+
+.plain-link {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+.plain-link:hover {
+  color: var(--primary);
 }
 .neo-tag-primary { color: var(--primary); border-color: color-mix(in srgb, var(--primary) 52%, transparent); }
 .neo-tag-cyan { color: var(--accent-cyan); border-color: color-mix(in srgb, var(--accent-cyan) 48%, transparent); }

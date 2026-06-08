@@ -1,16 +1,30 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import {
+  AlertCircle,
+  CheckCircle,
+  Github,
+  Linkedin,
+  Loader2,
+  Mail,
+  MapPin,
+  Phone,
+  Send,
+} from "lucide-react";
 import { useRef, useState } from "react";
-import { MapPin, Send, Github, Linkedin, Mail, Phone, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const fieldClass =
+  "w-full border border-[var(--border-strong)] bg-[var(--surface)] px-3 py-3 text-[var(--foreground)] outline-none transition-colors placeholder:text-muted-2 focus:border-[var(--foreground)]";
 
 export default function Contact() {
   const { t } = useLanguage();
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  
+  const isInView = useInView(ref, { once: true, margin: "-120px" });
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,6 +33,39 @@ export default function Contact() {
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const links = [
+    {
+      label: t("contact.email"),
+      value: "harshalvankudre@gmail.com",
+      href: "mailto:harshalvankudre@gmail.com",
+      icon: Mail,
+    },
+    {
+      label: t("contact.phone"),
+      value: "+49 176 87451632",
+      href: "tel:+4917687451632",
+      icon: Phone,
+    },
+    {
+      label: t("contact.location"),
+      value: t("hero.location"),
+      href: null,
+      icon: MapPin,
+    },
+    {
+      label: "GitHub",
+      value: "HarshalVankudre",
+      href: "https://github.com/HarshalVankudre",
+      icon: Github,
+    },
+    {
+      label: "LinkedIn",
+      value: "harshal-vankudre",
+      href: "https://www.linkedin.com/in/harshal-vankudre/",
+      icon: Linkedin,
+    },
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,222 +100,152 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-24 neo-stripes">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+    <section ref={ref} id="contact" className="record-section bg-[var(--foreground)] text-[var(--background)]">
+      <div className="record-shell">
         <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="relative mb-16"
+          transition={{ duration: 0.5, ease: EASE }}
+          className="grid gap-5 border-b border-[var(--background)] pb-6 lg:grid-cols-[0.62fr_0.38fr] lg:items-end"
         >
-          <span className="hand-note hidden md:block absolute right-2 top-1 text-2xl rotate-3 select-none">
-            I reply fast, promise
-          </span>
-          <span className="neo-eyebrow mb-5">{t("contact.tag")}</span>
-          <h2 className="neo-title mt-4">
-            {t("contact.title")}{" "}
-            <span className="neo-highlight">{t("contact.titleHighlight")}</span>
-          </h2>
+          <div>
+            <span className="font-mono text-xs uppercase text-[#F06A50]">{t("contact.tag")}</span>
+            <h2 className="mt-3 max-w-4xl text-[clamp(2.7rem,7vw,6rem)] font-black uppercase leading-[0.9]">
+              {t("contact.title")} {t("contact.titleHighlight")}
+            </h2>
+          </div>
+          <p className="max-w-md leading-7 text-[var(--background)]/72">
+            {t("contact.respondFastest")} Open to AI tooling, software engineering, and product-facing data work.
+          </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
-          {/* Contact Info */}
+        <div className="mt-8 grid gap-8 lg:grid-cols-[0.42fr_0.58fr]">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-6"
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.45, delay: 0.08, ease: EASE }}
+            className="border-y border-[var(--background)]"
           >
-            <h3 className="text-xl font-bold mb-6">{t("contact.quickLinks")}</h3>
-            <p className="text-muted mb-6">{t("contact.respondFastest")}</p>
+            {links.map((link) => {
+              const Icon = link.icon;
+              const content = (
+                <span className="grid gap-2 border-b border-white/20 py-4 last:border-b-0 sm:grid-cols-[8rem_1fr]">
+                  <span className="inline-flex items-center gap-2 font-mono text-xs uppercase text-[var(--background)]/60">
+                    <Icon size={14} />
+                    {link.label}
+                  </span>
+                  <span className="break-words font-medium">{link.value}</span>
+                </span>
+              );
 
-            {/* Email */}
-            <a
-              href="mailto:harshalvankudre@gmail.com"
-              className="neo-card p-4 flex items-center gap-3 sm:gap-4 group"
-            >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[var(--primary)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-cyan)] transition-colors">
-                <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <div className="min-w-0">
-                <div className="font-bold text-sm sm:text-base">{t("contact.email")}</div>
-                <div className="text-muted text-xs sm:text-sm truncate">harshalvankudre@gmail.com</div>
-              </div>
-            </a>
-
-            {/* Phone */}
-            <a
-              href="tel:+4917687451632"
-              className="neo-card p-4 flex items-center gap-3 sm:gap-4 group"
-            >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[var(--primary)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-cyan)] transition-colors">
-                <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <div>
-                <div className="font-bold text-sm sm:text-base">{t("contact.phone")}</div>
-                <div className="text-muted text-xs sm:text-sm">+49 176 87451632</div>
-              </div>
-            </a>
-
-            {/* Location */}
-            <div className="neo-card p-3 sm:p-4 flex items-center gap-3 sm:gap-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[var(--primary)] flex items-center justify-center flex-shrink-0">
-                <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <div>
-                <div className="font-bold text-sm sm:text-base">{t("contact.location")}</div>
-                <div className="text-muted text-xs sm:text-sm">{t("hero.location")}</div>
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div className="flex gap-3 sm:gap-4 pt-4">
-              <motion.a
-                href="https://github.com/HarshalVankudre"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="neo-btn neo-btn-white py-2 px-3 sm:py-3 sm:px-4"
-                aria-label="GitHub"
-              >
-                <Github size={20} className="sm:w-6 sm:h-6" />
-              </motion.a>
-              <motion.a
-                href="https://www.linkedin.com/in/harshal-vankudre/"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="neo-btn neo-btn-cyan py-2 px-3 sm:py-3 sm:px-4"
-                aria-label="LinkedIn"
-              >
-                <Linkedin size={20} className="sm:w-6 sm:h-6" />
-              </motion.a>
-            </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <form onSubmit={handleSubmit} className="neo-card p-0 overflow-hidden">
-              {/* Header */}
-              <div className="relative p-5 sm:p-6 border-b border-[var(--border)] overflow-hidden">
-                <div className="absolute inset-0 bg-[var(--surface-2)]" />
-                <h3 className="relative text-xl sm:text-2xl font-bold text-[var(--foreground)]">{t("contact.sendMessage")}</h3>
-                <p className="relative text-muted mt-2 text-sm sm:text-base">
-                  {t("contact.formSubtitle")}
-                </p>
-              </div>
-
-              {/* Form Fields */}
-              <div className="p-4 sm:p-6 bg-[var(--surface)] space-y-4">
-                <div>
-                  <label htmlFor="name" className="font-bold uppercase text-sm block mb-2">
-                    {t("contact.name")} *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full neo-border rounded-lg p-3 bg-[var(--surface-2)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-                    placeholder={t("contact.namePlaceholder")}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="font-bold uppercase text-sm block mb-2">
-                    {t("contact.email")} *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full neo-border rounded-lg p-3 bg-[var(--surface-2)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-                    placeholder={t("contact.emailPlaceholder")}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="subject" className="font-bold uppercase text-sm block mb-2">
-                    {t("contact.subject")}
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className="w-full neo-border rounded-lg p-3 bg-[var(--surface-2)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-                    placeholder={t("contact.subjectPlaceholder")}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="font-bold uppercase text-sm block mb-2">
-                    {t("contact.message")} *
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={4}
-                    className="w-full neo-border rounded-lg p-3 bg-[var(--surface-2)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] resize-none"
-                    placeholder={t("contact.messagePlaceholder")}
-                  />
-                </div>
-
-                {/* Status Messages */}
-                {status === "success" && (
-                  <div className="flex items-center gap-2 p-3 bg-green-100 border-3 border-green-600 text-green-800">
-                    <CheckCircle size={20} />
-                    <span className="font-bold">{t("contact.successMessage")}</span>
-                  </div>
-                )}
-
-                {status === "error" && (
-                  <div className="flex items-center gap-2 p-3 bg-red-100 border-3 border-red-600 text-red-800">
-                    <AlertCircle size={20} />
-                    <span className="font-bold">{errorMessage}</span>
-                  </div>
-                )}
-
-                {/* Submit Button */}
-                <motion.button
-                  type="submit"
-                  disabled={status === "loading"}
-                  className="neo-btn neo-btn-primary w-full justify-center text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                  whileHover={status !== "loading" ? { scale: 1.02 } : {}}
-                  whileTap={status !== "loading" ? { scale: 0.98 } : {}}
+              return link.href ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target={link.href.startsWith("http") ? "_blank" : undefined}
+                  rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="block transition-colors hover:text-[#F06A50]"
                 >
-                  {status === "loading" ? (
-                    <>
-                      <Loader2 size={20} className="animate-spin" />
-                      {t("contact.sending")}
-                    </>
-                  ) : (
-                    <>
-                      <Send size={20} />
-                      {t("contact.sendMessage")}
-                    </>
-                  )}
-                </motion.button>
-              </div>
-            </form>
+                  {content}
+                </a>
+              ) : (
+                <div key={link.label}>{content}</div>
+              );
+            })}
           </motion.div>
+
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.45, delay: 0.16, ease: EASE }}
+            className="bg-[var(--background)] p-4 text-[var(--foreground)] sm:p-6"
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="block">
+                <span className="mb-2 block font-mono text-xs uppercase text-muted">{t("contact.name")} *</span>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className={fieldClass}
+                  placeholder={t("contact.namePlaceholder")}
+                />
+              </label>
+
+              <label className="block">
+                <span className="mb-2 block font-mono text-xs uppercase text-muted">{t("contact.email")} *</span>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className={fieldClass}
+                  placeholder={t("contact.emailPlaceholder")}
+                />
+              </label>
+            </div>
+
+            <label className="mt-4 block">
+              <span className="mb-2 block font-mono text-xs uppercase text-muted">{t("contact.subject")}</span>
+              <input
+                type="text"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                className={fieldClass}
+                placeholder={t("contact.subjectPlaceholder")}
+              />
+            </label>
+
+            <label className="mt-4 block">
+              <span className="mb-2 block font-mono text-xs uppercase text-muted">{t("contact.message")} *</span>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                required
+                rows={5}
+                className={`${fieldClass} resize-none`}
+                placeholder={t("contact.messagePlaceholder")}
+              />
+            </label>
+
+            {status === "success" && (
+              <div className="mt-4 flex items-center gap-2 border border-[var(--success)] bg-green-50 p-3 text-[var(--success)]">
+                <CheckCircle size={18} />
+                <span className="font-semibold">{t("contact.successMessage")}</span>
+              </div>
+            )}
+
+            {status === "error" && (
+              <div className="mt-4 flex items-center gap-2 border border-[var(--primary)] bg-red-50 p-3 text-[var(--primary)]">
+                <AlertCircle size={18} />
+                <span className="font-semibold">{errorMessage}</span>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={status === "loading"}
+              className="neo-btn neo-btn-primary mt-5 w-full disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {status === "loading" ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  {t("contact.sending")}
+                </>
+              ) : (
+                <>
+                  <Send size={18} />
+                  {t("contact.sendMessage")}
+                </>
+              )}
+            </button>
+          </motion.form>
         </div>
       </div>
     </section>

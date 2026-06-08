@@ -1,17 +1,8 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import {
-  GitBranch,
-  FolderGit2,
-  Activity,
-  Code2,
-  ExternalLink,
-  Flame,
-  Calendar,
-  Zap,
-} from "lucide-react";
+import { Activity, Code2, ExternalLink, FolderGit2, GitBranch } from "lucide-react";
 
 interface GitHubData {
   user: {
@@ -37,32 +28,30 @@ interface GitHubData {
   source: "graphql" | "rest";
 }
 
-function CountUpNumber({ end, duration = 2, suffix = "" }: { end: number; duration?: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true });
+const EASE = [0.22, 1, 0.36, 1] as const;
 
-  useEffect(() => {
-    if (!isInView) return;
+function getActivityAge(dateString: string) {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
 
-    let startTime: number;
-    const startValue = 0;
+  if (diffDays > 0) return `${diffDays}d ago`;
+  if (diffHours > 0) return `${diffHours}h ago`;
+  return `${diffMins}m ago`;
+}
 
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.floor(startValue + (end - startValue) * easeOutQuart));
+function calculateStats(data: GitHubData) {
+  const allDays = data.contributionData.weeks.flatMap((week) => week.days).reverse();
+  const last30Days = allDays.slice(0, 30);
 
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    requestAnimationFrame(animate);
-  }, [end, duration, isInView]);
-
-  return <span ref={ref}>{count}{suffix}</span>;
+  return {
+    activeDays: last30Days.filter((day) => day.contributionCount > 0).length,
+    thisMonth: last30Days.reduce((acc, day) => acc + day.contributionCount, 0),
+    totalLanguages: data.languages.length,
+  };
 }
 
 function ContributionGraph({
@@ -80,183 +69,35 @@ function ContributionGraph({
     return "bg-green-600";
   };
 
-  const displayWeeks = weeks.slice(-26);
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      viewport={{ once: true }}
+    <div
       className="overflow-x-auto pb-2"
       role="img"
       aria-label={`Contribution activity graph: ${totalContributions} contributions over the last 26 weeks`}
     >
-      <div className="flex gap-[3px] min-w-fit">
-        {displayWeeks.map((week, weekIndex) => (
+      <div className="flex min-w-fit gap-[3px]">
+        {weeks.slice(-26).map((week, weekIndex) => (
           <div key={weekIndex} className="flex flex-col gap-[3px]">
             {week.days.map((day, dayIndex) => (
               <div
                 key={`${weekIndex}-${dayIndex}`}
-                className={`w-3 h-3 sm:w-[14px] sm:h-[14px] rounded-sm border border-[var(--border)] ${getColor(
-                  day.contributionCount
-                )}`}
+                className={`h-3 w-3 border border-[var(--border)] ${getColor(day.contributionCount)}`}
                 title={`${day.date}: ${day.contributionCount} contributions`}
               />
             ))}
           </div>
         ))}
       </div>
-    </motion.div>
-  );
-}
-
-function LanguageBar({
-  languages,
-}: {
-  languages: { name: string; percentage: number; color: string }[];
-}) {
-  return (
-    <div className="space-y-4">
-      {languages.slice(0, 5).map((lang, index) => (
-        <motion.div
-          key={lang.name}
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ delay: index * 0.1 }}
-          viewport={{ once: true }}
-          className="space-y-1"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div
-                className="w-3 h-3 rounded-full border border-[var(--border)]"
-                style={{ backgroundColor: lang.color }}
-              />
-              <span className="font-bold text-sm">{lang.name}</span>
-            </div>
-            <span className="font-black text-sm">{lang.percentage}%</span>
-          </div>
-          <div className="h-3 bg-[var(--surface-3)] border border-[var(--border)] overflow-hidden rounded-sm">
-            <motion.div
-              initial={{ width: 0 }}
-              whileInView={{ width: `${lang.percentage}%` }}
-              transition={{ delay: index * 0.1 + 0.2, duration: 0.6, ease: "easeOut" }}
-              viewport={{ once: true }}
-              className="h-full"
-              style={{ backgroundColor: lang.color }}
-            />
-          </div>
-        </motion.div>
-      ))}
     </div>
   );
-}
-
-function ActivityFeed({
-  activities,
-}: {
-  activities: { type: string; repo: string; message: string; date: string }[];
-}) {
-  const getTimeAgo = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMins / 60);
-    const diffDays = Math.floor(diffHours / 24);
-
-    if (diffDays > 0) return `${diffDays}d ago`;
-    if (diffHours > 0) return `${diffHours}h ago`;
-    return `${diffMins}m ago`;
-  };
-
-  const getEventIcon = (type: string) => {
-    switch (type) {
-      case "PushEvent":
-        return <GitBranch size={16} />;
-      case "CreateEvent":
-        return <FolderGit2 size={16} />;
-      default:
-        return <Activity size={16} />;
-    }
-  };
-
-  if (activities.length === 0) {
-    return (
-      <div className="text-center py-4 text-muted-2 font-medium">
-        Building something new...
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-2">
-      {activities.slice(0, 4).map((activity, index) => (
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ delay: index * 0.1 }}
-          viewport={{ once: true }}
-          className="flex items-start gap-3 p-3 bg-[var(--surface)] border border-[var(--border)] hover:bg-[var(--surface-2)] transition-colors rounded-lg"
-        >
-          <div className="p-1.5 rounded bg-primary text-white">
-            {getEventIcon(activity.type)}
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-bold text-sm truncate">{activity.repo.split("/")[1]}</p>
-            <p className="text-sm text-muted truncate">{activity.message}</p>
-          </div>
-          <span className="text-xs font-bold text-muted whitespace-nowrap">
-            {getTimeAgo(activity.date)}
-          </span>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-// Calculate derived stats from contribution data
-function calculateStats(data: GitHubData) {
-  const { weeks } = data.contributionData;
-
-  // Calculate current streak
-  let currentStreak = 0;
-  const allDays = weeks.flatMap(w => w.days).reverse();
-  for (const day of allDays) {
-    if (day.contributionCount > 0) {
-      currentStreak++;
-    } else {
-      break;
-    }
-  }
-
-  // Calculate active days in last 30 days
-  const last30Days = allDays.slice(0, 30);
-  const activeDays = last30Days.filter(d => d.contributionCount > 0).length;
-
-  // Calculate best day
-  const bestDay = allDays.length ? Math.max(...allDays.map(d => d.contributionCount)) : 0;
-
-  // Calculate total commits this month
-  const thisMonth = last30Days.reduce((acc, d) => acc + d.contributionCount, 0);
-
-  return {
-    currentStreak,
-    activeDays,
-    bestDay,
-    thisMonth,
-    totalLanguages: data.languages.length,
-  };
 }
 
 export default function GitHubStats() {
   const [data, setData] = useState<GitHubData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-120px" });
 
   useEffect(() => {
     async function fetchData() {
@@ -276,192 +117,145 @@ export default function GitHubStats() {
     fetchData();
   }, []);
 
-  const derivedStats = data ? calculateStats(data) : null;
-
-  // Only the GraphQL path returns a real contribution calendar; the REST
-  // fallback has none, so contribution-derived UI must be hidden there.
   const hasContributions =
     !!data && data.source === "graphql" && data.contributionData.weeks.length > 0;
+  const derivedStats = data ? calculateStats(data) : null;
 
-  const stats = data && derivedStats
-    ? [
-        {
-          label: "Repositories",
-          value: data.user.publicRepos,
-          icon: FolderGit2,
-          color: "bg-cyan",
-          suffix: "",
-        },
-        {
-          label: "Languages",
-          value: derivedStats.totalLanguages,
-          icon: Code2,
-          color: "bg-primary",
-          suffix: "",
-        },
-        ...(hasContributions
-          ? [
-              {
-                label: "This Month",
-                value: derivedStats.thisMonth,
-                icon: Calendar,
-                color: "bg-red",
-                suffix: "",
-              },
-              {
-                label: "Active Days",
-                value: derivedStats.activeDays,
-                icon: Flame,
-                color: "bg-cyan",
-                suffix: "/30",
-              },
-            ]
-          : []),
-      ]
-    : [];
+  const stats =
+    data && derivedStats
+      ? [
+          ["Repositories", data.user.publicRepos.toString()],
+          ["Languages", derivedStats.totalLanguages.toString()],
+          ...(hasContributions
+            ? [
+                ["This Month", derivedStats.thisMonth.toString()],
+                ["Active Days", `${derivedStats.activeDays}/30`],
+              ]
+            : []),
+        ]
+      : [];
 
   return (
-    <section
-      ref={sectionRef}
-      id="github"
-      className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 neo-stripes"
-    >
-      <div className="max-w-6xl mx-auto">
-        {/* Section Header */}
+    <section ref={ref} id="github" className="record-section">
+      <div className="record-shell">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="relative text-center mb-12"
+          transition={{ duration: 0.5, ease: EASE }}
+          className="record-header"
         >
-          <span className="hand-note hidden lg:block absolute right-0 top-0 text-2xl -rotate-3 select-none">
-            receipts, not promises
-          </span>
-          <span className="neo-eyebrow mb-5 justify-center">
-            <Zap size={13} />
-            {hasContributions ? "Live from GitHub" : "From GitHub"}
-          </span>
-          <h2 className="neo-title mt-3">Code in <span className="neo-highlight">Action</span></h2>
-          {hasContributions && (
-            <p className="mt-4 text-lg max-w-2xl mx-auto text-muted">
-              Real-time coding activity - because talk is cheap, show me the code
-            </p>
-          )}
+          <div>
+            <span className="record-kicker">{hasContributions ? "Live from GitHub" : "From GitHub"}</span>
+            <h2 className="record-title">Code Record</h2>
+          </div>
+          <p className="record-dek">
+            Repository activity and language mix from the public GitHub profile.
+          </p>
         </motion.div>
 
         {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="w-12 h-12 border border-[var(--border)] border-t-primary animate-spin rounded-full" />
+          <div className="mt-8 border-y border-[var(--foreground)] py-12 font-mono text-sm uppercase text-muted">
+            Loading GitHub record...
           </div>
         ) : error ? (
-          <div className="text-center py-10 neo-card p-6">
-            <p className="text-red-500 font-bold">{error}</p>
+          <div className="mt-8 border-y border-[var(--foreground)] py-12 text-[var(--primary)]">
+            {error}
           </div>
         ) : data ? (
-          <div className="space-y-8">
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: index * 0.1 }}
-                  className="neo-card p-4 sm:p-6 text-center"
-                >
-                  <div
-                    className={`inline-flex p-3 rounded ${stat.color} text-white mb-3`}
-                  >
-                    <stat.icon size={22} />
-                  </div>
-                  <div className="font-display text-2xl sm:text-4xl font-black">
-                    <CountUpNumber end={stat.value} suffix={stat.suffix} />
-                  </div>
-                  <div className="text-sm font-bold text-muted uppercase mt-1">
-                    {stat.label}
-                  </div>
-                </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.45, delay: 0.08, ease: EASE }}
+            className="mt-8 grid gap-8"
+          >
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {stats.map(([label, value]) => (
+                <div key={label} className="proof-metric">
+                  <strong>{value}</strong>
+                  <span>{label}</span>
+                </div>
               ))}
             </div>
 
-            {/* Main Content Grid */}
-            <div className="grid lg:grid-cols-5 gap-6">
-              {/* Contribution Graph - Takes more space (only with real GraphQL data) */}
-              {hasContributions && (
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.3 }}
-                  className="lg:col-span-3 neo-card p-4 sm:p-6"
-                >
-                  <h3 className="font-black text-lg mb-4 flex items-center gap-2">
-                    <Activity size={20} />
-                    Contribution Activity
-                  </h3>
-                  <ContributionGraph
-                    weeks={data.contributionData.weeks}
-                    totalContributions={data.contributionData.totalContributions}
-                  />
-                  <div className="flex items-center justify-between mt-4">
-                    <div className="flex items-center gap-1 text-xs font-bold">
-                      <span className="text-muted-2">Less</span>
-                      <div className="w-3 h-3 bg-[var(--surface-2)] border border-[var(--border)]" />
-                      <div className="w-3 h-3 bg-green-300 border border-[var(--border)]" />
-                      <div className="w-3 h-3 bg-green-400 border border-[var(--border)]" />
-                      <div className="w-3 h-3 bg-green-500 border border-[var(--border)]" />
-                      <div className="w-3 h-3 bg-green-600 border border-[var(--border)]" />
-                      <span className="text-muted-2">More</span>
+            <div className="grid gap-8 lg:grid-cols-[0.42fr_0.58fr]">
+              <div className="record-table">
+                <div className="record-row">
+                  <span className="record-label inline-flex items-center gap-2">
+                    <Code2 size={14} />
+                    Languages
+                  </span>
+                  <div className="record-value space-y-3">
+                    {data.languages.slice(0, 5).map((language) => (
+                      <span key={language.name} className="block">
+                        <span className="flex items-center justify-between gap-4">
+                          <span className="font-semibold">{language.name}</span>
+                          <span className="font-mono text-xs text-muted">{language.percentage}%</span>
+                        </span>
+                        <span className="mt-1 block h-1 bg-[var(--surface-3)]">
+                          <span
+                            className="block h-full"
+                            style={{ width: `${language.percentage}%`, backgroundColor: language.color }}
+                          />
+                        </span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="record-table">
+                {hasContributions && (
+                  <div className="record-row">
+                    <span className="record-label inline-flex items-center gap-2">
+                      <Activity size={14} />
+                      Contributions
+                    </span>
+                    <div className="record-value">
+                      <ContributionGraph
+                        weeks={data.contributionData.weeks}
+                        totalContributions={data.contributionData.totalContributions}
+                      />
                     </div>
-                    {derivedStats && derivedStats.currentStreak > 0 && (
-                      <div className="flex items-center gap-2 px-3 py-1 rounded bg-primary text-white">
-                        <Flame size={14} />
-                        <span className="font-semibold text-sm">{derivedStats.currentStreak} day streak!</span>
-                      </div>
+                  </div>
+                )}
+
+                <div className="record-row">
+                  <span className="record-label inline-flex items-center gap-2">
+                    <GitBranch size={14} />
+                    Recent
+                  </span>
+                  <div className="record-value space-y-3">
+                    {data.recentActivity.length === 0 ? (
+                      <span className="text-muted">No recent public activity returned.</span>
+                    ) : (
+                      data.recentActivity.slice(0, 4).map((activity, index) => (
+                        <span key={`${activity.repo}-${index}`} className="block">
+                          <span className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+                            <span className="font-semibold">{activity.repo.split("/")[1]}</span>
+                            <span className="font-mono text-xs uppercase text-muted">
+                              {getActivityAge(activity.date)}
+                            </span>
+                          </span>
+                          <span className="block truncate text-sm text-muted">{activity.message}</span>
+                        </span>
+                      ))
                     )}
                   </div>
-                </motion.div>
-              )}
-
-              {/* Languages - Sidebar */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.4 }}
-                className={`${hasContributions ? "lg:col-span-2" : "lg:col-span-5"} neo-card p-4 sm:p-6`}
-              >
-                <h3 className="font-black text-lg mb-4 flex items-center gap-2">
-                  <Code2 size={20} />
-                  Tech Stack
-                </h3>
-                <LanguageBar languages={data.languages} />
-              </motion.div>
+                </div>
+              </div>
             </div>
 
-            {/* Recent Activity */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.5 }}
-              className="neo-card p-4 sm:p-6"
+            <a
+              href="https://github.com/HarshalVankudre"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="plain-link inline-flex w-fit items-center gap-2 font-mono text-xs uppercase"
             >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-black text-lg flex items-center gap-2">
-                  <GitBranch size={20} />
-                  Recent Commits
-                </h3>
-                <a
-                  href="https://github.com/HarshalVankudre"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="neo-btn neo-btn-primary text-sm py-2 px-3"
-                >
-                  <span>View GitHub</span>
-                  <ExternalLink size={14} />
-                </a>
-              </div>
-              <ActivityFeed activities={data.recentActivity} />
-            </motion.div>
-          </div>
+              <FolderGit2 size={14} />
+              View public GitHub
+              <ExternalLink size={14} />
+            </a>
+          </motion.div>
         ) : null}
       </div>
     </section>

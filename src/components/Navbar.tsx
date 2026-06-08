@@ -13,16 +13,16 @@ export default function Navbar() {
 
   const navItems = [
     { name: t("nav.home"), href: "#home" },
-    { name: t("nav.about"), href: "#about" },
+    { name: t("nav.projects"), href: "#projects" },
     { name: t("nav.skills"), href: "#skills" },
     { name: t("nav.experience"), href: "#experience" },
     { name: t("nav.education"), href: "#education" },
-    { name: t("nav.projects"), href: "#projects" },
+    { name: t("nav.about"), href: "#about" },
     { name: t("nav.contact"), href: "#contact" },
   ];
 
   useEffect(() => {
-    const sectionIds = ["home", "about", "skills", "experience", "education", "projects", "contact"];
+    const sectionIds = ["home", "projects", "skills", "experience", "education", "about", "github", "contact"];
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -70,7 +70,7 @@ export default function Navbar() {
             <span className="grid h-8 w-8 place-items-center border border-[var(--foreground)] bg-[var(--foreground)] font-mono text-xs text-[var(--background)]">
               HV
             </span>
-            <span className="font-serif text-xl sm:text-2xl leading-none text-[var(--foreground)]">
+            <span className="font-mono text-sm uppercase leading-none text-[var(--foreground)] sm:text-base">
               Harshal Vankudre<span className="text-[var(--primary)]">.</span>
             </span>
           </motion.a>
