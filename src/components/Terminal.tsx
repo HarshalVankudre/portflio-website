@@ -667,9 +667,9 @@ drwxr-xr-x  contact/
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="fixed bottom-0 left-0 right-0 z-50 mx-auto max-w-4xl px-4 pb-4"
           >
-            <div className="bg-[#FFFEF5] border-4 border-black neo-shadow-lg rounded-none overflow-hidden">
+            <div className="bg-[var(--background)] border-4 border-[var(--border)] neo-shadow-lg rounded-none overflow-hidden">
               {/* Title Bar */}
-              <div className="flex items-center justify-between px-4 py-2 bg-primary border-b-4 border-black">
+              <div className="flex items-center justify-between px-4 py-2 bg-primary border-b-4 border-[var(--border)]">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-black" />
                   <span className="font-black text-sm uppercase tracking-wide">

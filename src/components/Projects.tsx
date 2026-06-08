@@ -73,7 +73,7 @@ export default function Projects() {
   ];
 
   return (
-    <section id="projects" className="relative py-24 bg-[var(--foreground)] text-white">
+    <section id="projects" className="relative py-24 bg-[var(--surface-2)] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -85,7 +85,7 @@ export default function Projects() {
         >
           <span className="neo-tag neo-tag-primary mb-4">{t("projects.tag")}</span>
           <h2 className="neo-title mt-4 text-white">
-            {t("projects.title")} <span className="bg-[var(--primary)] text-black px-2">{t("projects.titleHighlight")}</span>
+            {t("projects.title")} <span className="bg-[var(--primary)] text-[var(--foreground)] px-2">{t("projects.titleHighlight")}</span>
           </h2>
           <p className="text-gray-400 mt-4 text-lg">
             {t("projects.subtitle")}
@@ -101,7 +101,7 @@ export default function Projects() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               whileHover={{ y: -8, rotate: index % 2 === 0 ? -1 : 1 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative bg-white text-black border-4 border-black shadow-[8px_8px_0_#FFE500] hover:shadow-[14px_14px_0_#FFE500] transition-shadow flex flex-col"
+              className="group relative bg-[var(--surface)] text-[var(--foreground)] border-4 border-[var(--border)] shadow-[8px_8px_0_var(--primary)] hover:shadow-[14px_14px_0_var(--primary)] transition-shadow flex flex-col"
             >
               {/* Number badge */}
               <div className="font-display absolute -top-3 -left-3 z-10 w-10 h-10 bg-black text-[var(--primary)] flex items-center justify-center font-black text-lg border-4 border-[var(--primary)] rotate-[-6deg]">
@@ -110,7 +110,7 @@ export default function Projects() {
 
               {/* Big colored visual header */}
               <div
-                className="relative p-6 border-b-4 border-black overflow-hidden"
+                className="relative p-6 border-b-4 border-[var(--border)] overflow-hidden"
                 style={{ background: project.color }}
               >
                 {/* Decorative pattern */}
@@ -121,7 +121,7 @@ export default function Projects() {
                   }}
                 />
                 <div className="relative flex items-start justify-between mb-3">
-                  <div className="w-14 h-14 bg-white border-3 border-black flex items-center justify-center neo-shadow">
+                  <div className="w-14 h-14 bg-[var(--surface)] border-3 border-[var(--border)] flex items-center justify-center neo-shadow">
                     <project.icon className="w-7 h-7" strokeWidth={2.5} />
                   </div>
                   {project.live && (
@@ -137,7 +137,7 @@ export default function Projects() {
               </div>
 
               {/* Content */}
-              <div className="p-5 sm:p-6 flex flex-col flex-grow bg-white">
+              <div className="p-5 sm:p-6 flex flex-col flex-grow bg-[var(--surface)]">
                 <p className="text-gray-700 leading-relaxed text-sm sm:text-base mb-4 flex-grow">
                   {project.description}
                 </p>

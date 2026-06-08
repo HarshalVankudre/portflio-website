@@ -55,7 +55,7 @@ export default function Navbar() {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-[var(--background)] border-b-4 border-black shadow-[0_4px_0_black]"
+          ? "bg-[var(--background)] border-b-4 border-[var(--border)] shadow-[0_4px_0_var(--shadow)]"
           : "bg-transparent"
       }`}
     >
@@ -68,7 +68,7 @@ export default function Navbar() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className="font-display text-2xl font-black bg-[var(--primary)] px-3 py-1 border-3 border-black shadow-[3px_3px_0_black] group-hover:shadow-[1px_1px_0_black] group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-all inline-block">
+            <span className="font-display text-2xl font-black bg-[var(--primary)] px-3 py-1 border-3 border-[var(--border)] shadow-[3px_3px_0_var(--shadow)] group-hover:shadow-[1px_1px_0_var(--shadow)] group-hover:translate-x-[2px] group-hover:translate-y-[2px] transition-all inline-block">
               HV
             </span>
           </motion.a>
@@ -81,8 +81,8 @@ export default function Navbar() {
                   href={item.href}
                   className={`relative px-3 py-2 text-sm font-bold uppercase transition-all ${
                     activeSection === item.href.slice(1)
-                      ? "bg-[var(--primary)] border-2 border-black"
-                      : "hover:bg-[var(--primary)] border-2 border-transparent hover:border-black"
+                      ? "bg-[var(--primary)] border-2 border-[var(--border)]"
+                      : "hover:bg-[var(--primary)] border-2 border-transparent hover:border-[var(--border)]"
                   }`}
                 >
                   {item.name}
@@ -96,7 +96,7 @@ export default function Navbar() {
             {/* Language Toggle */}
             <motion.button
               onClick={toggleLanguage}
-              className="flex items-center gap-2 px-3 py-2 border-3 border-black bg-white hover:bg-[var(--primary)] transition-all font-bold text-sm uppercase shadow-[2px_2px_0_black] hover:shadow-[1px_1px_0_black] hover:translate-x-[1px] hover:translate-y-[1px]"
+              className="flex items-center gap-2 px-3 py-2 border-3 border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--primary)] transition-all font-bold text-sm uppercase shadow-[2px_2px_0_var(--shadow)] hover:shadow-[1px_1px_0_var(--shadow)] hover:translate-x-[1px] hover:translate-y-[1px]"
               whileTap={{ scale: 0.95 }}
               aria-label="Toggle language"
             >
@@ -119,7 +119,7 @@ export default function Navbar() {
           <div className="flex md:hidden items-center gap-2">
             <motion.button
               onClick={toggleLanguage}
-              className="p-2 border-3 border-black bg-white hover:bg-[var(--primary)] transition-colors font-bold text-sm"
+              className="p-2 border-3 border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--primary)] transition-colors font-bold text-sm"
               whileTap={{ scale: 0.95 }}
               aria-label="Toggle language"
             >
@@ -127,7 +127,7 @@ export default function Navbar() {
             </motion.button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 border-3 border-black bg-white hover:bg-[var(--primary)] transition-colors"
+              className="p-2 border-3 border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--primary)] transition-colors"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -143,7 +143,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[var(--background)] border-b-4 border-black"
+            className="md:hidden bg-[var(--background)] border-b-4 border-[var(--border)]"
           >
             <ul className="px-4 py-4 space-y-2">
               {navItems.map((item, index) => (
@@ -156,10 +156,10 @@ export default function Navbar() {
                   <a
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`block px-4 py-3 font-bold uppercase border-3 border-black transition-all ${
+                    className={`block px-4 py-3 font-bold uppercase border-3 border-[var(--border)] transition-all ${
                       activeSection === item.href.slice(1)
                         ? "bg-[var(--primary)]"
-                        : "bg-white hover:bg-[var(--primary)]"
+                        : "bg-[var(--surface)] hover:bg-[var(--primary)]"
                     }`}
                   >
                     {item.name}
@@ -174,7 +174,7 @@ export default function Navbar() {
                 <a
                   href="#contact"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block px-4 py-3 bg-[var(--accent-cyan)] border-3 border-black font-bold uppercase text-center mt-4 shadow-[4px_4px_0_black]"
+                  className="block px-4 py-3 bg-[var(--accent-cyan)] border-3 border-[var(--border)] font-bold uppercase text-center mt-4 shadow-[4px_4px_0_var(--shadow)]"
                 >
                   {t("nav.letsTalk")}
                 </a>

@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="flex flex-col items-center gap-4 sm:gap-6 md:flex-row md:justify-between">
           {/* Logo & Copyright */}
           <div className="flex items-center gap-3 sm:gap-4">
-            <span className="text-2xl sm:text-3xl font-black bg-[var(--primary)] text-black px-2 sm:px-3 py-1">
+            <span className="text-2xl sm:text-3xl font-black bg-[var(--primary)] text-[var(--foreground)] px-2 sm:px-3 py-1">
               HV
             </span>
             <div className="h-6 sm:h-8 w-0.5 sm:w-1 bg-white/20" />
@@ -33,7 +33,7 @@ export default function Footer() {
             <Terminal size={14} className="text-[var(--primary)] sm:w-4 sm:h-4" />
             <span className="text-gray-400">
               Press{" "}
-              <kbd className="bg-[var(--primary)] text-black px-1.5 sm:px-2 py-0.5 font-bold text-[10px] sm:text-xs rounded">
+              <kbd className="bg-[var(--primary)] text-[var(--foreground)] px-1.5 sm:px-2 py-0.5 font-bold text-[10px] sm:text-xs rounded">
                 `
               </kbd>{" "}
               for a surprise

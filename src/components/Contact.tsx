@@ -86,7 +86,7 @@ export default function Contact() {
               href="mailto:harshalvankudre@gmail.com"
               className="neo-card p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:bg-[var(--primary)] group"
             >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-cyan)] transition-colors">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--primary)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-cyan)] transition-colors">
                 <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div className="min-w-0">
@@ -100,7 +100,7 @@ export default function Contact() {
               href="tel:+4917687451632"
               className="neo-card p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:bg-[var(--accent-cyan)] group"
             >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--primary)] transition-colors">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--primary)] flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--primary)] transition-colors">
                 <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
@@ -111,7 +111,7 @@ export default function Contact() {
 
             {/* Location */}
             <div className="neo-card p-3 sm:p-4 flex items-center gap-3 sm:gap-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--primary)] flex items-center justify-center flex-shrink-0">
                 <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
               <div>
@@ -155,7 +155,7 @@ export default function Contact() {
           >
             <form onSubmit={handleSubmit} className="neo-card p-0 overflow-hidden">
               {/* Header */}
-              <div className="p-4 sm:p-6 bg-[var(--primary)] border-b-3 border-black">
+              <div className="p-4 sm:p-6 bg-[var(--primary)] border-b-3 border-[var(--border)]">
                 <h3 className="text-xl sm:text-2xl font-black uppercase">{t("contact.sendMessage")}</h3>
                 <p className="text-gray-800 mt-2 text-sm sm:text-base">
                   {t("contact.formSubtitle")}
@@ -163,7 +163,7 @@ export default function Contact() {
               </div>
 
               {/* Form Fields */}
-              <div className="p-4 sm:p-6 bg-white space-y-4">
+              <div className="p-4 sm:p-6 bg-[var(--surface)] space-y-4">
                 <div>
                   <label htmlFor="name" className="font-bold uppercase text-sm block mb-2">
                     {t("contact.name")} *
@@ -175,7 +175,7 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full neo-border p-3 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    className="w-full neo-border p-3 bg-gray-50 focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                     placeholder={t("contact.namePlaceholder")}
                   />
                 </div>
@@ -191,7 +191,7 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full neo-border p-3 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    className="w-full neo-border p-3 bg-gray-50 focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                     placeholder={t("contact.emailPlaceholder")}
                   />
                 </div>
@@ -206,7 +206,7 @@ export default function Contact() {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full neo-border p-3 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    className="w-full neo-border p-3 bg-gray-50 focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
                     placeholder={t("contact.subjectPlaceholder")}
                   />
                 </div>
@@ -222,7 +222,7 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows={4}
-                    className="w-full neo-border p-3 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)] resize-none"
+                    className="w-full neo-border p-3 bg-gray-50 focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] resize-none"
                     placeholder={t("contact.messagePlaceholder")}
                   />
                 </div>
