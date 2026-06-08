@@ -29,7 +29,7 @@ export default function About() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <span className="neo-tag neo-tag-primary mb-4">{t("about.tag")}</span>
+          <span className="neo-eyebrow mb-5">{t("about.tag")}</span>
           <h2 className="neo-title mt-4">
             {t("about.title")}{" "}
             <span className="neo-highlight">{t("about.titleHighlight")}</span>
@@ -81,7 +81,7 @@ export default function About() {
                 initial={{ opacity: 0, x: 30 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                className="neo-card p-4 flex items-center gap-4 hover:bg-[var(--primary)]"
+                className="neo-card p-4 flex items-center gap-4"
               >
                 <div className="w-12 h-12 bg-[var(--accent-cyan)] flex items-center justify-center flex-shrink-0">
                   <highlight.icon className="w-6 h-6 text-white" />

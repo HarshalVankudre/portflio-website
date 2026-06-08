@@ -36,7 +36,7 @@ export default function Education() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <span className="neo-tag neo-tag-cyan mb-4">{t("education.tag")}</span>
+          <span className="neo-eyebrow mb-5">{t("education.tag")}</span>
           <h2 className="neo-title mt-4">
             {t("education.title")} <span className="neo-highlight">{t("education.titleHighlight")}</span>
           </h2>
@@ -77,7 +77,7 @@ export default function Education() {
                         </span>
                       )}
                     </div>
-                    <h3 className="text-xl font-black uppercase">{edu.degree}</h3>
+                    <h3 className="text-xl font-bold tracking-tight">{edu.degree}</h3>
                     <p className="font-bold">{edu.institution}</p>
                   </div>
                 </div>
