@@ -1,15 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { CheckCircle2, Lightbulb, Code, Target, Users } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { Lightbulb, Code, Target, Users } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function About() {
   const { t } = useLanguage();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [hasPhoto, setHasPhoto] = useState(true);
 
   const highlights = [
     { text: t("about.softwareDev"), icon: Code },
@@ -19,36 +19,87 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="relative py-24 neo-stripes">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" className="relative py-24">
+      <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="relative mb-16"
         >
           <span className="neo-eyebrow mb-5">{t("about.tag")}</span>
           <h2 className="neo-title mt-4">
             {t("about.title")}{" "}
             <span className="neo-highlight">{t("about.titleHighlight")}</span>
           </h2>
+          <span className="hand-note hidden md:block absolute right-2 top-0 text-2xl rotate-3 select-none">
+            the person, not the buzzwords
+          </span>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Left - Text Content */}
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-start">
+          {/* Left — Photo */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-6"
+            className="lg:col-span-5 relative"
           >
-            <div className="neo-card p-6">
-              <p className="text-lg leading-relaxed">
-                {t("about.intro")}
-              </p>
+            <div className="relative mx-auto lg:mx-0 w-fit rotate-[-3deg]">
+              {/* tape */}
+              <span
+                aria-hidden
+                className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 rotate-2 bg-[var(--surface-3)]/70 border border-[var(--border)]"
+              />
+              <div className="bg-[var(--surface)] border border-[var(--border-strong)] p-3 shadow-[var(--shadow-lg)]">
+                <div className="relative w-60 sm:w-72 aspect-[4/5] overflow-hidden bg-[var(--surface-2)]">
+                  {hasPhoto ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src="/profile.jpg"
+                      alt="Harshal Vankudre"
+                      onError={() => setHasPhoto(false)}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-2 px-4 text-center">
+                      <span className="font-serif text-7xl text-[var(--muted-2)]">HV</span>
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-muted-2">
+                        drop a photo at /public/profile.jpg
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <p className="font-hand text-xl text-center mt-2.5 text-[var(--foreground)]">
+                  Harshal — probably debugging
+                </p>
+              </div>
+              <span className="hand-note hidden sm:block absolute -right-6 top-8 text-2xl rotate-6 select-none">
+                that&rsquo;s me →
+              </span>
             </div>
+
+            {/* Years stat */}
+            <div className="mt-12 flex items-center gap-4 justify-center lg:justify-start">
+              <span className="font-serif text-6xl text-[var(--primary)] leading-none">2+</span>
+              <span className="font-mono text-xs uppercase tracking-[0.14em] text-muted max-w-[8rem]">
+                {t("about.yearsExp")}
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Right — Text */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="lg:col-span-7 space-y-7"
+          >
+            <p className="text-lg leading-relaxed text-[var(--foreground)]/90">
+              {t("about.intro")}
+            </p>
 
             <blockquote className="border-l-2 border-[var(--primary)] pl-5 py-1">
               <p className="font-serif italic text-xl sm:text-2xl leading-snug text-[var(--foreground)]">
@@ -56,51 +107,22 @@ export default function About() {
               </p>
             </blockquote>
 
-            <div className="neo-card p-6">
-              <p className="text-lg leading-relaxed">
-                {t("about.chess")}{" "}
-                <span className="font-medium text-[var(--accent-cyan)]">{t("hero.location")}</span>.
-              </p>
-            </div>
-
-            <p className="text-gray-700 font-medium">
-              {t("about.looking")}
+            <p className="text-lg leading-relaxed text-[var(--foreground)]/90">
+              {t("about.chess")}{" "}
+              <span className="font-medium text-[var(--accent-cyan)]">{t("hero.location")}</span>.
             </p>
-          </motion.div>
 
-          {/* Right - Highlights */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="space-y-4"
-          >
-            {highlights.map((highlight, index) => (
-              <motion.div
-                key={highlight.text}
-                initial={{ opacity: 0, x: 30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                className="neo-card p-4 flex items-center gap-4"
-              >
-                <div className="w-11 h-11 rounded bg-[var(--accent-cyan)] flex items-center justify-center flex-shrink-0">
-                  <highlight.icon className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-base sm:text-lg text-[var(--foreground)]">{highlight.text}</span>
-                <CheckCircle2 className="w-5 h-5 ml-auto text-[var(--accent-cyan)]" />
-              </motion.div>
-            ))}
+            {/* Highlights */}
+            <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-3 border-t border-[var(--border)] mt-2 pt-6">
+              {highlights.map((h) => (
+                <li key={h.text} className="flex items-center gap-2.5 text-[var(--foreground)]">
+                  <h.icon className="w-4 h-4 text-[var(--accent-cyan)] flex-shrink-0" />
+                  <span>{h.text}</span>
+                </li>
+              ))}
+            </ul>
 
-            {/* Experience Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.9 }}
-              className="neo-card p-6 text-center"
-            >
-              <div className="font-serif text-5xl sm:text-6xl text-[var(--primary)] mb-1">2+</div>
-              <div className="font-mono text-xs uppercase tracking-[0.14em] text-muted">{t("about.yearsExp")}</div>
-            </motion.div>
+            <p className="text-gray-700 font-medium">{t("about.looking")}</p>
           </motion.div>
         </div>
       </div>
