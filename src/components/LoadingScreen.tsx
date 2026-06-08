@@ -85,7 +85,7 @@ export default function LoadingScreen() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mb-6 sm:mb-8"
           >
-            <div className="text-4xl sm:text-5xl font-black bg-primary text-[var(--foreground)] px-3 sm:px-4 py-1.5 sm:py-2 border-3 sm:border-4 border-[var(--border)] neo-shadow">
+            <div className="grid place-items-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl text-3xl sm:text-4xl font-black font-display text-white bg-gradient-to-br from-[var(--primary)] to-[var(--primary-600)] shadow-[0_18px_50px_-12px_var(--glow)]">
               HV
             </div>
           </motion.div>
@@ -95,7 +95,7 @@ export default function LoadingScreen() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.4 }}
-            className="text-xs sm:text-sm font-bold uppercase tracking-widest mb-4 sm:mb-6 text-gray-600"
+            className="font-mono text-xs uppercase tracking-[0.25em] mb-5 sm:mb-6 text-muted"
           >
             Loading Portfolio
           </motion.p>
@@ -109,7 +109,7 @@ export default function LoadingScreen() {
             initial={{ opacity: 0, scaleX: 0.8 }}
             animate={{ opacity: 1, scaleX: 1 }}
             transition={{ delay: 0.2, duration: 0.4 }}
-            className="w-56 sm:w-64 md:w-80 h-4 sm:h-5 bg-[var(--surface)] border-3 sm:border-4 border-[var(--border)] relative overflow-hidden neo-shadow"
+            className="w-56 sm:w-72 h-2 rounded-full bg-[var(--surface-2)] border border-[var(--border)] relative overflow-hidden"
           >
             {/* Progress fill with gradient */}
             <motion.div

@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform, useSpring, useInView, useMotionValueEvent, AnimatePresence, type MotionValue } from "framer-motion";
 import { useRef, useState } from "react";
-import { MapPin, Calendar, Briefcase, CheckCircle, Sparkles, Trophy, Rocket, Star, Zap, TrendingUp, Users, Bot } from "lucide-react";
+import { MapPin, Calendar, Briefcase, CheckCircle, Trophy, Rocket, Star, Zap, TrendingUp, Users, Bot } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 // Story chapters with narrative elements - chronological order (earliest first)
@@ -70,25 +70,25 @@ function ChapterHeader({
           initial={{ scale: 0, rotate: -180 }}
           animate={isVisible ? { scale: 1, rotate: 0 } : {}}
           transition={{ type: "spring", damping: 15, delay: 0.2 }}
-          className="w-12 h-12 flex items-center justify-center border-4 border-[var(--border)]"
-          style={{ backgroundColor: chapter.color }}
+          className="grid place-items-center w-12 h-12 rounded-xl border border-[var(--border)]"
+          style={{ backgroundColor: `${chapter.color}1f`, color: chapter.color }}
         >
-          <Icon size={24} />
+          <Icon size={22} />
         </motion.div>
         <div>
           <motion.span
             initial={{ opacity: 0 }}
             animate={isVisible ? { opacity: 1 } : {}}
             transition={{ delay: 0.3 }}
-            className="text-xs font-black uppercase tracking-widest text-gray-500"
+            className="font-mono text-xs uppercase tracking-widest text-muted-2"
           >
-            {chapter.chapter} • {chapter.year}
+            {chapter.chapter} · {chapter.year}
           </motion.span>
           <motion.h3
             initial={{ opacity: 0, y: 10 }}
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.4 }}
-            className="text-xl sm:text-2xl font-black uppercase"
+            className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--foreground)]"
           >
             {chapter.title}
           </motion.h3>
@@ -98,7 +98,7 @@ function ChapterHeader({
         initial={{ opacity: 0 }}
         animate={isVisible ? { opacity: 1 } : {}}
         transition={{ delay: 0.5 }}
-        className="text-gray-600 italic pl-16 text-sm sm:text-base"
+        className="text-muted italic pl-16 text-sm sm:text-base"
       >
         &ldquo;{chapter.narrative}&rdquo;
       </motion.p>
@@ -124,11 +124,11 @@ function ImpactBadge({
       initial={{ opacity: 0, scale: 0.8 }}
       animate={isVisible ? { opacity: 1, scale: 1 } : {}}
       transition={{ delay, type: "spring" }}
-      className="flex items-center gap-2 px-3 py-2 bg-[var(--surface)] border-2 border-[var(--border)] neo-shadow"
+      className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-[var(--border)] bg-[var(--surface-2)]"
     >
-      <Icon size={16} className="text-gray-600" />
-      <span className="font-black">{metric}</span>
-      <span className="text-xs text-gray-500 uppercase">{label}</span>
+      <Icon size={16} className="text-primary" />
+      <span className="font-display font-black text-lg gradient-text">{metric}</span>
+      <span className="font-mono text-[11px] text-muted-2 uppercase tracking-wide">{label}</span>
     </motion.div>
   );
 }
@@ -177,7 +177,7 @@ function ScrollProgress({
           transition={{ duration: 0.3 }}
           className="fixed left-4 sm:left-6 top-1/2 -translate-y-1/2 z-40 hidden md:block"
         >
-          <div className="bg-[var(--surface)]/95 backdrop-blur-sm border-4 border-[var(--border)] neo-shadow p-3 space-y-3">
+          <div className="glass rounded-2xl shadow-[var(--shadow-lg)] p-4 space-y-3">
             {/* Mini Progress Circle */}
             <div className="relative w-16 h-16 mx-auto">
               <svg className="w-full h-full transform -rotate-90">
@@ -185,8 +185,8 @@ function ScrollProgress({
                   cx="32"
                   cy="32"
                   r="28"
-                  stroke="#2A3360"
-                  strokeWidth="6"
+                  stroke="rgba(255,255,255,0.08)"
+                  strokeWidth="5"
                   fill="none"
                 />
                 <motion.circle
@@ -194,9 +194,9 @@ function ScrollProgress({
                   cy="32"
                   r="28"
                   stroke="url(#progressGradient)"
-                  strokeWidth="6"
+                  strokeWidth="5"
                   fill="none"
-                  strokeLinecap="square"
+                  strokeLinecap="round"
                   style={{ strokeDasharray }}
                 />
                 <defs>
@@ -208,8 +208,8 @@ function ScrollProgress({
                 </defs>
               </svg>
               <div
-                className="absolute inset-0 flex items-center justify-center border-2 border-[var(--border)] m-2"
-                style={{ backgroundColor: currentChapter?.color }}
+                className="absolute inset-0 flex items-center justify-center rounded-full m-2.5 border border-[var(--border)]"
+                style={{ backgroundColor: `${currentChapter?.color}26`, color: currentChapter?.color }}
               >
                 <Icon size={20} />
               </div>
@@ -217,10 +217,10 @@ function ScrollProgress({
 
             {/* Current Chapter */}
             <div className="text-center">
-              <div className="text-xs font-black text-gray-500 uppercase">
+              <div className="font-mono text-[11px] text-muted-2 uppercase tracking-widest">
                 {currentChapter?.year}
               </div>
-              <div className="text-sm font-black leading-tight max-w-[80px]">
+              <div className="text-sm font-semibold leading-tight max-w-[88px] text-[var(--foreground)]">
                 {currentChapter?.title}
               </div>
             </div>
@@ -232,11 +232,9 @@ function ScrollProgress({
                 return (
                   <motion.div
                     key={chapter.year}
-                    className={`w-2.5 h-2.5 border-2 border-[var(--border)] transition-colors ${
-                      isReached ? "" : "bg-gray-200"
-                    }`}
-                    style={{ backgroundColor: isReached ? chapter.color : undefined }}
-                    animate={index === currentChapterIndex ? { scale: [1, 1.3, 1] } : {}}
+                    className="w-2 h-2 rounded-full transition-colors"
+                    style={{ backgroundColor: isReached ? chapter.color : "rgba(255,255,255,0.14)" }}
+                    animate={index === currentChapterIndex ? { scale: [1, 1.4, 1] } : {}}
                     transition={{ repeat: Infinity, duration: 1.5 }}
                   />
                 );
@@ -245,7 +243,7 @@ function ScrollProgress({
 
             {/* Percentage */}
             <div className="text-center">
-              <motion.span className="text-lg font-black">{percentText}</motion.span>
+              <motion.span className="font-display text-lg font-black gradient-text">{percentText}</motion.span>
             </div>
           </div>
         </motion.div>
@@ -263,12 +261,12 @@ function TimelineConnector({ progress }: { progress: MotionValue<number> }) {
   );
 
   return (
-    <div className="absolute left-6 sm:left-8 top-0 h-full w-1 hidden md:block">
+    <div className="absolute left-6 sm:left-8 top-0 h-full w-px hidden md:block">
       {/* Background line */}
-      <div className="absolute inset-0 bg-gray-200" />
+      <div className="absolute inset-0 bg-[var(--border)]" />
       {/* Animated gradient line - red (2021) to cyan (2025) */}
       <motion.div
-        className="absolute top-0 left-0 right-0 bg-gradient-to-b from-red via-primary to-cyan"
+        className="absolute top-0 left-0 right-0 bg-gradient-to-b from-red via-primary to-cyan shadow-[0_0_12px_var(--glow)]"
         style={{ height }}
       />
     </div>
@@ -309,14 +307,15 @@ function ExperienceCard({
         initial={{ scale: 0 }}
         animate={isInView ? { scale: 1 } : {}}
         transition={{ delay: 0.2, type: "spring" }}
-        className="absolute left-4 sm:left-6 top-0 w-5 h-5 sm:w-6 sm:h-6 border-4 border-[var(--border)] hidden md:flex items-center justify-center z-10"
-        style={{ background: exp.color }}
+        className="absolute left-[1.15rem] sm:left-[1.65rem] top-1 w-4 h-4 rounded-full ring-4 ring-[var(--background)] hidden md:flex items-center justify-center z-10"
+        style={{ background: exp.color, boxShadow: `0 0 14px ${exp.color}` }}
       >
         {exp.current && (
           <motion.div
-            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+            animate={{ scale: [1, 1.8, 1], opacity: [0.7, 0, 0.7] }}
             transition={{ repeat: Infinity, duration: 2 }}
-            className="w-2 h-2 bg-black rounded-full"
+            className="absolute inset-0 rounded-full"
+            style={{ background: exp.color }}
           />
         )}
       </motion.div>
@@ -332,19 +331,15 @@ function ExperienceCard({
         className="neo-card p-0 overflow-hidden"
       >
         {/* Header with Company Info */}
-        <div
-          className="p-4 sm:p-6 border-b-4 border-[var(--border)] relative overflow-hidden"
-          style={{ background: exp.color }}
-        >
-          {/* Animated pattern */}
-          <motion.div
-            className="absolute inset-0 opacity-5"
-            animate={{ backgroundPosition: ["0% 0%", "100% 100%"] }}
-            transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-            style={{
-              backgroundImage: `repeating-linear-gradient(45deg, black 0px, black 2px, transparent 2px, transparent 12px)`,
-              backgroundSize: "20px 20px",
-            }}
+        <div className="p-5 sm:p-6 border-b border-[var(--border)] relative overflow-hidden">
+          {/* Color tint wash */}
+          <div
+            className="absolute inset-0 opacity-[0.13]"
+            style={{ background: `radial-gradient(120% 140% at 0% 0%, ${exp.color}, transparent 55%)` }}
+          />
+          <div
+            className="absolute left-0 top-0 bottom-0 w-1"
+            style={{ background: exp.color }}
           />
 
           <div className="relative flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
@@ -354,7 +349,7 @@ function ExperienceCard({
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.4 }}
-                  className="text-xl sm:text-2xl font-black uppercase"
+                  className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--foreground)]"
                 >
                   {exp.company}
                 </motion.h4>
@@ -566,16 +561,13 @@ export default function Experience() {
           initial={{ opacity: 0, y: 50 }}
           animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8"
+          className="text-center mb-14 flex flex-col items-center"
         >
-          <div className="inline-flex items-center gap-2 neo-tag neo-tag-cyan mb-4">
-            <Sparkles size={16} />
-            <span>{t("experience.tag")}</span>
-          </div>
+          <span className="neo-eyebrow mb-5">{t("experience.tag")}</span>
           <h2 className="neo-title">
             The <span className="neo-highlight">Story</span> So Far
           </h2>
-          <p className="mt-4 text-lg max-w-2xl mx-auto text-gray-600">
+          <p className="mt-4 text-lg max-w-2xl mx-auto text-muted">
             From teaching math in India to building AI in Germany — every chapter shaped who I am today.
           </p>
         </motion.div>
@@ -604,17 +596,15 @@ export default function Experience() {
             transition={{ type: "spring", damping: 15 }}
             className="text-center py-8"
           >
-            <motion.div
-              animate={isComplete ? { rotate: [0, 10, -10, 0] } : {}}
-              transition={{ repeat: Infinity, duration: 2, repeatDelay: 1 }}
-              className="inline-flex items-center gap-3 px-6 py-4 bg-primary border-4 border-[var(--border)] neo-shadow-lg"
-            >
-              <Trophy size={28} />
+            <motion.div className="gradient-ring inline-flex items-center gap-4 px-6 py-4 rounded-2xl glass shadow-[var(--shadow-lg)]">
+              <span className="grid place-items-center w-11 h-11 rounded-xl bg-gradient-to-br from-[var(--primary)] to-[var(--primary-600)] text-white">
+                <Trophy size={22} />
+              </span>
               <div className="text-left">
-                <span className="font-black text-lg uppercase block">To be continued...</span>
-                <span className="text-sm font-medium">The next chapter is being written</span>
+                <span className="font-display font-bold text-lg block text-[var(--foreground)]">To be continued…</span>
+                <span className="text-sm text-muted">The next chapter is being written</span>
               </div>
-              <Rocket size={28} />
+              <Rocket size={22} className="text-[var(--accent-cyan)]" />
             </motion.div>
           </motion.div>
         </div>
