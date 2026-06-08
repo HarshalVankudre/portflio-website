@@ -332,8 +332,11 @@ export default function GitHubStats() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="relative text-center mb-12"
         >
+          <span className="hand-note hidden lg:block absolute right-0 top-0 text-2xl -rotate-3 select-none">
+            receipts, not promises
+          </span>
           <span className="neo-eyebrow mb-5 justify-center">
             <Zap size={13} />
             {hasContributions ? "Live from GitHub" : "From GitHub"}

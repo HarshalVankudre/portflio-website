@@ -61,8 +61,11 @@ export default function Contact() {
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="relative mb-16"
         >
+          <span className="hand-note hidden md:block absolute right-2 top-1 text-2xl rotate-3 select-none">
+            I reply fast, promise
+          </span>
           <span className="neo-eyebrow mb-5">{t("contact.tag")}</span>
           <h2 className="neo-title mt-4">
             {t("contact.title")}{" "}
