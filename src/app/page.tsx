@@ -14,10 +14,16 @@ import Footer from "@/components/Footer";
 import Terminal from "@/components/Terminal";
 import ChatBot from "@/components/ChatBot";
 import LoadingScreen from "@/components/LoadingScreen";
+import PointerEffects from "@/components/effects/PointerEffects";
+import ScrollProgressBar from "@/components/effects/ScrollProgressBar";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen">
+      {/* Scroll progress + custom cursor */}
+      <ScrollProgressBar />
+      <PointerEffects />
+
       {/* Skip Link */}
       <a
         href="#home"
