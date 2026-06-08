@@ -13,6 +13,8 @@ import {
   Mail,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import ParticleField from "@/components/effects/ParticleField";
+import Magnetic from "@/components/effects/Magnetic";
 
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
 
@@ -137,6 +139,9 @@ export default function Hero() {
       id="home"
       className="relative min-h-screen flex items-center overflow-hidden pt-32 pb-20"
     >
+      {/* Interactive constellation */}
+      <ParticleField className="opacity-80" />
+
       {/* Aurora backdrop */}
       <AuroraBlob className="w-[34rem] h-[34rem] -top-32 -right-24 bg-[radial-gradient(circle,rgba(124,92,255,0.5),transparent_60%)]" />
       <AuroraBlob
@@ -191,7 +196,7 @@ export default function Hero() {
               style={{ fontSize: "clamp(2.75rem, 8vw, 6.25rem)" }}
             >
               <span className="block text-[var(--foreground)]">Harshal</span>
-              <span className="block gradient-text">
+              <span className="block text-shimmer">
                 <ScrambleText text="Vankudre" />
               </span>
             </motion.h1>
@@ -230,18 +235,22 @@ export default function Hero() {
               animate="show"
               className="flex flex-wrap gap-3 sm:gap-4 mb-10"
             >
-              <a href="#projects" className="neo-btn neo-btn-primary">
-                {t("hero.viewProjects")}
-                <ArrowRight size={18} />
-              </a>
-              <a
-                href="/cv.pdf"
-                download="Harshal-Vankudre-CV.pdf"
-                className="neo-btn neo-btn-white"
-              >
-                <Download size={18} />
-                {t("hero.downloadCV")}
-              </a>
+              <Magnetic>
+                <a href="#projects" className="neo-btn neo-btn-primary">
+                  {t("hero.viewProjects")}
+                  <ArrowRight size={18} />
+                </a>
+              </Magnetic>
+              <Magnetic>
+                <a
+                  href="/cv.pdf"
+                  download="Harshal-Vankudre-CV.pdf"
+                  className="neo-btn neo-btn-white"
+                >
+                  <Download size={18} />
+                  {t("hero.downloadCV")}
+                </a>
+              </Magnetic>
             </motion.div>
 
             {/* Social row */}
