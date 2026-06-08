@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Newsreader } from "next/font/google";
+import { Inter, Newsreader, Caveat } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 
@@ -14,6 +14,13 @@ const newsreader = Newsreader({
   weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
   variable: "--font-serif",
+  display: "swap",
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-hand",
   display: "swap",
 });
 
@@ -139,7 +146,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} ${newsreader.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${newsreader.variable} ${caveat.variable} font-sans antialiased`}>
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
