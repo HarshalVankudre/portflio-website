@@ -65,12 +65,11 @@ function ScrambleText({ text }: { text: string }) {
   );
 }
 
-function FloatingBlob({
-  color,
+/** Soft, blurred drifting gradient glow — the aurora backdrop. */
+function AuroraBlob({
   className,
   delay = 0,
 }: {
-  color: string;
   className: string;
   delay?: number;
 }) {
@@ -78,20 +77,10 @@ function FloatingBlob({
     <motion.div
       aria-hidden
       initial={{ opacity: 0 }}
-      animate={{
-        opacity: 0.7,
-        x: [0, 18, -12, 0],
-        y: [0, -20, 10, 0],
-        rotate: [0, 6, -4, 0],
-      }}
-      transition={{
-        opacity: { duration: 1.2, delay },
-        x: { duration: 16, repeat: Infinity, ease: "easeInOut", delay },
-        y: { duration: 14, repeat: Infinity, ease: "easeInOut", delay },
-        rotate: { duration: 18, repeat: Infinity, ease: "easeInOut", delay },
-      }}
-      className={`absolute pointer-events-none border-4 border-[var(--border)] ${className}`}
-      style={{ background: color }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.6, delay }}
+      className={`absolute rounded-full blur-3xl pointer-events-none animate-aurora ${className}`}
+      style={{ animationDelay: `${delay}s` }}
     />
   );
 }
@@ -134,238 +123,230 @@ export default function Hero() {
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, currentRole, roles, prefersReducedMotion]);
 
+  const fadeUp = {
+    hidden: { opacity: 0, y: 24 },
+    show: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.7, delay: 0.1 + i * 0.08, ease: [0.2, 0.7, 0.2, 1] as const },
+    }),
+  };
+
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center neo-grid-bg pt-28 pb-16 overflow-hidden"
+      className="relative min-h-screen flex items-center overflow-hidden pt-32 pb-20"
     >
-      {/* Floating background shapes — three accents, kept sparse */}
-      <FloatingBlob
-        color="var(--primary)"
-        className="w-40 h-40 sm:w-56 sm:h-56 top-20 -left-10 sm:left-10 rotate-12"
+      {/* Aurora backdrop */}
+      <AuroraBlob className="w-[34rem] h-[34rem] -top-32 -right-24 bg-[radial-gradient(circle,rgba(124,92,255,0.5),transparent_60%)]" />
+      <AuroraBlob
+        className="w-[30rem] h-[30rem] top-1/3 -left-32 bg-[radial-gradient(circle,rgba(34,211,238,0.35),transparent_60%)]"
+        delay={1.2}
       />
-      <FloatingBlob
-        color="var(--accent-cyan)"
-        className="w-28 h-28 sm:w-40 sm:h-40 top-1/3 right-4 sm:right-20 rounded-full"
-        delay={1}
-      />
-      <FloatingBlob
-        color="var(--accent-red)"
-        className="hidden sm:block w-20 h-20 sm:w-32 sm:h-32 bottom-32 left-1/4 -rotate-12"
-        delay={2}
+      <AuroraBlob
+        className="hidden sm:block w-[24rem] h-[24rem] bottom-0 left-1/3 bg-[radial-gradient(circle,rgba(251,113,133,0.28),transparent_60%)]"
+        delay={2.2}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* LEFT COLUMN — Content */}
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 w-full relative z-10">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+          {/* LEFT — Content */}
           <div className="lg:col-span-7 order-2 lg:order-1">
+            {/* Status pill */}
+            <motion.div
+              custom={0}
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-3.5 py-1.5 mb-6"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              </span>
+              <span className="font-mono text-xs text-muted">
+                Open to opportunities
+              </span>
+            </motion.div>
+
             {/* Location */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 }}
-              className="flex items-center gap-2 text-gray-600 text-sm font-bold mb-4 uppercase tracking-wider"
+              custom={1}
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              className="flex items-center gap-2 text-muted text-sm font-mono mb-5"
             >
-              <MapPin size={16} />
+              <MapPin size={15} className="text-primary" />
               <span>{t("hero.location")}</span>
             </motion.div>
 
-            {/* Name — Big, stacked, with dramatic treatment */}
+            {/* Name */}
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              className="font-black uppercase leading-[0.9] tracking-tighter mb-6"
-              style={{ fontSize: "clamp(2.5rem, 8vw, 6.5rem)" }}
+              custom={2}
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              className="font-black leading-[0.92] tracking-[-0.04em] mb-6"
+              style={{ fontSize: "clamp(2.75rem, 8vw, 6.25rem)" }}
             >
-              <span className="block">Harshal</span>
-              <span
-                className="inline-block mt-1 sm:mt-2 px-2 sm:px-4 bg-[var(--primary)] border-4 border-[var(--border)]"
-                style={{
-                  boxShadow: "8px 8px 0 var(--shadow)",
-                }}
-              >
-                <ScrambleText text="VANKUDRE" />
+              <span className="block text-[var(--foreground)]">Harshal</span>
+              <span className="block gradient-text">
+                <ScrambleText text="Vankudre" />
               </span>
             </motion.h1>
 
             {/* Typewriter role */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.45 }}
-              className="text-lg sm:text-2xl md:text-3xl font-bold mb-3 h-9 sm:h-10"
+              custom={3}
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              className="text-xl sm:text-2xl md:text-3xl font-semibold mb-5 h-9 sm:h-10 text-[var(--foreground)]/90"
             >
-              <span className="text-gray-700">
-                {prefersReducedMotion ? roles[currentRole] : displayText}
-              </span>
-              <span className="cursor-blink text-[var(--accent-red)] ml-0.5">|</span>
+              <span>{prefersReducedMotion ? roles[currentRole] : displayText}</span>
+              <span className="cursor-blink text-primary ml-0.5">|</span>
             </motion.div>
 
             {/* Tagline */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="text-gray-700 text-base sm:text-lg max-w-xl mb-8 leading-relaxed"
+              custom={4}
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              className="text-muted text-base sm:text-lg max-w-xl mb-9 leading-relaxed"
             >
-              Building enterprise <span className="font-bold bg-[var(--accent-cyan)] px-1">AI chatbots</span>,{" "}
-              <span className="font-bold bg-[var(--accent-red)] px-1">RAG systems</span>, and full-stack apps that ship.
+              Building enterprise{" "}
+              <span className="text-[var(--foreground)] font-medium">AI chatbots</span>,{" "}
+              <span className="text-[var(--foreground)] font-medium">RAG systems</span>, and
+              full-stack apps that ship.
             </motion.p>
 
             {/* CTAs */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-wrap gap-3 sm:gap-4 mb-8"
+              custom={5}
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              className="flex flex-wrap gap-3 sm:gap-4 mb-10"
             >
-              <a href="#projects" className="neo-btn neo-btn-primary text-sm sm:text-base">
+              <a href="#projects" className="neo-btn neo-btn-primary">
                 {t("hero.viewProjects")}
                 <ArrowRight size={18} />
               </a>
               <a
                 href="/cv.pdf"
                 download="Harshal-Vankudre-CV.pdf"
-                className="neo-btn neo-btn-cyan text-sm sm:text-base"
+                className="neo-btn neo-btn-white"
               >
                 <Download size={18} />
                 {t("hero.downloadCV")}
-              </a>
-              <a href="#contact" className="neo-btn neo-btn-white text-sm sm:text-base">
-                <Mail size={18} />
-                {t("hero.contact")}
               </a>
             </motion.div>
 
             {/* Social row */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7 }}
+              custom={6}
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
               className="flex items-center gap-3"
             >
-              <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-gray-500">
+              <span className="font-mono text-xs uppercase tracking-widest text-muted-2">
                 Find me
               </span>
-              <div className="h-px w-8 bg-gray-300" />
-              <a
-                href="https://github.com/HarshalVankudre"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 border-3 border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--primary)] hover:-translate-y-0.5 transition-all neo-shadow"
-                aria-label="GitHub"
-              >
-                <Github size={18} />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/harshal-vankudre/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 border-3 border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--accent-cyan)] hover:-translate-y-0.5 transition-all neo-shadow"
-                aria-label="LinkedIn"
-              >
-                <Linkedin size={18} />
-              </a>
-              <a
-                href="mailto:harshalvankudre@gmail.com"
-                className="p-2 border-3 border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--accent-red)] hover:-translate-y-0.5 transition-all neo-shadow"
-                aria-label="Email"
-              >
-                <Mail size={18} />
-              </a>
+              <div className="h-px w-8 bg-[var(--border-strong)]" />
+              {[
+                { href: "https://github.com/HarshalVankudre", icon: Github, label: "GitHub" },
+                { href: "https://www.linkedin.com/in/harshal-vankudre/", icon: Linkedin, label: "LinkedIn" },
+                { href: "mailto:harshalvankudre@gmail.com", icon: Mail, label: "Email" },
+              ].map(({ href, icon: Icon, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="grid place-items-center w-10 h-10 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] text-muted hover:text-[var(--foreground)] hover:border-[var(--border-strong)] hover:-translate-y-0.5 transition-all"
+                >
+                  <Icon size={18} />
+                </a>
+              ))}
             </motion.div>
           </div>
 
-          {/* RIGHT COLUMN — Visual identity card */}
+          {/* RIGHT — Identity card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ delay: 0.4, type: "spring", damping: 20 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.35, ease: [0.2, 0.7, 0.2, 1] }}
             className="lg:col-span-5 order-1 lg:order-2 relative"
           >
-            {/* Floating sticker badges around the main card */}
+            {/* Floating accent labels */}
             <motion.div
-              initial={{ opacity: 0, scale: 0, rotate: 0 }}
-              animate={{ opacity: 1, scale: 1, rotate: -12 }}
-              transition={{ delay: 1, type: "spring" }}
-              className="absolute -top-4 -left-4 sm:-top-6 sm:-left-6 z-20 px-3 py-1.5 bg-[var(--accent-cyan)] border-3 border-[var(--border)] neo-shadow font-black uppercase text-xs sm:text-sm font-display"
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1, type: "spring", stiffness: 200, damping: 18 }}
+              className="absolute -top-4 -left-3 sm:-left-5 z-20 glass rounded-xl px-3 py-2 text-xs font-mono text-primary shadow-lg"
             >
-              <Sparkles size={14} className="inline -mt-0.5 mr-1" />
+              <Sparkles size={13} className="inline -mt-0.5 mr-1.5" />
               AI Developer
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, scale: 0, rotate: 0 }}
-              animate={{ opacity: 1, scale: 1, rotate: 8 }}
-              transition={{ delay: 1.15, type: "spring" }}
-              className="absolute -top-3 right-4 sm:-top-5 sm:right-6 z-20 px-3 py-1.5 bg-[var(--accent-red)] border-3 border-[var(--border)] neo-shadow font-black uppercase text-xs sm:text-sm font-display"
-            >
-              EN · DE
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0, rotate: 0 }}
-              animate={{ opacity: 1, scale: 1, rotate: -6 }}
-              transition={{ delay: 1.3, type: "spring" }}
-              className="absolute -bottom-3 -right-3 sm:-bottom-5 sm:-right-5 z-20 px-3 py-1.5 bg-[var(--primary)] border-3 border-[var(--border)] neo-shadow font-black uppercase text-xs sm:text-sm font-display"
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.2, type: "spring", stiffness: 200, damping: 18 }}
+              className="absolute -bottom-4 -right-3 sm:-right-5 z-20 glass rounded-xl px-3 py-2 text-xs font-mono text-[var(--accent-cyan)] shadow-lg"
             >
               @ RÜKO GmbH
             </motion.div>
 
-            {/* Main monogram card */}
-            <div
-              className="relative bg-[var(--surface)] border-4 border-[var(--border)] overflow-hidden"
-              style={{ boxShadow: "12px 12px 0 var(--shadow)" }}
-            >
-              {/* Top stripe with stripes pattern */}
-              <div className="h-3 bg-[var(--primary)] border-b-4 border-[var(--border)] neo-stripes" />
-
-              {/* Big monogram */}
-              <div className="p-6 sm:p-8 bg-[var(--background)] flex items-center justify-center relative neo-grid-bg">
+            {/* Card */}
+            <div className="gradient-ring neo-card overflow-hidden rounded-[22px]">
+              {/* Monogram */}
+              <div className="relative p-8 sm:p-10 flex items-center justify-center neo-grid-bg overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(124,92,255,0.18),transparent_60%)]" />
                 <motion.div
-                  animate={{
-                    y: [0, -8, 0],
-                    rotate: [-2, 2, -2],
-                  }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="font-display font-black text-[8rem] sm:text-[10rem] lg:text-[12rem] leading-none bg-[var(--primary)] px-4 sm:px-6 border-4 border-[var(--border)]"
-                  style={{ boxShadow: "8px 8px 0 var(--shadow)" }}
+                  animate={prefersReducedMotion ? {} : { y: [0, -10, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                  className="relative font-display font-black leading-none gradient-text"
+                  style={{ fontSize: "clamp(7rem, 16vw, 11rem)" }}
                 >
                   HV
                 </motion.div>
               </div>
 
-              {/* Stats grid */}
-              <div className="grid grid-cols-3 border-t-4 border-[var(--border)]">
-                <div className="p-3 sm:p-4 text-center border-r-4 border-[var(--border)]">
-                  <div className="font-display text-xl sm:text-3xl font-black">2+</div>
-                  <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-600 mt-0.5">
-                    Years
+              {/* Stats */}
+              <div className="grid grid-cols-3 border-t border-[var(--border)]">
+                {[
+                  { value: "2+", label: "Years" },
+                  { value: "10+", label: "Projects" },
+                  { value: "15+", label: "Tech" },
+                ].map((s, i) => (
+                  <div
+                    key={s.label}
+                    className={`p-4 text-center ${i < 2 ? "border-r border-[var(--border)]" : ""}`}
+                  >
+                    <div className="font-display text-2xl sm:text-3xl font-black gradient-text">
+                      {s.value}
+                    </div>
+                    <div className="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-muted-2 mt-1">
+                      {s.label}
+                    </div>
                   </div>
-                </div>
-                <div className="p-3 sm:p-4 text-center border-r-4 border-[var(--border)] bg-[var(--accent-cyan)]/20">
-                  <div className="font-display text-xl sm:text-3xl font-black">10+</div>
-                  <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-700 mt-0.5">
-                    Projects
-                  </div>
-                </div>
-                <div className="p-3 sm:p-4 text-center bg-[var(--primary)]/30">
-                  <div className="font-display text-xl sm:text-3xl font-black">15+</div>
-                  <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-700 mt-0.5">
-                    Tech
-                  </div>
-                </div>
+                ))}
               </div>
 
               {/* Currently building */}
-              <div className="p-4 border-t-4 border-[var(--border)] bg-black text-white">
-                <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--primary)] mb-1">
+              <div className="p-5 border-t border-[var(--border)] bg-[var(--surface-2)]">
+                <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-primary mb-1.5">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-70" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+                  </span>
                   Currently building
                 </div>
-                <div className="font-bold text-sm sm:text-base">
+                <div className="font-medium text-sm text-[var(--foreground)]/90">
                   Rüko GPT — Internal AI for 50+ employees
                 </div>
               </div>
@@ -374,22 +355,17 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Scroll indicator */}
       <motion.a
         href="#about"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.4 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-gray-500 hover:text-[var(--foreground)] transition-colors z-10"
+        transition={{ delay: 1.6 }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-muted-2 hover:text-[var(--foreground)] transition-colors z-10"
       >
-        <span className="text-[10px] font-bold uppercase tracking-widest">
-          Scroll
-        </span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          <ChevronDown size={28} strokeWidth={3} />
+        <span className="text-[10px] font-mono uppercase tracking-widest">Scroll</span>
+        <motion.div animate={{ y: [0, 7, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>
+          <ChevronDown size={22} />
         </motion.div>
       </motion.a>
     </section>

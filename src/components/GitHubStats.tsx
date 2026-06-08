@@ -334,13 +334,13 @@ export default function GitHubStats() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 neo-tag neo-tag-primary mb-4">
-            <Zap size={16} />
-            <span>{hasContributions ? "Live from GitHub" : "From GitHub"}</span>
-          </div>
-          <h2 className="neo-title">Code in <span className="neo-highlight">Action</span></h2>
+          <span className="neo-eyebrow mb-5 justify-center">
+            <Zap size={13} />
+            {hasContributions ? "Live from GitHub" : "From GitHub"}
+          </span>
+          <h2 className="neo-title mt-3">Code in <span className="neo-highlight">Action</span></h2>
           {hasContributions && (
-            <p className="mt-4 text-lg max-w-2xl mx-auto text-gray-600">
+            <p className="mt-4 text-lg max-w-2xl mx-auto text-muted">
               Real-time coding activity - because talk is cheap, show me the code
             </p>
           )}
