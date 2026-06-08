@@ -1,22 +1,26 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Design tokens — tightened neobrutalist palette
-   Signature yellow + cyan & red accents on cream/ink.
+   Design tokens — cosmic / space neobrutalist palette
+   Nebula violet + orbital blue & rose accents on deep space.
    ============================================================ */
 :root {
   /* Surfaces */
-  --background: #FFFEF5; /* cream */
-  --foreground: #1A1A1A; /* ink */
+  --background: #060A1A; /* deep space */
+  --foreground: #E7ECFF; /* starlight */
 
-  /* Accents (the only three) */
-  --primary: #FFE500;    /* signature yellow */
-  --accent-cyan: #4ECDC4;
-  --accent-red: #FF6B6B;
+  /* Panels */
+  --surface: #0E1430;    /* card panel — deep blue */
+  --surface-2: #070B1E;  /* deeper panel / dark sections */
+
+  /* Accents (the only three) — deep enough that light text sits on them */
+  --primary: #7C5CFF;    /* nebula violet */
+  --accent-cyan: #3B82F6; /* orbital blue */
+  --accent-red: #F43F7A;  /* nebula rose */
 
   /* Structure */
-  --border: #000000;
-  --shadow: #000000;
+  --border: #3D4A85;     /* cosmic edge */
+  --shadow: #34237A;     /* violet offset glow */
 
   /* Hard-offset shadow scale — one consistent set of tiers */
   --shadow-sm: 3px 3px 0 var(--shadow);
@@ -25,13 +29,27 @@
 }
 
 /* Bind tokens to Tailwind so utilities resolve:
-   bg-primary / bg-cyan / bg-red / text-ink / bg-cream / font-display … */
+   bg-primary / bg-cyan / bg-red / text-ink / bg-cream / font-display …
+   The gray ramp is inverted into a cosmic slate so existing
+   text-gray-* (muted text) and bg-gray-* (surfaces) both read
+   correctly on a dark canvas without touching every component. */
 @theme inline {
   --color-primary: var(--primary);
   --color-cyan: var(--accent-cyan);
   --color-red: var(--accent-red);
   --color-ink: var(--foreground);
   --color-cream: var(--background);
+
+  --color-gray-50: #0B1026;
+  --color-gray-100: #10162F;
+  --color-gray-200: #1A2142;
+  --color-gray-300: #2A3360;
+  --color-gray-400: #8089B5;
+  --color-gray-500: #939CC4;
+  --color-gray-600: #AAB2D6;
+  --color-gray-700: #C2C8E4;
+  --color-gray-800: #D5DAEF;
+  --color-gray-900: #E7ECFF;
 
   --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -46,10 +64,41 @@ html {
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  /* Distant nebula glows fixed behind the page */
+  background-image:
+    radial-gradient(1000px 700px at 82% -12%, rgba(124, 92, 255, 0.20), transparent 60%),
+    radial-gradient(900px 700px at -10% 110%, rgba(59, 130, 246, 0.16), transparent 60%),
+    radial-gradient(700px 500px at 50% 50%, rgba(244, 63, 122, 0.07), transparent 65%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
   overflow-x: hidden;
+}
+
+/* Tiled starfield, fixed behind all content */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 25% 15%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1px 1px at 75% 44%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 50% 82%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 12% 62%, rgba(200, 215, 255, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 88% 76%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 60% 8%, rgba(206, 197, 255, 0.7), transparent);
+  background-size: 200px 200px;
+  opacity: 0.55;
+  animation: twinkle 6s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.7; }
 }
 
 /* Display typeface drives every heading; .font-display opts in elsewhere */
@@ -116,7 +165,7 @@ h6 {
 }
 
 .neo-card {
-  background: white;
+  background: var(--surface);
   border: 2px solid var(--border);
   box-shadow: var(--shadow-sm);
   transition: transform 0.18s ease, box-shadow 0.18s ease;
@@ -186,7 +235,7 @@ h6 {
 }
 
 .neo-btn-white {
-  background: white;
+  background: var(--surface);
   color: var(--foreground);
 }
 
@@ -199,7 +248,7 @@ h6 {
   text-transform: uppercase;
   letter-spacing: 0.03em;
   border: 2px solid var(--border);
-  background: white;
+  background: var(--surface);
 }
 
 .neo-tag-primary {
@@ -242,8 +291,8 @@ h6 {
 /* Grid pattern background */
 .neo-grid-bg {
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -253,8 +302,8 @@ h6 {
     -45deg,
     transparent,
     transparent 10px,
-    rgba(0, 0, 0, 0.03) 10px,
-    rgba(0, 0, 0, 0.03) 20px
+    rgba(255, 255, 255, 0.035) 10px,
+    rgba(255, 255, 255, 0.035) 20px
   );
 }
 

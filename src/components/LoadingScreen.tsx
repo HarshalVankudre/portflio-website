@@ -76,7 +76,7 @@ export default function LoadingScreen() {
             opacity: 0,
             transition: { duration: 0.5, ease: "easeInOut" }
           }}
-          className="fixed inset-0 z-[100] bg-[#FFFEF5] flex flex-col items-center justify-center"
+          className="fixed inset-0 z-[100] bg-[var(--background)] flex flex-col items-center justify-center"
         >
           {/* Logo */}
           <motion.div
@@ -85,7 +85,7 @@ export default function LoadingScreen() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mb-6 sm:mb-8"
           >
-            <div className="text-4xl sm:text-5xl font-black bg-primary text-black px-3 sm:px-4 py-1.5 sm:py-2 border-3 sm:border-4 border-black neo-shadow">
+            <div className="text-4xl sm:text-5xl font-black bg-primary text-[var(--foreground)] px-3 sm:px-4 py-1.5 sm:py-2 border-3 sm:border-4 border-[var(--border)] neo-shadow">
               HV
             </div>
           </motion.div>
@@ -109,14 +109,14 @@ export default function LoadingScreen() {
             initial={{ opacity: 0, scaleX: 0.8 }}
             animate={{ opacity: 1, scaleX: 1 }}
             transition={{ delay: 0.2, duration: 0.4 }}
-            className="w-56 sm:w-64 md:w-80 h-4 sm:h-5 bg-white border-3 sm:border-4 border-black relative overflow-hidden neo-shadow"
+            className="w-56 sm:w-64 md:w-80 h-4 sm:h-5 bg-[var(--surface)] border-3 sm:border-4 border-[var(--border)] relative overflow-hidden neo-shadow"
           >
             {/* Progress fill with gradient */}
             <motion.div
               className="h-full relative"
               style={{
                 width: `${progress}%`,
-                background: "linear-gradient(90deg, #FFE500 0%, #FFD000 50%, #FFE500 100%)",
+                background: "linear-gradient(90deg, var(--primary) 0%, #B49CFF 50%, var(--primary) 100%)",
               }}
               transition={{ duration: 0.05, ease: "linear" }}
             >

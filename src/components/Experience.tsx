@@ -70,7 +70,7 @@ function ChapterHeader({
           initial={{ scale: 0, rotate: -180 }}
           animate={isVisible ? { scale: 1, rotate: 0 } : {}}
           transition={{ type: "spring", damping: 15, delay: 0.2 }}
-          className="w-12 h-12 flex items-center justify-center border-4 border-black"
+          className="w-12 h-12 flex items-center justify-center border-4 border-[var(--border)]"
           style={{ backgroundColor: chapter.color }}
         >
           <Icon size={24} />
@@ -124,7 +124,7 @@ function ImpactBadge({
       initial={{ opacity: 0, scale: 0.8 }}
       animate={isVisible ? { opacity: 1, scale: 1 } : {}}
       transition={{ delay, type: "spring" }}
-      className="flex items-center gap-2 px-3 py-2 bg-white border-2 border-black neo-shadow"
+      className="flex items-center gap-2 px-3 py-2 bg-[var(--surface)] border-2 border-[var(--border)] neo-shadow"
     >
       <Icon size={16} className="text-gray-600" />
       <span className="font-black">{metric}</span>
@@ -177,7 +177,7 @@ function ScrollProgress({
           transition={{ duration: 0.3 }}
           className="fixed left-4 sm:left-6 top-1/2 -translate-y-1/2 z-40 hidden md:block"
         >
-          <div className="bg-white/95 backdrop-blur-sm border-4 border-black neo-shadow p-3 space-y-3">
+          <div className="bg-[var(--surface)]/95 backdrop-blur-sm border-4 border-[var(--border)] neo-shadow p-3 space-y-3">
             {/* Mini Progress Circle */}
             <div className="relative w-16 h-16 mx-auto">
               <svg className="w-full h-full transform -rotate-90">
@@ -185,7 +185,7 @@ function ScrollProgress({
                   cx="32"
                   cy="32"
                   r="28"
-                  stroke="#e5e5e5"
+                  stroke="#2A3360"
                   strokeWidth="6"
                   fill="none"
                 />
@@ -208,7 +208,7 @@ function ScrollProgress({
                 </defs>
               </svg>
               <div
-                className="absolute inset-0 flex items-center justify-center border-2 border-black m-2"
+                className="absolute inset-0 flex items-center justify-center border-2 border-[var(--border)] m-2"
                 style={{ backgroundColor: currentChapter?.color }}
               >
                 <Icon size={20} />
@@ -232,7 +232,7 @@ function ScrollProgress({
                 return (
                   <motion.div
                     key={chapter.year}
-                    className={`w-2.5 h-2.5 border-2 border-black transition-colors ${
+                    className={`w-2.5 h-2.5 border-2 border-[var(--border)] transition-colors ${
                       isReached ? "" : "bg-gray-200"
                     }`}
                     style={{ backgroundColor: isReached ? chapter.color : undefined }}
@@ -309,7 +309,7 @@ function ExperienceCard({
         initial={{ scale: 0 }}
         animate={isInView ? { scale: 1 } : {}}
         transition={{ delay: 0.2, type: "spring" }}
-        className="absolute left-4 sm:left-6 top-0 w-5 h-5 sm:w-6 sm:h-6 border-4 border-black hidden md:flex items-center justify-center z-10"
+        className="absolute left-4 sm:left-6 top-0 w-5 h-5 sm:w-6 sm:h-6 border-4 border-[var(--border)] hidden md:flex items-center justify-center z-10"
         style={{ background: exp.color }}
       >
         {exp.current && (
@@ -333,7 +333,7 @@ function ExperienceCard({
       >
         {/* Header with Company Info */}
         <div
-          className="p-4 sm:p-6 border-b-4 border-black relative overflow-hidden"
+          className="p-4 sm:p-6 border-b-4 border-[var(--border)] relative overflow-hidden"
           style={{ background: exp.color }}
         >
           {/* Animated pattern */}
@@ -397,7 +397,7 @@ function ExperienceCard({
         </div>
 
         {/* Content */}
-        <div className="p-4 sm:p-6 bg-white">
+        <div className="p-4 sm:p-6 bg-[var(--surface)]">
           {/* Impact Metric */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -607,7 +607,7 @@ export default function Experience() {
             <motion.div
               animate={isComplete ? { rotate: [0, 10, -10, 0] } : {}}
               transition={{ repeat: Infinity, duration: 2, repeatDelay: 1 }}
-              className="inline-flex items-center gap-3 px-6 py-4 bg-primary border-4 border-black neo-shadow-lg"
+              className="inline-flex items-center gap-3 px-6 py-4 bg-primary border-4 border-[var(--border)] neo-shadow-lg"
             >
               <Trophy size={28} />
               <div className="text-left">

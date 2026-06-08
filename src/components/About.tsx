@@ -83,7 +83,7 @@ export default function About() {
                 transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
                 className="neo-card p-4 flex items-center gap-4 hover:bg-[var(--primary)]"
               >
-                <div className="w-12 h-12 bg-black flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-[var(--accent-cyan)] flex items-center justify-center flex-shrink-0">
                   <highlight.icon className="w-6 h-6 text-white" />
                 </div>
                 <span className="font-bold text-lg uppercase">{highlight.text}</span>

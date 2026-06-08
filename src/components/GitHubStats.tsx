@@ -98,7 +98,7 @@ function ContributionGraph({
             {week.days.map((day, dayIndex) => (
               <div
                 key={`${weekIndex}-${dayIndex}`}
-                className={`w-3 h-3 sm:w-[14px] sm:h-[14px] rounded-sm border-2 border-black ${getColor(
+                className={`w-3 h-3 sm:w-[14px] sm:h-[14px] rounded-sm border-2 border-[var(--border)] ${getColor(
                   day.contributionCount
                 )}`}
                 title={`${day.date}: ${day.contributionCount} contributions`}
@@ -130,14 +130,14 @@ function LanguageBar({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div
-                className="w-3 h-3 rounded-full border-2 border-black"
+                className="w-3 h-3 rounded-full border-2 border-[var(--border)]"
                 style={{ backgroundColor: lang.color }}
               />
               <span className="font-bold text-sm">{lang.name}</span>
             </div>
             <span className="font-black text-sm">{lang.percentage}%</span>
           </div>
-          <div className="h-3 bg-gray-200 border-2 border-black overflow-hidden">
+          <div className="h-3 bg-gray-200 border-2 border-[var(--border)] overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: `${lang.percentage}%` }}
@@ -199,9 +199,9 @@ function ActivityFeed({
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ delay: index * 0.1 }}
           viewport={{ once: true }}
-          className="flex items-start gap-3 p-3 bg-white border-2 border-black hover:bg-gray-50 transition-colors"
+          className="flex items-start gap-3 p-3 bg-[var(--surface)] border-2 border-[var(--border)] hover:bg-gray-50 transition-colors"
         >
-          <div className="p-1.5 bg-primary border-2 border-black">
+          <div className="p-1.5 bg-primary border-2 border-[var(--border)]">
             {getEventIcon(activity.type)}
           </div>
           <div className="flex-1 min-w-0">
@@ -348,7 +348,7 @@ export default function GitHubStats() {
 
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="w-12 h-12 border-4 border-black border-t-primary animate-spin" />
+            <div className="w-12 h-12 border-4 border-[var(--border)] border-t-primary animate-spin" />
           </div>
         ) : error ? (
           <div className="text-center py-10 neo-card p-6">
@@ -367,7 +367,7 @@ export default function GitHubStats() {
                   className="neo-card p-4 sm:p-6 text-center"
                 >
                   <div
-                    className={`inline-flex p-2 sm:p-3 ${stat.color} border-2 border-black mb-3`}
+                    className={`inline-flex p-2 sm:p-3 ${stat.color} border-2 border-[var(--border)] mb-3`}
                   >
                     <stat.icon size={24} />
                   </div>
@@ -402,15 +402,15 @@ export default function GitHubStats() {
                   <div className="flex items-center justify-between mt-4">
                     <div className="flex items-center gap-1 text-xs font-bold">
                       <span className="text-gray-500">Less</span>
-                      <div className="w-3 h-3 bg-gray-100 border border-black" />
-                      <div className="w-3 h-3 bg-green-300 border border-black" />
-                      <div className="w-3 h-3 bg-green-400 border border-black" />
-                      <div className="w-3 h-3 bg-green-500 border border-black" />
-                      <div className="w-3 h-3 bg-green-600 border border-black" />
+                      <div className="w-3 h-3 bg-gray-100 border border-[var(--border)]" />
+                      <div className="w-3 h-3 bg-green-300 border border-[var(--border)]" />
+                      <div className="w-3 h-3 bg-green-400 border border-[var(--border)]" />
+                      <div className="w-3 h-3 bg-green-500 border border-[var(--border)]" />
+                      <div className="w-3 h-3 bg-green-600 border border-[var(--border)]" />
                       <span className="text-gray-500">More</span>
                     </div>
                     {derivedStats && derivedStats.currentStreak > 0 && (
-                      <div className="flex items-center gap-2 px-3 py-1 bg-primary border-2 border-black">
+                      <div className="flex items-center gap-2 px-3 py-1 bg-primary border-2 border-[var(--border)]">
                         <Flame size={14} />
                         <span className="font-black text-sm">{derivedStats.currentStreak} day streak!</span>
                       </div>
