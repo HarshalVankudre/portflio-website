@@ -56,16 +56,24 @@ export default function Education() {
               className="neo-card p-0 overflow-hidden"
             >
               {/* Header */}
-              <div
-                className="p-6 border-b-3 border-[var(--border)] relative"
-                style={{ background: edu.color }}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 bg-black flex items-center justify-center flex-shrink-0">
+              <div className="relative p-6 border-b border-[var(--border)] overflow-hidden">
+                <div
+                  className="absolute inset-0 opacity-[0.12]"
+                  style={{ background: `radial-gradient(120% 140% at 0% 0%, ${edu.color}, transparent 55%)` }}
+                />
+                <div
+                  className="absolute left-0 top-0 bottom-0 w-1"
+                  style={{ background: edu.color }}
+                />
+                <div className="relative flex items-start gap-4">
+                  <div
+                    className="w-12 h-12 rounded flex items-center justify-center flex-shrink-0"
+                    style={{ background: `${edu.color}24`, color: edu.color }}
+                  >
                     {edu.current ? (
-                      <GraduationCap className="w-8 h-8 text-white" />
+                      <GraduationCap className="w-6 h-6" />
                     ) : (
-                      <BookOpen className="w-8 h-8 text-white" />
+                      <BookOpen className="w-6 h-6" />
                     )}
                   </div>
                   <div className="flex-1">
