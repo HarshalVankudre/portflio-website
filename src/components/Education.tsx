@@ -57,7 +57,7 @@ export default function Education() {
             >
               {/* Header */}
               <div
-                className="p-6 border-b-3 border-black relative"
+                className="p-6 border-b-3 border-[var(--border)] relative"
                 style={{ background: edu.color }}
               >
                 <div className="flex items-start gap-4">
@@ -84,7 +84,7 @@ export default function Education() {
               </div>
 
               {/* Content */}
-              <div className="p-6 bg-white">
+              <div className="p-6 bg-[var(--surface)]">
                 <ul className="space-y-3">
                   {edu.highlights.map((highlight, i) => (
                     <li key={i} className="flex items-start gap-3">

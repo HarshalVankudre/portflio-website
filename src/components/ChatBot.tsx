@@ -287,9 +287,9 @@ export default function ChatBot() {
             className="fixed right-4 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center transition-all duration-200 ease-out"
             style={{
               bottom: buttonBottom,
-              backgroundColor: "#FFFEF5",
-              border: "4px solid #000000",
-              boxShadow: "4px 4px 0px 0px #000000",
+              backgroundColor: "var(--background)",
+              border: "4px solid var(--border)",
+              boxShadow: "4px 4px 0px 0px var(--shadow)",
             }}
             aria-label="Open chat"
           >
@@ -315,7 +315,7 @@ export default function ChatBot() {
             }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed right-2 left-2 sm:left-auto sm:right-6 z-50 sm:w-96 bg-[#FFFEF5] border-4 border-black neo-shadow-lg overflow-hidden flex flex-col"
+            className="fixed right-2 left-2 sm:left-auto sm:right-6 z-50 sm:w-96 bg-[var(--background)] border-4 border-[var(--border)] neo-shadow-lg overflow-hidden flex flex-col"
             style={{ maxHeight: isMinimized ? "auto" : "85vh", bottom: Math.max(buttonBottom, 16) }}
           >
             {/* Screen-reader live region: mirrors the latest assistant message
@@ -326,10 +326,10 @@ export default function ChatBot() {
             </div>
 
             {/* Header */}
-            <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 bg-primary border-b-4 border-black">
+            <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 bg-primary border-b-4 border-[var(--border)]">
               <div className="flex items-center gap-2 sm:gap-3">
                 <motion.div 
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center bg-white border-2 border-black"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center bg-[var(--surface)] border-2 border-[var(--border)]"
                   animate={{
                     scale: [1, 1.05, 1],
                   }}
@@ -383,12 +383,12 @@ export default function ChatBot() {
                     >
                       <div className="flex items-start gap-3">
                         <div 
-                          className="w-8 h-8 border-2 border-black flex items-center justify-center flex-shrink-0"
-                          style={{ backgroundColor: "#4ECDC4" }}
+                          className="w-8 h-8 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0"
+                          style={{ backgroundColor: "var(--accent-cyan)" }}
                         >
                           <Bot size={16} />
                         </div>
-                        <div className="bg-white border-2 border-black p-3 neo-shadow max-w-[85%]">
+                        <div className="bg-[var(--surface)] border-2 border-[var(--border)] p-3 neo-shadow max-w-[85%]">
                           <p className="text-sm">
                             Hi! I&apos;m Harshal&apos;s AI assistant. Ask me
                             anything about his skills, projects, experience, or
@@ -407,7 +407,7 @@ export default function ChatBot() {
                             <button
                               key={q}
                               onClick={() => handleQuickQuestion(q)}
-                              className="text-xs px-3 py-1.5 bg-white border-2 border-black hover:bg-primary transition-colors font-bold"
+                              className="text-xs px-3 py-1.5 bg-[var(--surface)] border-2 border-[var(--border)] hover:bg-primary transition-colors font-bold"
                             >
                               {q}
                             </button>
@@ -428,21 +428,21 @@ export default function ChatBot() {
                       }`}
                     >
                       <div
-                        className="w-8 h-8 border-2 border-black flex items-center justify-center flex-shrink-0"
+                        className="w-8 h-8 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0"
                         style={{
-                          backgroundColor: msg.role === "user" ? "#FF6B6B" : "#4ECDC4",
-                          color: msg.role === "user" ? "white" : "black"
+                          backgroundColor: msg.role === "user" ? "var(--accent-red)" : "var(--accent-cyan)",
+                          color: "white"
                         }}
                       >
                         {msg.role === "user" ? <User size={16} /> : <Bot size={16} />}
                       </div>
                       <div
-                        className={`p-3 border-2 border-black max-w-[85%] ${
+                        className={`p-3 border-2 border-[var(--border)] max-w-[85%] ${
                           msg.role === "user" ? "" : "neo-shadow"
                         }`}
                         style={{
-                          backgroundColor: msg.role === "user" ? "#FF6B6B" : "white",
-                          color: msg.role === "user" ? "white" : "black"
+                          backgroundColor: msg.role === "user" ? "var(--accent-red)" : "var(--surface)",
+                          color: msg.role === "user" ? "white" : "var(--foreground)"
                         }}
                       >
                         <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
@@ -458,12 +458,12 @@ export default function ChatBot() {
                       className="flex items-start gap-3"
                     >
                       <div 
-                        className="w-8 h-8 border-2 border-black flex items-center justify-center"
-                        style={{ backgroundColor: "#4ECDC4" }}
+                        className="w-8 h-8 border-2 border-[var(--border)] flex items-center justify-center"
+                        style={{ backgroundColor: "var(--accent-cyan)" }}
                       >
                         <Bot size={16} />
                       </div>
-                      <div className="bg-white border-2 border-black p-3 neo-shadow">
+                      <div className="bg-[var(--surface)] border-2 border-[var(--border)] p-3 neo-shadow">
                         <div className="flex items-center gap-2" role="status">
                           <Sparkles size={16} className="animate-spin" />
                           <span className="text-sm font-medium">Thinking...</span>
@@ -478,7 +478,7 @@ export default function ChatBot() {
                 {/* Input Area */}
                 <form
                   onSubmit={handleSubmit}
-                  className="p-3 border-t-4 border-black bg-white"
+                  className="p-3 border-t-4 border-[var(--border)] bg-[var(--surface)]"
                 >
                   <div className="flex items-center gap-2">
                     <input
@@ -488,12 +488,12 @@ export default function ChatBot() {
                       onChange={(e) => setInput(e.target.value)}
                       placeholder="Ask me anything..."
                       disabled={isLoading}
-                      className="flex-1 px-3 py-2 border-2 border-black bg-[#FFFEF5] font-medium text-sm focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
+                      className="flex-1 px-3 py-2 border-2 border-[var(--border)] bg-[var(--background)] font-medium text-sm focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
                     />
                     <button
                       type="submit"
                       disabled={!input.trim() || isLoading}
-                      className="p-2 bg-primary border-2 border-black neo-shadow hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-2 bg-primary border-2 border-[var(--border)] neo-shadow hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                       aria-label="Send message"
                     >
                       <Send size={18} />
