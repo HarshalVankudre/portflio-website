@@ -9,46 +9,43 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative py-6 sm:py-8 bg-black text-white border-t-4 border-[var(--primary)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center gap-4 sm:gap-6 md:flex-row md:justify-between">
-          {/* Logo & Copyright */}
-          <div className="flex items-center gap-3 sm:gap-4">
-            <span className="text-2xl sm:text-3xl font-black bg-[var(--primary)] text-[var(--foreground)] px-2 sm:px-3 py-1">
-              HV
-            </span>
-            <div className="h-6 sm:h-8 w-0.5 sm:w-1 bg-white/20" />
-            <p className="text-gray-400 text-xs sm:text-sm">
-              © {currentYear} Harshal Vankudre
-            </p>
-          </div>
+    <footer className="relative py-10 sm:py-12 bg-[var(--foreground)] text-[var(--background)] border-t border-white/10">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+        <div className="flex flex-col items-center gap-6 md:flex-row md:justify-between">
+          {/* Wordmark */}
+          <span className="font-serif text-2xl sm:text-3xl tracking-tight">
+            Harshal Vankudre
+          </span>
 
-          {/* Terminal Hint - Center (hidden on very small screens) */}
+          {/* Terminal Hint */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="hidden sm:flex items-center gap-2 text-xs sm:text-sm font-mono"
+            className="hidden sm:flex items-center gap-2 font-mono text-xs text-white/55"
           >
-            <Terminal size={14} className="text-[var(--primary)] sm:w-4 sm:h-4" />
-            <span className="text-gray-400">
+            <Terminal size={14} className="text-[var(--primary)]" />
+            <span>
               Press{" "}
-              <kbd className="bg-[var(--primary)] text-[var(--foreground)] px-1.5 sm:px-2 py-0.5 font-bold text-[10px] sm:text-xs rounded">
+              <kbd className="bg-white/10 text-white px-1.5 py-0.5 rounded text-[10px]">
                 `
               </kbd>{" "}
               for a surprise
             </span>
           </motion.div>
 
-          {/* Back to Top */}
-          <motion.a
-            href="#home"
-            whileHover={{ y: -3 }}
-            className="flex items-center gap-2 text-xs sm:text-sm text-gray-400 hover:text-white transition-colors group"
-          >
-            <span>{t("footer.backToTop")}</span>
-            <ArrowUp size={14} className="group-hover:text-[var(--primary)] sm:w-4 sm:h-4" />
-          </motion.a>
+          {/* Copyright + back to top */}
+          <div className="flex items-center gap-6 font-mono text-xs text-white/55">
+            <span>© {currentYear}</span>
+            <motion.a
+              href="#home"
+              whileHover={{ y: -2 }}
+              className="flex items-center gap-1.5 hover:text-white transition-colors"
+            >
+              <span className="uppercase tracking-[0.12em]">{t("footer.backToTop")}</span>
+              <ArrowUp size={13} />
+            </motion.a>
+          </div>
         </div>
       </div>
     </footer>

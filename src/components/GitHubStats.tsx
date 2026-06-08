@@ -201,7 +201,7 @@ function ActivityFeed({
           viewport={{ once: true }}
           className="flex items-start gap-3 p-3 bg-[var(--surface)] border-2 border-[var(--border)] hover:bg-gray-50 transition-colors"
         >
-          <div className="p-1.5 bg-primary border-2 border-[var(--border)]">
+          <div className="p-1.5 rounded bg-primary text-white">
             {getEventIcon(activity.type)}
           </div>
           <div className="flex-1 min-w-0">
@@ -367,9 +367,9 @@ export default function GitHubStats() {
                   className="neo-card p-4 sm:p-6 text-center"
                 >
                   <div
-                    className={`inline-flex p-2 sm:p-3 ${stat.color} border-2 border-[var(--border)] mb-3`}
+                    className={`inline-flex p-3 rounded ${stat.color} text-white mb-3`}
                   >
-                    <stat.icon size={24} />
+                    <stat.icon size={22} />
                   </div>
                   <div className="font-display text-2xl sm:text-4xl font-black">
                     <CountUpNumber end={stat.value} suffix={stat.suffix} />
@@ -410,9 +410,9 @@ export default function GitHubStats() {
                       <span className="text-gray-500">More</span>
                     </div>
                     {derivedStats && derivedStats.currentStreak > 0 && (
-                      <div className="flex items-center gap-2 px-3 py-1 bg-primary border-2 border-[var(--border)]">
+                      <div className="flex items-center gap-2 px-3 py-1 rounded bg-primary text-white">
                         <Flame size={14} />
-                        <span className="font-black text-sm">{derivedStats.currentStreak} day streak!</span>
+                        <span className="font-semibold text-sm">{derivedStats.currentStreak} day streak!</span>
                       </div>
                     )}
                   </div>
