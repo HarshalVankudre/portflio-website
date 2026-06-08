@@ -61,7 +61,7 @@ export default function Skills() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <span className="neo-tag neo-tag-cyan mb-4">{t("skills.tag")}</span>
+          <span className="neo-eyebrow mb-5">{t("skills.tag")}</span>
           <h2 className="neo-title mt-4">
             {t("skills.title")} <span className="neo-highlight">{t("skills.titleHighlight")}</span>
           </h2>
@@ -86,7 +86,7 @@ export default function Skills() {
                 style={{ background: category.color }}
               >
                 <category.icon className="w-6 h-6" />
-                <h3 className="font-black uppercase">{category.title}</h3>
+                <h3 className="font-bold tracking-tight text-lg">{category.title}</h3>
               </div>
 
               {/* Skills */}
