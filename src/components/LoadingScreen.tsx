@@ -116,7 +116,7 @@ export default function LoadingScreen() {
               className="h-full relative"
               style={{
                 width: `${progress}%`,
-                background: "linear-gradient(90deg, var(--primary) 0%, #B49CFF 50%, var(--primary) 100%)",
+                background: "linear-gradient(90deg, var(--primary-600) 0%, var(--primary) 100%)",
               }}
               transition={{ duration: 0.05, ease: "linear" }}
             >

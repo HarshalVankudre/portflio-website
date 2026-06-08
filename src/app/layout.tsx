@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Bricolage_Grotesque } from "next/font/google";
+import { Inter, Newsreader } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 
@@ -9,10 +9,11 @@ const inter = Inter({
   display: "swap",
 });
 
-const bricolage = Bricolage_Grotesque({
+const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
-  variable: "--font-bricolage",
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-serif",
   display: "swap",
 });
 
@@ -23,7 +24,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: "#060A1A",
+  themeColor: "#F5F2EA",
 };
 
 export const metadata: Metadata = {
@@ -138,7 +139,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} ${bricolage.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${newsreader.variable} font-sans antialiased`}>
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

@@ -81,12 +81,18 @@ export default function Skills() {
               className="neo-card p-0 overflow-hidden"
             >
               {/* Header */}
-              <div
-                className="p-4 border-b-3 border-[var(--border)] flex items-center gap-3"
-                style={{ background: category.color }}
-              >
-                <category.icon className="w-6 h-6" />
-                <h3 className="font-bold tracking-tight text-lg">{category.title}</h3>
+              <div className="relative p-4 border-b border-[var(--border)] flex items-center gap-3 overflow-hidden">
+                <div
+                  className="absolute inset-0 opacity-[0.1]"
+                  style={{ background: `radial-gradient(120% 140% at 0% 0%, ${category.color}, transparent 60%)` }}
+                />
+                <span
+                  className="relative grid place-items-center w-9 h-9 rounded flex-shrink-0"
+                  style={{ background: `${category.color}24`, color: category.color }}
+                >
+                  <category.icon className="w-5 h-5" />
+                </span>
+                <h3 className="relative font-serif text-lg text-[var(--foreground)]">{category.title}</h3>
               </div>
 
               {/* Skills */}
@@ -101,7 +107,7 @@ export default function Skills() {
                         duration: 0.3,
                         delay: 0.2 + categoryIndex * 0.1 + skillIndex * 0.05,
                       }}
-                      className="neo-tag hover:bg-[var(--primary)] transition-colors cursor-default"
+                      className="neo-tag hover:border-[var(--border-strong)] hover:text-[var(--foreground)] transition-colors cursor-default"
                     >
                       {skill}
                     </motion.span>
@@ -117,16 +123,16 @@ export default function Skills() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-16 overflow-hidden neo-border bg-black py-4"
+          className="mt-16 overflow-hidden border-y border-[var(--border-strong)] py-4"
         >
           <div className="flex animate-marquee whitespace-nowrap">
             {[...skillCategories.flatMap((c) => c.skills), ...skillCategories.flatMap((c) => c.skills)].map(
               (skill, index) => (
                 <span
                   key={`${skill}-${index}`}
-                  className="mx-4 text-white font-bold uppercase text-lg"
+                  className="mx-5 font-mono text-sm uppercase tracking-[0.1em] text-muted"
                 >
-                  {skill} <span className="text-[var(--primary)]">•</span>
+                  {skill} <span className="text-[var(--primary)] mx-1">/</span>
                 </span>
               )
             )}
