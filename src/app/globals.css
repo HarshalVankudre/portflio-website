@@ -145,6 +145,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .neo-card {
   position: relative;
+  isolation: isolate;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 18px;
@@ -153,6 +154,23 @@ h1, h2, h3, h4, h5, h6 {
   transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
     border-color 0.4s ease, box-shadow 0.4s ease;
 }
+
+/* Cursor-follow spotlight (positioned behind content, above the card bg) */
+.neo-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    240px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(124, 92, 255, 0.16),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.neo-card:hover::after { opacity: 1; }
 
 .neo-card:hover {
   transform: translateY(-5px);
@@ -291,6 +309,26 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Animated shimmering gradient text */
+.text-shimmer {
+  background: linear-gradient(
+    110deg,
+    #ffffff 0%,
+    #c4b6ff 30%,
+    var(--accent-cyan) 50%,
+    #c4b6ff 70%,
+    #ffffff 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-pan 6s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .text-shimmer { animation: none; }
 }
 
 .glass {
