@@ -81,7 +81,7 @@ export default function Projects() {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-14 sm:mb-16"
+          className="relative mb-14 sm:mb-16"
         >
           <span className="neo-eyebrow mb-5">{t("projects.tag")}</span>
           <h2 className="neo-title mt-4">
@@ -91,6 +91,9 @@ export default function Projects() {
           <p className="text-muted mt-4 text-lg max-w-2xl">
             {t("projects.subtitle")}
           </p>
+          <span className="hand-note hidden lg:block absolute right-2 top-2 text-2xl -rotate-3 select-none">
+            real things, shipped →
+          </span>
         </motion.div>
 
         {/* Featured Projects Grid */}

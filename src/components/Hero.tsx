@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import Scribble from "@/components/ui/Scribble";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -44,6 +45,16 @@ export default function Hero() {
           <span>(01)</span>
         </motion.div>
 
+        {/* Handwritten opener */}
+        <motion.p
+          initial={{ opacity: 0, rotate: -6, y: 8 }}
+          animate={{ opacity: 1, rotate: -3, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="hand-note text-3xl sm:text-4xl mb-2 inline-block origin-left"
+        >
+          hey — I&rsquo;m Harshal 👋
+        </motion.p>
+
         {/* Headline */}
         <h1
           className="font-serif font-light tracking-[-0.02em] text-[var(--foreground)]"
@@ -65,8 +76,13 @@ export default function Hero() {
             className="lg:col-span-7"
           >
             <p className="text-lg sm:text-xl leading-relaxed text-[var(--foreground)]/85 max-w-xl">
-              I&rsquo;m Harshal — an AI developer in {t("hero.location")} building
-              enterprise chatbots, RAG systems, and full-stack apps that ship.
+              An AI developer in {t("hero.location")} building enterprise
+              chatbots, RAG systems, and full-stack apps that{" "}
+              <span className="relative inline-block font-medium">
+                actually ship
+                <Scribble delay={0.7} />
+              </span>
+              . No buzzwords — real systems people use every day.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -85,28 +101,33 @@ export default function Hero() {
           </motion.div>
 
           {/* Right column — facts index */}
-          <motion.dl
+          <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: EASE, delay: 0.5 }}
-            className="lg:col-span-5 lg:justify-self-end w-full max-w-sm divide-y divide-[var(--border)] border-y border-[var(--border)]"
+            className="lg:col-span-5 lg:justify-self-end w-full max-w-sm relative"
           >
-            {[
-              { k: "Currently", v: "AI Developer @ RÜKO GmbH" },
-              { k: "Focus", v: "RAG · LLMs · Full-stack" },
-              { k: "Based in", v: t("hero.location") },
-              { k: "Status", v: "Open to opportunities" },
-            ].map((row) => (
-              <div key={row.k} className="flex items-baseline justify-between gap-4 py-3">
-                <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-2 shrink-0">
-                  {row.k}
-                </dt>
-                <dd className="text-right text-sm sm:text-[15px] text-[var(--foreground)]">
-                  {row.v}
-                </dd>
-              </div>
-            ))}
-          </motion.dl>
+            <span className="hand-note absolute -top-8 right-1 text-2xl rotate-6 select-none">
+              the live bits ↓
+            </span>
+            <dl className="divide-y divide-[var(--border)] border-y border-[var(--border)]">
+              {[
+                { k: "Currently", v: "AI Developer @ RÜKO GmbH" },
+                { k: "Focus", v: "RAG · LLMs · Full-stack" },
+                { k: "Based in", v: t("hero.location") },
+                { k: "Status", v: "Open to opportunities" },
+              ].map((row) => (
+                <div key={row.k} className="flex items-baseline justify-between gap-4 py-3">
+                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-2 shrink-0">
+                    {row.k}
+                  </dt>
+                  <dd className="text-right text-sm sm:text-[15px] text-[var(--foreground)]">
+                    {row.v}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </motion.div>
         </div>
       </div>
 
