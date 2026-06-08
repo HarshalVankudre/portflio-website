@@ -82,7 +82,7 @@ export default function Skills() {
             >
               {/* Header */}
               <div
-                className="p-4 border-b-3 border-black flex items-center gap-3"
+                className="p-4 border-b-3 border-[var(--border)] flex items-center gap-3"
                 style={{ background: category.color }}
               >
                 <category.icon className="w-6 h-6" />
@@ -90,7 +90,7 @@ export default function Skills() {
               </div>
 
               {/* Skills */}
-              <div className="p-4 bg-white">
+              <div className="p-4 bg-[var(--surface)]">
                 <div className="flex flex-wrap gap-2">
                   {category.skills.map((skill, skillIndex) => (
                     <motion.span

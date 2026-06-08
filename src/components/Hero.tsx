@@ -90,7 +90,7 @@ function FloatingBlob({
         y: { duration: 14, repeat: Infinity, ease: "easeInOut", delay },
         rotate: { duration: 18, repeat: Infinity, ease: "easeInOut", delay },
       }}
-      className={`absolute pointer-events-none border-4 border-black ${className}`}
+      className={`absolute pointer-events-none border-4 border-[var(--border)] ${className}`}
       style={{ background: color }}
     />
   );
@@ -180,7 +180,7 @@ export default function Hero() {
             >
               <span className="block">Harshal</span>
               <span
-                className="inline-block mt-1 sm:mt-2 px-2 sm:px-4 bg-[var(--primary)] border-4 border-black"
+                className="inline-block mt-1 sm:mt-2 px-2 sm:px-4 bg-[var(--primary)] border-4 border-[var(--border)]"
                 style={{
                   boxShadow: "8px 8px 0 var(--shadow)",
                 }}
@@ -253,7 +253,7 @@ export default function Hero() {
                 href="https://github.com/HarshalVankudre"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 border-3 border-black bg-white hover:bg-[var(--primary)] hover:-translate-y-0.5 transition-all neo-shadow"
+                className="p-2 border-3 border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--primary)] hover:-translate-y-0.5 transition-all neo-shadow"
                 aria-label="GitHub"
               >
                 <Github size={18} />
@@ -262,14 +262,14 @@ export default function Hero() {
                 href="https://www.linkedin.com/in/harshal-vankudre/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 border-3 border-black bg-white hover:bg-[var(--accent-cyan)] hover:-translate-y-0.5 transition-all neo-shadow"
+                className="p-2 border-3 border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--accent-cyan)] hover:-translate-y-0.5 transition-all neo-shadow"
                 aria-label="LinkedIn"
               >
                 <Linkedin size={18} />
               </a>
               <a
                 href="mailto:harshalvankudre@gmail.com"
-                className="p-2 border-3 border-black bg-white hover:bg-[var(--accent-red)] hover:-translate-y-0.5 transition-all neo-shadow"
+                className="p-2 border-3 border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--accent-red)] hover:-translate-y-0.5 transition-all neo-shadow"
                 aria-label="Email"
               >
                 <Mail size={18} />
@@ -289,7 +289,7 @@ export default function Hero() {
               initial={{ opacity: 0, scale: 0, rotate: 0 }}
               animate={{ opacity: 1, scale: 1, rotate: -12 }}
               transition={{ delay: 1, type: "spring" }}
-              className="absolute -top-4 -left-4 sm:-top-6 sm:-left-6 z-20 px-3 py-1.5 bg-[var(--accent-cyan)] border-3 border-black neo-shadow font-black uppercase text-xs sm:text-sm font-display"
+              className="absolute -top-4 -left-4 sm:-top-6 sm:-left-6 z-20 px-3 py-1.5 bg-[var(--accent-cyan)] border-3 border-[var(--border)] neo-shadow font-black uppercase text-xs sm:text-sm font-display"
             >
               <Sparkles size={14} className="inline -mt-0.5 mr-1" />
               AI Developer
@@ -298,7 +298,7 @@ export default function Hero() {
               initial={{ opacity: 0, scale: 0, rotate: 0 }}
               animate={{ opacity: 1, scale: 1, rotate: 8 }}
               transition={{ delay: 1.15, type: "spring" }}
-              className="absolute -top-3 right-4 sm:-top-5 sm:right-6 z-20 px-3 py-1.5 bg-[var(--accent-red)] border-3 border-black neo-shadow font-black uppercase text-xs sm:text-sm font-display"
+              className="absolute -top-3 right-4 sm:-top-5 sm:right-6 z-20 px-3 py-1.5 bg-[var(--accent-red)] border-3 border-[var(--border)] neo-shadow font-black uppercase text-xs sm:text-sm font-display"
             >
               EN · DE
             </motion.div>
@@ -306,18 +306,18 @@ export default function Hero() {
               initial={{ opacity: 0, scale: 0, rotate: 0 }}
               animate={{ opacity: 1, scale: 1, rotate: -6 }}
               transition={{ delay: 1.3, type: "spring" }}
-              className="absolute -bottom-3 -right-3 sm:-bottom-5 sm:-right-5 z-20 px-3 py-1.5 bg-[var(--primary)] border-3 border-black neo-shadow font-black uppercase text-xs sm:text-sm font-display"
+              className="absolute -bottom-3 -right-3 sm:-bottom-5 sm:-right-5 z-20 px-3 py-1.5 bg-[var(--primary)] border-3 border-[var(--border)] neo-shadow font-black uppercase text-xs sm:text-sm font-display"
             >
               @ RÜKO GmbH
             </motion.div>
 
             {/* Main monogram card */}
             <div
-              className="relative bg-white border-4 border-black overflow-hidden"
+              className="relative bg-[var(--surface)] border-4 border-[var(--border)] overflow-hidden"
               style={{ boxShadow: "12px 12px 0 var(--shadow)" }}
             >
               {/* Top stripe with stripes pattern */}
-              <div className="h-3 bg-[var(--primary)] border-b-4 border-black neo-stripes" />
+              <div className="h-3 bg-[var(--primary)] border-b-4 border-[var(--border)] neo-stripes" />
 
               {/* Big monogram */}
               <div className="p-6 sm:p-8 bg-[var(--background)] flex items-center justify-center relative neo-grid-bg">
@@ -331,7 +331,7 @@ export default function Hero() {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                  className="font-display font-black text-[8rem] sm:text-[10rem] lg:text-[12rem] leading-none bg-[var(--primary)] text-black px-4 sm:px-6 border-4 border-black"
+                  className="font-display font-black text-[8rem] sm:text-[10rem] lg:text-[12rem] leading-none bg-[var(--primary)] px-4 sm:px-6 border-4 border-[var(--border)]"
                   style={{ boxShadow: "8px 8px 0 var(--shadow)" }}
                 >
                   HV
@@ -339,14 +339,14 @@ export default function Hero() {
               </div>
 
               {/* Stats grid */}
-              <div className="grid grid-cols-3 border-t-4 border-black">
-                <div className="p-3 sm:p-4 text-center border-r-4 border-black">
+              <div className="grid grid-cols-3 border-t-4 border-[var(--border)]">
+                <div className="p-3 sm:p-4 text-center border-r-4 border-[var(--border)]">
                   <div className="font-display text-xl sm:text-3xl font-black">2+</div>
                   <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-600 mt-0.5">
                     Years
                   </div>
                 </div>
-                <div className="p-3 sm:p-4 text-center border-r-4 border-black bg-[var(--accent-cyan)]/20">
+                <div className="p-3 sm:p-4 text-center border-r-4 border-[var(--border)] bg-[var(--accent-cyan)]/20">
                   <div className="font-display text-xl sm:text-3xl font-black">10+</div>
                   <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-gray-700 mt-0.5">
                     Projects
@@ -361,7 +361,7 @@ export default function Hero() {
               </div>
 
               {/* Currently building */}
-              <div className="p-4 border-t-4 border-black bg-black text-white">
+              <div className="p-4 border-t-4 border-[var(--border)] bg-black text-white">
                 <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--primary)] mb-1">
                   Currently building
                 </div>
@@ -380,7 +380,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-gray-500 hover:text-black transition-colors z-10"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-gray-500 hover:text-[var(--foreground)] transition-colors z-10"
       >
         <span className="text-[10px] font-bold uppercase tracking-widest">
           Scroll
