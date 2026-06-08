@@ -185,7 +185,7 @@ function ScrollProgress({
                   cx="32"
                   cy="32"
                   r="28"
-                  stroke="rgba(255,255,255,0.08)"
+                  stroke="rgba(26,24,19,0.12)"
                   strokeWidth="5"
                   fill="none"
                 />
@@ -233,7 +233,7 @@ function ScrollProgress({
                   <motion.div
                     key={chapter.year}
                     className="w-2 h-2 rounded-full transition-colors"
-                    style={{ backgroundColor: isReached ? chapter.color : "rgba(255,255,255,0.14)" }}
+                    style={{ backgroundColor: isReached ? chapter.color : "rgba(26,24,19,0.16)" }}
                     animate={index === currentChapterIndex ? { scale: [1, 1.4, 1] } : {}}
                     transition={{ repeat: Infinity, duration: 1.5 }}
                   />

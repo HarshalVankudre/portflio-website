@@ -50,16 +50,16 @@ export default function About() {
               </p>
             </div>
 
-            <div className="neo-card p-6 bg-[var(--primary)]">
-              <p className="text-lg leading-relaxed">
+            <blockquote className="border-l-2 border-[var(--primary)] pl-5 py-1">
+              <p className="font-serif italic text-xl sm:text-2xl leading-snug text-[var(--foreground)]">
                 {t("about.summary")}
               </p>
-            </div>
+            </blockquote>
 
             <div className="neo-card p-6">
               <p className="text-lg leading-relaxed">
                 {t("about.chess")}{" "}
-                <span className="font-bold bg-[var(--accent-cyan)] px-1">{t("hero.location")}</span>.
+                <span className="font-medium text-[var(--accent-cyan)]">{t("hero.location")}</span>.
               </p>
             </div>
 
@@ -83,11 +83,11 @@ export default function About() {
                 transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
                 className="neo-card p-4 flex items-center gap-4"
               >
-                <div className="w-12 h-12 bg-[var(--accent-cyan)] flex items-center justify-center flex-shrink-0">
-                  <highlight.icon className="w-6 h-6 text-white" />
+                <div className="w-11 h-11 rounded bg-[var(--accent-cyan)] flex items-center justify-center flex-shrink-0">
+                  <highlight.icon className="w-5 h-5 text-white" />
                 </div>
-                <span className="font-bold text-lg uppercase">{highlight.text}</span>
-                <CheckCircle2 className="w-6 h-6 ml-auto text-green-600" />
+                <span className="text-base sm:text-lg text-[var(--foreground)]">{highlight.text}</span>
+                <CheckCircle2 className="w-5 h-5 ml-auto text-[var(--accent-cyan)]" />
               </motion.div>
             ))}
 
@@ -96,10 +96,10 @@ export default function About() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: 0.9 }}
-              className="neo-card p-6 bg-[var(--accent-cyan)] text-center"
+              className="neo-card p-6 text-center"
             >
-              <div className="text-5xl font-black mb-2">2+</div>
-              <div className="text-lg font-bold uppercase">{t("about.yearsExp")}</div>
+              <div className="font-serif text-5xl sm:text-6xl text-[var(--primary)] mb-1">2+</div>
+              <div className="font-mono text-xs uppercase tracking-[0.14em] text-muted">{t("about.yearsExp")}</div>
             </motion.div>
           </motion.div>
         </div>
