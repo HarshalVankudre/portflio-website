@@ -2,13 +2,12 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import { ReactLenis, type LenisRef } from "lenis/react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { ScrollTrigger } from "@/lib/gsap";
 import { useReducedMotion } from "@/lib/motion";
 
 /**
- * Lenis smooth scroll bridged into GSAP's ticker so ScrollTrigger,
- * Lenis and every tween share one RAF. Disabled entirely under
- * prefers-reduced-motion (native scroll instead).
+ * Lenis smooth scroll with ScrollTrigger kept in sync.
+ * Disabled entirely under prefers-reduced-motion (native scroll instead).
  */
 export default function SmoothScrollProvider({
   children,
@@ -24,12 +23,9 @@ export default function SmoothScrollProvider({
     if (!lenis) return;
 
     lenis.on("scroll", ScrollTrigger.update);
-    const raf = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(raf);
-    gsap.ticker.lagSmoothing(0);
+    ScrollTrigger.refresh();
 
     return () => {
-      gsap.ticker.remove(raf);
       lenis.off("scroll", ScrollTrigger.update);
     };
   }, [reduced]);
@@ -41,7 +37,7 @@ export default function SmoothScrollProvider({
       root
       ref={lenisRef}
       options={{
-        autoRaf: false,
+        autoRaf: true,
         lerp: 0.1,
         wheelMultiplier: 1,
         syncTouch: false, // native touch scrolling on mobile
