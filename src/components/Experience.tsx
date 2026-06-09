@@ -1,148 +1,64 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring, useInView, useMotionValueEvent, AnimatePresence, type MotionValue } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useInView,
+  useMotionValueEvent,
+  AnimatePresence,
+  type MotionValue,
+} from "framer-motion";
 import { useRef, useState } from "react";
-import { MapPin, Calendar, Briefcase, CheckCircle, Sparkles, Trophy, Rocket, Star, Zap, TrendingUp, Users, Bot } from "lucide-react";
+import { Users, TrendingUp, Zap, Bot } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import SectionHeader from "@/components/SectionHeader";
 
-// Story chapters with narrative elements - chronological order (earliest first)
+// Log chapters — chronological order (earliest first)
 const storyChapters = [
   {
-    chapter: "Chapter 1",
     title: "First Steps",
     year: "2021",
     narrative: "Every expert was once a beginner. Teaching to learn.",
     icon: Users,
-    color: "var(--accent-red)",
   },
   {
-    chapter: "Chapter 2",
     title: "Going Global",
     year: "2022",
     narrative: "From India to Berlin — embracing renewable energy.",
     icon: TrendingUp,
-    color: "var(--accent-cyan)",
   },
   {
-    chapter: "Chapter 3",
     title: "Energy & Innovation",
     year: "2024",
     narrative: "Where data meets impact — automating the energy sector.",
     icon: Zap,
-    color: "var(--primary)",
   },
   {
-    chapter: "Chapter 4",
     title: "The AI Revolution",
     year: "2025",
     narrative: "Building the future of enterprise AI, one chatbot at a time.",
     icon: Bot,
-    color: "var(--accent-cyan)",
   },
 ];
 
-// Impact metrics for each role - chronological order
+// Impact readout for each role — chronological order
 const impactMetrics = [
-  { metric: "20+", label: "Students Helped", icon: Star },
-  { metric: "60%", label: "Automation Rate", icon: Bot },
-  { metric: "35%", label: "Faster Responses", icon: Zap },
-  { metric: "50+", label: "Users Served", icon: Users },
+  { metric: "20+", label: "Students Helped" },
+  { metric: "60%", label: "Automation Rate" },
+  { metric: "35%", label: "Faster Responses" },
+  { metric: "50+", label: "Users Served" },
 ];
 
-function ChapterHeader({
-  chapter,
-  isVisible,
-}: {
-  chapter: typeof storyChapters[0];
-  isVisible: boolean;
-}) {
-  const Icon = chapter.icon;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: -50 }}
-      animate={isVisible ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.6 }}
-      className="mb-6"
-    >
-      <div className="flex items-center gap-4 mb-2">
-        <motion.div
-          initial={{ scale: 0, rotate: -180 }}
-          animate={isVisible ? { scale: 1, rotate: 0 } : {}}
-          transition={{ type: "spring", damping: 15, delay: 0.2 }}
-          className="w-12 h-12 flex items-center justify-center border-4 border-black"
-          style={{ backgroundColor: chapter.color }}
-        >
-          <Icon size={24} />
-        </motion.div>
-        <div>
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={isVisible ? { opacity: 1 } : {}}
-            transition={{ delay: 0.3 }}
-            className="text-xs font-black uppercase tracking-widest text-gray-500"
-          >
-            {chapter.chapter} • {chapter.year}
-          </motion.span>
-          <motion.h3
-            initial={{ opacity: 0, y: 10 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.4 }}
-            className="text-xl sm:text-2xl font-black uppercase"
-          >
-            {chapter.title}
-          </motion.h3>
-        </div>
-      </div>
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={isVisible ? { opacity: 1 } : {}}
-        transition={{ delay: 0.5 }}
-        className="text-gray-600 italic pl-16 text-sm sm:text-base"
-      >
-        &ldquo;{chapter.narrative}&rdquo;
-      </motion.p>
-    </motion.div>
-  );
-}
-
-function ImpactBadge({
-  metric,
-  label,
-  icon: Icon,
-  delay,
-  isVisible,
-}: {
-  metric: string;
-  label: string;
-  icon: typeof Zap;
-  delay: number;
-  isVisible: boolean;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={isVisible ? { opacity: 1, scale: 1 } : {}}
-      transition={{ delay, type: "spring" }}
-      className="flex items-center gap-2 px-3 py-2 bg-white border-2 border-black neo-shadow"
-    >
-      <Icon size={16} className="text-gray-600" />
-      <span className="font-black">{metric}</span>
-      <span className="text-xs text-gray-500 uppercase">{label}</span>
-    </motion.div>
-  );
-}
-
-function ScrollProgress({
+/* Slim fixed progress rail (xl+) — replaces the old floating chapter widget */
+function ScrollRail({
   progress,
   isInSection,
 }: {
   progress: MotionValue<number>;
   isInSection: boolean;
 }) {
-  // Find current chapter based on progress. This is genuinely discrete React
-  // state (the active chapter icon/title/dots change), so update it only when
-  // the index actually changes rather than on every scroll frame.
   const [currentChapterIndex, setCurrentChapterIndex] = useState(0);
 
   useMotionValueEvent(progress, "change", (v) => {
@@ -154,124 +70,38 @@ function ScrollProgress({
     setCurrentChapterIndex((prev) => (prev === index ? prev : index));
   });
 
-  // Drive the SVG ring and percentage label directly from the MotionValue.
-  const strokeDasharray = useTransform(
+  const fillHeight = useTransform(
     progress,
-    (v) => `${Math.max(0, Math.min(1, v)) * 176} 176`
-  );
-  const percentText = useTransform(
-    progress,
-    (v) => `${Math.round(Math.max(0, Math.min(1, v)) * 100)}%`
+    (v) => `${Math.max(0, Math.min(1, v)) * 100}%`
   );
 
-  const currentChapter = storyChapters[currentChapterIndex];
-  const Icon = currentChapter?.icon || Rocket;
+  const chapter = storyChapters[currentChapterIndex];
 
   return (
     <AnimatePresence>
       {isInSection && (
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
+          initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -50 }}
+          exit={{ opacity: 0, x: -16 }}
           transition={{ duration: 0.3 }}
-          className="fixed left-4 sm:left-6 top-1/2 -translate-y-1/2 z-40 hidden md:block"
+          className="fixed left-6 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center gap-3 xl:flex"
         >
-          <div className="bg-white/95 backdrop-blur-sm border-4 border-black neo-shadow p-3 space-y-3">
-            {/* Mini Progress Circle */}
-            <div className="relative w-16 h-16 mx-auto">
-              <svg className="w-full h-full transform -rotate-90">
-                <circle
-                  cx="32"
-                  cy="32"
-                  r="28"
-                  stroke="#e5e5e5"
-                  strokeWidth="6"
-                  fill="none"
-                />
-                <motion.circle
-                  cx="32"
-                  cy="32"
-                  r="28"
-                  stroke="url(#progressGradient)"
-                  strokeWidth="6"
-                  fill="none"
-                  strokeLinecap="square"
-                  style={{ strokeDasharray }}
-                />
-                <defs>
-                  <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="var(--accent-red)" />
-                    <stop offset="50%" stopColor="var(--primary)" />
-                    <stop offset="100%" stopColor="var(--accent-cyan)" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <div
-                className="absolute inset-0 flex items-center justify-center border-2 border-black m-2"
-                style={{ backgroundColor: currentChapter?.color }}
-              >
-                <Icon size={20} />
-              </div>
-            </div>
-
-            {/* Current Chapter */}
-            <div className="text-center">
-              <div className="text-xs font-black text-gray-500 uppercase">
-                {currentChapter?.year}
-              </div>
-              <div className="text-sm font-black leading-tight max-w-[80px]">
-                {currentChapter?.title}
-              </div>
-            </div>
-
-            {/* Chapter Dots */}
-            <div className="flex justify-center gap-1.5">
-              {storyChapters.map((chapter, index) => {
-                const isReached = index <= currentChapterIndex;
-                return (
-                  <motion.div
-                    key={chapter.year}
-                    className={`w-2.5 h-2.5 border-2 border-black transition-colors ${
-                      isReached ? "" : "bg-gray-200"
-                    }`}
-                    style={{ backgroundColor: isReached ? chapter.color : undefined }}
-                    animate={index === currentChapterIndex ? { scale: [1, 1.3, 1] } : {}}
-                    transition={{ repeat: Infinity, duration: 1.5 }}
-                  />
-                );
-              })}
-            </div>
-
-            {/* Percentage */}
-            <div className="text-center">
-              <motion.span className="text-lg font-black">{percentText}</motion.span>
-            </div>
-          </div>
+          <span className="tech-label" style={{ writingMode: "vertical-rl" }}>
+            LOG
+          </span>
+          <span className="relative block h-36 w-px bg-line-strong">
+            <motion.span
+              className="absolute left-0 top-0 block w-px bg-accent"
+              style={{ height: fillHeight }}
+            />
+          </span>
+          <span className="font-mono text-[10px] tracking-[0.2em] text-accent">
+            {chapter?.year}
+          </span>
         </motion.div>
       )}
     </AnimatePresence>
-  );
-}
-
-function TimelineConnector({ progress }: { progress: MotionValue<number> }) {
-  // Map the timeline MotionValue straight to a CSS height string so the line
-  // animates without copying the value into React state every scroll frame.
-  const height = useTransform(
-    progress,
-    (v) => `${Math.max(0, Math.min(1, v)) * 100}%`
-  );
-
-  return (
-    <div className="absolute left-6 sm:left-8 top-0 h-full w-1 hidden md:block">
-      {/* Background line */}
-      <div className="absolute inset-0 bg-gray-200" />
-      {/* Animated gradient line - red (2021) to cyan (2025) */}
-      <motion.div
-        className="absolute top-0 left-0 right-0 bg-gradient-to-b from-red via-primary to-cyan"
-        style={{ height }}
-      />
-    </div>
   );
 }
 
@@ -279,6 +109,7 @@ function ExperienceCard({
   exp,
   chapter,
   impactMetric,
+  index,
 }: {
   exp: {
     company: string;
@@ -286,174 +117,124 @@ function ExperienceCard({
     location: string;
     period: string;
     current: boolean;
-    color: string;
     highlights: string[];
     technologies: string[];
   };
-  chapter: typeof storyChapters[0];
-  impactMetric: typeof impactMetrics[0];
+  chapter: (typeof storyChapters)[0];
+  impactMetric: (typeof impactMetrics)[0];
+  index: number;
 }) {
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, { once: true, margin: "-100px" });
+  const Icon = chapter.icon;
 
   return (
-    <motion.div
+    <motion.article
       ref={cardRef}
-      initial={{ opacity: 0 }}
-      animate={isInView ? { opacity: 1 } : {}}
+      initial={{ opacity: 0, y: 24 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6 }}
-      className="relative md:pl-16 lg:pl-20 mb-16"
+      className="relative pb-14 last:pb-0 md:pl-14 lg:pl-16"
     >
-      {/* Timeline Dot */}
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={isInView ? { scale: 1 } : {}}
-        transition={{ delay: 0.2, type: "spring" }}
-        className="absolute left-4 sm:left-6 top-0 w-5 h-5 sm:w-6 sm:h-6 border-4 border-black hidden md:flex items-center justify-center z-10"
-        style={{ background: exp.color }}
-      >
-        {exp.current && (
-          <motion.div
-            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="w-2 h-2 bg-black rounded-full"
-          />
-        )}
-      </motion.div>
+      {/* Timeline node */}
+      <span
+        aria-hidden
+        className={`absolute left-2 top-1.5 hidden h-2.5 w-2.5 -translate-x-1/2 rotate-45 border md:block ${
+          exp.current
+            ? "led-accent border-accent bg-accent"
+            : "border-line-strong bg-night"
+        }`}
+      />
 
-      {/* Chapter Header */}
-      <ChapterHeader chapter={chapter} isVisible={isInView} />
+      {/* Revision header */}
+      <div className="mb-4">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-[10px] uppercase tracking-[0.22em]">
+          <span className="text-accent">REV.0{index + 1}</span>
+          <span className="text-faint">{chapter.year}</span>
+          <span aria-hidden className="hidden h-px w-10 bg-line-strong sm:block" />
+          <span className="flex items-center gap-1.5 text-faint">
+            <Icon size={12} aria-hidden />
+            {chapter.title}
+          </span>
+        </div>
+        <p className="mt-2 font-mono text-xs italic text-faint">
+          <span className="text-accent" aria-hidden>
+            {"// "}
+          </span>
+          {chapter.narrative}
+        </p>
+      </div>
 
-      {/* Main Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ delay: 0.3, duration: 0.5 }}
-        className="neo-card p-0 overflow-hidden"
-      >
-        {/* Header with Company Info */}
-        <div
-          className="p-4 sm:p-6 border-b-4 border-black relative overflow-hidden"
-          style={{ background: exp.color }}
-        >
-          {/* Animated pattern */}
-          <motion.div
-            className="absolute inset-0 opacity-5"
-            animate={{ backgroundPosition: ["0% 0%", "100% 100%"] }}
-            transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-            style={{
-              backgroundImage: `repeating-linear-gradient(45deg, black 0px, black 2px, transparent 2px, transparent 12px)`,
-              backgroundSize: "20px 20px",
-            }}
-          />
-
-          <div className="relative flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-            <div>
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
-                <motion.h4
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.4 }}
-                  className="text-xl sm:text-2xl font-black uppercase"
-                >
-                  {exp.company}
-                </motion.h4>
-                {exp.current && (
-                  <motion.span
-                    animate={{ scale: [1, 1.05, 1] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                    className="neo-tag neo-tag-primary text-xs"
-                  >
-                    NOW
-                  </motion.span>
-                )}
-              </div>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.5 }}
-                className="flex items-center gap-2 font-bold"
-              >
-                <Briefcase size={16} />
-                <span>{exp.role}</span>
-              </motion.div>
-            </div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.5 }}
-              className="sm:text-right"
-            >
-              <div className="flex items-center gap-2 font-bold">
-                <Calendar size={16} />
-                <span>{exp.period}</span>
-              </div>
-              <div className="flex items-center gap-2 mt-1 text-gray-700 text-sm">
-                <MapPin size={14} />
-                <span>{exp.location}</span>
-              </div>
-            </motion.div>
+      {/* Entry panel */}
+      <div className="panel corners">
+        <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3 border-b border-line px-5 py-4 sm:px-6">
+          <div className="flex items-center gap-3">
+            <h3 className="font-display text-2xl font-semibold uppercase leading-none sm:text-3xl">
+              {exp.company}
+            </h3>
+            {exp.current && (
+              <span className="chip border-accent px-2 py-1 text-[10px] text-accent">
+                NOW
+              </span>
+            )}
+          </div>
+          <div className="font-mono text-xs leading-relaxed text-dim">
+            <span className="text-fg">{exp.role}</span>
+            <span className="mx-2 text-faint" aria-hidden>
+              ·
+            </span>
+            {exp.period}
+            <span className="mx-2 text-faint" aria-hidden>
+              ·
+            </span>
+            {exp.location}
           </div>
         </div>
 
-        {/* Content */}
-        <div className="p-4 sm:p-6 bg-white">
-          {/* Impact Metric */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.6 }}
-            className="mb-6"
-          >
-            <ImpactBadge
-              metric={impactMetric.metric}
-              label={impactMetric.label}
-              icon={impactMetric.icon}
-              delay={0.7}
-              isVisible={isInView}
-            />
-          </motion.div>
+        <div className="px-5 py-5 sm:px-6">
+          {/* Impact readout */}
+          <div className="inline-flex items-center gap-2.5 border border-line-strong px-3 py-1.5 font-mono text-xs">
+            <span className="text-accent" aria-hidden>
+              Δ
+            </span>
+            <span className="font-semibold text-fg">{impactMetric.metric}</span>
+            <span className="uppercase tracking-[0.12em] text-faint">
+              {impactMetric.label}
+            </span>
+          </div>
 
           {/* Highlights */}
-          <ul className="space-y-3 mb-6">
+          <ul className="mt-5 space-y-2.5">
             {exp.highlights.map((highlight, i) => (
               <motion.li
                 key={i}
                 className="flex items-start gap-3"
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -16 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.7 + i * 0.1 }}
+                transition={{ delay: 0.25 + i * 0.07 }}
               >
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={isInView ? { scale: 1 } : {}}
-                  transition={{ delay: 0.8 + i * 0.1, type: "spring" }}
-                >
-                  <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                </motion.div>
-                <span className="text-gray-700">{highlight}</span>
+                <span
+                  aria-hidden
+                  className="mt-2.5 h-px w-3 shrink-0 bg-accent"
+                />
+                <span className="text-sm leading-relaxed text-dim sm:text-base">
+                  {highlight}
+                </span>
               </motion.li>
             ))}
           </ul>
 
           {/* Technologies */}
-          <div className="flex flex-wrap gap-2">
-            {exp.technologies.map((tech, i) => (
-              <motion.span
-                key={tech}
-                className="neo-tag cursor-default"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 0.9 + i * 0.05 }}
-                whileHover={{ scale: 1.05, backgroundColor: "var(--primary)" }}
-              >
+          <div className="mt-5 flex flex-wrap gap-1.5 border-t border-line pt-4">
+            {exp.technologies.map((tech) => (
+              <span key={tech} className="chip cursor-default">
                 {tech}
-              </motion.span>
+              </span>
             ))}
           </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </motion.article>
   );
 }
 
@@ -477,9 +258,8 @@ export default function Experience() {
 
   const timelineProgress = useTransform(smoothProgress, [0.15, 0.85], [0, 1]);
 
-  // The "Story Complete" badge toggles on a discrete threshold, so derive a
-  // boolean from the MotionValue instead of mirroring the whole value into
-  // state on every scroll frame.
+  // The end-of-log line toggles on a discrete threshold, so derive a boolean
+  // from the MotionValue instead of mirroring it into state per scroll frame.
   const [isComplete, setIsComplete] = useState(false);
 
   useMotionValueEvent(timelineProgress, "change", (v) => {
@@ -487,7 +267,12 @@ export default function Experience() {
     setIsComplete((prev) => (prev === complete ? prev : complete));
   });
 
-  // Experiences in chronological order - earliest first for storytelling
+  const fillHeight = useTransform(
+    timelineProgress,
+    (v) => `${Math.max(0, Math.min(1, v)) * 100}%`
+  );
+
+  // Experiences in chronological order — earliest first
   const experiences = [
     {
       company: "Bhumi NGO",
@@ -495,12 +280,7 @@ export default function Experience() {
       location: "India",
       period: "Jun 2021 - Sep 2021",
       current: false,
-      color: "var(--accent-red)",
-      highlights: [
-        t("exp.bhumi.h1"),
-        t("exp.bhumi.h2"),
-        t("exp.bhumi.h3"),
-      ],
+      highlights: [t("exp.bhumi.h1"), t("exp.bhumi.h2"), t("exp.bhumi.h3")],
       technologies: ["Teaching", "Mathematics", "Community Service"],
     },
     {
@@ -509,7 +289,6 @@ export default function Experience() {
       location: "Berlin, Germany",
       period: "Sep 2022 - Sep 2023",
       current: false,
-      color: "var(--accent-cyan)",
       highlights: [
         t("exp.enpal.h1"),
         t("exp.enpal.h2"),
@@ -524,7 +303,6 @@ export default function Experience() {
       location: t("hero.location"),
       period: "Sep 2024 - Feb 2025",
       current: false,
-      color: "var(--primary)",
       highlights: [
         t("exp.enbw.h1"),
         t("exp.enbw.h2"),
@@ -541,7 +319,6 @@ export default function Experience() {
       location: t("hero.location"),
       period: "Oct 2025 - Present",
       current: true,
-      color: "var(--accent-cyan)",
       highlights: [
         t("exp.ruko.h1"),
         t("exp.ruko.h2"),
@@ -549,7 +326,15 @@ export default function Experience() {
         t("exp.ruko.h4"),
         t("exp.ruko.h5"),
       ],
-      technologies: ["Python", "Next.js", "TypeScript", "Prisma", "PostgreSQL", "OpenAI API", "NextAuth.js"],
+      technologies: [
+        "Python",
+        "Next.js",
+        "TypeScript",
+        "Prisma",
+        "PostgreSQL",
+        "OpenAI API",
+        "NextAuth.js",
+      ],
     },
   ];
 
@@ -557,65 +342,67 @@ export default function Experience() {
     <section
       ref={sectionRef}
       id="experience"
-      className="relative py-16 sm:py-24 neo-grid-bg overflow-hidden"
+      className="blueprint relative overflow-hidden py-24 sm:py-28"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <motion.div
-          ref={headerRef}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-8"
-        >
-          <div className="inline-flex items-center gap-2 neo-tag neo-tag-cyan mb-4">
-            <Sparkles size={16} />
-            <span>{t("experience.tag")}</span>
-          </div>
-          <h2 className="neo-title">
-            The <span className="neo-highlight">Story</span> So Far
-          </h2>
-          <p className="mt-4 text-lg max-w-2xl mx-auto text-gray-600">
-            From teaching math in India to building AI in Germany — every chapter shaped who I am today.
-          </p>
-        </motion.div>
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div ref={headerRef}>
+          <SectionHeader
+            index="03"
+            code="OPERATIONS LOG"
+            isInView={isHeaderInView}
+            title={
+              <>
+                {t("experience.title")}{" "}
+                <span className="text-accent">{t("experience.titleHighlight")}</span>
+              </>
+            }
+            subtitle={t("experience.subtitle")}
+          />
+        </div>
 
-        {/* Floating Scroll Progress - Shows when in section */}
-        <ScrollProgress progress={timelineProgress} isInSection={isSectionInView} />
+        {/* Fixed progress rail */}
+        <ScrollRail progress={timelineProgress} isInSection={isSectionInView} />
 
         {/* Timeline */}
         <div className="relative">
-          <TimelineConnector progress={timelineProgress} />
+          {/* Track + animated fill */}
+          <div
+            aria-hidden
+            className="absolute left-2 top-0 hidden h-full w-px bg-line md:block"
+          >
+            <motion.div
+              className="absolute left-0 top-0 w-px bg-accent"
+              style={{ height: fillHeight }}
+            />
+          </div>
 
-          {/* Experience Cards */}
           {experiences.map((exp, index) => (
             <ExperienceCard
               key={exp.company}
               exp={exp}
               chapter={storyChapters[index]}
               impactMetric={impactMetrics[index]}
+              index={index}
             />
           ))}
 
-          {/* Story Complete */}
+          {/* End of log */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={isComplete ? { opacity: 1, scale: 1 } : {}}
-            transition={{ type: "spring", damping: 15 }}
-            className="text-center py-8"
+            initial={{ opacity: 0 }}
+            animate={isComplete ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5 }}
+            className="pt-10 md:pl-14 lg:pl-16"
           >
-            <motion.div
-              animate={isComplete ? { rotate: [0, 10, -10, 0] } : {}}
-              transition={{ repeat: Infinity, duration: 2, repeatDelay: 1 }}
-              className="inline-flex items-center gap-3 px-6 py-4 bg-primary border-4 border-black neo-shadow-lg"
-            >
-              <Trophy size={28} />
-              <div className="text-left">
-                <span className="font-black text-lg uppercase block">To be continued...</span>
-                <span className="text-sm font-medium">The next chapter is being written</span>
-              </div>
-              <Rocket size={28} />
-            </motion.div>
+            <p className="font-mono text-sm text-faint">
+              <span className="text-accent" aria-hidden>
+                {"// "}
+              </span>
+              END OF LOG — NEXT ENTRY IN PROGRESS
+              <span
+                aria-hidden
+                className="cursor-blink ml-1.5 inline-block h-3.5 w-2 bg-accent align-middle"
+              />
+            </p>
           </motion.div>
         </div>
       </div>

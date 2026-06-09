@@ -1,16 +1,26 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { MapPin, Send, Github, Linkedin, Mail, Phone, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import {
+  MapPin,
+  Send,
+  Github,
+  Linkedin,
+  Mail,
+  Phone,
+  Loader2,
+  AlertCircle,
+  ArrowUpRight,
+} from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import SectionHeader from "@/components/SectionHeader";
 
 export default function Contact() {
   const { t } = useLanguage();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -52,121 +62,164 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const channels = [
+    {
+      label: t("contact.email"),
+      value: "harshalvankudre@gmail.com",
+      href: "mailto:harshalvankudre@gmail.com",
+      icon: Mail,
+    },
+    {
+      label: t("contact.phone"),
+      value: "+49 176 87451632",
+      href: "tel:+4917687451632",
+      icon: Phone,
+    },
+    {
+      label: t("contact.location"),
+      value: t("hero.location"),
+      href: null,
+      icon: MapPin,
+    },
+  ];
+
   return (
-    <section id="contact" className="relative py-24 neo-stripes">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
-          <span className="neo-tag neo-tag-primary mb-4">{t("contact.tag")}</span>
-          <h2 className="neo-title mt-4">
-            {t("contact.title")}{" "}
-            <span className="neo-highlight">{t("contact.titleHighlight")}</span>
-          </h2>
-        </motion.div>
+    <section id="contact" className="blueprint relative py-24 sm:py-28">
+      <div ref={ref} className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          index="07"
+          code="TRANSMIT"
+          isInView={isInView}
+          title={
+            <>
+              {t("contact.title")}{" "}
+              <span className="text-accent">{t("contact.titleHighlight")}</span>
+            </>
+          }
+        />
 
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
-          {/* Contact Info */}
+        <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+          {/* Channels */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-6"
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="flex flex-col gap-6"
           >
-            <h3 className="text-xl font-black uppercase mb-6">{t("contact.quickLinks")}</h3>
-            <p className="text-gray-600 mb-6">{t("contact.respondFastest")}</p>
+            <div className="panel corners">
+              <div className="flex items-center justify-between border-b border-line px-5 py-3">
+                <span className="tech-label">
+                  CHANNELS <span className="text-accent">{"//"}</span>{" "}
+                  {t("contact.quickLinks")}
+                </span>
+                <span aria-hidden className="crosshair" />
+              </div>
 
-            {/* Email */}
-            <a
-              href="mailto:harshalvankudre@gmail.com"
-              className="neo-card p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:bg-[var(--primary)] group"
-            >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--accent-cyan)] transition-colors">
-                <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <div className="min-w-0">
-                <div className="font-bold text-sm sm:text-base">{t("contact.email")}</div>
-                <div className="text-gray-600 text-xs sm:text-sm truncate">harshalvankudre@gmail.com</div>
-              </div>
-            </a>
+              <p className="border-b border-line px-5 py-4 text-sm text-dim">
+                {t("contact.respondFastest")}
+              </p>
 
-            {/* Phone */}
-            <a
-              href="tel:+4917687451632"
-              className="neo-card p-3 sm:p-4 flex items-center gap-3 sm:gap-4 hover:bg-[var(--accent-cyan)] group"
-            >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black flex items-center justify-center flex-shrink-0 group-hover:bg-[var(--primary)] transition-colors">
-                <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <div>
-                <div className="font-bold text-sm sm:text-base">{t("contact.phone")}</div>
-                <div className="text-gray-600 text-xs sm:text-sm">+49 176 87451632</div>
-              </div>
-            </a>
+              <ul className="divide-y divide-line">
+                {channels.map((channel) => {
+                  const inner = (
+                    <>
+                      <channel.icon
+                        size={15}
+                        className="shrink-0 text-faint transition-colors group-hover:text-accent"
+                        aria-hidden
+                      />
+                      <span className="tech-label w-20 shrink-0">
+                        {channel.label}
+                      </span>
+                      <span className="min-w-0 flex-1 truncate font-mono text-sm text-fg">
+                        {channel.value}
+                      </span>
+                      {channel.href && (
+                        <ArrowUpRight
+                          size={14}
+                          className="shrink-0 text-faint transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
+                          aria-hidden
+                        />
+                      )}
+                    </>
+                  );
 
-            {/* Location */}
-            <div className="neo-card p-3 sm:p-4 flex items-center gap-3 sm:gap-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black flex items-center justify-center flex-shrink-0">
-                <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <div>
-                <div className="font-bold text-sm sm:text-base">{t("contact.location")}</div>
-                <div className="text-gray-600 text-xs sm:text-sm">{t("hero.location")}</div>
+                  return (
+                    <li key={channel.label}>
+                      {channel.href ? (
+                        <a
+                          href={channel.href}
+                          className="group flex items-center gap-4 px-5 py-4 transition-colors hover:bg-overlay"
+                        >
+                          {inner}
+                        </a>
+                      ) : (
+                        <div className="group flex items-center gap-4 px-5 py-4">
+                          {inner}
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+
+              {/* Social Links */}
+              <div className="flex items-center gap-6 border-t border-line bg-overlay px-5 py-4 font-mono text-xs uppercase tracking-[0.14em]">
+                <span className="tech-label">EXT</span>
+                <a
+                  href="https://github.com/HarshalVankudre"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-draw inline-flex items-center gap-1.5 text-dim"
+                >
+                  <Github size={13} aria-hidden />
+                  GitHub
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/harshal-vankudre/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-draw inline-flex items-center gap-1.5 text-dim"
+                >
+                  <Linkedin size={13} aria-hidden />
+                  LinkedIn
+                </a>
               </div>
             </div>
 
-            {/* Social Links */}
-            <div className="flex gap-3 sm:gap-4 pt-4">
-              <motion.a
-                href="https://github.com/HarshalVankudre"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="neo-btn neo-btn-white py-2 px-3 sm:py-3 sm:px-4"
-                aria-label="GitHub"
-              >
-                <Github size={20} className="sm:w-6 sm:h-6" />
-              </motion.a>
-              <motion.a
-                href="https://www.linkedin.com/in/harshal-vankudre/"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="neo-btn neo-btn-cyan py-2 px-3 sm:py-3 sm:px-4"
-                aria-label="LinkedIn"
-              >
-                <Linkedin size={20} className="sm:w-6 sm:h-6" />
-              </motion.a>
+            {/* Response-time note */}
+            <div className="panel hidden items-center gap-3 border-l-2 border-l-accent px-5 py-4 lg:flex">
+              <span className="led led-ok" aria-hidden />
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-dim">
+                Open to opportunities — AI / ML & full-stack
+              </p>
             </div>
           </motion.div>
 
-          {/* Contact Form */}
+          {/* Transmission form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.25 }}
           >
-            <form onSubmit={handleSubmit} className="neo-card p-0 overflow-hidden">
+            <form onSubmit={handleSubmit} className="panel corners">
               {/* Header */}
-              <div className="p-4 sm:p-6 bg-[var(--primary)] border-b-3 border-black">
-                <h3 className="text-xl sm:text-2xl font-black uppercase">{t("contact.sendMessage")}</h3>
-                <p className="text-gray-800 mt-2 text-sm sm:text-base">
-                  {t("contact.formSubtitle")}
-                </p>
+              <div className="border-b border-line px-5 py-4 sm:px-6">
+                <span className="tech-label">
+                  MSG <span className="text-accent">{"//"}</span>{" "}
+                  {t("contact.sendMessage")}
+                </span>
+                <p className="mt-2 text-sm text-dim">{t("contact.formSubtitle")}</p>
               </div>
 
               {/* Form Fields */}
-              <div className="p-4 sm:p-6 bg-white space-y-4">
+              <div className="space-y-5 px-5 py-5 sm:px-6">
                 <div>
-                  <label htmlFor="name" className="font-bold uppercase text-sm block mb-2">
-                    {t("contact.name")} *
+                  <label
+                    htmlFor="name"
+                    className="tech-label mb-2 block text-dim"
+                  >
+                    {t("contact.name")} <span className="text-accent">*</span>
                   </label>
                   <input
                     type="text"
@@ -175,14 +228,17 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full neo-border p-3 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    className="field"
                     placeholder={t("contact.namePlaceholder")}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="font-bold uppercase text-sm block mb-2">
-                    {t("contact.email")} *
+                  <label
+                    htmlFor="email"
+                    className="tech-label mb-2 block text-dim"
+                  >
+                    {t("contact.email")} <span className="text-accent">*</span>
                   </label>
                   <input
                     type="email"
@@ -191,13 +247,16 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full neo-border p-3 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    className="field"
                     placeholder={t("contact.emailPlaceholder")}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="font-bold uppercase text-sm block mb-2">
+                  <label
+                    htmlFor="subject"
+                    className="tech-label mb-2 block text-dim"
+                  >
                     {t("contact.subject")}
                   </label>
                   <input
@@ -206,14 +265,17 @@ export default function Contact() {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full neo-border p-3 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+                    className="field"
                     placeholder={t("contact.subjectPlaceholder")}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="font-bold uppercase text-sm block mb-2">
-                    {t("contact.message")} *
+                  <label
+                    htmlFor="message"
+                    className="tech-label mb-2 block text-dim"
+                  >
+                    {t("contact.message")} <span className="text-accent">*</span>
                   </label>
                   <textarea
                     id="message"
@@ -222,46 +284,44 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     rows={4}
-                    className="w-full neo-border p-3 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--primary)] resize-none"
+                    className="field resize-none"
                     placeholder={t("contact.messagePlaceholder")}
                   />
                 </div>
 
                 {/* Status Messages */}
                 {status === "success" && (
-                  <div className="flex items-center gap-2 p-3 bg-green-100 border-3 border-green-600 text-green-800">
-                    <CheckCircle size={20} />
-                    <span className="font-bold">{t("contact.successMessage")}</span>
+                  <div className="flex items-center gap-2.5 border border-ok/40 bg-ok/10 p-3 font-mono text-sm text-ok">
+                    <span className="led led-ok" aria-hidden />
+                    {t("contact.successMessage")}
                   </div>
                 )}
 
                 {status === "error" && (
-                  <div className="flex items-center gap-2 p-3 bg-red-100 border-3 border-red-600 text-red-800">
-                    <AlertCircle size={20} />
-                    <span className="font-bold">{errorMessage}</span>
+                  <div className="flex items-center gap-2.5 border border-err/40 bg-err/10 p-3 font-mono text-sm text-err">
+                    <AlertCircle size={15} aria-hidden />
+                    {errorMessage}
                   </div>
                 )}
 
                 {/* Submit Button */}
-                <motion.button
+                <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="neo-btn neo-btn-primary w-full justify-center text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                  whileHover={status !== "loading" ? { scale: 1.02 } : {}}
-                  whileTap={status !== "loading" ? { scale: 0.98 } : {}}
+                  className="btn btn-solid w-full disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {status === "loading" ? (
                     <>
-                      <Loader2 size={20} className="animate-spin" />
+                      <Loader2 size={15} className="animate-spin" />
                       {t("contact.sending")}
                     </>
                   ) : (
                     <>
-                      <Send size={20} />
+                      <Send size={15} />
                       {t("contact.sendMessage")}
                     </>
                   )}
-                </motion.button>
+                </button>
               </div>
             </form>
           </motion.div>

@@ -45,6 +45,7 @@ const translations = {
     "hero.fasterResponses": "Faster Responses",
     "hero.tierAutomated": "Tier-1 Automated",
     "hero.lessManualTime": "Less Manual Time",
+    "hero.internalUsers": "Internal Users",
 
     // About
     "about.tag": "About Me",
@@ -179,6 +180,7 @@ const translations = {
     "hero.fasterResponses": "Schnellere Antworten",
     "hero.tierAutomated": "Tier-1 Automatisiert",
     "hero.lessManualTime": "Weniger manuelle Arbeit",
+    "hero.internalUsers": "Interne Nutzer",
 
     // About
     "about.tag": "Über mich",

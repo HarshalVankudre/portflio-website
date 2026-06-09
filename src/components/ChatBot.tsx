@@ -16,25 +16,20 @@ const quickQuestions = [
   "How can I contact him?",
 ];
 
-// Professional chat icon component
+// Chat toggle icon
 function ChatIcon() {
   return (
     <motion.div
       animate={{
-        scale: [1, 1.1, 1],
-        rotate: [0, 5, 0],
+        scale: [1, 1.08, 1],
       }}
       transition={{
-        duration: 2,
+        duration: 2.4,
         repeat: Infinity,
         ease: "easeInOut",
       }}
     >
-      <Sparkles 
-        size={28} 
-        className="text-purple-600" 
-        strokeWidth={2.5} 
-      />
+      <Sparkles size={24} className="text-accent" strokeWidth={2} />
     </motion.div>
   );
 }
@@ -205,6 +200,24 @@ export default function ChatBot() {
         // Buffer carries any partial line between chunks so we never drop a
         // token when a chunk splits mid-line.
         let buffer = "";
+        const applyStreamLine = (line: string) => {
+          if (!line.startsWith("data: ")) return;
+
+          const data = line.slice(6).trim();
+          if (data === "[DONE]") return;
+
+          try {
+            const parsed = JSON.parse(data);
+            // Handle both Groq API format and our custom format
+            const content = parsed.choices?.[0]?.delta?.content || parsed.content || "";
+            if (content) {
+              assistantMessage += content;
+              scheduleFlush();
+            }
+          } catch {
+            // Ignore parse errors for incomplete chunks
+          }
+        };
 
         while (true) {
           const { done, value } = await reader.read();
@@ -216,24 +229,15 @@ export default function ChatBot() {
           buffer = lines.pop() ?? "";
 
           for (const line of lines) {
-            if (line.startsWith("data: ")) {
-              const data = line.slice(6).trim();
-              if (data === "[DONE]") continue;
-
-              try {
-                const parsed = JSON.parse(data);
-                // Handle both Groq API format and our custom format
-                const content = parsed.choices?.[0]?.delta?.content || parsed.content || "";
-                if (content) {
-                  assistantMessage += content;
-                  scheduleFlush();
-                }
-              } catch {
-                // Ignore parse errors for incomplete chunks
-              }
-            }
+            applyStreamLine(line);
           }
         }
+
+        if (buffer.trim()) {
+          applyStreamLine(buffer);
+        }
+      } else {
+        throw new Error("No response stream available");
       }
 
       // Ensure any buffered text is committed before we finish.
@@ -284,12 +288,10 @@ export default function ChatBot() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(true)}
-            className="fixed right-4 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center transition-all duration-200 ease-out"
+            className="fixed right-4 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center border border-line-strong bg-raised transition-all duration-200 ease-out hover:border-accent"
             style={{
               bottom: buttonBottom,
-              backgroundColor: "#FFFEF5",
-              border: "4px solid #000000",
-              boxShadow: "4px 4px 0px 0px #000000",
+              boxShadow: "0 12px 32px rgba(0,0,0,0.5)",
             }}
             aria-label="Open chat"
           >
@@ -315,7 +317,7 @@ export default function ChatBot() {
             }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed right-2 left-2 sm:left-auto sm:right-6 z-50 sm:w-96 bg-[#FFFEF5] border-4 border-black neo-shadow-lg overflow-hidden flex flex-col"
+            className="fixed right-2 left-2 sm:left-auto sm:right-6 z-50 sm:w-96 bg-night border border-line-strong overflow-hidden flex flex-col shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
             style={{ maxHeight: isMinimized ? "auto" : "85vh", bottom: Math.max(buttonBottom, 16) }}
           >
             {/* Screen-reader live region: mirrors the latest assistant message
@@ -326,45 +328,38 @@ export default function ChatBot() {
             </div>
 
             {/* Header */}
-            <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 bg-primary border-b-4 border-black">
+            <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 bg-raised border-b border-line">
               <div className="flex items-center gap-2 sm:gap-3">
-                <motion.div 
-                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center bg-white border-2 border-black"
-                  animate={{
-                    scale: [1, 1.05, 1],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <Sparkles size={18} className="text-purple-600 sm:w-5 sm:h-5" strokeWidth={2.5} />
-                </motion.div>
+                <div className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-line-strong bg-overlay">
+                  <Sparkles size={16} className="text-accent" strokeWidth={2} />
+                </div>
                 <div>
-                  <h3 className="font-black text-xs sm:text-sm uppercase tracking-wide">
+                  <h3 className="font-mono font-semibold text-xs uppercase tracking-[0.14em] text-fg">
                     Ask About Harshal
                   </h3>
-                  <p className="text-[10px] sm:text-xs font-medium opacity-70">AI Assistant</p>
+                  <p className="tech-label mt-0.5 flex items-center gap-1.5">
+                    <span className="led led-ok" aria-hidden />
+                    AI Assistant — Online
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setIsMinimized(!isMinimized)}
-                  className="p-1.5 hover:bg-black/10 transition-colors"
+                  className="p-1.5 text-dim transition-colors hover:bg-overlay hover:text-fg"
                   aria-label={isMinimized ? "Expand" : "Minimize"}
                 >
-                  <Minus size={16} strokeWidth={3} />
+                  <Minus size={16} strokeWidth={2.5} />
                 </button>
                 <button
                   onClick={() => {
                     setIsOpen(false);
                     setIsMinimized(false);
                   }}
-                  className="p-1.5 hover:bg-red-500 hover:text-white transition-colors"
+                  className="p-1.5 text-dim transition-colors hover:bg-err hover:text-night"
                   aria-label="Close"
                 >
-                  <X size={16} strokeWidth={3} />
+                  <X size={16} strokeWidth={2.5} />
                 </button>
               </div>
             </div>
@@ -382,14 +377,11 @@ export default function ChatBot() {
                       className="space-y-4"
                     >
                       <div className="flex items-start gap-3">
-                        <div 
-                          className="w-8 h-8 border-2 border-black flex items-center justify-center flex-shrink-0"
-                          style={{ backgroundColor: "#4ECDC4" }}
-                        >
-                          <Bot size={16} />
+                        <div className="w-8 h-8 border border-line-strong bg-overlay flex items-center justify-center flex-shrink-0 text-accent">
+                          <Bot size={15} />
                         </div>
-                        <div className="bg-white border-2 border-black p-3 neo-shadow max-w-[85%]">
-                          <p className="text-sm">
+                        <div className="bg-raised border border-line p-3 max-w-[85%]">
+                          <p className="text-sm text-dim">
                             Hi! I&apos;m Harshal&apos;s AI assistant. Ask me
                             anything about his skills, projects, experience, or
                             how to get in touch!
@@ -399,15 +391,13 @@ export default function ChatBot() {
 
                       {/* Quick Questions */}
                       <div className="pl-11">
-                        <p className="text-xs font-bold text-gray-500 mb-2 uppercase">
-                          Quick questions:
-                        </p>
-                        <div className="flex flex-wrap gap-2">
+                        <p className="tech-label mb-2">Quick questions:</p>
+                        <div className="flex flex-wrap gap-1.5">
                           {quickQuestions.map((q) => (
                             <button
                               key={q}
                               onClick={() => handleQuickQuestion(q)}
-                              className="text-xs px-3 py-1.5 bg-white border-2 border-black hover:bg-primary transition-colors font-bold"
+                              className="chip cursor-pointer normal-case tracking-normal"
                             >
                               {q}
                             </button>
@@ -428,22 +418,20 @@ export default function ChatBot() {
                       }`}
                     >
                       <div
-                        className="w-8 h-8 border-2 border-black flex items-center justify-center flex-shrink-0"
-                        style={{
-                          backgroundColor: msg.role === "user" ? "#FF6B6B" : "#4ECDC4",
-                          color: msg.role === "user" ? "white" : "black"
-                        }}
+                        className={`w-8 h-8 flex items-center justify-center flex-shrink-0 border ${
+                          msg.role === "user"
+                            ? "border-accent bg-accent text-night"
+                            : "border-line-strong bg-overlay text-accent"
+                        }`}
                       >
-                        {msg.role === "user" ? <User size={16} /> : <Bot size={16} />}
+                        {msg.role === "user" ? <User size={15} /> : <Bot size={15} />}
                       </div>
                       <div
-                        className={`p-3 border-2 border-black max-w-[85%] ${
-                          msg.role === "user" ? "" : "neo-shadow"
+                        className={`p-3 max-w-[85%] border ${
+                          msg.role === "user"
+                            ? "border-accent bg-accent text-night"
+                            : "border-line bg-raised text-dim"
                         }`}
-                        style={{
-                          backgroundColor: msg.role === "user" ? "#FF6B6B" : "white",
-                          color: msg.role === "user" ? "white" : "black"
-                        }}
                       >
                         <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                       </div>
@@ -457,16 +445,19 @@ export default function ChatBot() {
                       animate={{ opacity: 1 }}
                       className="flex items-start gap-3"
                     >
-                      <div 
-                        className="w-8 h-8 border-2 border-black flex items-center justify-center"
-                        style={{ backgroundColor: "#4ECDC4" }}
-                      >
-                        <Bot size={16} />
+                      <div className="w-8 h-8 border border-line-strong bg-overlay flex items-center justify-center text-accent">
+                        <Bot size={15} />
                       </div>
-                      <div className="bg-white border-2 border-black p-3 neo-shadow">
-                        <div className="flex items-center gap-2" role="status">
-                          <Sparkles size={16} className="animate-spin" />
-                          <span className="text-sm font-medium">Thinking...</span>
+                      <div className="bg-raised border border-line p-3">
+                        <div className="flex items-center gap-2 text-dim" role="status">
+                          <span className="led led-accent" aria-hidden />
+                          <span className="font-mono text-xs uppercase tracking-[0.14em]">
+                            Thinking
+                          </span>
+                          <span
+                            aria-hidden
+                            className="cursor-blink inline-block h-3 w-1.5 bg-accent"
+                          />
                         </div>
                       </div>
                     </motion.div>
@@ -478,7 +469,7 @@ export default function ChatBot() {
                 {/* Input Area */}
                 <form
                   onSubmit={handleSubmit}
-                  className="p-3 border-t-4 border-black bg-white"
+                  className="p-3 border-t border-line bg-raised"
                 >
                   <div className="flex items-center gap-2">
                     <input
@@ -488,15 +479,15 @@ export default function ChatBot() {
                       onChange={(e) => setInput(e.target.value)}
                       placeholder="Ask me anything..."
                       disabled={isLoading}
-                      className="flex-1 px-3 py-2 border-2 border-black bg-[#FFFEF5] font-medium text-sm focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
+                      className="field flex-1 px-3 py-2 text-sm disabled:opacity-50"
                     />
                     <button
                       type="submit"
                       disabled={!input.trim() || isLoading}
-                      className="p-2 bg-primary border-2 border-black neo-shadow hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="grid h-[42px] w-[42px] shrink-0 place-items-center border border-accent bg-accent text-night transition-colors hover:bg-[#ff7426] disabled:cursor-not-allowed disabled:opacity-50"
                       aria-label="Send message"
                     >
-                      <Send size={18} />
+                      <Send size={16} />
                     </button>
                   </div>
                 </form>

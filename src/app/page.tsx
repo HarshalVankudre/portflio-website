@@ -21,7 +21,7 @@ export default function Home() {
       {/* Skip Link */}
       <a
         href="#home"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-primary focus:text-black focus:border-2 focus:border-black focus:px-4 focus:py-2 focus:font-bold"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-accent focus:text-night focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:font-semibold focus:uppercase focus:tracking-widest"
       >
         Skip to content
       </a>
@@ -32,21 +32,21 @@ export default function Home() {
       {/* Navigation */}
       <Navbar />
 
-      {/* Sections */}
+      {/* Sections — separated by ruler tick strips */}
       <Hero />
-      <div className="neo-divider" aria-hidden />
+      <div className="tick-divider" aria-hidden />
       <About />
-      <div className="neo-divider-bar" aria-hidden />
+      <div className="tick-divider" aria-hidden />
       <Skills />
-      <div className="neo-divider" aria-hidden />
+      <div className="tick-divider" aria-hidden />
       <Experience />
-      <div className="neo-divider-bar" aria-hidden />
+      <div className="tick-divider" aria-hidden />
       <Education />
-      <div className="neo-divider" aria-hidden />
+      <div className="tick-divider" aria-hidden />
       <Projects />
-      <div className="neo-divider-bar" aria-hidden />
+      <div className="tick-divider" aria-hidden />
       <GitHubStats />
-      <div className="neo-divider" aria-hidden />
+      <div className="tick-divider" aria-hidden />
       <Contact />
       <Footer />
 

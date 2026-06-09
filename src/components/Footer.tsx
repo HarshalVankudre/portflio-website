@@ -9,31 +9,31 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative py-6 sm:py-8 bg-black text-white border-t-4 border-[var(--primary)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center gap-4 sm:gap-6 md:flex-row md:justify-between">
-          {/* Logo & Copyright */}
-          <div className="flex items-center gap-3 sm:gap-4">
-            <span className="text-2xl sm:text-3xl font-black bg-[var(--primary)] text-black px-2 sm:px-3 py-1">
-              HV
+    <footer className="relative border-t border-line bg-raised">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center gap-5 md:flex-row md:justify-between">
+          {/* Wordmark & Copyright */}
+          <div className="flex items-center gap-4">
+            <span className="font-display text-2xl font-bold uppercase leading-none">
+              HV<span className="text-accent">.</span>
             </span>
-            <div className="h-6 sm:h-8 w-0.5 sm:w-1 bg-white/20" />
-            <p className="text-gray-400 text-xs sm:text-sm">
+            <span aria-hidden className="h-5 w-px bg-line-strong" />
+            <p className="font-mono text-xs text-dim">
               © {currentYear} Harshal Vankudre
             </p>
           </div>
 
-          {/* Terminal Hint - Center (hidden on very small screens) */}
+          {/* Terminal Hint */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="hidden sm:flex items-center gap-2 text-xs sm:text-sm font-mono"
+            className="hidden items-center gap-2 font-mono text-xs text-faint sm:flex"
           >
-            <Terminal size={14} className="text-[var(--primary)] sm:w-4 sm:h-4" />
-            <span className="text-gray-400">
+            <Terminal size={13} className="text-accent" aria-hidden />
+            <span>
               Press{" "}
-              <kbd className="bg-[var(--primary)] text-black px-1.5 sm:px-2 py-0.5 font-bold text-[10px] sm:text-xs rounded">
+              <kbd className="border border-line-strong bg-night px-1.5 py-0.5 font-semibold text-accent">
                 `
               </kbd>{" "}
               for a surprise
@@ -41,14 +41,21 @@ export default function Footer() {
           </motion.div>
 
           {/* Back to Top */}
-          <motion.a
+          <a
             href="#home"
-            whileHover={{ y: -3 }}
-            className="flex items-center gap-2 text-xs sm:text-sm text-gray-400 hover:text-white transition-colors group"
+            className="link-draw inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.14em] text-dim"
           >
-            <span>{t("footer.backToTop")}</span>
-            <ArrowUp size={14} className="group-hover:text-[var(--primary)] sm:w-4 sm:h-4" />
-          </motion.a>
+            {t("footer.backToTop")}
+            <ArrowUp size={13} aria-hidden />
+          </a>
+        </div>
+
+        {/* Spec microline */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-line pt-5 md:justify-between">
+          <span className="tech-label">
+            BUILT WITH NEXT.JS · DESIGNED AS AN INSTRUMENT
+          </span>
+          <span className="tech-label">49.0069° N — 8.4037° E · KARLSRUHE</span>
         </div>
       </div>
     </footer>

@@ -1,40 +1,50 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Design tokens — tightened neobrutalist palette
-   Signature yellow + cyan & red accents on cream/ink.
+   Design tokens — "Engineered Dark" instrument panel
+   Graphite surfaces, hairline rules, mono annotations,
+   one signal-orange accent (construction machinery livery).
    ============================================================ */
 :root {
   /* Surfaces */
-  --background: #FFFEF5; /* cream */
-  --foreground: #1A1A1A; /* ink */
+  --bg: #0a0b0d;        /* deep graphite */
+  --raised: #101216;    /* panel */
+  --overlay: #15181d;   /* elevated / hover */
 
-  /* Accents (the only three) */
-  --primary: #FFE500;    /* signature yellow */
-  --accent-cyan: #4ECDC4;
-  --accent-red: #FF6B6B;
+  /* Hairlines */
+  --line: rgba(232, 230, 226, 0.08);
+  --line-strong: rgba(232, 230, 226, 0.16);
 
-  /* Structure */
-  --border: #000000;
-  --shadow: #000000;
+  /* Ink */
+  --fg: #e8e6e2;        /* off-white */
+  --dim: #9ba0a6;
+  --faint: #5c6168;
 
-  /* Hard-offset shadow scale — one consistent set of tiers */
-  --shadow-sm: 3px 3px 0 var(--shadow);
-  --shadow-md: 5px 5px 0 var(--shadow);
-  --shadow-lg: 8px 8px 0 var(--shadow);
+  /* Signal */
+  --accent: #ff5c00;    /* signal orange */
+  --accent-soft: rgba(255, 92, 0, 0.14);
+  --ok: #3fb950;        /* status LED green */
+  --err: #ff6166;
 }
 
 /* Bind tokens to Tailwind so utilities resolve:
-   bg-primary / bg-cyan / bg-red / text-ink / bg-cream / font-display … */
+   bg-night / bg-raised / text-fg / text-dim / text-accent / font-display … */
 @theme inline {
-  --color-primary: var(--primary);
-  --color-cyan: var(--accent-cyan);
-  --color-red: var(--accent-red);
-  --color-ink: var(--foreground);
-  --color-cream: var(--background);
+  --color-night: var(--bg);
+  --color-raised: var(--raised);
+  --color-overlay: var(--overlay);
+  --color-fg: var(--fg);
+  --color-dim: var(--dim);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-ok: var(--ok);
+  --color-err: var(--err);
+  --color-line: rgba(232, 230, 226, 0.08);
+  --color-line-strong: rgba(232, 230, 226, 0.16);
 
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-big-shoulders), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
 }
 
 * {
@@ -43,13 +53,26 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6rem; /* anchored sections clear the fixed navbar */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-inter), system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-plex-sans), system-ui, sans-serif;
   overflow-x: hidden;
+}
+
+/* Film grain — one fixed pass over the whole screen for materiality */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
 }
 
 /* Display typeface drives every heading; .font-display opts in elsewhere */
@@ -59,206 +82,274 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  letter-spacing: -0.02em;
+  font-family: var(--font-big-shoulders), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0.01em;
 }
 
-.font-display {
-  font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-}
-
-/* Scrollbar Styling - Neobrutalist */
+/* Scrollbar — slim instrument rail */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background);
-  border-left: 3px solid var(--border);
+  background: var(--bg);
+  border-left: 1px solid var(--line);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border: 3px solid var(--border);
+  background: var(--overlay);
+  border: 1px solid var(--line-strong);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-cyan);
+  background: var(--accent);
 }
 
 /* Selection */
 ::selection {
-  background: var(--primary);
-  color: var(--foreground);
+  background: var(--accent);
+  color: #0a0b0d;
+}
+
+/* Keyboard focus — always visible, always orange */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* ============================================================
-   Neobrutalist utilities
+   Instrument utilities
    ============================================================ */
-.neo-shadow {
-  box-shadow: var(--shadow-sm);
+
+/* Blueprint grid — fine cells with a stronger module line */
+.blueprint {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px),
+    linear-gradient(rgba(232, 230, 226, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 230, 226, 0.03) 1px, transparent 1px);
+  background-size:
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
 }
 
-.neo-shadow-md {
-  box-shadow: var(--shadow-md);
+/* Raised panel with hairline border */
+.panel {
+  background: var(--raised);
+  border: 1px solid var(--line);
 }
 
-.neo-shadow-lg {
-  box-shadow: var(--shadow-lg);
+/* Mono micro-label — annotations, spec codes, axis text */
+.tech-label {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--faint);
 }
 
-.neo-border {
-  border: 3px solid var(--border);
+/* Corner registration brackets (top-left + bottom-right).
+   Sit on a .panel; sharpen to orange and grow on hover. */
+.corners {
+  position: relative;
 }
 
-.neo-border-thick {
-  border: 4px solid var(--border);
+.corners::before,
+.corners::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 0 solid var(--line-strong);
+  pointer-events: none;
+  transition: border-color 0.2s ease, width 0.2s ease, height 0.2s ease;
 }
 
-.neo-card {
-  background: white;
-  border: 2px solid var(--border);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+.corners::before {
+  top: -1px;
+  left: -1px;
+  border-top-width: 1px;
+  border-left-width: 1px;
 }
 
-@media (min-width: 640px) {
-  .neo-card {
-    border-width: 3px;
-    box-shadow: var(--shadow-md);
-  }
+.corners::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
 }
 
-.neo-card:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: var(--shadow-lg);
+.corners:hover::before,
+.corners:hover::after {
+  border-color: var(--accent);
+  width: 24px;
+  height: 24px;
 }
 
-/* One shared press physics for every button */
-.neo-btn {
+/* Crosshair "+" registration mark */
+.crosshair {
+  width: 12px;
+  height: 12px;
+  background:
+    linear-gradient(var(--line-strong), var(--line-strong)) center / 1px 100% no-repeat,
+    linear-gradient(var(--line-strong), var(--line-strong)) center / 100% 1px no-repeat;
+}
+
+/* Status LEDs */
+.led {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.led-ok {
+  background: var(--ok);
+  box-shadow: 0 0 6px rgba(63, 185, 80, 0.8);
+  animation: led-pulse 2.4s ease-in-out infinite;
+}
+
+.led-accent {
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(255, 92, 0, 0.8);
+}
+
+@keyframes led-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+/* Giant outlined figures — section indices, background numerals */
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(232, 230, 226, 0.12);
+}
+
+/* ============================================================
+   Controls
+   ============================================================ */
+.btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  padding: 0.625rem 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-  border: 2px solid var(--border);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-  cursor: pointer;
-  font-size: 0.875rem;
-}
-
-@media (min-width: 640px) {
-  .neo-btn {
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    border-width: 3px;
-    box-shadow: var(--shadow-md);
-    font-size: 1rem;
-  }
-}
-
-.neo-btn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: var(--shadow-sm);
-}
-
-.neo-btn:active {
-  transform: translate(5px, 5px);
-  box-shadow: 0 0 0 var(--shadow);
-}
-
-.neo-btn-primary {
-  background: var(--primary);
-  color: var(--foreground);
-}
-
-.neo-btn-cyan {
-  background: var(--accent-cyan);
-  color: var(--foreground);
-}
-
-.neo-btn-red {
-  background: var(--accent-red);
-  color: var(--foreground);
-}
-
-.neo-btn-white {
-  background: white;
-  color: var(--foreground);
-}
-
-/* Tag/Badge styles */
-.neo-tag {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding: 0 1.25rem;
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-  border: 2px solid var(--border);
-  background: white;
+  letter-spacing: 0.14em;
+  border: 1px solid var(--line-strong);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease,
+    color 0.15s ease, transform 0.1s ease;
+  white-space: nowrap;
 }
 
-.neo-tag-primary {
-  background: var(--primary);
+.btn:active {
+  transform: translateY(1px);
 }
 
-.neo-tag-cyan {
-  background: var(--accent-cyan);
+.btn-solid {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0a0b0d;
 }
 
-.neo-tag-red {
-  background: var(--accent-red);
+.btn-solid:hover {
+  background: #ff7426;
+  border-color: #ff7426;
 }
 
-/* Section title */
-.neo-title {
-  font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(1.75rem, 5vw, 4rem);
-  font-weight: 800;
+.btn-ghost {
+  background: transparent;
+  color: var(--fg);
+}
+
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Spec chip — tech tags, small qualifiers */
+.chip {
+  display: inline-block;
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
   text-transform: uppercase;
-  letter-spacing: -0.03em;
-  line-height: 1.02;
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--line-strong);
+  color: var(--dim);
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
-@media (max-width: 640px) {
-  .neo-title {
-    font-size: clamp(1.5rem, 7vw, 2rem);
-  }
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-/* Highlight box */
-.neo-highlight {
-  display: inline;
-  background: var(--primary);
-  padding: 0 0.25rem;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+/* Form field */
+.field {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  padding: 0.75rem 0.875rem;
+  color: var(--fg);
+  font-size: 0.9rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* Grid pattern background */
-.neo-grid-bg {
+.field::placeholder {
+  color: var(--faint);
+}
+
+.field:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Link with drawn underline */
+.link-draw {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.25s ease, color 0.15s ease;
+  padding-bottom: 2px;
+}
+
+.link-draw:hover {
+  background-size: 100% 1px;
+  color: var(--accent);
+}
+
+/* ============================================================
+   Dividers
+   ============================================================ */
+
+/* Ruler tick strip between sections */
+.tick-divider {
+  height: 10px;
+  border-top: 1px solid var(--line);
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
+    repeating-linear-gradient(90deg, var(--line-strong) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 8px);
+  background-size: auto 10px, auto 5px;
+  background-repeat: repeat-x;
+  background-position: top left;
 }
 
-/* Striped pattern */
-.neo-stripes {
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 10px,
-    rgba(0, 0, 0, 0.03) 10px,
-    rgba(0, 0, 0, 0.03) 20px
-  );
-}
+/* ============================================================
+   Motion
+   ============================================================ */
 
-/* Marquee animation for skills */
+/* Marquee — telemetry ticker */
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -268,7 +359,7 @@ h6 {
   animation: marquee 35s linear infinite;
 }
 
-/* Typing cursor */
+/* Typing / readout cursor */
 @keyframes blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
@@ -278,59 +369,16 @@ h6 {
   animation: blink 1s step-end infinite;
 }
 
-/* Section divider — bold zigzag stripe */
-.neo-divider {
-  height: 8px;
-  background-image: linear-gradient(
-    -45deg,
-    var(--primary) 25%,
-    transparent 25%,
-    transparent 50%,
-    var(--primary) 50%,
-    var(--primary) 75%,
-    transparent 75%
-  );
-  background-size: 24px 24px;
-  border-top: 4px solid var(--border);
-  border-bottom: 4px solid var(--border);
+/* Scroll-cue dot descending a rail */
+@keyframes cue-drop {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(2.25rem); opacity: 0; }
 }
 
-/* Section divider — solid heavy bar */
-.neo-divider-bar {
-  height: 4px;
-  background: var(--border);
-}
-
-/* Floating animation utility — gentle */
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(1.5deg); }
-}
-
-.animate-float-slow {
-  animation: float-slow 7s ease-in-out infinite;
-}
-
-/* Wiggle on hover */
-@keyframes wiggle {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(3deg); }
-}
-
-.hover-wiggle:hover {
-  animation: wiggle 0.4s ease-in-out;
-}
-
-/* Border-3 utility (Tailwind v4 doesn't include 3px border by default) */
-.border-3 {
-  border-width: 3px;
-}
-
-/* Loading screen shine sweep — kept global so styled-jsx doesn't manage a
-   <style> node inside the AnimatePresence-removed overlay (avoids removeChild races) */
-@keyframes shine {
-  0% { transform: translateX(-100%); }
-  50%, 100% { transform: translateX(200%); }
+.animate-cue-drop {
+  animation: cue-drop 1.8s ease-in-out infinite;
 }
 
 /* Respect reduced-motion preferences */

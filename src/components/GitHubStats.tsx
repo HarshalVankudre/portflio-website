@@ -7,11 +7,12 @@ import {
   FolderGit2,
   Activity,
   Code2,
-  ExternalLink,
+  ArrowUpRight,
   Flame,
-  Calendar,
-  Zap,
+  Rocket,
+  Cpu,
 } from "lucide-react";
+import SectionHeader from "@/components/SectionHeader";
 
 interface GitHubData {
   user: {
@@ -65,6 +66,17 @@ function CountUpNumber({ end, duration = 2, suffix = "" }: { end: number; durati
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
+/* Ember ramp — heat scale in signal orange */
+function heatColor(count: number): string {
+  if (count === 0) return "rgba(232, 230, 226, 0.06)";
+  if (count <= 2) return "rgba(255, 92, 0, 0.3)";
+  if (count <= 5) return "rgba(255, 92, 0, 0.55)";
+  if (count <= 8) return "rgba(255, 92, 0, 0.8)";
+  return "#ff5c00";
+}
+
+const LEGEND_STEPS = [0, 2, 5, 8, 12];
+
 function ContributionGraph({
   weeks,
   totalContributions,
@@ -72,14 +84,6 @@ function ContributionGraph({
   weeks: { days: { contributionCount: number; date: string }[] }[];
   totalContributions: number;
 }) {
-  const getColor = (count: number) => {
-    if (count === 0) return "bg-gray-100";
-    if (count <= 2) return "bg-green-300";
-    if (count <= 5) return "bg-green-400";
-    if (count <= 8) return "bg-green-500";
-    return "bg-green-600";
-  };
-
   const displayWeeks = weeks.slice(-26);
 
   return (
@@ -92,15 +96,14 @@ function ContributionGraph({
       role="img"
       aria-label={`Contribution activity graph: ${totalContributions} contributions over the last 26 weeks`}
     >
-      <div className="flex gap-[3px] min-w-fit">
+      <div className="flex min-w-fit gap-[3px]">
         {displayWeeks.map((week, weekIndex) => (
           <div key={weekIndex} className="flex flex-col gap-[3px]">
             {week.days.map((day, dayIndex) => (
               <div
                 key={`${weekIndex}-${dayIndex}`}
-                className={`w-3 h-3 sm:w-[14px] sm:h-[14px] rounded-sm border-2 border-black ${getColor(
-                  day.contributionCount
-                )}`}
+                className="h-3 w-3 rounded-[1px] sm:h-[14px] sm:w-[14px]"
+                style={{ backgroundColor: heatColor(day.contributionCount) }}
                 title={`${day.date}: ${day.contributionCount} contributions`}
               />
             ))}
@@ -121,30 +124,24 @@ function LanguageBar({
       {languages.slice(0, 5).map((lang, index) => (
         <motion.div
           key={lang.name}
-          initial={{ opacity: 0, x: -20 }}
+          initial={{ opacity: 0, x: -16 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ delay: index * 0.1 }}
+          transition={{ delay: index * 0.08 }}
           viewport={{ once: true }}
-          className="space-y-1"
+          className="space-y-1.5"
         >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div
-                className="w-3 h-3 rounded-full border-2 border-black"
-                style={{ backgroundColor: lang.color }}
-              />
-              <span className="font-bold text-sm">{lang.name}</span>
-            </div>
-            <span className="font-black text-sm">{lang.percentage}%</span>
+          <div className="flex items-baseline justify-between font-mono text-xs">
+            <span className="text-fg">{lang.name}</span>
+            <span className="text-dim">{lang.percentage}%</span>
           </div>
-          <div className="h-3 bg-gray-200 border-2 border-black overflow-hidden">
+          <div className="h-1.5 overflow-hidden bg-line">
             <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: `${lang.percentage}%` }}
-              transition={{ delay: index * 0.1 + 0.2, duration: 0.6, ease: "easeOut" }}
+              transition={{ delay: index * 0.08 + 0.2, duration: 0.6, ease: "easeOut" }}
               viewport={{ once: true }}
-              className="h-full"
-              style={{ backgroundColor: lang.color }}
+              className="h-full bg-accent"
+              style={{ opacity: 1 - index * 0.15 }}
             />
           </div>
         </motion.div>
@@ -174,41 +171,43 @@ function ActivityFeed({
   const getEventIcon = (type: string) => {
     switch (type) {
       case "PushEvent":
-        return <GitBranch size={16} />;
+        return <GitBranch size={14} />;
       case "CreateEvent":
-        return <FolderGit2 size={16} />;
+        return <FolderGit2 size={14} />;
       default:
-        return <Activity size={16} />;
+        return <Activity size={14} />;
     }
   };
 
   if (activities.length === 0) {
     return (
-      <div className="text-center py-4 text-gray-500 font-medium">
+      <div className="py-4 text-center font-mono text-sm text-faint">
         Building something new...
       </div>
     );
   }
 
   return (
-    <div className="space-y-2">
+    <div className="divide-y divide-line border border-line">
       {activities.slice(0, 4).map((activity, index) => (
         <motion.div
           key={index}
-          initial={{ opacity: 0, x: -20 }}
+          initial={{ opacity: 0, x: -16 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ delay: index * 0.1 }}
+          transition={{ delay: index * 0.08 }}
           viewport={{ once: true }}
-          className="flex items-start gap-3 p-3 bg-white border-2 border-black hover:bg-gray-50 transition-colors"
+          className="flex items-center gap-3 p-3 transition-colors hover:bg-overlay sm:p-4"
         >
-          <div className="p-1.5 bg-primary border-2 border-black">
+          <div className="grid h-8 w-8 shrink-0 place-items-center border border-line-strong text-accent">
             {getEventIcon(activity.type)}
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-bold text-sm truncate">{activity.repo.split("/")[1]}</p>
-            <p className="text-sm text-gray-600 truncate">{activity.message}</p>
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-mono text-sm font-medium text-fg">
+              {activity.repo.split("/")[1]}
+            </p>
+            <p className="truncate text-sm text-dim">{activity.message}</p>
           </div>
-          <span className="text-xs font-bold text-gray-600 whitespace-nowrap">
+          <span className="tech-label whitespace-nowrap normal-case tracking-[0.1em]">
             {getTimeAgo(activity.date)}
           </span>
         </motion.div>
@@ -289,34 +288,26 @@ export default function GitHubStats() {
           label: "Repositories",
           value: data.user.publicRepos,
           icon: FolderGit2,
-          color: "bg-cyan",
           suffix: "",
         },
         {
           label: "Languages",
           value: derivedStats.totalLanguages,
           icon: Code2,
-          color: "bg-primary",
           suffix: "",
         },
-        ...(hasContributions
-          ? [
-              {
-                label: "This Month",
-                value: derivedStats.thisMonth,
-                icon: Calendar,
-                color: "bg-red",
-                suffix: "",
-              },
-              {
-                label: "Active Days",
-                value: derivedStats.activeDays,
-                icon: Flame,
-                color: "bg-cyan",
-                suffix: "/30",
-              },
-            ]
-          : []),
+        {
+          label: "Projects",
+          value: 10,
+          icon: Rocket,
+          suffix: "+",
+        },
+        {
+          label: "Tech Used",
+          value: 20,
+          icon: Cpu,
+          suffix: "+",
+        },
       ]
     : [];
 
@@ -324,136 +315,138 @@ export default function GitHubStats() {
     <section
       ref={sectionRef}
       id="github"
-      className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 neo-stripes"
+      className="relative py-24 sm:py-28"
     >
-      <div className="max-w-6xl mx-auto">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
-          <div className="inline-flex items-center gap-2 neo-tag neo-tag-primary mb-4">
-            <Zap size={16} />
-            <span>{hasContributions ? "Live from GitHub" : "From GitHub"}</span>
-          </div>
-          <h2 className="neo-title">Code in <span className="neo-highlight">Action</span></h2>
-          {hasContributions && (
-            <p className="mt-4 text-lg max-w-2xl mx-auto text-gray-600">
-              Real-time coding activity - because talk is cheap, show me the code
-            </p>
-          )}
-        </motion.div>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          index="06"
+          code={hasContributions ? "TELEMETRY — LIVE FEED" : "TELEMETRY"}
+          isInView={isInView}
+          title={
+            <>
+              Code in <span className="text-accent">Action</span>
+            </>
+          }
+          subtitle={
+            hasContributions
+              ? "Real-time coding activity — because talk is cheap, show me the code"
+              : undefined
+          }
+        />
 
         {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="w-12 h-12 border-4 border-black border-t-primary animate-spin" />
+          <div
+            className="flex items-center justify-center gap-3 py-20 font-mono text-sm uppercase tracking-[0.2em] text-faint"
+            role="status"
+          >
+            <span className="led led-accent" aria-hidden />
+            Fetching telemetry
+            <span aria-hidden className="cursor-blink inline-block h-3.5 w-2 bg-accent" />
           </div>
         ) : error ? (
-          <div className="text-center py-10 neo-card p-6">
-            <p className="text-red-500 font-bold">{error}</p>
+          <div className="panel p-6 text-center">
+            <p className="font-mono text-sm text-err">{error}</p>
           </div>
         ) : data ? (
-          <div className="space-y-8">
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="space-y-6">
+            {/* Readout tiles */}
+            <div className="grid grid-cols-2 gap-px border border-line bg-line lg:grid-cols-4">
               {stats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: index * 0.1 }}
-                  className="neo-card p-4 sm:p-6 text-center"
+                  transition={{ delay: index * 0.08 }}
+                  className="bg-night p-5 sm:p-6"
                 >
-                  <div
-                    className={`inline-flex p-2 sm:p-3 ${stat.color} border-2 border-black mb-3`}
-                  >
-                    <stat.icon size={24} />
+                  <div className="flex items-center justify-between">
+                    <span aria-hidden className="block h-px w-4 bg-accent" />
+                    <stat.icon size={15} className="text-faint" aria-hidden />
                   </div>
-                  <div className="font-display text-2xl sm:text-4xl font-black">
+                  <div className="font-display mt-3 text-4xl font-bold sm:text-5xl">
                     <CountUpNumber end={stat.value} suffix={stat.suffix} />
                   </div>
-                  <div className="text-sm font-bold text-gray-600 uppercase tracking-wide mt-1">
-                    {stat.label}
-                  </div>
+                  <div className="tech-label mt-1.5">{stat.label}</div>
                 </motion.div>
               ))}
             </div>
 
             {/* Main Content Grid */}
-            <div className="grid lg:grid-cols-5 gap-6">
-              {/* Contribution Graph - Takes more space (only with real GraphQL data) */}
+            <div className="grid gap-6 lg:grid-cols-5">
+              {/* Contribution heatmap (only with real GraphQL data) */}
               {hasContributions && (
                 <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.3 }}
-                  className="lg:col-span-3 neo-card p-4 sm:p-6"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.25 }}
+                  className="panel p-4 sm:p-6 lg:col-span-3"
                 >
-                  <h3 className="font-black text-lg mb-4 flex items-center gap-2">
-                    <Activity size={20} />
-                    Contribution Activity
-                  </h3>
+                  <div className="mb-5 flex items-center justify-between gap-3">
+                    <span className="tech-label flex items-center gap-2">
+                      <Activity size={13} aria-hidden />
+                      Contribution Activity
+                    </span>
+                    {derivedStats && derivedStats.currentStreak > 0 && (
+                      <span className="flex items-center gap-1.5 border border-accent px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.1em] text-accent">
+                        <Flame size={12} aria-hidden />
+                        {derivedStats.currentStreak}d streak
+                      </span>
+                    )}
+                  </div>
                   <ContributionGraph
                     weeks={data.contributionData.weeks}
                     totalContributions={data.contributionData.totalContributions}
                   />
-                  <div className="flex items-center justify-between mt-4">
-                    <div className="flex items-center gap-1 text-xs font-bold">
-                      <span className="text-gray-500">Less</span>
-                      <div className="w-3 h-3 bg-gray-100 border border-black" />
-                      <div className="w-3 h-3 bg-green-300 border border-black" />
-                      <div className="w-3 h-3 bg-green-400 border border-black" />
-                      <div className="w-3 h-3 bg-green-500 border border-black" />
-                      <div className="w-3 h-3 bg-green-600 border border-black" />
-                      <span className="text-gray-500">More</span>
-                    </div>
-                    {derivedStats && derivedStats.currentStreak > 0 && (
-                      <div className="flex items-center gap-2 px-3 py-1 bg-primary border-2 border-black">
-                        <Flame size={14} />
-                        <span className="font-black text-sm">{derivedStats.currentStreak} day streak!</span>
-                      </div>
-                    )}
+                  <div className="mt-4 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-faint">
+                    <span>Less</span>
+                    {LEGEND_STEPS.map((step) => (
+                      <span
+                        key={step}
+                        className="h-3 w-3 rounded-[1px]"
+                        style={{ backgroundColor: heatColor(step) }}
+                        aria-hidden
+                      />
+                    ))}
+                    <span>More</span>
                   </div>
                 </motion.div>
               )}
 
-              {/* Languages - Sidebar */}
+              {/* Languages */}
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.4 }}
-                className={`${hasContributions ? "lg:col-span-2" : "lg:col-span-5"} neo-card p-4 sm:p-6`}
+                initial={{ opacity: 0, y: 16 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.35 }}
+                className={`panel p-4 sm:p-6 ${hasContributions ? "lg:col-span-2" : "lg:col-span-5"}`}
               >
-                <h3 className="font-black text-lg mb-4 flex items-center gap-2">
-                  <Code2 size={20} />
+                <span className="tech-label mb-5 flex items-center gap-2">
+                  <Code2 size={13} aria-hidden />
                   Tech Stack
-                </h3>
+                </span>
                 <LanguageBar languages={data.languages} />
               </motion.div>
             </div>
 
             {/* Recent Activity */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.5 }}
-              className="neo-card p-4 sm:p-6"
+              transition={{ delay: 0.45 }}
+              className="panel p-4 sm:p-6"
             >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-black text-lg flex items-center gap-2">
-                  <GitBranch size={20} />
+              <div className="mb-4 flex items-center justify-between gap-4">
+                <span className="tech-label flex items-center gap-2">
+                  <GitBranch size={13} aria-hidden />
                   Recent Commits
-                </h3>
+                </span>
                 <a
                   href="https://github.com/HarshalVankudre"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="neo-btn neo-btn-primary text-sm py-2 px-3"
+                  className="link-draw inline-flex items-center gap-1 font-mono text-xs uppercase tracking-[0.14em] text-dim"
                 >
-                  <span>View GitHub</span>
-                  <ExternalLink size={14} />
+                  View GitHub
+                  <ArrowUpRight size={12} aria-hidden />
                 </a>
               </div>
               <ActivityFeed activities={data.recentActivity} />

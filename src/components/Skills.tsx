@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Code2, Layout, Database, Brain, Briefcase, Cloud } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import SectionHeader from "@/components/SectionHeader";
 
 export default function Skills() {
   const { t } = useLanguage();
@@ -15,121 +15,131 @@ export default function Skills() {
     {
       title: t("skills.languages"),
       icon: Code2,
-      color: "var(--primary)",
       skills: ["Python", "TypeScript", "JavaScript", "Java", "SQL"],
     },
     {
       title: t("skills.frameworks"),
       icon: Layout,
-      color: "var(--accent-cyan)",
       skills: ["Next.js", "React", "FastAPI", "Node.js", "Prisma"],
     },
     {
       title: t("skills.databases"),
       icon: Database,
-      color: "var(--accent-red)",
       skills: ["PostgreSQL", "Pinecone", "MongoDB"],
     },
     {
       title: t("skills.cloud"),
       icon: Cloud,
-      color: "var(--primary)",
       skills: ["AWS", "Google Cloud", "Azure", "Docker"],
     },
     {
       title: t("skills.ai"),
       icon: Brain,
-      color: "var(--accent-cyan)",
       skills: ["OpenAI API", "RAG", "LangChain", "Ollama", "Vector DBs"],
     },
     {
       title: t("skills.tools"),
       icon: Briefcase,
-      color: "var(--accent-red)",
       skills: ["Git", "Teams API", "HubSpot", "Microsoft Office"],
     },
   ];
 
-  return (
-    <section id="skills" className="relative py-24 neo-stripes">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
-          <span className="neo-tag neo-tag-cyan mb-4">{t("skills.tag")}</span>
-          <h2 className="neo-title mt-4">
-            {t("skills.title")} <span className="neo-highlight">{t("skills.titleHighlight")}</span>
-          </h2>
-          <p className="text-gray-600 mt-4 text-lg">
-            {t("skills.subtitle")}
-          </p>
-        </motion.div>
+  const allSkills = skillCategories.flatMap((c) => c.skills);
 
-        {/* Skills Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+  return (
+    <section id="skills" className="relative py-24 sm:py-28">
+      <div ref={ref} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          index="02"
+          code="CAPABILITIES"
+          isInView={isInView}
+          title={
+            <>
+              {t("skills.title")}{" "}
+              <span className="text-accent">{t("skills.titleHighlight")}</span>
+            </>
+          }
+          subtitle={t("skills.subtitle")}
+        />
+
+        {/* Module grid */}
+        <div className="grid gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
           {skillCategories.map((category, categoryIndex) => (
             <motion.div
               key={category.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
-              className="neo-card p-0 overflow-hidden"
+              transition={{ duration: 0.5, delay: categoryIndex * 0.08 }}
+              className="group bg-night p-5 transition-colors hover:bg-raised sm:p-6"
             >
-              {/* Header */}
-              <div
-                className="p-4 border-b-3 border-black flex items-center gap-3"
-                style={{ background: category.color }}
-              >
-                <category.icon className="w-6 h-6" />
-                <h3 className="font-black uppercase">{category.title}</h3>
+              {/* Module header */}
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <span className="tech-label transition-colors group-hover:text-accent">
+                    M.0{categoryIndex + 1}
+                  </span>
+                  <h3 className="font-display mt-1.5 text-xl font-semibold uppercase tracking-wide sm:text-2xl">
+                    {category.title}
+                  </h3>
+                </div>
+                <category.icon
+                  size={18}
+                  className="mt-1 shrink-0 text-faint transition-colors group-hover:text-accent"
+                  aria-hidden
+                />
               </div>
 
+              <span
+                aria-hidden
+                className="mt-4 block h-px w-8 bg-line-strong transition-all duration-300 group-hover:w-full group-hover:bg-accent/40"
+              />
+
               {/* Skills */}
-              <div className="p-4 bg-white">
-                <div className="flex flex-wrap gap-2">
-                  {category.skills.map((skill, skillIndex) => (
-                    <motion.span
-                      key={skill}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                      transition={{
-                        duration: 0.3,
-                        delay: 0.2 + categoryIndex * 0.1 + skillIndex * 0.05,
-                      }}
-                      className="neo-tag hover:bg-[var(--primary)] transition-colors cursor-default"
-                    >
-                      {skill}
-                    </motion.span>
-                  ))}
-                </div>
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {category.skills.map((skill, skillIndex) => (
+                  <motion.span
+                    key={skill}
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{
+                      duration: 0.3,
+                      delay: 0.2 + categoryIndex * 0.08 + skillIndex * 0.04,
+                    }}
+                    className="chip cursor-default"
+                  >
+                    {skill}
+                  </motion.span>
+                ))}
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Scrolling Skills Marquee */}
+        {/* Telemetry ticker */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-16 overflow-hidden neo-border bg-black py-4"
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="relative mt-14 overflow-hidden border-y border-line bg-raised py-3.5"
         >
+          {/* Edge fades */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-night to-transparent"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-night to-transparent"
+          />
           <div className="flex animate-marquee whitespace-nowrap">
-            {[...skillCategories.flatMap((c) => c.skills), ...skillCategories.flatMap((c) => c.skills)].map(
-              (skill, index) => (
-                <span
-                  key={`${skill}-${index}`}
-                  className="mx-4 text-white font-bold uppercase text-lg"
-                >
-                  {skill} <span className="text-[var(--primary)]">•</span>
-                </span>
-              )
-            )}
+            {[...allSkills, ...allSkills].map((skill, index) => (
+              <span
+                key={`${skill}-${index}`}
+                className="mx-5 font-mono text-sm uppercase tracking-[0.18em] text-dim"
+              >
+                {skill} <span className="ml-5 text-accent">{"//"}</span>
+              </span>
+            ))}
           </div>
         </motion.div>
       </div>

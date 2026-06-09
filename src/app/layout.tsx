@@ -1,19 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Bricolage_Grotesque } from "next/font/google";
+import { IBM_Plex_Sans, IBM_Plex_Mono, Big_Shoulders } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 
-const inter = Inter({
+const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600"],
+  variable: "--font-plex-sans",
   display: "swap",
 });
 
-const bricolage = Bricolage_Grotesque({
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
-  variable: "--font-bricolage",
+  weight: ["400", "500", "600"],
+  variable: "--font-plex-mono",
   display: "swap",
+});
+
+const bigShoulders = Big_Shoulders({
+  subsets: ["latin"],
+  variable: "--font-big-shoulders",
+  display: "swap",
+  // Next has no metric overrides for the merged "Big Shoulders" family yet,
+  // so disable the automatic fallback and supply condensed system fallbacks.
+  adjustFontFallback: false,
+  fallback: ["Arial Narrow", "Impact", "sans-serif"],
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://vankudre.com";
@@ -23,7 +34,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: "#FFE500",
+  themeColor: "#0A0B0D",
 };
 
 export const metadata: Metadata = {
@@ -138,7 +149,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} ${bricolage.variable} font-sans antialiased`}>
+      <body
+        className={`${plexSans.variable} ${plexMono.variable} ${bigShoulders.variable} font-sans antialiased`}
+      >
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
