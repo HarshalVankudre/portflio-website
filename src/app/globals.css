@@ -1,56 +1,50 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Design system - "Proof Ledger"
-   Dense, direct, and table-led. No fake dashboards, no glow,
-   no poetic hero system. Content and structure carry the page.
+   Design tokens — "Engineered Dark" instrument panel
+   Graphite surfaces, hairline rules, mono annotations,
+   one signal-orange accent (construction machinery livery).
    ============================================================ */
 :root {
-  /* Canvas */
-  --background: #F3F4F1;
-  --background-2: #E7EAE4;
-  --foreground: #10110F;
-  --muted: #555B52;
-  --muted-2: #73786F;
-
   /* Surfaces */
-  --surface: #FCFCF7;
-  --surface-2: #E9ECE5;
-  --surface-3: #D9DED5;
+  --bg: #0a0b0d;        /* deep graphite */
+  --raised: #101216;    /* panel */
+  --overlay: #15181d;   /* elevated / hover */
 
   /* Hairlines */
-  --border: rgba(23, 24, 25, 0.15);
-  --border-strong: rgba(23, 24, 25, 0.42);
+  --line: rgba(232, 230, 226, 0.08);
+  --line-strong: rgba(232, 230, 226, 0.16);
 
-  /* Workshop accents */
-  --primary: #C73622;
-  --primary-600: #972819;
-  --accent-cyan: #006A72;
-  --accent-red: #2E6E47;
-  --accent-blue: #2737A8;
-  --success: #2E6E47;
-  --glow: rgba(23, 24, 25, 0.12);
+  /* Ink */
+  --fg: #e8e6e2;        /* off-white */
+  --dim: #9ba0a6;
+  --faint: #5c6168;
 
-  /* Shadows */
-  --shadow: rgba(23, 24, 25, 0.16);
-  --shadow-sm: 0 1px 0 rgba(23, 24, 25, 0.08);
-  --shadow-md: 0 8px 0 -6px rgba(23, 24, 25, 0.24);
-  --shadow-lg: 0 20px 60px -42px rgba(23, 24, 25, 0.72);
-
-  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", Menlo, monospace;
+  /* Signal */
+  --accent: #ff5c00;    /* signal orange */
+  --accent-soft: rgba(255, 92, 0, 0.14);
+  --ok: #3fb950;        /* status LED green */
+  --err: #ff6166;
 }
 
+/* Bind tokens to Tailwind so utilities resolve:
+   bg-night / bg-raised / text-fg / text-dim / text-accent / font-display … */
 @theme inline {
-  --color-primary: var(--primary);
-  --color-cyan: var(--accent-cyan);
-  --color-red: var(--accent-red);
-  --color-blue: var(--accent-blue);
-  --color-ink: var(--foreground);
-  --color-cream: var(--background);
+  --color-night: var(--bg);
+  --color-raised: var(--raised);
+  --color-overlay: var(--overlay);
+  --color-fg: var(--fg);
+  --color-dim: var(--dim);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-ok: var(--ok);
+  --color-err: var(--err);
+  --color-line: rgba(232, 230, 226, 0.08);
+  --color-line-strong: rgba(232, 230, 226, 0.16);
 
-  --font-display: var(--font-serif), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", Menlo, monospace;
+  --font-display: var(--font-big-shoulders), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
 }
 
 * {
@@ -58,505 +52,340 @@
 }
 
 html {
-  position: relative;
   scroll-behavior: smooth;
+  scroll-padding-top: 6rem; /* anchored sections clear the fixed navbar */
 }
 
 body {
-  position: relative;
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-inter), system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-plex-sans), system-ui, sans-serif;
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
-body::before {
+/* Film grain — one fixed pass over the whole screen for materiality */
+body::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 80;
   pointer-events: none;
-  opacity: 0.12;
-  background-image: linear-gradient(90deg, rgba(16, 17, 15, 0.08) 1px, transparent 1px);
-  background-size: 25vw 100%;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 700;
-  letter-spacing: 0;
+/* Display typeface drives every heading; .font-display opts in elsewhere */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-big-shoulders), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0.01em;
 }
 
-[class*="tracking-"] {
-  letter-spacing: 0 !important;
+/* Scrollbar — slim instrument rail */
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-.font-display,
-.font-serif {
-  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+::-webkit-scrollbar-track {
+  background: var(--bg);
+  border-left: 1px solid var(--line);
 }
 
-.font-mono {
-  font-family: var(--font-mono);
-}
-
-/* Notes become small stamped annotations instead of decorative handwriting. */
-.font-hand {
-  font-family: var(--font-hand), "Segoe Script", cursive;
-}
-.hand-note {
-  display: none !important;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar { width: 12px; }
-::-webkit-scrollbar-track { background: var(--background); }
 ::-webkit-scrollbar-thumb {
-  background: var(--surface-3);
-  border: 3px solid var(--background);
-  border-radius: 999px;
+  background: var(--overlay);
+  border: 1px solid var(--line-strong);
 }
-::-webkit-scrollbar-thumb:hover { background: #cfc8b6; }
 
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Selection */
 ::selection {
-  background: var(--foreground);
-  color: var(--background);
+  background: var(--accent);
+  color: #0a0b0d;
+}
+
+/* Keyboard focus — always visible, always orange */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* ============================================================
-   Components
+   Instrument utilities
    ============================================================ */
-.neo-border { border: 1px solid var(--border); }
-.neo-border-thick { border: 1px solid var(--border-strong); }
-.border-3 { border-width: 1px; }
 
-.neo-shadow { box-shadow: var(--shadow-sm); }
-.neo-shadow-md { box-shadow: var(--shadow-md); }
-.neo-shadow-lg { box-shadow: var(--shadow-lg); }
+/* Blueprint grid — fine cells with a stronger module line */
+.blueprint {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px),
+    linear-gradient(rgba(232, 230, 226, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 230, 226, 0.03) 1px, transparent 1px);
+  background-size:
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
+}
 
-/* Ledger card: flat, legible, and deliberately non-glossy. */
-.neo-card {
+/* Raised panel with hairline border */
+.panel {
+  background: var(--raised);
+  border: 1px solid var(--line);
+}
+
+/* Mono micro-label — annotations, spec codes, axis text */
+.tech-label {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--faint);
+}
+
+/* Corner registration brackets (top-left + bottom-right).
+   Sit on a .panel; sharpen to orange and grow on hover. */
+.corners {
   position: relative;
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  border-radius: 0;
-  box-shadow: none;
-  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
-}
-.neo-card:hover {
-  border-color: var(--foreground);
-  transform: none;
 }
 
-/* Buttons — outline that inverts to ink; primary is solid ink */
-.neo-btn {
+.corners::before,
+.corners::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 0 solid var(--line-strong);
+  pointer-events: none;
+  transition: border-color 0.2s ease, width 0.2s ease, height 0.2s ease;
+}
+
+.corners::before {
+  top: -1px;
+  left: -1px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+
+.corners::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+.corners:hover::before,
+.corners:hover::after {
+  border-color: var(--accent);
+  width: 24px;
+  height: 24px;
+}
+
+/* Crosshair "+" registration mark */
+.crosshair {
+  width: 12px;
+  height: 12px;
+  background:
+    linear-gradient(var(--line-strong), var(--line-strong)) center / 1px 100% no-repeat,
+    linear-gradient(var(--line-strong), var(--line-strong)) center / 100% 1px no-repeat;
+}
+
+/* Status LEDs */
+.led {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.led-ok {
+  background: var(--ok);
+  box-shadow: 0 0 6px rgba(63, 185, 80, 0.8);
+  animation: led-pulse 2.4s ease-in-out infinite;
+}
+
+.led-accent {
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(255, 92, 0, 0.8);
+}
+
+@keyframes led-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+/* Giant outlined figures — section indices, background numerals */
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(232, 230, 226, 0.12);
+}
+
+/* ============================================================
+   Controls
+   ============================================================ */
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
-  padding: 0.7rem 1.3rem;
-  font-weight: 650;
-  font-size: 0.9rem;
-  letter-spacing: 0;
-  border-radius: 0;
-  border: 1px solid var(--foreground);
-  background: var(--surface);
-  color: var(--foreground);
-  box-shadow: none;
-  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding: 0 1.25rem;
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  border: 1px solid var(--line-strong);
   cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease,
+    color 0.15s ease, transform 0.1s ease;
+  white-space: nowrap;
 }
 
-@media (min-width: 640px) {
-  .neo-btn { padding: 0.8rem 1.55rem; font-size: 0.95rem; }
+.btn:active {
+  transform: translateY(1px);
 }
 
-.neo-btn:hover {
-  background: var(--foreground);
-  color: var(--background);
-  transform: none;
-  box-shadow: none;
+.btn-solid {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0a0b0d;
 }
 
-.neo-btn-primary {
-  background: var(--foreground);
-  color: var(--background);
-  border-color: var(--foreground);
-}
-.neo-btn-primary:hover {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: #fff;
+.btn-solid:hover {
+  background: #ff7426;
+  border-color: #ff7426;
 }
 
-.neo-btn-cyan {
-  background: var(--accent-cyan);
-  color: #fff;
-  border-color: var(--accent-cyan);
-}
-.neo-btn-cyan:hover { background: transparent; color: var(--accent-cyan); }
-
-.neo-btn-red {
-  background: var(--accent-red);
-  color: #fff;
-  border-color: var(--accent-red);
-}
-.neo-btn-red:hover { background: transparent; color: var(--accent-red); }
-
-.neo-btn-white {
-  background: var(--surface);
-  color: var(--foreground);
-  border: 1px solid var(--border-strong);
-}
-.neo-btn-white:hover {
-  background: var(--foreground);
-  color: var(--background);
-  border-color: var(--foreground);
-}
-
-/* Tags / badges — hairline chip, monospace small caps */
-.neo-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.26rem 0.6rem;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: uppercase;
-  border-radius: 0;
-  border: 1px solid var(--border-strong);
+.btn-ghost {
   background: transparent;
-  color: var(--muted);
+  color: var(--fg);
 }
 
-/* Proof Ledger section system */
-.record-section {
-  position: relative;
-  padding: 5.5rem 0;
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-@media (min-width: 768px) {
-  .record-section { padding: 7rem 0; }
-}
-
-.record-shell {
-  width: min(100% - 2.5rem, 80rem);
-  margin-inline: auto;
-}
-
-.record-header {
-  display: grid;
-  gap: 1.25rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--foreground);
-}
-
-@media (min-width: 900px) {
-  .record-header {
-    grid-template-columns: minmax(0, 0.74fr) minmax(18rem, 0.26fr);
-    align-items: end;
-  }
-}
-
-.record-kicker {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+/* Spec chip — tech tags, small qualifiers */
+.chip {
+  display: inline-block;
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
   text-transform: uppercase;
-  color: var(--primary);
+  letter-spacing: 0.08em;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--line-strong);
+  color: var(--dim);
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
-.record-title {
-  margin-top: 0.6rem;
-  max-width: 56rem;
-  font-size: clamp(2.25rem, 6vw, 5.5rem);
-  line-height: 0.92;
-  text-transform: uppercase;
-  font-weight: 900;
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-.record-dek {
-  max-width: 32rem;
-  color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.65;
+/* Form field */
+.field {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  padding: 0.75rem 0.875rem;
+  color: var(--fg);
+  font-size: 0.9rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.record-table {
-  border-top: 1px solid var(--foreground);
-  border-bottom: 1px solid var(--foreground);
+.field::placeholder {
+  color: var(--faint);
 }
 
-.record-row {
-  display: grid;
-  gap: 0.9rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--border-strong);
+.field:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
-.record-row:last-child {
-  border-bottom: 0;
+/* Link with drawn underline */
+.link-draw {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.25s ease, color 0.15s ease;
+  padding-bottom: 2px;
 }
 
-@media (min-width: 760px) {
-  .record-row {
-    grid-template-columns: minmax(7rem, 0.22fr) minmax(0, 0.78fr);
-    padding: 1.15rem 0;
-  }
-}
-
-.record-label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  color: var(--muted-2);
-}
-
-.record-value {
-  color: var(--foreground);
-  line-height: 1.6;
-}
-
-.proof-metric {
-  border-top: 1px solid var(--foreground);
-  padding-top: 0.85rem;
-}
-
-.proof-metric strong {
-  display: block;
-  font-size: clamp(2.25rem, 6vw, 4.5rem);
-  line-height: 0.9;
-  font-weight: 900;
-}
-
-.proof-metric span {
-  display: block;
-  margin-top: 0.35rem;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.case-row {
-  display: grid;
-  gap: 1.1rem;
-  padding: 1.25rem 0;
-  border-bottom: 1px solid var(--border-strong);
-}
-
-.case-row:last-child {
-  border-bottom: 0;
-}
-
-@media (min-width: 900px) {
-  .case-row {
-    grid-template-columns: 4.5rem minmax(12rem, 0.28fr) minmax(0, 0.44fr) minmax(13rem, 0.28fr);
-    align-items: start;
-  }
-}
-
-.plain-link {
-  color: var(--foreground);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
-}
-
-.plain-link:hover {
-  color: var(--primary);
-}
-.neo-tag-primary { color: var(--primary); border-color: color-mix(in srgb, var(--primary) 52%, transparent); }
-.neo-tag-cyan { color: var(--accent-cyan); border-color: color-mix(in srgb, var(--accent-cyan) 48%, transparent); }
-.neo-tag-red { color: var(--accent-red); border-color: color-mix(in srgb, var(--accent-red) 52%, transparent); }
-
-/* Section eyebrow — monospace index with an ink rule */
-.neo-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.neo-eyebrow::before {
-  content: "";
-  width: 1.75rem;
-  height: 1px;
-  background: var(--foreground);
-}
-
-/* Section title — large light serif */
-.neo-title {
-  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: 0;
-  line-height: 0.98;
-  text-transform: uppercase;
-  color: var(--foreground);
-}
-
-@media (min-width: 640px) {
-  .neo-title { font-size: 2.8rem; }
-}
-
-@media (min-width: 1024px) {
-  .neo-title { font-size: 3.45rem; }
-}
-
-/* Accent word inside a title — italic serif in the lead color */
-.neo-highlight {
-  font-style: normal;
-  color: var(--primary);
-}
-
-/* Legacy gradient helpers, flattened to editorial ink/accent */
-.gradient-text {
-  color: var(--primary);
-  -webkit-text-fill-color: var(--primary);
-  background: none;
-}
-.text-shimmer {
-  color: var(--foreground);
-  -webkit-text-fill-color: var(--foreground);
-  background: none;
-  animation: none;
-}
-
-/* Translucent paper (nav, floating widgets) */
-.glass {
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--border-strong);
-}
-
-.text-muted { color: var(--muted); }
-.text-muted-2 { color: var(--muted-2); }
-
-/* Hairline rules between sections */
-.neo-divider { height: 1px; background: var(--border-strong); }
-.neo-divider-bar { height: 1px; background: var(--border); }
-
-/* Section textures */
-.neo-grid-bg {
-  background-image: none;
-}
-
-.neo-stripes {
-  background-image: none;
-}
-
-.gradient-ring::before {
-  content: none;
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  padding: 1px;
-  background: var(--foreground);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.gradient-ring:hover::before { opacity: 0; }
-
-.hero-heading {
-  font-size: 2.55rem;
-  line-height: 1.02;
-  letter-spacing: 0;
-}
-
-@media (min-width: 640px) {
-  .hero-heading { font-size: 3.5rem; }
-}
-
-@media (min-width: 1024px) {
-  .hero-heading { font-size: 4.35rem; }
-}
-
-.hero-grid {
-  background: none;
-}
-
-.system-panel {
-  border-radius: 0;
-  border: 1px solid var(--foreground);
-  background: var(--surface);
-  box-shadow: none;
-}
-
-.signal-chip {
-  border-radius: 0;
-  border: 1px solid currentColor;
-  background: transparent;
-}
-
-.workshop-ledger {
-  border: 1px solid var(--foreground);
-  background: var(--surface);
-  box-shadow: none;
-}
-
-.workshop-row {
-  display: grid;
-  grid-template-columns: 3.25rem 1fr;
-  gap: 1rem;
-  border-top: 1px solid var(--border);
-  padding: 1rem;
-}
-
-.workshop-index {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--muted-2);
-  text-transform: uppercase;
-}
-
-.profile-mark {
-  border: 1px solid var(--foreground);
-  background: var(--background);
+.link-draw:hover {
+  background-size: 100% 1px;
+  color: var(--accent);
 }
 
 /* ============================================================
-   Animations
+   Dividers
    ============================================================ */
+
+/* Ruler tick strip between sections */
+.tick-divider {
+  height: 10px;
+  border-top: 1px solid var(--line);
+  background-image:
+    repeating-linear-gradient(90deg, var(--line-strong) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 8px);
+  background-size: auto 10px, auto 5px;
+  background-repeat: repeat-x;
+  background-position: top left;
+}
+
+/* ============================================================
+   Motion
+   ============================================================ */
+
+/* Marquee — telemetry ticker */
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-.animate-marquee { animation: marquee 40s linear infinite; }
 
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+}
+
+/* Typing / readout cursor */
 @keyframes blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
 }
-.cursor-blink { animation: blink 1s step-end infinite; }
 
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-.animate-float-slow { animation: float-slow 7s ease-in-out infinite; }
-
-@keyframes shine {
-  0% { transform: translateX(-100%); }
-  50%, 100% { transform: translateX(200%); }
+.cursor-blink {
+  animation: blink 1s step-end infinite;
 }
 
+/* Scroll-cue dot descending a rail */
+@keyframes cue-drop {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(2.25rem); opacity: 0; }
+}
+
+.animate-cue-drop {
+  animation: cue-drop 1.8s ease-in-out infinite;
+}
+
+/* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;

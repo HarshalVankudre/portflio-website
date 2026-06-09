@@ -479,7 +479,7 @@ Type "cd experience" to see more on page.
      | \\     )|_     Uptime: Since 2024
     /\`\\_\`>  <_/ \\    Shell: harshal-terminal
     \\__/'---'\\__/    Resolution: Responsive
-                     Theme: Signal Studio
+                     Theme: Engineered Dark
                      Terminal: Custom
                      CPU: Brain @ 3.4GHz ☕
         `
@@ -667,29 +667,29 @@ drwxr-xr-x  contact/
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="fixed bottom-0 left-0 right-0 z-50 mx-auto max-w-4xl px-4 pb-4"
           >
-            <div className="bg-[var(--surface)] border border-[var(--border)] neo-shadow-lg rounded-lg overflow-hidden">
+            <div className="overflow-hidden border border-line-strong bg-night shadow-[0_24px_64px_rgba(0,0,0,0.6)]">
               {/* Title Bar */}
-              <div className="flex items-center justify-between px-4 py-2 bg-primary text-white border-b border-[var(--border)]">
-                <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-white/70" />
-                  <span className="font-mono font-semibold text-xs uppercase tracking-wide">
-                    HARSHAL.TERMINAL
+              <div className="flex items-center justify-between border-b border-line bg-raised px-4 py-2.5">
+                <div className="flex items-center gap-2.5">
+                  <span className="led led-accent" aria-hidden />
+                  <span className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-fg">
+                    HARSHAL.TERMINAL <span className="text-faint">— /dev/tty0</span>
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => setIsMinimized(!isMinimized)}
-                    className="p-1 hover:bg-black/10 transition-colors"
+                    className="p-1 text-dim transition-colors hover:bg-overlay hover:text-fg"
                     aria-label={isMinimized ? "Expand" : "Minimize"}
                   >
-                    <Minus size={16} strokeWidth={3} />
+                    <Minus size={16} strokeWidth={2.5} />
                   </button>
                   <button
                     onClick={closeTerminal}
-                    className="p-1 hover:bg-red-500 hover:text-white transition-colors"
+                    className="p-1 text-dim transition-colors hover:bg-err hover:text-night"
                     aria-label="Close"
                   >
-                    <X size={16} strokeWidth={3} />
+                    <X size={16} strokeWidth={2.5} />
                   </button>
                 </div>
               </div>
@@ -706,12 +706,12 @@ drwxr-xr-x  contact/
                       key={index}
                       className={`whitespace-pre-wrap mb-1 ${
                         line.type === "input"
-                          ? "text-primary font-bold"
+                          ? "font-semibold text-fg"
                           : line.type === "error"
-                          ? "text-red-500"
+                          ? "text-err"
                           : line.type === "ascii"
-                          ? "text-cyan text-xs sm:text-sm"
-                          : "text-[var(--foreground)]/78"
+                          ? "text-accent text-xs sm:text-sm"
+                          : "text-dim"
                       }`}
                     >
                       {line.content}
@@ -720,7 +720,7 @@ drwxr-xr-x  contact/
 
                   {/* Input Line */}
                   <div className="flex items-center gap-2 mt-2">
-                    <span className="text-red font-bold">
+                    <span className="font-semibold text-accent">
                       harshal@portfolio:~$
                     </span>
                     <input
@@ -729,13 +729,13 @@ drwxr-xr-x  contact/
                       value={currentInput}
                       onChange={(e) => setCurrentInput(e.target.value)}
                       onKeyDown={handleKeyDown}
-                      className="flex-1 bg-transparent outline-none font-mono caret-primary"
+                      className="flex-1 bg-transparent text-fg outline-none font-mono caret-accent"
                       autoFocus
                       spellCheck={false}
                       autoComplete="off"
                       aria-label="Terminal input"
                     />
-                    <span className="w-2 h-5 bg-primary animate-pulse" />
+                    <span className="w-2 h-5 bg-accent animate-pulse" />
                   </div>
                 </div>
               )}

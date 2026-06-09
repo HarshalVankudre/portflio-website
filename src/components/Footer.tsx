@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUp } from "lucide-react";
-import Link from "next/link";
+import { ArrowUp, Terminal } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
@@ -10,30 +9,53 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-white/10 bg-[var(--foreground)] py-8 text-[var(--background)]">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-5 font-mono text-xs uppercase text-white/58 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
-        <span>&copy; {currentYear} Harshal Vankudre</span>
+    <footer className="relative border-t border-line bg-raised">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center gap-5 md:flex-row md:justify-between">
+          {/* Wordmark & Copyright */}
+          <div className="flex items-center gap-4">
+            <span className="font-display text-2xl font-bold uppercase leading-none">
+              HV<span className="text-accent">.</span>
+            </span>
+            <span aria-hidden className="h-5 w-px bg-line-strong" />
+            <p className="font-mono text-xs text-dim">
+              © {currentYear} Harshal Vankudre
+            </p>
+          </div>
 
-        <div className="flex flex-wrap items-center gap-5">
-          <Link href="/now" className="transition-colors hover:text-white">
-            /now
-          </Link>
+          {/* Terminal Hint */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="hidden items-center gap-2 font-mono text-xs text-faint sm:flex"
+          >
+            <Terminal size={13} className="text-accent" aria-hidden />
+            <span>
+              Press{" "}
+              <kbd className="border border-line-strong bg-night px-1.5 py-0.5 font-semibold text-accent">
+                `
+              </kbd>{" "}
+              for a surprise
+            </span>
+          </motion.div>
+
+          {/* Back to Top */}
           <a
-            href="https://github.com/HarshalVankudre"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-white"
-          >
-            GitHub
-          </a>
-          <motion.a
             href="#home"
-            whileHover={{ y: -2 }}
-            className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
+            className="link-draw inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.14em] text-dim"
           >
-            <span>{t("footer.backToTop")}</span>
-            <ArrowUp size={13} />
-          </motion.a>
+            {t("footer.backToTop")}
+            <ArrowUp size={13} aria-hidden />
+          </a>
+        </div>
+
+        {/* Spec microline */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-line pt-5 md:justify-between">
+          <span className="tech-label">
+            BUILT WITH NEXT.JS · DESIGNED AS AN INSTRUMENT
+          </span>
+          <span className="tech-label">49.0069° N — 8.4037° E · KARLSRUHE</span>
         </div>
       </div>
     </footer>

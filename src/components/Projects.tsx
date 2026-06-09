@@ -1,7 +1,10 @@
 "use client";
 
-import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Github, Bot, Users, BookOpen, ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import SectionHeader from "@/components/SectionHeader";
 
 const recentRepos = [
   {
@@ -36,149 +39,187 @@ const recentRepos = [
 
 export default function Projects() {
   const { t } = useLanguage();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const projects = [
+  const featuredProjects = [
     {
       title: t("proj.chatbot.title"),
-      problem: "Internal support teams need a faster way to query equipment and company knowledge.",
-      proof: t("proj.chatbot.desc"),
-      outcome: "Production-oriented RAG workflow for real company data.",
-      stack: ["Python", "FastAPI", "RAG", "OpenAI", "Pinecone", "Docker"],
+      description: t("proj.chatbot.desc"),
+      technologies: ["Python", "FastAPI", "RAG", "OpenAI", "Pinecone", "Docker"],
       github: "https://github.com/HarshalVankudre/Baumachschinen-KI-Chatbot",
       live: null,
+      icon: Bot,
     },
     {
       title: t("proj.teams.title"),
-      problem: "Equipment knowledge should be available inside the tools teams already use.",
-      proof: t("proj.teams.desc"),
-      outcome: "2,395+ construction equipment records exposed through a Teams bot.",
-      stack: ["Python", "PostgreSQL", "Azure", "Docker", "Teams API"],
+      description: t("proj.teams.desc"),
+      technologies: ["Python", "PostgreSQL", "Azure", "Docker", "Teams API"],
       github: "https://github.com/HarshalVankudre/Teams-BOT",
       live: null,
+      icon: Users,
     },
     {
       title: t("proj.course.title"),
-      problem: "Course content needs a clean browsing interface for quick scanning.",
-      proof: t("proj.course.desc"),
-      outcome: "Full-stack learning project focused on usable content navigation.",
-      stack: ["JavaScript", "React", "Node.js"],
+      description: t("proj.course.desc"),
+      technologies: ["JavaScript", "React", "Node.js"],
       github: "https://github.com/HarshalVankudre/CourseViewer",
       live: null,
+      icon: BookOpen,
     },
   ];
 
   return (
-    <section id="projects" className="record-section">
-      <div className="record-shell">
-        <div className="record-header">
-          <div>
-            <span className="record-kicker">{t("projects.tag")}</span>
-            <h2 className="record-title">Selected Work</h2>
-          </div>
-          <p className="record-dek">
-            Case notes from AI tooling, internal automation, and practical web interfaces.
-          </p>
-        </div>
+    <section id="projects" className="relative bg-raised py-24 sm:py-28">
+      <div ref={ref} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          index="05"
+          code="SELECTED WORK"
+          isInView={isInView}
+          title={
+            <>
+              {t("projects.title")}{" "}
+              <span className="text-accent">{t("projects.titleHighlight")}</span>
+            </>
+          }
+          subtitle={t("projects.subtitle")}
+        />
 
-        <div className="mt-8 border-y border-[var(--foreground)]">
-          <div className="hidden border-b border-[var(--foreground)] bg-[var(--foreground)] font-mono text-[11px] uppercase text-[var(--background)] md:grid md:grid-cols-[4.5rem_minmax(12rem,0.28fr)_minmax(0,0.44fr)_minmax(13rem,0.28fr)]">
-            <span className="px-0 py-2">No.</span>
-            <span className="py-2">Project</span>
-            <span className="py-2">Evidence</span>
-            <span className="py-2">Stack / links</span>
-          </div>
-
-          {projects.map((project, index) => (
-            <article
+        {/* Featured file cards */}
+        <div className="mb-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {featuredProjects.map((project, index) => (
+            <motion.article
               key={project.title}
-              className="case-row"
+              initial={{ opacity: 0, y: 24 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="corners group flex flex-col border border-line bg-night"
             >
-              <div className="font-mono text-xs text-muted-2">0{index + 1}</div>
+              {/* File header */}
+              <div className="flex items-center justify-between border-b border-line px-5 py-3">
+                <span className="tech-label transition-colors group-hover:text-accent">
+                  FILE.0{index + 1}
+                </span>
+                <project.icon
+                  size={16}
+                  className="text-faint transition-colors group-hover:text-accent"
+                  aria-hidden
+                />
+              </div>
 
-              <div>
-                <h3 className="text-2xl font-black leading-tight text-[var(--foreground)]">
+              {/* Content */}
+              <div className="flex flex-grow flex-col p-5 sm:p-6">
+                <h3 className="font-display text-2xl font-semibold uppercase leading-tight sm:text-[1.7rem]">
                   {project.title}
                 </h3>
-                <p className="mt-3 text-sm leading-6 text-muted">{project.problem}</p>
-              </div>
+                <p className="mt-3 flex-grow text-sm leading-relaxed text-dim">
+                  {project.description}
+                </p>
 
-              <div>
-                <p className="leading-7 text-[var(--foreground)]/85">{project.proof}</p>
-                <p className="mt-3 font-semibold text-[var(--primary)]">{project.outcome}</p>
-              </div>
-
-              <div>
-                <div className="flex flex-wrap gap-2">
-                  {project.stack.map((tech) => (
-                    <span key={tech} className="neo-tag">
+                {/* Technologies */}
+                <div className="mt-5 flex flex-wrap gap-1.5">
+                  {project.technologies.map((tech) => (
+                    <span key={tech} className="chip cursor-default text-[10px]">
                       {tech}
                     </span>
                   ))}
                 </div>
+              </div>
 
-                <div className="mt-5 flex flex-wrap gap-3">
+              {/* Links */}
+              <div className="flex items-center gap-6 border-t border-line px-5 py-3.5 font-mono text-xs uppercase tracking-[0.14em]">
+                {project.github && (
                   <a
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="plain-link inline-flex items-center gap-1.5 font-mono text-xs uppercase"
+                    className="link-draw inline-flex items-center gap-1.5 text-dim"
                   >
-                    <Github size={14} />
+                    <Github size={13} aria-hidden />
                     {t("projects.code")}
+                    <ArrowUpRight size={12} aria-hidden />
                   </a>
-                  {project.live && (
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="plain-link inline-flex items-center gap-1.5 font-mono text-xs uppercase"
-                    >
-                      <ExternalLink size={14} />
-                      {t("projects.live")}
-                    </a>
-                  )}
-                </div>
+                )}
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-draw inline-flex items-center gap-1.5 text-accent"
+                  >
+                    <span className="led led-ok" aria-hidden />
+                    {t("projects.live")}
+                    <ArrowUpRight size={12} aria-hidden />
+                  </a>
+                )}
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
 
-        <div className="mt-10">
-          <div className="mb-4 flex items-end justify-between gap-4 border-b border-[var(--foreground)] pb-3">
-            <h3 className="font-mono text-sm uppercase text-[var(--foreground)]">
+        {/* Recent on GitHub */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.35 }}
+        >
+          <div className="mb-5 flex items-center gap-4">
+            <span className="tech-label whitespace-nowrap">
+              INDEX <span className="text-accent">{"//"}</span>{" "}
               {t("projects.recentGithub")}
-            </h3>
-            <a
-              href="https://github.com/HarshalVankudre"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="plain-link inline-flex items-center gap-1.5 font-mono text-xs uppercase"
-            >
-              {t("projects.viewProfile")}
-              <ArrowUpRight size={14} />
-            </a>
+            </span>
+            <span aria-hidden className="h-px flex-1 bg-line" />
           </div>
 
-          <div className="record-table">
-            {recentRepos.map((repo) => (
-              <a
+          <div className="grid gap-px border border-line bg-line sm:grid-cols-2">
+            {recentRepos.map((repo, index) => (
+              <motion.a
                 key={repo.name}
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="record-row group"
+                initial={{ opacity: 0 }}
+                animate={isInView ? { opacity: 1 } : {}}
+                transition={{ duration: 0.3, delay: 0.45 + index * 0.08 }}
+                className="group flex items-center justify-between gap-4 bg-night p-4 transition-colors hover:bg-overlay sm:p-5"
               >
-                <span className="record-label">{repo.language}</span>
-                <span className="record-value flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                  <span className="font-semibold group-hover:text-[var(--primary)]">
-                    {repo.owner}/{repo.name}
-                  </span>
-                  <span className="font-mono text-xs uppercase text-muted">{repo.updated}</span>
-                </span>
-              </a>
+                <div className="min-w-0 flex-1">
+                  <div className="truncate font-mono text-sm font-medium text-fg transition-colors group-hover:text-accent">
+                    {repo.name}
+                  </div>
+                  <div className="tech-label mt-1.5 truncate normal-case tracking-[0.1em]">
+                    {repo.owner} · {repo.language} · {repo.updated}
+                  </div>
+                </div>
+                <ArrowUpRight
+                  size={16}
+                  className="shrink-0 text-faint transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
+                  aria-hidden
+                />
+              </motion.a>
             ))}
           </div>
-        </div>
+        </motion.div>
+
+        {/* GitHub CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="mt-12 text-center"
+        >
+          <a
+            href="https://github.com/HarshalVankudre"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-ghost"
+          >
+            <Github size={15} />
+            {t("projects.viewProfile")}
+            <ArrowUpRight size={14} />
+          </a>
+        </motion.div>
       </div>
     </section>
   );

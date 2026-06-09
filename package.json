@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "music:generate": "node scripts/generate-remotion-music.mjs",
+    "video": "remotion studio src/remotion/index.ts",
+    "video:render": "npm run music:generate && remotion render src/remotion/index.ts PortfolioGraphic out/portfolio-graphic.mp4",
+    "video:poster": "remotion still src/remotion/index.ts PortfolioGraphic out/portfolio-poster.png --frame=60"
   },
   "dependencies": {
     "framer-motion": "^12.23.26",
@@ -17,12 +21,15 @@
     "resend": "^6.6.0"
   },
   "devDependencies": {
+    "@remotion/cli": "^4.0.469",
+    "@remotion/media": "^4.0.469",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
+    "remotion": "^4.0.469",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

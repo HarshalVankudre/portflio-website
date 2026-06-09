@@ -1,27 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Newsreader, Caveat } from "next/font/google";
+import { IBM_Plex_Sans, IBM_Plex_Mono, Big_Shoulders } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 
-const inter = Inter({
+const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600"],
+  variable: "--font-plex-sans",
   display: "swap",
 });
 
-const newsreader = Newsreader({
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-serif",
+  weight: ["400", "500", "600"],
+  variable: "--font-plex-mono",
   display: "swap",
 });
 
-const caveat = Caveat({
+const bigShoulders = Big_Shoulders({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-hand",
+  variable: "--font-big-shoulders",
   display: "swap",
+  // Next has no metric overrides for the merged "Big Shoulders" family yet,
+  // so disable the automatic fallback and supply condensed system fallbacks.
+  adjustFontFallback: false,
+  fallback: ["Arial Narrow", "Impact", "sans-serif"],
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://vankudre.com";
@@ -31,7 +34,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: "#EFF2ED",
+  themeColor: "#0A0B0D",
 };
 
 export const metadata: Metadata = {
@@ -146,7 +149,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} ${newsreader.variable} ${caveat.variable} font-sans antialiased`}>
+      <body
+        className={`${plexSans.variable} ${plexMono.variable} ${bigShoulders.variable} font-sans antialiased`}
+      >
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

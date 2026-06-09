@@ -8,6 +8,14 @@ const easeOutCubic = (t: number): number => {
   return 1 - Math.pow(1 - t, 3);
 };
 
+// Boot sequence readout — lines reveal as progress passes their threshold
+const BOOT_LINES = [
+  { at: 10, text: "init display.grid", status: "OK" },
+  { at: 40, text: "load telemetry", status: "OK" },
+  { at: 70, text: "calibrate interface", status: "OK" },
+  { at: 96, text: "system ready", status: "GO" },
+];
+
 export default function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -23,7 +31,7 @@ export default function LoadingScreen() {
 
     // Check if already loaded in this session (survives refresh, cleared on tab close)
     const hasLoadedBefore = sessionStorage.getItem("portfolio_loaded");
-    
+
     if (hasLoadedBefore) {
       // Skip loading screen on refresh (shouldShow already defaults to false,
       // and isLoading is irrelevant while the overlay is hidden).
@@ -45,7 +53,7 @@ export default function LoadingScreen() {
 
     const interval = setInterval(() => {
       currentProgress += 100 / steps;
-      
+
       // Easing function for smooth fill
       const easedProgress = easeOutCubic(currentProgress / 100) * 100;
       setProgress(Math.min(easedProgress, 100));
@@ -76,83 +84,87 @@ export default function LoadingScreen() {
             opacity: 0,
             transition: { duration: 0.5, ease: "easeInOut" }
           }}
-          className="fixed inset-0 z-[100] bg-[var(--background)] flex flex-col items-center justify-center"
+          className="blueprint fixed inset-0 z-[100] flex flex-col items-center justify-center bg-night"
         >
-          {/* Logo */}
-          <motion.div
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-6 sm:mb-8"
-          >
-            <div className="grid place-items-center w-16 h-16 sm:w-20 sm:h-20 text-3xl sm:text-4xl font-black font-display text-white bg-[var(--foreground)] border border-[var(--foreground)] shadow-[var(--shadow-lg)]">
-              HV
-            </div>
-          </motion.div>
+          {/* Corner registration marks */}
+          <div aria-hidden className="crosshair absolute left-6 top-6" />
+          <div aria-hidden className="crosshair absolute right-6 top-6" />
+          <div aria-hidden className="crosshair absolute bottom-6 left-6" />
+          <div aria-hidden className="crosshair absolute bottom-6 right-6" />
 
-          {/* Loading text */}
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
-            className="font-mono text-xs uppercase mb-5 sm:mb-6 text-muted"
-          >
-            Loading Portfolio
-          </motion.p>
-
-          {/* Progress bar container */}
-          <motion.div
-            role="progressbar"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={Math.round(progress)}
-            initial={{ opacity: 0, scaleX: 0.8 }}
-            animate={{ opacity: 1, scaleX: 1 }}
-            transition={{ delay: 0.2, duration: 0.4 }}
-            className="w-56 sm:w-72 h-2 rounded-full bg-[var(--surface-2)] border border-[var(--border)] relative overflow-hidden"
-          >
-            {/* Progress fill */}
+          <div className="w-72 sm:w-80">
+            {/* Wordmark */}
             <motion.div
-              className="h-full relative"
-              style={{
-                width: `${progress}%`,
-                background: "var(--primary)",
-              }}
-              transition={{ duration: 0.05, ease: "linear" }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="font-display text-6xl font-bold uppercase leading-none sm:text-7xl"
             >
-              {/* Shine effect */}
-              <div 
-                className="absolute inset-0"
-                style={{
-                  background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)",
-                  animation: "shine 1.5s ease-in-out infinite",
-                }}
+              HV<span className="text-accent">.</span>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.4 }}
+              className="tech-label mt-3"
+            >
+              System calibration
+            </motion.p>
+
+            {/* Boot readout */}
+            <div className="mt-6 min-h-24 space-y-1.5 font-mono text-xs">
+              {BOOT_LINES.map(
+                (line) =>
+                  progress >= line.at && (
+                    <motion.div
+                      key={line.text}
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="flex items-baseline gap-2 text-dim"
+                    >
+                      <span className="text-faint" aria-hidden>
+                        &gt;
+                      </span>
+                      <span>{line.text}</span>
+                      <span
+                        aria-hidden
+                        className="flex-1 border-b border-dotted border-line"
+                      />
+                      <span className={line.status === "GO" ? "text-accent" : "text-ok"}>
+                        {line.status}
+                      </span>
+                    </motion.div>
+                  )
+              )}
+            </div>
+
+            {/* Progress bar */}
+            <motion.div
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(progress)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.15, duration: 0.4 }}
+              className="relative mt-4 h-2 w-full border border-line-strong"
+            >
+              <div
+                className="h-full bg-accent"
+                style={{ width: `${progress}%` }}
               />
             </motion.div>
-          </motion.div>
 
-          {/* Percentage */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="mt-3 sm:mt-4 font-mono font-bold text-lg sm:text-xl tabular-nums"
-          >
-            {Math.round(progress)}%
-          </motion.p>
-
-          {/* Fun loading messages */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.6 }}
-            transition={{ delay: 0.6 }}
-            className="mt-4 sm:mt-6 text-[10px] sm:text-xs text-muted-2 font-medium"
-          >
-            {progress < 30 && "Indexing profile..."}
-            {progress >= 30 && progress < 60 && "Loading selected work..."}
-            {progress >= 60 && progress < 90 && "Checking sections..."}
-            {progress >= 90 && "Ready"}
-          </motion.p>
+            {/* Percentage */}
+            <div className="mt-2.5 flex items-baseline justify-between font-mono text-xs">
+              <span className="tech-label">CAL.SEQ — 1.0</span>
+              <span className="tabular-nums text-fg">
+                {Math.round(progress)}%
+              </span>
+            </div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

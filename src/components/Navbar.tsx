@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Globe } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Navbar() {
@@ -13,16 +13,16 @@ export default function Navbar() {
 
   const navItems = [
     { name: t("nav.home"), href: "#home" },
-    { name: t("nav.projects"), href: "#projects" },
+    { name: t("nav.about"), href: "#about" },
     { name: t("nav.skills"), href: "#skills" },
     { name: t("nav.experience"), href: "#experience" },
     { name: t("nav.education"), href: "#education" },
-    { name: t("nav.about"), href: "#about" },
+    { name: t("nav.projects"), href: "#projects" },
     { name: t("nav.contact"), href: "#contact" },
   ];
 
   useEffect(() => {
-    const sectionIds = ["home", "projects", "skills", "experience", "education", "about", "github", "contact"];
+    const sectionIds = ["home", "about", "skills", "experience", "education", "projects", "contact"];
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -50,99 +50,83 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
+      initial={{ y: -80 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "glass border-b border-[var(--border-strong)] shadow-[var(--shadow-md)]"
-          : "bg-transparent border-b border-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-md transition-colors duration-300 ${
+        isScrolled ? "border-line-strong bg-night/90" : "border-line bg-night/70"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <motion.a
-            href="#home"
-            className="relative group flex items-center gap-2"
-            whileTap={{ scale: 0.98 }}
-          >
-            <span className="grid h-8 w-8 place-items-center border border-[var(--foreground)] bg-[var(--foreground)] font-mono text-xs text-[var(--background)]">
-              HV
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          {/* Wordmark */}
+          <a href="#home" className="group flex items-baseline gap-2">
+            <span className="font-display text-2xl font-bold uppercase leading-none">
+              HV<span className="text-accent">.</span>
             </span>
-            <span className="font-mono text-sm uppercase leading-none text-[var(--foreground)] sm:text-base">
-              Harshal Vankudre<span className="text-[var(--primary)]">.</span>
+            <span className="tech-label hidden transition-colors group-hover:text-accent md:inline">
+              Portfolio
             </span>
-          </motion.a>
+          </a>
 
           {/* Desktop Navigation */}
-          <ul className="hidden lg:flex items-center border border-[var(--border-strong)] bg-[var(--surface)]/88 backdrop-blur">
-            {navItems.map((item) => {
-              const active = activeSection === item.href.slice(1);
+          <ul className="hidden items-center gap-1 lg:flex">
+            {navItems.map((item, index) => {
+              const isActive = activeSection === item.href.slice(1);
               return (
-                <li key={item.href} className="border-r border-[var(--border)] last:border-r-0">
+                <li key={item.href}>
                   <a
                     href={item.href}
-                    className={`relative block px-3.5 py-2 font-mono text-[11px] uppercase transition-colors ${
-                      active
-                        ? "text-[var(--foreground)]"
-                        : "text-muted hover:text-[var(--foreground)]"
+                    className={`relative px-3 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors ${
+                      isActive ? "text-accent" : "text-dim hover:text-fg"
                     }`}
                   >
-                    {active && (
+                    <span className={`mr-1 ${isActive ? "text-accent" : "text-faint"}`} aria-hidden>
+                      0{index + 1}
+                    </span>
+                    {item.name}
+                    {isActive && (
                       <motion.span
-                        layoutId="nav-pill"
-                        className="absolute inset-x-0 bottom-0 h-[3px] bg-[var(--primary)]"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                        layoutId="nav-active"
+                        aria-hidden
+                        className="absolute inset-x-3 -bottom-px h-px bg-accent"
                       />
                     )}
-                    <span className="relative z-10">{item.name}</span>
                   </a>
                 </li>
               );
             })}
           </ul>
 
-          {/* Right side - Language Toggle & CTA */}
-          <div className="hidden md:flex items-center gap-2.5">
-            {/* Language Toggle */}
-            <motion.button
+          {/* Right side — Language Toggle & CTA */}
+          <div className="hidden items-center gap-3 md:flex">
+            <button
               onClick={toggleLanguage}
-              className="flex items-center gap-1.5 border border-[var(--border-strong)] bg-[var(--surface)] px-3 py-2 font-mono text-xs text-muted transition-all hover:border-[var(--foreground)] hover:text-[var(--foreground)]"
-              whileTap={{ scale: 0.95 }}
+              className="chip h-9 cursor-pointer px-3 leading-7"
               aria-label="Toggle language"
             >
-              <Globe size={15} />
               {language === "en" ? "DE" : "EN"}
-            </motion.button>
-
-            {/* CTA Button */}
-            <motion.a
-              href="#contact"
-              className="neo-btn neo-btn-primary text-sm py-2"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
+            </button>
+            <a href="#contact" className="btn btn-solid h-9 px-4 text-[11px]">
               {t("nav.letsTalk")}
-            </motion.a>
+            </a>
           </div>
 
-          {/* Mobile - Language + Menu Button */}
-          <div className="flex md:hidden items-center gap-2">
-            <motion.button
+          {/* Mobile — Language + Menu Button */}
+          <div className="flex items-center gap-2 md:hidden">
+            <button
               onClick={toggleLanguage}
-              className="border border-[var(--border-strong)] bg-[var(--surface)] p-2 font-mono text-xs text-muted"
-              whileTap={{ scale: 0.95 }}
+              className="chip h-9 cursor-pointer px-3 leading-7"
               aria-label="Toggle language"
             >
               {language === "en" ? "DE" : "EN"}
-            </motion.button>
+            </button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="border border-[var(--border-strong)] bg-[var(--surface)] p-2 text-[var(--foreground)]"
+              className="border border-line-strong p-2 text-fg transition-colors hover:border-accent hover:text-accent"
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
@@ -155,38 +139,47 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass border-b border-[var(--border)] overflow-hidden"
+            className="overflow-hidden border-t border-line bg-night/95 backdrop-blur-md lg:hidden"
           >
-            <ul className="px-4 py-4 space-y-1.5">
-              {navItems.map((item, index) => (
-                <motion.li
-                  key={item.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <a
-                    href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`block border border-transparent px-4 py-3 font-medium transition-all ${
-                      activeSection === item.href.slice(1)
-                        ? "bg-[var(--surface-3)] border border-[var(--border)] text-[var(--foreground)]"
-                        : "text-muted hover:bg-[var(--surface-2)] hover:text-[var(--foreground)]"
-                    }`}
+            <ul className="space-y-1 px-4 py-5 sm:px-6">
+              {navItems.map((item, index) => {
+                const isActive = activeSection === item.href.slice(1);
+                return (
+                  <motion.li
+                    key={item.href}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.04 }}
                   >
-                    {item.name}
-                  </a>
-                </motion.li>
-              ))}
+                    <a
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`flex items-baseline gap-3 border-l px-3 py-2.5 transition-colors ${
+                        isActive
+                          ? "border-accent text-accent"
+                          : "border-line text-dim hover:border-line-strong hover:text-fg"
+                      }`}
+                    >
+                      <span className="font-mono text-[10px] tracking-[0.2em]" aria-hidden>
+                        0{index + 1}
+                      </span>
+                      <span className="font-display text-2xl font-semibold uppercase leading-none">
+                        {item.name}
+                      </span>
+                    </a>
+                  </motion.li>
+                );
+              })}
               <motion.li
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navItems.length * 0.05 }}
+                transition={{ delay: navItems.length * 0.04 }}
+                className="pt-4"
               >
                 <a
                   href="#contact"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="neo-btn neo-btn-primary w-full mt-3"
+                  className="btn btn-solid w-full"
                 >
                   {t("nav.letsTalk")}
                 </a>
