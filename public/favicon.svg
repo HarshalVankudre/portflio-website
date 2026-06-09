@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Harshal Vankudre monogram">
+  <defs>
+    <radialGradient id="violet-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(132 112) rotate(52) scale(360)">
+      <stop stop-color="#221440"/>
+      <stop offset="1" stop-color="#060607" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="teal-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(392 376) rotate(-132) scale(300)">
+      <stop stop-color="#0b2b2b"/>
+      <stop offset="1" stop-color="#060607" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="volt-stroke" x1="274" y1="140" x2="414" y2="372" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#eaff76"/>
+      <stop offset="0.58" stop-color="#ceff00"/>
+      <stop offset="1" stop-color="#9dc700"/>
+    </linearGradient>
+    <filter id="soft-glow" x="-40%" y="-40%" width="180%" height="180%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.8078 0 0 0 0 1 0 0 0 0 0 0 0 0 0.75 0" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#060607"/>
+  <rect width="512" height="512" rx="112" fill="url(#violet-glow)"/>
+  <rect width="512" height="512" rx="112" fill="url(#teal-glow)"/>
+  <rect x="28" y="28" width="456" height="456" rx="96" fill="none" stroke="#eae8e3" stroke-opacity="0.16" stroke-width="2"/>
+  <path d="M144 148V364M144 256H244M244 148V364" fill="none" stroke="#eae8e3" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M280 148L328 364L396 148" fill="none" stroke="url(#volt-stroke)" stroke-width="44" stroke-linecap="round" stroke-linejoin="round" filter="url(#soft-glow)"/>
+  <circle cx="402" cy="364" r="18" fill="#ceff00"/>
+</svg>

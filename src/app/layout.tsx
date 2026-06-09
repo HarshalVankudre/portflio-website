@@ -63,6 +63,15 @@ export const metadata: Metadata = {
   authors: [{ name: "Harshal Vankudre", url: SITE_URL }],
   creator: "Harshal Vankudre",
   manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/favicon.ico?v=hv2", sizes: "any" },
+      { url: "/favicon.svg?v=hv2", type: "image/svg+xml" },
+      { url: "/icon-192.png?v=hv2", sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: ["/favicon.ico?v=hv2"],
+    apple: [{ url: "/icon-192.png?v=hv2", sizes: "192x192", type: "image/png" }],
+  },
   alternates: {
     canonical: "/",
   },
