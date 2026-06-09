@@ -31,7 +31,7 @@ const translations = {
     // About
     "about.summary": "Ambitious developer with fluent German and English. Passionate about software development and data analysis, with hands-on experience in Java, Python, and modern web frameworks.",
     "about.chess": "Strategic board games like chess sharpen my analytical and problem-solving skills, which I apply to my work. Currently based in",
-    "about.looking": "I'm looking for opportunities where I can combine software engineering and data analysis to create measurable impact.",
+    "about.looking": "I focus on work that combines software engineering and data analysis to create measurable impact.",
 
     // Skill groups
     "skills.languages": "Languages & Core",
@@ -83,7 +83,6 @@ const translations = {
     "contact.quickLinks": "Quick Links",
     "contact.respondFastest": "I usually respond fastest on email.",
     "contact.email": "Email",
-    "contact.phone": "Phone",
     "contact.location": "Location",
     "contact.sendMessage": "Send a Message",
     "contact.name": "Name",
@@ -107,7 +106,7 @@ const translations = {
     "nav.now": "Now",
     "home.role": "AI Developer",
     "home.tagline": "Building RAG systems and enterprise chatbots that people actually use.",
-    "home.availability": "Open to ambitious opportunities",
+    "home.status": "Building practical AI systems",
     "home.scroll": "Scroll",
     "home.selectedWork": "Selected Work",
     "home.viewCase": "View case study",
@@ -151,7 +150,7 @@ const translations = {
     // About
     "about.summary": "Ambitionierter Entwickler mit fließenden Deutsch- und Englischkenntnissen. Leidenschaftlich für Softwareentwicklung und Datenanalyse, mit praktischer Erfahrung in Java, Python und modernen Web-Frameworks.",
     "about.chess": "Strategische Brettspiele wie Schach schärfen meine analytischen und problemlösenden Fähigkeiten, die ich in meiner Arbeit anwende. Derzeit wohnhaft in",
-    "about.looking": "Ich suche nach Möglichkeiten, Software-Engineering und Datenanalyse zu kombinieren, um messbaren Impact zu schaffen.",
+    "about.looking": "Ich konzentriere mich auf Arbeit, die Software-Engineering und Datenanalyse verbindet und messbaren Impact schafft.",
 
     // Skill groups
     "skills.languages": "Sprachen & Core",
@@ -203,7 +202,6 @@ const translations = {
     "contact.quickLinks": "Schnelllinks",
     "contact.respondFastest": "Ich antworte am schnellsten per E-Mail.",
     "contact.email": "E-Mail",
-    "contact.phone": "Telefon",
     "contact.location": "Standort",
     "contact.sendMessage": "Nachricht senden",
     "contact.name": "Name",
@@ -227,7 +225,7 @@ const translations = {
     "nav.now": "Jetzt",
     "home.role": "KI-Entwickler",
     "home.tagline": "Ich baue RAG-Systeme und Enterprise-Chatbots, die wirklich genutzt werden.",
-    "home.availability": "Offen für ambitionierte Aufgaben",
+    "home.status": "Praktische KI-Systeme bauen",
     "home.scroll": "Scrollen",
     "home.selectedWork": "Ausgewählte Arbeiten",
     "home.viewCase": "Fallstudie ansehen",

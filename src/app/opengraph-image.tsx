@@ -51,7 +51,7 @@ export default function OpengraphImage() {
                 background: ACCENT,
               }}
             />
-            OPEN TO OPPORTUNITIES
+            AI SYSTEMS IN PRODUCTION
           </span>
         </div>
 

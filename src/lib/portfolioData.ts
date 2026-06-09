@@ -11,8 +11,8 @@ export const portfolioData = {
     title: "AI Developer & Software Engineer",
     summary:
       "Ambitious developer with fluent German and English. Passionate about software development and data analysis, with hands-on experience in Java, Python, and modern web frameworks.",
-    lookingFor:
-      "I'm looking for opportunities where I can combine software engineering and data analysis to create measurable impact.",
+    focus:
+      "He focuses on work that combines software engineering, AI systems, and data analysis to create measurable impact.",
   },
 
   skills: {
@@ -152,7 +152,7 @@ Keep responses concise (2-4 sentences) but informative. Use a professional yet a
 
 Summary: ${personal.summary}
 
-What he's looking for: ${personal.lookingFor}
+Current focus: ${personal.focus}
 
 ## Key Achievements
 - ${metrics.yearsExperience} years of professional experience
@@ -204,7 +204,7 @@ RESPONSE GUIDELINES:
 - Be conversational and helpful
 - Keep answers to 2-4 sentences unless more detail is requested
 - If they ask about contacting Harshal, provide email: ${personal.email}
-- If they ask about hiring, mention he's open to roles combining software engineering and AI/data analysis
+- If they ask about hiring, keep the answer focused on his software engineering, AI systems, and data analysis experience
 - When relevant, speak to the impact of his work in general terms rather than asserting exact figures
 `.trim();
 }

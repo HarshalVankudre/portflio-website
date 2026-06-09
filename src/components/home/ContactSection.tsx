@@ -192,16 +192,6 @@ export default function ContactSection() {
           </div>
 
           <div>
-            <h3 className="label-mono mb-4">{t("contact.phone")}</h3>
-            <a
-              href="tel:+4917687451632"
-              className="link-draw font-mono text-sm text-dim"
-            >
-              +49 176 87451632
-            </a>
-          </div>
-
-          <div>
             <h3 className="label-mono mb-4">{t("contact.location")}</h3>
             <p className="font-mono text-sm text-dim">{t("hero.location")}</p>
             <p className="label-mono mt-1">49.0069° N — 8.4037° E</p>

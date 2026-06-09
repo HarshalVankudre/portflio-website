@@ -35,7 +35,7 @@ const sections = [
     label: "Life",
     items: [
       "Based in Karlsruhe, Germany. Playing chess when I should be sleeping.",
-      "Open to new opportunities — if you're building something ambitious, say hi.",
+      "Keeping the portfolio focused on shipped AI systems, case studies, and what I am learning next.",
     ],
   },
 ];

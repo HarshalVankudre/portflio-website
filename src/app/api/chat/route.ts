@@ -68,10 +68,6 @@ function getFallbackAnswer(message: string) {
       .join(", ")}. He is fluent in German and English.`;
   }
 
-  if (query.includes("hire") || query.includes("available") || query.includes("opportunity")) {
-    return `${personal.lookingFor} His strongest fit is work that combines software engineering, AI systems, automation, and data analysis.`;
-  }
-
   return `Harshal is an AI Developer and Software Engineer based in ${personal.location}. He has ${metrics.yearsExperience} years of experience, works across AI, data, and full-stack development, and has built projects involving RAG, chatbots, Teams automation, and modern web apps.`;
 }
 
