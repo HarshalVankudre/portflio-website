@@ -1,30 +1,32 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Mono, Big_Shoulders } from "next/font/google";
+import { Fraunces, Instrument_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
+import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
+import TransitionProvider from "@/components/providers/TransitionProvider";
+import GradientField from "@/components/effects/GradientField";
+import Cursor from "@/components/effects/Cursor";
+import Preloader from "@/components/Preloader";
+import SwRegistrar from "@/components/SwRegistrar";
 
-const plexSans = IBM_Plex_Sans({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-plex-sans",
+  axes: ["opsz", "SOFT", "WONK"],
+  variable: "--font-fraunces",
   display: "swap",
 });
 
-const plexMono = IBM_Plex_Mono({
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-plex-mono",
+  axes: ["wdth"],
+  variable: "--font-instrument",
   display: "swap",
 });
 
-const bigShoulders = Big_Shoulders({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-big-shoulders",
+  variable: "--font-geist-mono",
   display: "swap",
-  // Next has no metric overrides for the merged "Big Shoulders" family yet,
-  // so disable the automatic fallback and supply condensed system fallbacks.
-  adjustFontFallback: false,
-  fallback: ["Arial Narrow", "Impact", "sans-serif"],
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://vankudre.com";
@@ -34,17 +36,17 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: "#0A0B0D",
+  themeColor: "#060607",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Harshal Vankudre | AI Developer & Data Science Student",
+    default: "Harshal Vankudre | AI Developer",
     template: "%s | Harshal Vankudre",
   },
   description:
-    "Portfolio of Harshal Vankudre — AI Developer specializing in RAG systems, chatbots, and modern web development. Building intelligent solutions with Python, Next.js, and OpenAI.",
+    "Portfolio of Harshal Vankudre — AI Developer building enterprise RAG systems, multi-agent chatbots, and modern web products with Python, Next.js, and OpenAI. Based in Karlsruhe, Germany.",
   keywords: [
     "AI Developer",
     "Software Engineer",
@@ -72,7 +74,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Harshal Vankudre | AI Developer",
     description:
-      "AI Developer & Data Science Student building intelligent systems with Python, Next.js, and OpenAI.",
+      "AI Developer building enterprise RAG systems and intelligent products with Python, Next.js, and OpenAI.",
     url: SITE_URL,
     siteName: "Harshal Vankudre",
     type: "website",
@@ -82,7 +84,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Harshal Vankudre | AI Developer",
     description:
-      "AI Developer & Data Science Student building intelligent systems.",
+      "AI Developer building enterprise RAG systems and intelligent products.",
     creator: "@HarshalVankudre",
   },
   robots: {
@@ -142,7 +144,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en">
       <head>
         <script
           type="application/ld+json"
@@ -150,9 +152,19 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${plexSans.variable} ${plexMono.variable} ${bigShoulders.variable} font-sans antialiased`}
+        className={`${instrumentSans.variable} ${geistMono.variable} ${fraunces.variable} font-sans antialiased`}
       >
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <SmoothScrollProvider>
+            <TransitionProvider>
+              <GradientField />
+              <div className="relative z-10">{children}</div>
+              <Preloader />
+              <Cursor />
+              <SwRegistrar />
+            </TransitionProvider>
+          </SmoothScrollProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

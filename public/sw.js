@@ -1,4 +1,4 @@
-const CACHE_NAME = 'hv-portfolio-v1';
+const CACHE_NAME = 'hv-portfolio-v2'; // bumped for the Cinematic Noir redesign
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',

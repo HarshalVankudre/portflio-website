@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Minus, User, Bot, Sparkles } from "lucide-react";
 
 interface Message {
@@ -15,24 +14,6 @@ const quickQuestions = [
   "What's his experience?",
   "How can I contact him?",
 ];
-
-// Chat toggle icon
-function ChatIcon() {
-  return (
-    <motion.div
-      animate={{
-        scale: [1, 1.08, 1],
-      }}
-      transition={{
-        duration: 2.4,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-    >
-      <Sparkles size={24} className="text-accent" strokeWidth={2} />
-    </motion.div>
-  );
-}
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -115,11 +96,9 @@ export default function ChatBot() {
 
     let newBottom = 24;
 
-    // Check if button overlaps with footer
     if (footer) {
       const footerRect = footer.getBoundingClientRect();
       if (footerRect.top < windowHeight - 20) {
-        // Footer is visible, move button up
         newBottom = Math.max(24, windowHeight - footerRect.top + 24);
       }
     }
@@ -134,7 +113,7 @@ export default function ChatBot() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleScroll, { passive: true });
-    checkDarkSection(); // Check initial state
+    checkDarkSection();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -209,7 +188,8 @@ export default function ChatBot() {
           try {
             const parsed = JSON.parse(data);
             // Handle both Groq API format and our custom format
-            const content = parsed.choices?.[0]?.delta?.content || parsed.content || "";
+            const content =
+              parsed.choices?.[0]?.delta?.content || parsed.content || "";
             if (content) {
               assistantMessage += content;
               scheduleFlush();
@@ -271,186 +251,170 @@ export default function ChatBot() {
     sendMessage(input);
   };
 
-  const handleQuickQuestion = (question: string) => {
-    sendMessage(question);
-  };
-
   return (
     <>
       {/* Chat Toggle Button */}
-      <AnimatePresence>
-        {!isOpen && (
-          <motion.button
-            ref={buttonRef}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setIsOpen(true)}
-            className="fixed right-4 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center border border-line-strong bg-raised transition-all duration-200 ease-out hover:border-accent"
-            style={{
-              bottom: buttonBottom,
-              boxShadow: "0 12px 32px rgba(0,0,0,0.5)",
-            }}
-            aria-label="Open chat"
-          >
-            <ChatIcon />
-          </motion.button>
-        )}
-      </AnimatePresence>
+      {!isOpen && (
+        <button
+          ref={buttonRef}
+          onClick={() => setIsOpen(true)}
+          className="fade-up fixed right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-line-strong bg-surface/90 backdrop-blur-sm transition-[border-color,transform] duration-300 hover:scale-105 hover:border-accent sm:right-6 sm:h-14 sm:w-14"
+          style={{
+            bottom: buttonBottom,
+            boxShadow: "0 12px 32px rgba(0,0,0,0.5)",
+          }}
+          aria-label="Open chat"
+        >
+          <Sparkles size={22} className="text-accent" strokeWidth={2} />
+        </button>
+      )}
 
       {/* Chat Window */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            ref={dialogRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Chat with Harshal's AI assistant"
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              height: isMinimized ? "auto" : "500px",
-            }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed right-2 left-2 sm:left-auto sm:right-6 z-50 sm:w-96 bg-night border border-line-strong overflow-hidden flex flex-col shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
-            style={{ maxHeight: isMinimized ? "auto" : "85vh", bottom: Math.max(buttonBottom, 16) }}
-          >
-            {/* Screen-reader live region: mirrors the latest assistant message
-                so updates are announced without re-announcement churn from the
-                per-token-mutated message node. */}
-            <div className="sr-only" aria-live="polite" aria-atomic="true">
-              {lastAssistantMessage}
-            </div>
+      {isOpen && (
+        <div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Chat with Harshal's AI assistant"
+          data-cursor="hide"
+          className={`fade-up fixed left-2 right-2 z-50 flex flex-col overflow-hidden rounded-xl border border-line-strong bg-bg shadow-[0_24px_64px_rgba(0,0,0,0.6)] sm:left-auto sm:right-6 sm:w-96 ${
+            isMinimized ? "h-auto" : "h-[500px] max-h-[85vh]"
+          }`}
+          style={{ bottom: Math.max(buttonBottom, 16) }}
+        >
+          {/* Screen-reader live region: mirrors the latest assistant message
+              so updates are announced without re-announcement churn from the
+              per-token-mutated message node. */}
+          <div className="sr-only" aria-live="polite" aria-atomic="true">
+            {lastAssistantMessage}
+          </div>
 
-            {/* Header */}
-            <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 bg-raised border-b border-line">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-line-strong bg-overlay">
-                  <Sparkles size={16} className="text-accent" strokeWidth={2} />
-                </div>
-                <div>
-                  <h3 className="font-mono font-semibold text-xs uppercase tracking-[0.14em] text-fg">
-                    Ask About Harshal
-                  </h3>
-                  <p className="tech-label mt-0.5 flex items-center gap-1.5">
-                    <span className="led led-ok" aria-hidden />
-                    AI Assistant — Online
-                  </p>
-                </div>
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-line bg-surface px-3 py-2.5 sm:px-4 sm:py-3">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full border border-line-strong bg-elevated sm:h-9 sm:w-9">
+                <Sparkles size={16} className="text-accent" strokeWidth={2} />
               </div>
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => setIsMinimized(!isMinimized)}
-                  className="p-1.5 text-dim transition-colors hover:bg-overlay hover:text-fg"
-                  aria-label={isMinimized ? "Expand" : "Minimize"}
-                >
-                  <Minus size={16} strokeWidth={2.5} />
-                </button>
-                <button
-                  onClick={() => {
-                    setIsOpen(false);
-                    setIsMinimized(false);
-                  }}
-                  className="p-1.5 text-dim transition-colors hover:bg-err hover:text-night"
-                  aria-label="Close"
-                >
-                  <X size={16} strokeWidth={2.5} />
-                </button>
+              <div>
+                <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-fg">
+                  Ask About Harshal
+                </h3>
+                <p className="label-mono mt-0.5 flex items-center gap-1.5">
+                  <span
+                    className="inline-block h-1.5 w-1.5 rounded-full bg-accent"
+                    aria-hidden
+                  />
+                  AI Assistant — Online
+                </p>
               </div>
             </div>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setIsMinimized(!isMinimized)}
+                className="rounded-md p-1.5 text-dim transition-colors hover:bg-elevated hover:text-fg"
+                aria-label={isMinimized ? "Expand" : "Minimize"}
+              >
+                <Minus size={16} strokeWidth={2.5} />
+              </button>
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  setIsMinimized(false);
+                }}
+                className="rounded-md p-1.5 text-dim transition-colors hover:bg-elevated hover:text-err"
+                aria-label="Close"
+              >
+                <X size={16} strokeWidth={2.5} />
+              </button>
+            </div>
+          </div>
 
-            {/* Chat Content */}
-            {!isMinimized && (
-              <>
-                {/* Messages Area */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                  {/* Welcome Message */}
-                  {messages.length === 0 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="space-y-4"
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 border border-line-strong bg-overlay flex items-center justify-center flex-shrink-0 text-accent">
-                          <Bot size={15} />
-                        </div>
-                        <div className="bg-raised border border-line p-3 max-w-[85%]">
-                          <p className="text-sm text-dim">
-                            Hi! I&apos;m Harshal&apos;s AI assistant. Ask me
-                            anything about his skills, projects, experience, or
-                            how to get in touch!
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Quick Questions */}
-                      <div className="pl-11">
-                        <p className="tech-label mb-2">Quick questions:</p>
-                        <div className="flex flex-wrap gap-1.5">
-                          {quickQuestions.map((q) => (
-                            <button
-                              key={q}
-                              onClick={() => handleQuickQuestion(q)}
-                              className="chip cursor-pointer normal-case tracking-normal"
-                            >
-                              {q}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {/* Messages */}
-                  {messages.map((msg, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className={`flex items-start gap-3 ${
-                        msg.role === "user" ? "flex-row-reverse" : ""
-                      }`}
-                    >
-                      <div
-                        className={`w-8 h-8 flex items-center justify-center flex-shrink-0 border ${
-                          msg.role === "user"
-                            ? "border-accent bg-accent text-night"
-                            : "border-line-strong bg-overlay text-accent"
-                        }`}
-                      >
-                        {msg.role === "user" ? <User size={15} /> : <Bot size={15} />}
-                      </div>
-                      <div
-                        className={`p-3 max-w-[85%] border ${
-                          msg.role === "user"
-                            ? "border-accent bg-accent text-night"
-                            : "border-line bg-raised text-dim"
-                        }`}
-                      >
-                        <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-
-                  {/* Loading indicator */}
-                  {isLoading && messages[messages.length - 1]?.role === "user" && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="flex items-start gap-3"
-                    >
-                      <div className="w-8 h-8 border border-line-strong bg-overlay flex items-center justify-center text-accent">
+          {/* Chat Content */}
+          {!isMinimized && (
+            <>
+              {/* Messages Area */}
+              <div className="flex-1 space-y-4 overflow-y-auto p-4">
+                {/* Welcome Message */}
+                {messages.length === 0 && (
+                  <div className="fade-up space-y-4">
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-line-strong bg-elevated text-accent">
                         <Bot size={15} />
                       </div>
-                      <div className="bg-raised border border-line p-3">
-                        <div className="flex items-center gap-2 text-dim" role="status">
-                          <span className="led led-accent" aria-hidden />
+                      <div className="max-w-[85%] rounded-lg border border-line bg-surface p-3">
+                        <p className="text-sm text-dim">
+                          Hi! I&apos;m Harshal&apos;s AI assistant. Ask me
+                          anything about his skills, projects, experience, or
+                          how to get in touch!
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Quick Questions */}
+                    <div className="pl-11">
+                      <p className="label-mono mb-2">Quick questions:</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {quickQuestions.map((q) => (
+                          <button
+                            key={q}
+                            onClick={() => sendMessage(q)}
+                            className="cursor-pointer rounded-full border border-line-strong px-3 py-1 font-mono text-[11px] text-dim transition-colors hover:border-accent hover:text-accent"
+                          >
+                            {q}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Messages */}
+                {messages.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={`fade-up flex items-start gap-3 ${
+                      msg.role === "user" ? "flex-row-reverse" : ""
+                    }`}
+                  >
+                    <div
+                      className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border ${
+                        msg.role === "user"
+                          ? "border-accent bg-accent text-accent-ink"
+                          : "border-line-strong bg-elevated text-accent"
+                      }`}
+                    >
+                      {msg.role === "user" ? (
+                        <User size={15} />
+                      ) : (
+                        <Bot size={15} />
+                      )}
+                    </div>
+                    <div
+                      className={`max-w-[85%] rounded-lg border p-3 ${
+                        msg.role === "user"
+                          ? "border-accent bg-accent text-accent-ink"
+                          : "border-line bg-surface text-dim"
+                      }`}
+                    >
+                      <p className="whitespace-pre-wrap text-sm">
+                        {msg.content}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Loading indicator */}
+                {isLoading &&
+                  messages[messages.length - 1]?.role === "user" && (
+                    <div className="fade-up flex items-start gap-3">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full border border-line-strong bg-elevated text-accent">
+                        <Bot size={15} />
+                      </div>
+                      <div className="rounded-lg border border-line bg-surface p-3">
+                        <div
+                          className="flex items-center gap-2 text-dim"
+                          role="status"
+                        >
                           <span className="font-mono text-xs uppercase tracking-[0.14em]">
                             Thinking
                           </span>
@@ -460,42 +424,41 @@ export default function ChatBot() {
                           />
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   )}
 
-                  <div ref={messagesEndRef} />
-                </div>
+                <div ref={messagesEndRef} />
+              </div>
 
-                {/* Input Area */}
-                <form
-                  onSubmit={handleSubmit}
-                  className="p-3 border-t border-line bg-raised"
-                >
-                  <div className="flex items-center gap-2">
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      placeholder="Ask me anything..."
-                      disabled={isLoading}
-                      className="field flex-1 px-3 py-2 text-sm disabled:opacity-50"
-                    />
-                    <button
-                      type="submit"
-                      disabled={!input.trim() || isLoading}
-                      className="grid h-[42px] w-[42px] shrink-0 place-items-center border border-accent bg-accent text-night transition-colors hover:bg-[#ff7426] disabled:cursor-not-allowed disabled:opacity-50"
-                      aria-label="Send message"
-                    >
-                      <Send size={16} />
-                    </button>
-                  </div>
-                </form>
-              </>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+              {/* Input Area */}
+              <form
+                onSubmit={handleSubmit}
+                className="border-t border-line bg-surface p-3"
+              >
+                <div className="flex items-center gap-2">
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Ask me anything..."
+                    disabled={isLoading}
+                    className="flex-1 rounded-full border border-line-strong bg-bg px-4 py-2 text-sm text-fg placeholder:text-faint focus:border-accent focus:outline-none disabled:opacity-50"
+                  />
+                  <button
+                    type="submit"
+                    disabled={!input.trim() || isLoading}
+                    className="grid h-[38px] w-[38px] shrink-0 place-items-center rounded-full bg-accent text-accent-ink transition-opacity hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-50"
+                    aria-label="Send message"
+                  >
+                    <Send size={15} />
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
+        </div>
+      )}
     </>
   );
 }

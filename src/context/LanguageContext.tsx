@@ -8,8 +8,6 @@ import {
   useMemo,
   ReactNode,
 } from "react";
-import { MotionConfig } from "framer-motion";
-
 type Language = "en" | "de";
 
 type TranslationKey = keyof (typeof translations)["en"];
@@ -23,49 +21,19 @@ interface LanguageContextType {
 const translations = {
   en: {
     // Navbar
-    "nav.home": "Home",
     "nav.about": "About",
-    "nav.skills": "Skills",
-    "nav.experience": "Experience",
-    "nav.education": "Education",
-    "nav.projects": "Projects",
     "nav.contact": "Contact",
     "nav.letsTalk": "Let's Talk",
 
-    // Hero
+    // Shared
     "hero.location": "Karlsruhe, Germany",
-    "hero.role1": "Software Developer",
-    "hero.role2": "Full-Stack Developer",
-    "hero.role3": "Data Enthusiast",
-    "hero.role4": "Problem Solver",
-    "hero.description": "Ambitious developer with fluent German and English. Passionate about software development and data analysis, with hands-on experience in Java, Python, and modern web frameworks.",
-    "hero.viewProjects": "View Projects",
-    "hero.downloadCV": "Download CV",
-    "hero.contact": "Contact",
-    "hero.fasterResponses": "Faster Responses",
-    "hero.tierAutomated": "Tier-1 Automated",
-    "hero.lessManualTime": "Less Manual Time",
-    "hero.internalUsers": "Internal Users",
 
     // About
-    "about.tag": "About Me",
-    "about.title": "Building software with a",
-    "about.titleHighlight": "product mindset",
-    "about.intro": "I enjoy turning messy problems into clean, usable tools — from internal automation to web apps.",
     "about.summary": "Ambitious developer with fluent German and English. Passionate about software development and data analysis, with hands-on experience in Java, Python, and modern web frameworks.",
     "about.chess": "Strategic board games like chess sharpen my analytical and problem-solving skills, which I apply to my work. Currently based in",
     "about.looking": "I'm looking for opportunities where I can combine software engineering and data analysis to create measurable impact.",
-    "about.softwareDev": "Software Development",
-    "about.dataAnalysis": "Data Analysis",
-    "about.languages": "German & English Fluent",
-    "about.problemSolving": "Problem Solving",
-    "about.yearsExp": "Years of Experience",
 
-    // Skills
-    "skills.tag": "Technical Expertise",
-    "skills.title": "Tools I like to",
-    "skills.titleHighlight": "Use",
-    "skills.subtitle": "A mix of software engineering, data, and AI tooling.",
+    // Skill groups
     "skills.languages": "Languages & Core",
     "skills.frameworks": "Frameworks & Web",
     "skills.databases": "Databases",
@@ -73,12 +41,7 @@ const translations = {
     "skills.ai": "AI & LLM Tooling",
     "skills.tools": "Work Tools",
 
-    // Experience
-    "experience.tag": "Career Journey",
-    "experience.title": "Work &",
-    "experience.titleHighlight": "Impact",
-    "experience.subtitle": "A quick snapshot of roles and projects from my CV.",
-    "experience.current": "Current",
+    // Experience highlights (Timeline on /about)
     // RÜKO
     "exp.ruko.role": "AI Developer",
     "exp.ruko.h1": "Designing and building 'Rüko GPT' - an internal AI chatbot for querying company data",
@@ -108,29 +71,10 @@ const translations = {
 
     // Education
     "education.tag": "Academic Background",
-    "education.title": "Where I",
-    "education.titleHighlight": "Studied",
-    "education.subtitle": "Building a foundation in data science and applied AI.",
     "education.current": "Current",
     "edu.hka.degree": "B.Sc. Data Science",
     "edu.hka.h1": "Statistics, machine learning, and data engineering fundamentals",
     "edu.hka.h2": "Applied focus on AI systems, analytics, and modern data pipelines",
-
-    // Projects
-    "projects.tag": "Featured Work",
-    "projects.title": "Selected",
-    "projects.titleHighlight": "Work",
-    "projects.subtitle": "Featured projects from my CV, plus a live list on GitHub.",
-    "projects.recentGithub": "Recent on GitHub",
-    "projects.viewProfile": "View Full Profile",
-    "projects.code": "Code",
-    "projects.live": "Live",
-    "proj.chatbot.title": "Baumaschinen KI-Chatbot",
-    "proj.chatbot.desc": "Enterprise-grade AI chatbot for construction machinery support. Features RAG with document processing, OpenAI integration, and comprehensive analytics.",
-    "proj.teams.title": "Teams-BOT",
-    "proj.teams.desc": "Multi-agent AI bot for Microsoft Teams with equipment database. Features parallel agent execution, 2,395+ construction equipment records, and cloud-native deployment.",
-    "proj.course.title": "CourseViewer",
-    "proj.course.desc": "A modern course viewing application built with JavaScript. Clean UI for browsing and managing educational content.",
 
     // Contact
     "contact.tag": "Get In Touch",
@@ -142,7 +86,6 @@ const translations = {
     "contact.phone": "Phone",
     "contact.location": "Location",
     "contact.sendMessage": "Send a Message",
-    "contact.formSubtitle": "Fill out the form and I'll get back to you soon.",
     "contact.name": "Name",
     "contact.subject": "Subject",
     "contact.message": "Message",
@@ -152,55 +95,65 @@ const translations = {
     "contact.messagePlaceholder": "Your message...",
     "contact.sending": "Sending...",
     "contact.successMessage": "Message sent successfully!",
+    "contact.errorFallback": "Something went wrong",
 
     // Footer
     "footer.backToTop": "Back to Top",
+    "footer.localTime": "Local time",
+    "footer.menu": "Menu",
+
+    // Noir home
+    "nav.work": "Work",
+    "nav.now": "Now",
+    "home.role": "AI Developer",
+    "home.tagline": "Building RAG systems and enterprise chatbots that people actually use.",
+    "home.availability": "Open to ambitious opportunities",
+    "home.scroll": "Scroll",
+    "home.selectedWork": "Selected Work",
+    "home.viewCase": "View case study",
+    "home.aboutLabel": "About",
+    "home.aboutStatement": "I turn messy problems into tools people actually use — enterprise RAG systems, internal chatbots, and data products that ship.",
+    "home.moreAbout": "More about me",
+    "home.metricYears": "Years of experience",
+    "home.metricUsers": "Internal users served",
+    "home.metricAutomation": "Tier-1 inquiries automated",
+    "home.metricFaster": "Faster responses",
+
+    // About page
+    "aboutPage.label": "About",
+    "aboutPage.statement": "I turn messy problems into tools people actually use.",
+    "aboutPage.experienceLabel": "Experience",
+    "aboutPage.educationLabel": "Education",
+    "aboutPage.languagesLabel": "Languages",
+    "aboutPage.skillsLabel": "Skills",
+    "aboutPage.cta": "Let's work together",
+
+    // Case studies
+    "work.problem": "Problem",
+    "work.approach": "Approach",
+    "work.result": "Result",
+    "work.next": "Next project",
+    "work.back": "All work",
+    "work.year": "Year",
+    "work.role": "Role",
+    "work.client": "Client",
+    "work.stack": "Stack",
   },
   de: {
     // Navbar
-    "nav.home": "Start",
     "nav.about": "Über mich",
-    "nav.skills": "Fähigkeiten",
-    "nav.experience": "Erfahrung",
-    "nav.education": "Ausbildung",
-    "nav.projects": "Projekte",
     "nav.contact": "Kontakt",
     "nav.letsTalk": "Kontakt",
 
-    // Hero
+    // Shared
     "hero.location": "Karlsruhe, Deutschland",
-    "hero.role1": "Softwareentwickler",
-    "hero.role2": "Full-Stack-Entwickler",
-    "hero.role3": "Daten-Enthusiast",
-    "hero.role4": "Problemlöser",
-    "hero.description": "Ambitionierter Entwickler mit fließenden Deutsch- und Englischkenntnissen. Leidenschaftlich für Softwareentwicklung und Datenanalyse, mit praktischer Erfahrung in Java, Python und modernen Web-Frameworks.",
-    "hero.viewProjects": "Projekte ansehen",
-    "hero.downloadCV": "Lebenslauf",
-    "hero.contact": "Kontakt",
-    "hero.fasterResponses": "Schnellere Antworten",
-    "hero.tierAutomated": "Tier-1 Automatisiert",
-    "hero.lessManualTime": "Weniger manuelle Arbeit",
-    "hero.internalUsers": "Interne Nutzer",
 
     // About
-    "about.tag": "Über mich",
-    "about.title": "Software entwickeln mit",
-    "about.titleHighlight": "Produkt-Mindset",
-    "about.intro": "Ich verwandle gerne komplexe Probleme in saubere, nutzbare Werkzeuge — von interner Automatisierung bis zu Web-Apps.",
     "about.summary": "Ambitionierter Entwickler mit fließenden Deutsch- und Englischkenntnissen. Leidenschaftlich für Softwareentwicklung und Datenanalyse, mit praktischer Erfahrung in Java, Python und modernen Web-Frameworks.",
     "about.chess": "Strategische Brettspiele wie Schach schärfen meine analytischen und problemlösenden Fähigkeiten, die ich in meiner Arbeit anwende. Derzeit wohnhaft in",
     "about.looking": "Ich suche nach Möglichkeiten, Software-Engineering und Datenanalyse zu kombinieren, um messbaren Impact zu schaffen.",
-    "about.softwareDev": "Softwareentwicklung",
-    "about.dataAnalysis": "Datenanalyse",
-    "about.languages": "Deutsch & Englisch fließend",
-    "about.problemSolving": "Problemlösung",
-    "about.yearsExp": "Jahre Erfahrung",
 
-    // Skills
-    "skills.tag": "Technische Expertise",
-    "skills.title": "Tools die ich gerne",
-    "skills.titleHighlight": "nutze",
-    "skills.subtitle": "Eine Mischung aus Software-Engineering, Daten und KI-Tools.",
+    // Skill groups
     "skills.languages": "Sprachen & Core",
     "skills.frameworks": "Frameworks & Web",
     "skills.databases": "Datenbanken",
@@ -208,12 +161,7 @@ const translations = {
     "skills.ai": "KI & LLM Tools",
     "skills.tools": "Arbeits-Tools",
 
-    // Experience
-    "experience.tag": "Karriereweg",
-    "experience.title": "Arbeit &",
-    "experience.titleHighlight": "Wirkung",
-    "experience.subtitle": "Ein kurzer Überblick über Rollen und Projekte aus meinem Lebenslauf.",
-    "experience.current": "Aktuell",
+    // Experience highlights (Timeline on /about)
     // RÜKO
     "exp.ruko.role": "KI-Entwickler",
     "exp.ruko.h1": "Entwicklung von 'Rüko GPT' - einem internen KI-Chatbot zur Abfrage von Unternehmensdaten",
@@ -243,29 +191,10 @@ const translations = {
 
     // Education
     "education.tag": "Ausbildung",
-    "education.title": "Wo ich",
-    "education.titleHighlight": "studiere",
-    "education.subtitle": "Eine Grundlage in Data Science und angewandter KI aufbauen.",
     "education.current": "Aktuell",
     "edu.hka.degree": "B.Sc. Data Science",
     "edu.hka.h1": "Statistik, Machine Learning und Data-Engineering-Grundlagen",
     "edu.hka.h2": "Praxisfokus auf KI-Systeme, Analytik und moderne Datenpipelines",
-
-    // Projects
-    "projects.tag": "Ausgewählte Arbeiten",
-    "projects.title": "Ausgewählte",
-    "projects.titleHighlight": "Arbeiten",
-    "projects.subtitle": "Ausgewählte Projekte aus meinem Lebenslauf, plus eine Live-Liste auf GitHub.",
-    "projects.recentGithub": "Aktuell auf GitHub",
-    "projects.viewProfile": "Vollständiges Profil",
-    "projects.code": "Code",
-    "projects.live": "Live",
-    "proj.chatbot.title": "Baumaschinen KI-Chatbot",
-    "proj.chatbot.desc": "Enterprise-KI-Chatbot für Baumaschinen-Support. RAG mit Dokumentenverarbeitung, OpenAI-Integration und umfassender Analytik.",
-    "proj.teams.title": "Teams-BOT",
-    "proj.teams.desc": "Multi-Agent-KI-Bot für Microsoft Teams mit Geräte-Datenbank. Parallele Agent-Ausführung, 2.395+ Baumaschinen-Datensätze und Cloud-Native-Deployment.",
-    "proj.course.title": "CourseViewer",
-    "proj.course.desc": "Moderne Kurs-Anwendung mit JavaScript. Übersichtliche UI zum Durchsuchen und Verwalten von Lerninhalten.",
 
     // Contact
     "contact.tag": "Kontakt aufnehmen",
@@ -277,7 +206,6 @@ const translations = {
     "contact.phone": "Telefon",
     "contact.location": "Standort",
     "contact.sendMessage": "Nachricht senden",
-    "contact.formSubtitle": "Füllen Sie das Formular aus und ich melde mich bald.",
     "contact.name": "Name",
     "contact.subject": "Betreff",
     "contact.message": "Nachricht",
@@ -287,9 +215,49 @@ const translations = {
     "contact.messagePlaceholder": "Ihre Nachricht...",
     "contact.sending": "Wird gesendet...",
     "contact.successMessage": "Nachricht erfolgreich gesendet!",
+    "contact.errorFallback": "Etwas ist schiefgelaufen",
 
     // Footer
     "footer.backToTop": "Nach oben",
+    "footer.localTime": "Ortszeit",
+    "footer.menu": "Menü",
+
+    // Noir home
+    "nav.work": "Projekte",
+    "nav.now": "Jetzt",
+    "home.role": "KI-Entwickler",
+    "home.tagline": "Ich baue RAG-Systeme und Enterprise-Chatbots, die wirklich genutzt werden.",
+    "home.availability": "Offen für ambitionierte Aufgaben",
+    "home.scroll": "Scrollen",
+    "home.selectedWork": "Ausgewählte Arbeiten",
+    "home.viewCase": "Fallstudie ansehen",
+    "home.aboutLabel": "Über mich",
+    "home.aboutStatement": "Ich verwandle komplexe Probleme in Werkzeuge, die wirklich genutzt werden — Enterprise-RAG-Systeme, interne Chatbots und Datenprodukte, die live gehen.",
+    "home.moreAbout": "Mehr über mich",
+    "home.metricYears": "Jahre Erfahrung",
+    "home.metricUsers": "Interne Nutzer",
+    "home.metricAutomation": "Tier-1 automatisiert",
+    "home.metricFaster": "Schnellere Antworten",
+
+    // About page
+    "aboutPage.label": "Über mich",
+    "aboutPage.statement": "Ich verwandle komplexe Probleme in Werkzeuge, die wirklich genutzt werden.",
+    "aboutPage.experienceLabel": "Erfahrung",
+    "aboutPage.educationLabel": "Ausbildung",
+    "aboutPage.languagesLabel": "Sprachen",
+    "aboutPage.skillsLabel": "Fähigkeiten",
+    "aboutPage.cta": "Lass uns zusammenarbeiten",
+
+    // Case studies
+    "work.problem": "Problem",
+    "work.approach": "Ansatz",
+    "work.result": "Ergebnis",
+    "work.next": "Nächstes Projekt",
+    "work.back": "Alle Projekte",
+    "work.year": "Jahr",
+    "work.role": "Rolle",
+    "work.client": "Kunde",
+    "work.stack": "Stack",
   },
 } satisfies Record<Language, Record<string, string>>;
 
@@ -315,7 +283,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   return (
     <LanguageContext.Provider value={value}>
-      <MotionConfig reducedMotion="user">{children}</MotionConfig>
+      {children}
     </LanguageContext.Provider>
   );
 }

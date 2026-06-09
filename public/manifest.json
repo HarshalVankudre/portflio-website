@@ -4,8 +4,8 @@
   "description": "AI Developer & Data Science Student Portfolio",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0A0B0D",
-  "theme_color": "#0A0B0D",
+  "background_color": "#060607",
+  "theme_color": "#060607",
   "icons": [
     {
       "src": "/icon-192.png",

@@ -5,11 +5,11 @@ export const alt = "Harshal Vankudre — AI Developer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const ACCENT = "#FF5C00";
-const BG = "#0A0B0D";
-const FG = "#E8E6E2";
-const DIM = "#9BA0A6";
-const LINE = "rgba(232, 230, 226, 0.14)";
+const ACCENT = "#CEFF00";
+const BG = "#060607";
+const FG = "#EAE8E3";
+const DIM = "#98968F";
+const LINE = "rgba(234, 232, 227, 0.14)";
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -25,8 +25,7 @@ export default function OpengraphImage() {
           fontFamily: "sans-serif",
           position: "relative",
           backgroundImage:
-            "linear-gradient(rgba(232,230,226,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(232,230,226,0.05) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
+            "radial-gradient(42% 55% at 18% 20%, rgba(34, 20, 64, 0.9), rgba(6, 6, 7, 0) 70%), radial-gradient(40% 50% at 85% 80%, rgba(11, 43, 43, 0.9), rgba(6, 6, 7, 0) 70%), radial-gradient(24% 30% at 62% 12%, rgba(206, 255, 0, 0.10), rgba(6, 6, 7, 0) 75%)",
         }}
       >
         {/* Top meta row */}
@@ -38,21 +37,21 @@ export default function OpengraphImage() {
             borderBottom: `1px solid ${LINE}`,
             paddingBottom: "20px",
             color: DIM,
-            fontSize: 22,
-            letterSpacing: "0.2em",
+            fontSize: 20,
+            letterSpacing: "0.22em",
           }}
         >
-          <span>DOC.REF — HV / PORTFOLIO</span>
+          <span>HARSHAL VANKUDRE — PORTFOLIO</span>
           <span style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <span
               style={{
                 width: 12,
                 height: 12,
                 borderRadius: 9999,
-                background: "#3FB950",
+                background: ACCENT,
               }}
             />
-            STATUS: ACTIVE
+            OPEN TO OPPORTUNITIES
           </span>
         </div>
 
@@ -66,34 +65,23 @@ export default function OpengraphImage() {
         >
           <div
             style={{
-              fontSize: 26,
-              textTransform: "uppercase",
-              letterSpacing: "0.25em",
-              color: ACCENT,
-              display: "flex",
-            }}
-          >
-            SYS.00 — IDENTIFICATION
-          </div>
-          <div
-            style={{
-              marginTop: 16,
-              fontSize: 124,
-              fontWeight: 800,
+              fontSize: 132,
+              fontWeight: 700,
               color: FG,
               lineHeight: 0.95,
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.03em",
               display: "flex",
               flexDirection: "column",
-              textTransform: "uppercase",
             }}
           >
             <span>Harshal</span>
-            <span style={{ color: ACCENT }}>Vankudre</span>
+            <span style={{ display: "flex" }}>
+              Vankudre<span style={{ color: ACCENT }}>.</span>
+            </span>
           </div>
           <div
             style={{
-              marginTop: 28,
+              marginTop: 30,
               fontSize: 28,
               color: DIM,
               display: "flex",
@@ -101,7 +89,7 @@ export default function OpengraphImage() {
               gap: "20px",
             }}
           >
-            <span>AI Developer · Karlsruhe, Germany</span>
+            <span>AI Developer · RAG Systems · Karlsruhe, Germany</span>
           </div>
           <div
             style={{
@@ -115,9 +103,10 @@ export default function OpengraphImage() {
                 key={tag}
                 style={{
                   border: `1px solid ${LINE}`,
+                  borderRadius: 9999,
                   color: FG,
-                  padding: "10px 22px",
-                  fontSize: 26,
+                  padding: "10px 24px",
+                  fontSize: 24,
                   letterSpacing: "0.08em",
                 }}
               >
@@ -127,23 +116,17 @@ export default function OpengraphImage() {
           </div>
         </div>
 
-        {/* Corner brackets */}
-        {[
-          { top: 32, left: 32, borderTop: `2px solid ${ACCENT}`, borderLeft: `2px solid ${ACCENT}` },
-          { top: 32, right: 32, borderTop: `2px solid ${ACCENT}`, borderRight: `2px solid ${ACCENT}` },
-          { bottom: 32, left: 32, borderBottom: `2px solid ${ACCENT}`, borderLeft: `2px solid ${ACCENT}` },
-          { bottom: 32, right: 32, borderBottom: `2px solid ${ACCENT}`, borderRight: `2px solid ${ACCENT}` },
-        ].map((cornerStyle, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              width: 28,
-              height: 28,
-              ...cornerStyle,
-            }}
-          />
-        ))}
+        {/* Accent edge */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: 6,
+            background: ACCENT,
+          }}
+        />
       </div>
     ),
     { ...size }

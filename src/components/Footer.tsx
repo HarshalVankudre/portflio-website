@@ -1,61 +1,105 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowUp, Terminal } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useLenis } from "lenis/react";
 import { useLanguage } from "@/context/LanguageContext";
+import TransitionLink from "@/components/ui/TransitionLink";
+import Magnetic from "@/components/ui/Magnetic";
+
+const timeFormatter = new Intl.DateTimeFormat("en-GB", {
+  timeZone: "Europe/Berlin",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+});
 
 export default function Footer() {
   const { t } = useLanguage();
-  const currentYear = new Date().getFullYear();
+  const lenis = useLenis();
+  const [time, setTime] = useState<string | null>(null);
+  const year = new Date().getFullYear();
+
+  useEffect(() => {
+    const tick = () => setTime(timeFormatter.format(new Date()));
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const backToTop = () => {
+    if (lenis) lenis.scrollTo(0);
+    else window.scrollTo({ top: 0 });
+  };
 
   return (
-    <footer className="relative border-t border-line bg-raised">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center gap-5 md:flex-row md:justify-between">
-          {/* Wordmark & Copyright */}
-          <div className="flex items-center gap-4">
-            <span className="font-display text-2xl font-bold uppercase leading-none">
-              HV<span className="text-accent">.</span>
-            </span>
-            <span aria-hidden className="h-5 w-px bg-line-strong" />
-            <p className="font-mono text-xs text-dim">
-              © {currentYear} Harshal Vankudre
-            </p>
-          </div>
-
-          {/* Terminal Hint */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="hidden items-center gap-2 font-mono text-xs text-faint sm:flex"
-          >
-            <Terminal size={13} className="text-accent" aria-hidden />
-            <span>
-              Press{" "}
-              <kbd className="border border-line-strong bg-night px-1.5 py-0.5 font-semibold text-accent">
-                `
-              </kbd>{" "}
-              for a surprise
-            </span>
-          </motion.div>
-
-          {/* Back to Top */}
-          <a
-            href="#home"
-            className="link-draw inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.14em] text-dim"
-          >
-            {t("footer.backToTop")}
-            <ArrowUp size={13} aria-hidden />
-          </a>
+    <footer className="relative border-t border-line px-gutter py-12">
+      <div className="grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-4">
+        <div className="col-span-2 md:col-span-1">
+          <p className="font-display text-2xl text-fg">
+            HV<span className="text-accent">.</span>
+          </p>
+          <p className="label-mono mt-3">© {year} Harshal Vankudre</p>
         </div>
 
-        {/* Spec microline */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-line pt-5 md:justify-between">
-          <span className="tech-label">
-            BUILT WITH NEXT.JS · DESIGNED AS AN INSTRUMENT
-          </span>
-          <span className="tech-label">49.0069° N — 8.4037° E · KARLSRUHE</span>
+        <nav aria-label="Footer">
+          <h3 className="label-mono mb-4">{t("footer.menu")}</h3>
+          <ul className="space-y-2.5">
+            <li>
+              <TransitionLink
+                href="/#work"
+                className="link-draw font-mono text-xs uppercase tracking-[0.18em] text-dim"
+              >
+                {t("nav.work")}
+              </TransitionLink>
+            </li>
+            <li>
+              <TransitionLink
+                href="/about"
+                className="link-draw font-mono text-xs uppercase tracking-[0.18em] text-dim"
+              >
+                {t("nav.about")}
+              </TransitionLink>
+            </li>
+            <li>
+              <TransitionLink
+                href="/now"
+                className="link-draw font-mono text-xs uppercase tracking-[0.18em] text-dim"
+              >
+                {t("nav.now")}
+              </TransitionLink>
+            </li>
+            <li>
+              <TransitionLink
+                href="/#contact"
+                className="link-draw font-mono text-xs uppercase tracking-[0.18em] text-dim"
+              >
+                {t("nav.contact")}
+              </TransitionLink>
+            </li>
+          </ul>
+        </nav>
+
+        <div>
+          <h3 className="label-mono mb-4">{t("footer.localTime")}</h3>
+          <p
+            className="font-mono text-sm text-dim tabular-nums"
+            suppressHydrationWarning
+          >
+            {time ?? "--:--:--"} CET
+          </p>
+          <p className="label-mono mt-2">Karlsruhe, DE</p>
+        </div>
+
+        <div className="flex items-start md:justify-end">
+          <Magnetic strength={0.3}>
+            <button
+              onClick={backToTop}
+              className="flex h-16 w-16 items-center justify-center rounded-full border border-line-strong font-mono text-base text-dim transition-colors hover:border-accent hover:text-accent"
+              aria-label={t("footer.backToTop")}
+            >
+              ↑
+            </button>
+          </Magnetic>
         </div>
       </div>
     </footer>

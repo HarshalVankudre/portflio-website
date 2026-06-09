@@ -42,37 +42,42 @@ const sections = [
 
 export default function NowPage() {
   return (
-    <main className="min-h-screen">
-      <div className="max-w-3xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
+    <main className="relative min-h-screen">
+      <div className="mx-auto max-w-3xl px-5 py-14 sm:px-8 sm:py-20">
         {/* Top bar */}
-        <div className="flex items-center justify-between border-b border-[var(--border-strong)] pb-3 font-mono text-[11px] sm:text-xs uppercase text-muted">
-          <Link href="/" className="hover:text-[var(--foreground)] transition-colors">
+        <div className="flex items-center justify-between border-b border-line pb-4">
+          <Link
+            href="/"
+            className="link-draw font-mono text-xs uppercase tracking-[0.18em] text-dim"
+          >
             ← Harshal Vankudre
           </Link>
-          <span>/now</span>
+          <span className="label-mono">/now</span>
         </div>
 
         {/* Header */}
-        <p className="hand-note text-3xl mt-12 -rotate-2 inline-block">
-          what I&rsquo;m up to these days —
-        </p>
-        <h1 className="neo-title mt-1">
-          Now
+        <h1 className="fade-up mt-14 font-display text-display-lg text-fg">
+          Now<span className="text-accent">.</span>
         </h1>
-        <p className="font-mono text-[11px] uppercase text-muted-2 mt-4">
+        <p className="fade-up label-mono mt-5" style={{ animationDelay: "0.1s" }}>
           Updated June 2026 · Karlsruhe, DE
         </p>
 
         {/* Sections */}
-        <div className="mt-14 divide-y divide-[var(--border)] border-y border-[var(--border)]">
-          {sections.map((s) => (
-            <div key={s.label} className="grid sm:grid-cols-4 gap-3 sm:gap-6 py-7">
-              <h2 className="font-mono text-xs uppercase text-[var(--primary)] sm:pt-1">
-                {s.label}
-              </h2>
-              <ul className="sm:col-span-3 space-y-3">
-                {s.items.map((item, i) => (
-                  <li key={i} className="text-[var(--foreground)]/90 leading-relaxed">
+        <div className="mt-14 divide-y divide-line border-y border-line">
+          {sections.map((s, i) => (
+            <div
+              key={s.label}
+              className="fade-up grid gap-3 py-8 sm:grid-cols-4 sm:gap-6"
+              style={{ animationDelay: `${0.15 + i * 0.08}s` }}
+            >
+              <h2 className="label-mono !text-accent sm:pt-1">{s.label}</h2>
+              <ul className="space-y-3 sm:col-span-3">
+                {s.items.map((item) => (
+                  <li
+                    key={item.slice(0, 32)}
+                    className="leading-relaxed text-fg/90"
+                  >
                     {item}
                   </li>
                 ))}
@@ -82,20 +87,27 @@ export default function NowPage() {
         </div>
 
         {/* Footer note */}
-        <p className="text-muted text-sm mt-12">
+        <p
+          className="fade-up mt-12 text-sm leading-relaxed text-dim"
+          style={{ animationDelay: "0.5s" }}
+        >
           This is a{" "}
           <a
             href="https://nownownow.com/about"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline decoration-[var(--border-strong)] underline-offset-4 hover:text-[var(--foreground)]"
+            className="link-draw text-fg"
           >
             now page
           </a>{" "}
-          — a snapshot of the present, not a résumé. It changes when my life does.
+          — a snapshot of the present, not a résumé. It changes when my life
+          does.
         </p>
 
-        <div className="mt-10 text-[var(--primary)]">
+        <div
+          className="fade-up mt-12 text-accent"
+          style={{ animationDelay: "0.6s" }}
+        >
           <Signature />
         </div>
       </div>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <radialGradient id="g1" cx="78%" cy="20%" r="70%">
+      <stop offset="0%" stop-color="#0b2b2b"/>
+      <stop offset="100%" stop-color="#0c0c0e"/>
+    </radialGradient>
+    <radialGradient id="g2" cx="15%" cy="85%" r="55%">
+      <stop offset="0%" stop-color="#ceff00" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ceff00" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="#060607"/>
+  <rect width="1600" height="1000" fill="url(#g1)"/>
+  <rect width="1600" height="1000" fill="url(#g2)"/>
+  <g stroke="#eae8e3" stroke-opacity="0.07">
+    <line x1="0" y1="250" x2="1600" y2="250"/>
+    <line x1="0" y1="750" x2="1600" y2="750"/>
+    <line x1="400" y1="0" x2="400" y2="1000"/>
+    <line x1="1200" y1="0" x2="1200" y2="1000"/>
+  </g>
+  <g transform="translate(950,420)" stroke="#eae8e3" stroke-opacity="0.18" fill="none">
+    <circle cx="250" cy="150" r="56" fill="#141417"/>
+    <circle cx="80" cy="40" r="40" fill="#0c0c0e"/>
+    <circle cx="430" cy="50" r="40" fill="#0c0c0e"/>
+    <circle cx="90" cy="270" r="40" fill="#0c0c0e"/>
+    <circle cx="420" cy="260" r="40" fill="#0c0c0e"/>
+    <line x1="118" y1="68" x2="205" y2="118"/>
+    <line x1="394" y1="74" x2="298" y2="122"/>
+    <line x1="126" y1="246" x2="206" y2="186"/>
+    <line x1="384" y1="238" x2="297" y2="182"/>
+  </g>
+  <circle cx="1200" cy="570" r="10" fill="#ceff00"/>
+  <text x="120" y="200" font-family="Georgia, 'Times New Roman', serif" font-size="120" fill="#eae8e3">Teams-BOT</text>
+  <text x="124" y="260" font-family="ui-monospace, 'Courier New', monospace" font-size="22" letter-spacing="6" fill="#ceff00">MULTI-AGENT — 2,395+ RECORDS</text>
+  <g transform="translate(120,560)">
+    <rect x="0" y="0" width="560" height="56" rx="10" fill="#141417" stroke="#eae8e3" stroke-opacity="0.12"/>
+    <rect x="18" y="22" width="300" height="12" rx="6" fill="#98968f" opacity="0.5"/>
+    <rect x="0" y="76" width="480" height="56" rx="10" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.08"/>
+    <rect x="18" y="98" width="360" height="12" rx="6" fill="#56554f"/>
+  </g>
+</svg>

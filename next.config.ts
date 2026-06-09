@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     root: process.cwd(),
   },
   experimental: {
-    optimizePackageImports: ["framer-motion"],
+    optimizePackageImports: ["lucide-react"],
   },
   async headers() {
     return [

@@ -1,50 +1,72 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Design tokens — "Engineered Dark" instrument panel
-   Graphite surfaces, hairline rules, mono annotations,
-   one signal-orange accent (construction machinery livery).
+   Design tokens — "Cinematic Noir"
+   Noir black, bone-white serif headlines, one volt accent.
+   Soft WebGL glow behind everything, film grain on top.
    ============================================================ */
 :root {
   /* Surfaces */
-  --bg: #0a0b0d;        /* deep graphite */
-  --raised: #101216;    /* panel */
-  --overlay: #15181d;   /* elevated / hover */
-
-  /* Hairlines */
-  --line: rgba(232, 230, 226, 0.08);
-  --line-strong: rgba(232, 230, 226, 0.16);
+  --bg: #060607; /* noir black */
+  --surface: #0c0c0e; /* card / panel */
+  --elevated: #141417; /* hover / overlay */
 
   /* Ink */
-  --fg: #e8e6e2;        /* off-white */
-  --dim: #9ba0a6;
-  --faint: #5c6168;
+  --fg: #eae8e3; /* bone white (warm) */
+  --dim: #98968f;
+  --faint: #56554f;
 
-  /* Signal */
-  --accent: #ff5c00;    /* signal orange */
-  --accent-soft: rgba(255, 92, 0, 0.14);
-  --ok: #3fb950;        /* status LED green */
+  /* Hairlines */
+  --line: rgba(234, 232, 227, 0.08);
+  --line-strong: rgba(234, 232, 227, 0.16);
+
+  /* The one saturated accent: VOLT */
+  --accent: #ceff00;
+  --accent-soft: rgba(206, 255, 0, 0.12);
+  --accent-ink: #0b0f00; /* text on accent fills */
+
+  /* WebGL undertones (shader + CSS fallback glows) */
+  --glow-violet: #221440;
+  --glow-teal: #0b2b2b;
+
+  --ok: #3fb950;
   --err: #ff6166;
 }
 
 /* Bind tokens to Tailwind so utilities resolve:
-   bg-night / bg-raised / text-fg / text-dim / text-accent / font-display … */
+   bg-bg / bg-surface / text-fg / text-dim / text-accent / font-display … */
 @theme inline {
-  --color-night: var(--bg);
-  --color-raised: var(--raised);
-  --color-overlay: var(--overlay);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
   --color-fg: var(--fg);
   --color-dim: var(--dim);
   --color-faint: var(--faint);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-ok: var(--ok);
   --color-err: var(--err);
-  --color-line: rgba(232, 230, 226, 0.08);
-  --color-line-strong: rgba(232, 230, 226, 0.16);
 
-  --font-display: var(--font-big-shoulders), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  /* Fluid display scale */
+  --text-display-xl: clamp(4rem, 14vw, 13rem);
+  --text-display-xl--line-height: 0.92;
+  --text-display-lg: clamp(3rem, 9vw, 8rem);
+  --text-display-lg--line-height: 0.95;
+  --text-display-md: clamp(2rem, 5vw, 4.5rem);
+  --text-display-md--line-height: 1.05;
+  --text-display-sm: clamp(1.5rem, 3vw, 2.5rem);
+  --text-display-sm--line-height: 1.2;
+
+  /* Rhythm */
+  --spacing-section: clamp(7rem, 16vh, 12rem);
+  --spacing-gutter: clamp(1.25rem, 4vw, 5rem);
 }
 
 * {
@@ -52,256 +74,137 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 6rem; /* anchored sections clear the fixed navbar */
+  /* No CSS smooth scrolling — Lenis owns scroll. */
+  scroll-behavior: auto;
 }
 
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-plex-sans), system-ui, sans-serif;
-  overflow-x: hidden;
+  font-family: var(--font-instrument), system-ui, sans-serif;
+  overflow-x: clip;
 }
 
 /* Film grain — one fixed pass over the whole screen for materiality */
 body::after {
   content: "";
   position: fixed;
-  inset: 0;
-  z-index: 80;
+  inset: -50%;
+  z-index: 90;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
 }
 
-/* Display typeface drives every heading; .font-display opts in elsewhere */
+/* Live grain on capable desktops only */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  body::after {
+    animation: grain-shift 0.9s steps(5) infinite;
+  }
+}
+
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-2%, -2%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Display serif drives every heading */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-big-shoulders), ui-sans-serif, system-ui, sans-serif;
-  letter-spacing: 0.01em;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 420;
+  letter-spacing: -0.01em;
 }
 
-/* Scrollbar — slim instrument rail */
+/* Scrollbar — near invisible */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
   background: var(--bg);
-  border-left: 1px solid var(--line);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--overlay);
-  border: 1px solid var(--line-strong);
+  background: var(--elevated);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: var(--faint);
 }
 
 /* Selection */
 ::selection {
   background: var(--accent);
-  color: #0a0b0d;
+  color: var(--accent-ink);
 }
 
-/* Keyboard focus — always visible, always orange */
+/* Keyboard focus — always visible, always volt */
 :focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 /* ============================================================
-   Instrument utilities
+   Noir utilities
    ============================================================ */
 
-/* Blueprint grid — fine cells with a stronger module line */
-.blueprint {
-  background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px),
-    linear-gradient(rgba(232, 230, 226, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(232, 230, 226, 0.03) 1px, transparent 1px);
-  background-size:
-    120px 120px,
-    120px 120px,
-    24px 24px,
-    24px 24px;
-}
-
-/* Raised panel with hairline border */
-.panel {
-  background: var(--raised);
-  border: 1px solid var(--line);
-}
-
-/* Mono micro-label — annotations, spec codes, axis text */
-.tech-label {
-  font-family: var(--font-plex-mono), ui-monospace, monospace;
-  font-size: 0.625rem;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  color: var(--faint);
-}
-
-/* Corner registration brackets (top-left + bottom-right).
-   Sit on a .panel; sharpen to orange and grow on hover. */
-.corners {
-  position: relative;
-}
-
-.corners::before,
-.corners::after {
-  content: "";
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border: 0 solid var(--line-strong);
-  pointer-events: none;
-  transition: border-color 0.2s ease, width 0.2s ease, height 0.2s ease;
-}
-
-.corners::before {
-  top: -1px;
-  left: -1px;
-  border-top-width: 1px;
-  border-left-width: 1px;
-}
-
-.corners::after {
-  bottom: -1px;
-  right: -1px;
-  border-bottom-width: 1px;
-  border-right-width: 1px;
-}
-
-.corners:hover::before,
-.corners:hover::after {
-  border-color: var(--accent);
-  width: 24px;
-  height: 24px;
-}
-
-/* Crosshair "+" registration mark */
-.crosshair {
-  width: 12px;
-  height: 12px;
-  background:
-    linear-gradient(var(--line-strong), var(--line-strong)) center / 1px 100% no-repeat,
-    linear-gradient(var(--line-strong), var(--line-strong)) center / 100% 1px no-repeat;
-}
-
-/* Status LEDs */
-.led {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 9999px;
-  flex-shrink: 0;
-}
-
-.led-ok {
-  background: var(--ok);
-  box-shadow: 0 0 6px rgba(63, 185, 80, 0.8);
-  animation: led-pulse 2.4s ease-in-out infinite;
-}
-
-.led-accent {
-  background: var(--accent);
-  box-shadow: 0 0 6px rgba(255, 92, 0, 0.8);
-}
-
-@keyframes led-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.45; }
-}
-
-/* Giant outlined figures — section indices, background numerals */
-.outline-text {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(232, 230, 226, 0.12);
-}
-
-/* ============================================================
-   Controls
-   ============================================================ */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  height: 2.75rem;
-  padding: 0 1.25rem;
-  font-family: var(--font-plex-mono), ui-monospace, monospace;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  border: 1px solid var(--line-strong);
-  cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease,
-    color 0.15s ease, transform 0.1s ease;
-  white-space: nowrap;
-}
-
-.btn:active {
-  transform: translateY(1px);
-}
-
-.btn-solid {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #0a0b0d;
-}
-
-.btn-solid:hover {
-  background: #ff7426;
-  border-color: #ff7426;
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--fg);
-}
-
-.btn-ghost:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* Spec chip — tech tags, small qualifiers */
-.chip {
-  display: inline-block;
-  font-family: var(--font-plex-mono), ui-monospace, monospace;
+/* Mono micro-label — indices, meta, breadcrumbs */
+.label-mono {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 0.6875rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.3rem 0.6rem;
-  border: 1px solid var(--line-strong);
+  letter-spacing: 0.18em;
   color: var(--dim);
-  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
-.chip:hover {
-  border-color: var(--accent);
+/* Link with drawn underline */
+.link-draw {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.65, 0, 0.35, 1), color 0.2s ease;
+  padding-bottom: 2px;
+}
+
+.link-draw:hover {
+  background-size: 100% 1px;
   color: var(--accent);
 }
 
-/* Form field */
+/* Oversized link that fills with accent on hover (contact email, big CTAs) */
+.link-giant {
+  transition: color 0.3s ease;
+}
+
+.link-giant:hover {
+  color: var(--accent);
+}
+
+/* Form field — hairline underline, volt focus */
 .field {
   width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--line-strong);
-  padding: 0.75rem 0.875rem;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  padding: 0.875rem 0;
   color: var(--fg);
-  font-size: 0.9rem;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  font-size: 1rem;
+  border-radius: 0;
+  transition: border-color 0.25s ease;
 }
 
 .field::placeholder {
@@ -311,55 +214,88 @@ h6 {
 .field:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
-/* Link with drawn underline */
-.link-draw {
-  background-image: linear-gradient(var(--accent), var(--accent));
-  background-size: 0% 1px;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  transition: background-size 0.25s ease, color 0.15s ease;
-  padding-bottom: 2px;
+/* Reveal mask — wrap a line, child translates up into view */
+.mask {
+  overflow: hidden;
+  display: block;
 }
 
-.link-draw:hover {
-  background-size: 100% 1px;
-  color: var(--accent);
+/* Work-list row titles — variable weight breathes on hover */
+.work-title {
+  font-weight: 380;
+  transition: font-weight 0.4s ease, color 0.3s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .work-title {
+  font-weight: 600;
+  transform: translateX(0.5rem);
+}
+
+/* CSS-only entrance — server-rendered pages and lightweight widgets */
+.fade-up {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: fade-up-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fade-up-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* Signature flourish draws itself in */
+.signature-stroke {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: signature-draw 1.2s ease-in-out 0.4s forwards;
+}
+
+@keyframes signature-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signature-stroke {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}
+
+/* Visible only on touch devices */
+@media (pointer: fine) {
+  .touch-only {
+    display: none;
+  }
+}
+
+/* Static gradient fallback (no WebGL / reduced motion / SSR first paint) */
+.gradient-fallback {
+  background:
+    radial-gradient(42% 50% at 18% 22%, color-mix(in srgb, var(--glow-violet) 85%, transparent), transparent 70%),
+    radial-gradient(38% 45% at 82% 70%, color-mix(in srgb, var(--glow-teal) 85%, transparent), transparent 70%),
+    radial-gradient(25% 30% at 60% 15%, var(--accent-soft), transparent 75%),
+    var(--bg);
 }
 
 /* ============================================================
-   Dividers
+   Micro animations
    ============================================================ */
 
-/* Ruler tick strip between sections */
-.tick-divider {
-  height: 10px;
-  border-top: 1px solid var(--line);
-  background-image:
-    repeating-linear-gradient(90deg, var(--line-strong) 0 1px, transparent 1px 48px),
-    repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 8px);
-  background-size: auto 10px, auto 5px;
-  background-repeat: repeat-x;
-  background-position: top left;
-}
-
-/* ============================================================
-   Motion
-   ============================================================ */
-
-/* Marquee — telemetry ticker */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-.animate-marquee {
-  animation: marquee 35s linear infinite;
-}
-
-/* Typing / readout cursor */
+/* Streaming-text caret (chatbot) */
 @keyframes blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
@@ -369,7 +305,7 @@ h6 {
   animation: blink 1s step-end infinite;
 }
 
-/* Scroll-cue dot descending a rail */
+/* Scroll-cue dot descending a rail (hero) */
 @keyframes cue-drop {
   0% { transform: translateY(0); opacity: 0; }
   15% { opacity: 1; }
@@ -381,14 +317,14 @@ h6 {
   animation: cue-drop 1.8s ease-in-out infinite;
 }
 
-/* Respect reduced-motion preferences */
+/* Respect reduced-motion preferences — belt and braces */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }
