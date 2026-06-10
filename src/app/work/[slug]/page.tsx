@@ -27,6 +27,11 @@ export async function generateMetadata({
       url: `${SITE_URL}/work/${cs.slug}`,
       type: "article",
     },
+    twitter: {
+      card: "summary_large_image",
+      title: `${cs.title} | Harshal Vankudre`,
+      description: cs.oneLiner.en,
+    },
   };
 }
 

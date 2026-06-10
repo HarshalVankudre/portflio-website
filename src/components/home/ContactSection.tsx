@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import RevealText from "@/components/ui/RevealText";
 import Magnetic from "@/components/ui/Magnetic";
 
 const EMAIL = "harshalvankudre@gmail.com";
+const [EMAIL_USER, EMAIL_DOMAIN] = EMAIL.split("@");
 
 export default function ContactSection() {
   const { t, language } = useLanguage();
@@ -14,14 +15,27 @@ export default function ContactSection() {
     email: "",
     subject: "",
     message: "",
+    company: "", // honeypot — humans never see or fill this
   });
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (resetTimer.current) clearTimeout(resetTimer.current);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (status === "loading") return;
+    if (resetTimer.current) {
+      clearTimeout(resetTimer.current);
+      resetTimer.current = null;
+    }
     setStatus("loading");
     setErrorMessage("");
 
@@ -31,19 +45,23 @@ export default function ContactSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-      const data = await response.json();
+      // Non-JSON bodies (proxy errors, timeouts) must not surface raw
+      // exception text to the visitor.
+      const data = await response.json().catch(() => null);
       if (!response.ok) {
-        throw new Error(data.error || "Failed to send message");
+        throw new Error(data?.error || t("contact.errorFallback"));
       }
       setStatus("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-      setTimeout(() => setStatus("idle"), 5000);
+      setFormData({ name: "", email: "", subject: "", message: "", company: "" });
+      resetTimer.current = setTimeout(() => setStatus("idle"), 6000);
     } catch (error) {
       setStatus("error");
       setErrorMessage(
-        error instanceof Error ? error.message : t("contact.errorFallback")
+        error instanceof Error && error.message
+          ? error.message
+          : t("contact.errorFallback")
       );
-      setTimeout(() => setStatus("idle"), 5000);
+      // Errors stay visible until the visitor retries — no auto-dismiss.
     }
   };
 
@@ -70,15 +88,18 @@ export default function ContactSection() {
       <Magnetic className="mt-12" strength={0.2}>
         <a
           href={`mailto:${EMAIL}`}
-          className="link-giant break-all font-display text-display-sm italic text-dim"
+          className="link-giant break-words font-display text-display-sm italic text-dim"
         >
-          {EMAIL}
+          {/* Wrap only at the @, never mid-token */}
+          {EMAIL_USER}
+          <wbr />
+          @{EMAIL_DOMAIN}
         </a>
       </Magnetic>
 
       <div className="mt-20 grid grid-cols-1 gap-16 lg:grid-cols-[1.4fr_1fr]">
         {/* Form */}
-        <form onSubmit={handleSubmit} data-cursor="hide" noValidate={false}>
+        <form onSubmit={handleSubmit} data-cursor="hide">
           <div className="grid grid-cols-1 gap-x-10 sm:grid-cols-2">
             <div>
               <label htmlFor="name" className="label-mono">
@@ -139,6 +160,20 @@ export default function ContactSection() {
             placeholder={t("contact.messagePlaceholder")}
           />
 
+          {/* Honeypot — visually removed, ignored by humans, filled by bots */}
+          <div aria-hidden className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+            <label htmlFor="company">Company</label>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              value={formData.company}
+              onChange={handleChange}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
+
           <div aria-live="polite" className="min-h-6">
             {status === "success" && (
               <p className="font-mono text-sm text-accent">
@@ -167,15 +202,17 @@ export default function ContactSection() {
         <aside className="space-y-10">
           <div>
             <h3 className="label-mono mb-4">{t("contact.quickLinks")}</h3>
-            <ul className="space-y-3">
+            <ul className="space-y-1">
               <li>
                 <a
                   href="https://github.com/HarshalVankudre"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="link-draw font-mono text-sm uppercase tracking-[0.14em] text-dim"
+                  className="group inline-flex min-h-9 items-center"
                 >
-                  GitHub ↗
+                  <span className="link-draw font-mono text-sm uppercase tracking-[0.14em] text-dim">
+                    GitHub ↗
+                  </span>
                 </a>
               </li>
               <li>
@@ -183,9 +220,22 @@ export default function ContactSection() {
                   href="https://www.linkedin.com/in/harshal-vankudre/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="link-draw font-mono text-sm uppercase tracking-[0.14em] text-dim"
+                  className="group inline-flex min-h-9 items-center"
                 >
-                  LinkedIn ↗
+                  <span className="link-draw font-mono text-sm uppercase tracking-[0.14em] text-dim">
+                    LinkedIn ↗
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/cv.pdf"
+                  download
+                  className="group inline-flex min-h-9 items-center"
+                >
+                  <span className="link-draw font-mono text-sm uppercase tracking-[0.14em] text-dim">
+                    {t("contact.downloadCv")} ↓
+                  </span>
                 </a>
               </li>
             </ul>

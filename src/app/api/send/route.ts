@@ -7,6 +7,13 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DEFAULT_TO_EMAIL = "harshalvankudre@gmail.com";
 const DEFAULT_FROM_EMAIL = "Portfolio Contact <onboarding@resend.dev>";
 
+// Email-safe font stacks for the Cinematic Noir templates.
+const MONO_STACK =
+  "ui-monospace, SFMono-Regular, Menlo, Consolas, 'Courier New', monospace";
+const SANS_STACK =
+  "-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif";
+const SERIF_STACK = "Georgia, 'Times New Roman', serif";
+
 function escapeHtml(value: string): string {
   return value
     .replace(/&/g, "&amp;")
@@ -29,21 +36,38 @@ export async function POST(request: Request) {
     );
   }
 
-  try {
-    const { name, email, subject, message } = await request.json();
+  const invalid = NextResponse.json(
+    { error: "Invalid input. Please check the form and try again." },
+    { status: 400 }
+  );
 
-    const invalid = NextResponse.json(
-      { error: "Invalid input. Please check the form and try again." },
-      { status: 400 }
-    );
+  try {
+    let body: Record<string, unknown>;
+    try {
+      body = (await request.json()) ?? {};
+    } catch {
+      return invalid;
+    }
+    const { name, email, subject, message, company } = body;
 
     if (
       typeof name !== "string" ||
       typeof email !== "string" ||
-      typeof message !== "string" ||
-      (subject !== undefined && typeof subject !== "string")
+      typeof message !== "string"
     ) {
       return invalid;
+    }
+    if (subject !== undefined && typeof subject !== "string") {
+      return invalid;
+    }
+    if (company !== undefined && typeof company !== "string") {
+      return invalid;
+    }
+
+    // Honeypot: the form hides this field, so any value means a bot.
+    // Silently pretend success so the bot learns nothing.
+    if (typeof company === "string" && company.length > 0) {
+      return NextResponse.json({ success: true });
     }
 
     if (!name.trim() || !email.trim() || !message.trim()) {
@@ -76,6 +100,12 @@ export async function POST(request: Request) {
       );
     }
     const resend = new Resend(apiKey);
+    if (!process.env.RESEND_FROM_EMAIL) {
+      console.warn(
+        "RESEND_FROM_EMAIL is not set — falling back to onboarding@resend.dev. " +
+          "Deliverability is degraded; configure a verified sender domain in Resend."
+      );
+    }
     const fromEmail = process.env.RESEND_FROM_EMAIL || DEFAULT_FROM_EMAIL;
     const toEmail = process.env.RESEND_TO_EMAIL || DEFAULT_TO_EMAIL;
 
@@ -90,17 +120,31 @@ export async function POST(request: Request) {
       replyTo: email,
       subject: subject || `New message from ${name}`,
       html: `
-        <div style="font-family: 'IBM Plex Mono', 'Courier New', monospace; max-width: 600px; margin: 0 auto; background: #0a0b0d; padding: 24px; color: #e8e6e2;">
-          <p style="margin: 0 0 16px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #ff5c00; border-bottom: 1px solid rgba(232,230,226,0.16); padding-bottom: 12px;">
-            MSG // New Contact Form Submission
-          </p>
-          <div style="border: 1px solid rgba(232,230,226,0.16); padding: 20px; background: #101216;">
-            <p style="margin: 0 0 8px;"><strong style="color: #9ba0a6;">Name:</strong> ${safeName}</p>
-            <p style="margin: 0 0 8px;"><strong style="color: #9ba0a6;">Email:</strong> ${safeEmail}</p>
-            <p style="margin: 0;"><strong style="color: #9ba0a6;">Subject:</strong> ${safeSubject}</p>
-            <hr style="border: none; border-top: 1px solid rgba(232,230,226,0.16); margin: 20px 0;" />
-            <p style="margin: 0 0 8px;"><strong style="color: #9ba0a6;">Message:</strong></p>
-            <p style="white-space: pre-wrap; margin: 0;">${safeMessage}</p>
+        <div style="background: #060607; padding: 40px 16px;">
+          <div style="max-width: 600px; margin: 0 auto;">
+            <p style="margin: 0 0 16px; font-family: ${MONO_STACK}; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #CEFF00;">
+              New inquiry &mdash; portfolio
+            </p>
+            <div style="background: #0c0c0e; border: 1px solid rgba(234,232,227,0.16); padding: 28px;">
+              <p style="margin: 0 0 24px; font-family: ${SERIF_STACK}; font-size: 26px; line-height: 1.25; color: #EAE8E3;">
+                ${safeSubject}
+              </p>
+              <p style="margin: 0 0 4px; font-family: ${MONO_STACK}; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #98968F;">
+                From
+              </p>
+              <p style="margin: 0 0 20px; font-family: ${SANS_STACK}; font-size: 15px; line-height: 1.5; color: #EAE8E3;">
+                ${safeName} &lt;${safeEmail}&gt;
+              </p>
+              <p style="margin: 0 0 4px; font-family: ${MONO_STACK}; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #98968F;">
+                Message
+              </p>
+              <p style="white-space: pre-wrap; margin: 0; font-family: ${SANS_STACK}; font-size: 15px; line-height: 1.7; color: #EAE8E3;">
+                ${safeMessage}
+              </p>
+            </div>
+            <p style="margin: 16px 0 0; font-family: ${MONO_STACK}; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #98968F;">
+              Reply to this email to answer directly
+            </p>
           </div>
         </div>
       `,
@@ -116,6 +160,46 @@ export async function POST(request: Request) {
         },
         { status: 500 }
       );
+    }
+
+    // Auto-reply to the visitor. Fire-and-forget: a failure here must
+    // never turn an already-delivered notification into an error.
+    try {
+      const autoReply = await resend.emails.send({
+        from: fromEmail,
+        to: [email],
+        replyTo: toEmail,
+        subject: "Got your message — Harshal Vankudre",
+        html: `
+          <div style="background: #060607; padding: 40px 16px;">
+            <div style="max-width: 600px; margin: 0 auto;">
+              <p style="margin: 0 0 16px; font-family: ${MONO_STACK}; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #CEFF00;">
+                Message received
+              </p>
+              <div style="background: #0c0c0e; border: 1px solid rgba(234,232,227,0.16); padding: 28px;">
+                <p style="margin: 0 0 20px; font-family: ${SERIF_STACK}; font-size: 26px; line-height: 1.25; color: #EAE8E3;">
+                  Thanks for reaching out.
+                </p>
+                <p style="margin: 0 0 16px; font-family: ${SANS_STACK}; font-size: 15px; line-height: 1.7; color: #EAE8E3;">
+                  Your message &ldquo;${safeSubject}&rdquo; just landed in my inbox.
+                  I usually reply within a day.
+                </p>
+                <p style="margin: 0; font-family: ${SANS_STACK}; font-size: 15px; line-height: 1.7; color: #98968F;">
+                  If anything urgent comes up in the meantime, just reply to this email.
+                </p>
+              </div>
+              <p style="margin: 16px 0 0; font-family: ${MONO_STACK}; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #98968F;">
+                Harshal Vankudre
+              </p>
+            </div>
+          </div>
+        `,
+      });
+      if (autoReply.error) {
+        console.warn("Auto-reply send failed:", autoReply.error);
+      }
+    } catch (autoReplyError) {
+      console.warn("Auto-reply send failed:", autoReplyError);
     }
 
     return NextResponse.json({ success: true, data });

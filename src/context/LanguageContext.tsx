@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useState,
+  useEffect,
   useCallback,
   useMemo,
   ReactNode,
@@ -29,9 +30,9 @@ const translations = {
     "hero.location": "Karlsruhe, Germany",
 
     // About
-    "about.summary": "Ambitious developer with fluent German and English. Passionate about software development and data analysis, with hands-on experience in Java, Python, and modern web frameworks.",
-    "about.chess": "Strategic board games like chess sharpen my analytical and problem-solving skills, which I apply to my work. Currently based in",
-    "about.looking": "I focus on work that combines software engineering and data analysis to create measurable impact.",
+    "about.summary": "I build AI systems that survive contact with real users — RAG pipelines, enterprise chatbots, and the full-stack products around them. By day I'm the AI Developer at RÜKO GmbH Baumaschinen; alongside, I'm finishing a B.Sc. in Data Science at Hochschule Karlsruhe.",
+    "about.chess": "Off hours: long chess games when I should be sleeping, and too many retrieval papers. Based in",
+    "about.looking": "I'm drawn to problems where the model is the easy part — where the real work is the data, the evaluation, and an interface people trust.",
 
     // Skill groups
     "skills.languages": "Languages & Core",
@@ -44,7 +45,7 @@ const translations = {
     // Experience highlights (Timeline on /about)
     // RÜKO
     "exp.ruko.role": "AI Developer",
-    "exp.ruko.h1": "Designing and building 'Rüko GPT' - an internal AI chatbot for querying company data",
+    "exp.ruko.h1": "Designing and building Rüko GPT — the company's internal AI assistant for querying its own knowledge",
     "exp.ruko.h2": "Full-stack development with Next.js, TypeScript, Prisma, and PostgreSQL",
     "exp.ruko.h3": "Integrating the OpenAI API for intelligent responses",
     "exp.ruko.h4": "Implementing user authentication with NextAuth.js",
@@ -78,9 +79,9 @@ const translations = {
 
     // Contact
     "contact.tag": "Get In Touch",
-    "contact.title": "Let's build something",
-    "contact.titleHighlight": "together",
-    "contact.quickLinks": "Quick Links",
+    "contact.title": "Have a problem worth solving?",
+    "contact.titleHighlight": "Tell me about it",
+    "contact.quickLinks": "Elsewhere",
     "contact.respondFastest": "I usually respond fastest on email.",
     "contact.email": "Email",
     "contact.location": "Location",
@@ -93,25 +94,27 @@ const translations = {
     "contact.subjectPlaceholder": "What's this about?",
     "contact.messagePlaceholder": "Your message...",
     "contact.sending": "Sending...",
-    "contact.successMessage": "Message sent successfully!",
-    "contact.errorFallback": "Something went wrong",
+    "contact.successMessage": "Sent. I'll reply within a day — usually sooner.",
+    "contact.errorFallback": "That didn't go through. Email me directly instead.",
+    "contact.downloadCv": "Download CV",
 
     // Footer
     "footer.backToTop": "Back to Top",
     "footer.localTime": "Local time",
     "footer.menu": "Menu",
+    "footer.connect": "Connect",
 
     // Noir home
     "nav.work": "Work",
     "nav.now": "Now",
     "home.role": "AI Developer",
     "home.tagline": "Building RAG systems and enterprise chatbots that people actually use.",
-    "home.status": "Building practical AI systems",
+    "home.status": "Now shipping Rüko GPT",
     "home.scroll": "Scroll",
     "home.selectedWork": "Selected Work",
     "home.viewCase": "View case study",
     "home.aboutLabel": "About",
-    "home.aboutStatement": "I turn messy problems into tools people actually use — enterprise RAG systems, internal chatbots, and data products that ship.",
+    "home.aboutStatement": "I turn messy, undocumented problems into working software — RAG systems with daily users, agents that hold up in production, and interfaces that don't need a manual.",
     "home.moreAbout": "More about me",
     "home.metricYears": "Years of experience",
     "home.metricUsers": "Internal users served",
@@ -120,7 +123,7 @@ const translations = {
 
     // About page
     "aboutPage.label": "About",
-    "aboutPage.statement": "I turn messy problems into tools people actually use.",
+    "aboutPage.statement": "I turn messy problems into tools people rely on.",
     "aboutPage.experienceLabel": "Experience",
     "aboutPage.educationLabel": "Education",
     "aboutPage.languagesLabel": "Languages",
@@ -148,9 +151,9 @@ const translations = {
     "hero.location": "Karlsruhe, Deutschland",
 
     // About
-    "about.summary": "Ambitionierter Entwickler mit fließenden Deutsch- und Englischkenntnissen. Leidenschaftlich für Softwareentwicklung und Datenanalyse, mit praktischer Erfahrung in Java, Python und modernen Web-Frameworks.",
-    "about.chess": "Strategische Brettspiele wie Schach schärfen meine analytischen und problemlösenden Fähigkeiten, die ich in meiner Arbeit anwende. Derzeit wohnhaft in",
-    "about.looking": "Ich konzentriere mich auf Arbeit, die Software-Engineering und Datenanalyse verbindet und messbaren Impact schafft.",
+    "about.summary": "Ich baue KI-Systeme, die den Kontakt mit echten Nutzern überleben — RAG-Pipelines, Enterprise-Chatbots und die Full-Stack-Produkte drumherum. Tagsüber bin ich KI-Entwickler bei RÜKO GmbH Baumaschinen; nebenher mache ich meinen B.Sc. in Data Science an der Hochschule Karlsruhe fertig.",
+    "about.chess": "Nach Feierabend: lange Schachpartien, wenn ich eigentlich schlafen sollte — und zu viele Retrieval-Paper. Zuhause in",
+    "about.looking": "Mich reizen Probleme, bei denen das Modell der einfache Teil ist — und die eigentliche Arbeit in den Daten, der Evaluation und einer Oberfläche steckt, der man vertraut.",
 
     // Skill groups
     "skills.languages": "Sprachen & Core",
@@ -163,7 +166,7 @@ const translations = {
     // Experience highlights (Timeline on /about)
     // RÜKO
     "exp.ruko.role": "KI-Entwickler",
-    "exp.ruko.h1": "Entwicklung von 'Rüko GPT' - einem internen KI-Chatbot zur Abfrage von Unternehmensdaten",
+    "exp.ruko.h1": "Konzeption und Entwicklung von Rüko GPT — dem internen KI-Assistenten für das Unternehmenswissen",
     "exp.ruko.h2": "Full-Stack-Entwicklung mit Next.js, TypeScript, Prisma und PostgreSQL",
     "exp.ruko.h3": "Integration der OpenAI API für intelligente Antworten",
     "exp.ruko.h4": "Implementierung der Benutzerauthentifizierung mit NextAuth.js",
@@ -197,9 +200,9 @@ const translations = {
 
     // Contact
     "contact.tag": "Kontakt aufnehmen",
-    "contact.title": "Lass uns etwas",
-    "contact.titleHighlight": "zusammen bauen",
-    "contact.quickLinks": "Schnelllinks",
+    "contact.title": "Ein Problem, das sich lohnt?",
+    "contact.titleHighlight": "Erzähl mir davon",
+    "contact.quickLinks": "Anderswo",
     "contact.respondFastest": "Ich antworte am schnellsten per E-Mail.",
     "contact.email": "E-Mail",
     "contact.location": "Standort",
@@ -207,30 +210,32 @@ const translations = {
     "contact.name": "Name",
     "contact.subject": "Betreff",
     "contact.message": "Nachricht",
-    "contact.namePlaceholder": "Ihr Name",
-    "contact.emailPlaceholder": "ihre@email.de",
+    "contact.namePlaceholder": "Dein Name",
+    "contact.emailPlaceholder": "deine@email.de",
     "contact.subjectPlaceholder": "Worum geht es?",
-    "contact.messagePlaceholder": "Ihre Nachricht...",
+    "contact.messagePlaceholder": "Deine Nachricht...",
     "contact.sending": "Wird gesendet...",
-    "contact.successMessage": "Nachricht erfolgreich gesendet!",
-    "contact.errorFallback": "Etwas ist schiefgelaufen",
+    "contact.successMessage": "Gesendet. Ich melde mich innerhalb eines Tages — meist schneller.",
+    "contact.errorFallback": "Das hat nicht geklappt. Schreib mir stattdessen direkt per E-Mail.",
+    "contact.downloadCv": "Lebenslauf",
 
     // Footer
     "footer.backToTop": "Nach oben",
     "footer.localTime": "Ortszeit",
     "footer.menu": "Menü",
+    "footer.connect": "Vernetzen",
 
     // Noir home
     "nav.work": "Projekte",
     "nav.now": "Jetzt",
     "home.role": "KI-Entwickler",
     "home.tagline": "Ich baue RAG-Systeme und Enterprise-Chatbots, die wirklich genutzt werden.",
-    "home.status": "Praktische KI-Systeme bauen",
+    "home.status": "Gerade live: Rüko GPT",
     "home.scroll": "Scrollen",
     "home.selectedWork": "Ausgewählte Arbeiten",
     "home.viewCase": "Fallstudie ansehen",
     "home.aboutLabel": "Über mich",
-    "home.aboutStatement": "Ich verwandle komplexe Probleme in Werkzeuge, die wirklich genutzt werden — Enterprise-RAG-Systeme, interne Chatbots und Datenprodukte, die live gehen.",
+    "home.aboutStatement": "Ich verwandle unübersichtliche, undokumentierte Probleme in funktionierende Software — RAG-Systeme mit täglichen Nutzern, Agenten, die der Produktion standhalten, und Oberflächen, die kein Handbuch brauchen.",
     "home.moreAbout": "Mehr über mich",
     "home.metricYears": "Jahre Erfahrung",
     "home.metricUsers": "Interne Nutzer",
@@ -239,7 +244,7 @@ const translations = {
 
     // About page
     "aboutPage.label": "Über mich",
-    "aboutPage.statement": "Ich verwandle komplexe Probleme in Werkzeuge, die wirklich genutzt werden.",
+    "aboutPage.statement": "Ich verwandle unübersichtliche Probleme in Werkzeuge, auf die man sich verlässt.",
     "aboutPage.experienceLabel": "Erfahrung",
     "aboutPage.educationLabel": "Ausbildung",
     "aboutPage.languagesLabel": "Sprachen",
@@ -264,8 +269,34 @@ export { translations };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+const STORAGE_KEY = "hv-lang";
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
+
+  // Restore the saved preference after hydration (SSR always renders EN,
+  // so reading localStorage in the initializer would mismatch).
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === "de") {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setLanguage("de");
+      }
+    } catch {
+      // Storage unavailable — stay with the default.
+    }
+  }, []);
+
+  // Keep assistive tech and persistence in sync with the active language.
+  useEffect(() => {
+    document.documentElement.lang = language;
+    try {
+      localStorage.setItem(STORAGE_KEY, language);
+    } catch {
+      // Storage unavailable — language just won't persist.
+    }
+  }, [language]);
 
   const t = useCallback(
     (key: TranslationKey): string => {

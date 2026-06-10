@@ -6,6 +6,9 @@
    Soft WebGL glow behind everything, film grain on top.
    ============================================================ */
 :root {
+  /* Native UI (autofill, form controls, scrollbars) must render dark */
+  color-scheme: dark;
+
   /* Surfaces */
   --bg: #060607; /* noir black */
   --surface: #0c0c0e; /* card / panel */
@@ -14,7 +17,7 @@
   /* Ink */
   --fg: #eae8e3; /* bone white (warm) */
   --dim: #98968f;
-  --faint: #56554f;
+  --faint: #7d7b72; /* AA-safe quiet text on noir */
 
   /* Hairlines */
   --line: rgba(234, 232, 227, 0.08);
@@ -55,7 +58,7 @@
   --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
 
   /* Fluid display scale */
-  --text-display-xl: clamp(4rem, 14vw, 13rem);
+  --text-display-xl: clamp(3.4rem, 14vw, 13rem);
   --text-display-xl--line-height: 0.92;
   --text-display-lg: clamp(3rem, 9vw, 8rem);
   --text-display-lg--line-height: 0.95;
@@ -76,6 +79,27 @@
 html {
   /* No CSS smooth scrolling — Lenis owns scroll. */
   scroll-behavior: auto;
+  /* Firefox scrollbar in-system (WebKit rules below) */
+  scrollbar-color: var(--elevated) var(--bg);
+}
+
+/* First-visit cover: an inline head script adds .preloading before paint so
+   the page never flashes before the React preloader mounts on top of it.
+   The animation is a failsafe — if hydration dies, the cover lifts itself. */
+html.preloading body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 119;
+  background: var(--bg);
+  animation: preloader-cover-timeout 0.4s ease 5s forwards;
+}
+
+@keyframes preloader-cover-timeout {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 body {
@@ -144,10 +168,16 @@ h6 {
   background: var(--faint);
 }
 
-/* Selection */
+/* Selection — inverted inside accent-filled elements so text stays legible */
 ::selection {
   background: var(--accent);
   color: var(--accent-ink);
+}
+
+[class*="bg-accent"] ::selection,
+[class*="bg-accent"]::selection {
+  background: var(--fg);
+  color: var(--bg);
 }
 
 /* Keyboard focus — always visible, always volt */
@@ -170,18 +200,21 @@ h6 {
   color: var(--dim);
 }
 
-/* Link with drawn underline */
+/* Link with drawn underline — draws in from the left, exits through the right */
 .link-draw {
   background-image: linear-gradient(var(--accent), var(--accent));
   background-size: 0% 1px;
-  background-position: 0 100%;
+  background-position: 100% 100%;
   background-repeat: no-repeat;
   transition: background-size 0.35s cubic-bezier(0.65, 0, 0.35, 1), color 0.2s ease;
   padding-bottom: 2px;
 }
 
-.link-draw:hover {
+.link-draw:hover,
+.link-draw:focus-visible,
+.group:hover .link-draw {
   background-size: 100% 1px;
+  background-position: 0 100%;
   color: var(--accent);
 }
 
@@ -199,12 +232,13 @@ h6 {
   width: 100%;
   background: transparent;
   border: 0;
-  border-bottom: 1px solid var(--line-strong);
+  /* Inputs need non-text contrast that decorative hairlines don't */
+  border-bottom: 1px solid rgba(234, 232, 227, 0.35);
   padding: 0.875rem 0;
   color: var(--fg);
   font-size: 1rem;
   border-radius: 0;
-  transition: border-color 0.25s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .field::placeholder {
@@ -214,6 +248,22 @@ h6 {
 .field:focus {
   outline: none;
   border-color: var(--accent);
+}
+
+/* Keyboard focus gets a 2px volt edge, not just a 1px tint */
+.field:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 1px 0 0 var(--accent);
+}
+
+/* Keep autofill inside the noir palette (Chrome paints pale yellow otherwise) */
+.field:-webkit-autofill,
+.field:-webkit-autofill:hover,
+.field:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--bg) inset;
+  -webkit-text-fill-color: var(--fg);
+  caret-color: var(--fg);
+  transition: background-color 9999s ease-out;
 }
 
 /* Reveal mask — wrap a line, child translates up into view */
@@ -275,11 +325,28 @@ h6 {
   }
 }
 
-/* Visible only on touch devices */
-@media (pointer: fine) {
+/* Inline thumbnails: shown on touch devices AND on narrow pointer windows,
+   hidden only where the cursor-follow preview actually exists (fine + ≥lg). */
+@media (pointer: fine) and (min-width: 64rem) {
   .touch-only {
     display: none;
   }
+}
+
+/* Expand a small control's hit area to ≥44px without changing its look.
+   Don't use on controls packed closer than 44px. */
+.touch-target {
+  position: relative;
+}
+
+.touch-target::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: max(100%, 44px);
+  width: max(100%, 44px);
+  transform: translate(-50%, -50%);
 }
 
 /* Static gradient fallback (no WebGL / reduced motion / SSR first paint) */

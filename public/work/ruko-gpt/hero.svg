@@ -1,32 +1,190 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" font-family="ui-monospace,'Cascadia Mono','Courier New',monospace">
   <defs>
-    <radialGradient id="g1" cx="22%" cy="25%" r="70%">
-      <stop offset="0%" stop-color="#221440"/>
-      <stop offset="100%" stop-color="#0c0c0e"/>
+    <radialGradient id="gv" cx="18%" cy="12%" r="58%">
+      <stop offset="0%" stop-color="#221440" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#221440" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="g2" cx="80%" cy="85%" r="60%">
-      <stop offset="0%" stop-color="#ceff00" stop-opacity="0.10"/>
+    <radialGradient id="gt" cx="92%" cy="28%" r="42%">
+      <stop offset="0%" stop-color="#0b2b2b" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#0b2b2b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ga" cx="74%" cy="98%" r="40%">
+      <stop offset="0%" stop-color="#ceff00" stop-opacity="0.07"/>
       <stop offset="100%" stop-color="#ceff00" stop-opacity="0"/>
     </radialGradient>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#eae8e3" fill-opacity="0.045"/>
+    </pattern>
+    <filter id="sh" x="-8%" y="-12%" width="116%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+    <path id="arr" d="M0 0h52m0 0l-9 -6m9 6l-9 6"/>
   </defs>
+
   <rect width="1600" height="1000" fill="#060607"/>
-  <rect width="1600" height="1000" fill="url(#g1)"/>
-  <rect width="1600" height="1000" fill="url(#g2)"/>
-  <g stroke="#eae8e3" stroke-opacity="0.07">
-    <line x1="0" y1="250" x2="1600" y2="250"/>
-    <line x1="0" y1="750" x2="1600" y2="750"/>
-    <line x1="400" y1="0" x2="400" y2="1000"/>
-    <line x1="1200" y1="0" x2="1200" y2="1000"/>
+  <rect width="1600" height="1000" fill="url(#gv)"/>
+  <rect width="1600" height="1000" fill="url(#gt)"/>
+  <rect width="1600" height="1000" fill="url(#ga)"/>
+  <rect width="1600" height="1000" fill="url(#dots)"/>
+
+  <!-- frame: corner ticks + top rule -->
+  <g stroke="#eae8e3" stroke-opacity="0.18" fill="none">
+    <path d="M56 78v-22h22"/>
+    <path d="M1544 78v-22h-22"/>
+    <path d="M56 922v22h22"/>
+    <path d="M1544 922v22h-22"/>
   </g>
-  <g transform="translate(120,560)">
-    <rect x="0" y="0" width="640" height="64" rx="32" fill="#141417" stroke="#eae8e3" stroke-opacity="0.12"/>
-    <circle cx="32" cy="32" r="10" fill="#ceff00"/>
-    <rect x="60" y="26" width="320" height="12" rx="6" fill="#98968f" opacity="0.5"/>
-    <rect x="0" y="96" width="540" height="44" rx="22" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.08"/>
-    <rect x="20" y="112" width="380" height="12" rx="6" fill="#56554f"/>
-    <rect x="0" y="164" width="600" height="44" rx="22" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.08"/>
-    <rect x="20" y="180" width="440" height="12" rx="6" fill="#56554f"/>
+  <text x="120" y="96" font-size="11" letter-spacing="2" fill="#56554f">FIG. 01 / ENTERPRISE RAG</text>
+  <line x1="350" y1="92" x2="1130" y2="92" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <text x="1480" y="96" text-anchor="end" font-size="11" letter-spacing="2" fill="#56554f">R&#220;KO GPT &#8212; INTERNAL KNOWLEDGE</text>
+
+  <!-- chat panel -->
+  <rect x="120" y="140" width="900" height="620" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.12" filter="url(#sh)"/>
+  <g fill="#eae8e3" fill-opacity="0.12">
+    <circle cx="152" cy="168" r="4"/>
+    <circle cx="172" cy="168" r="4"/>
+    <circle cx="192" cy="168" r="4"/>
   </g>
-  <text x="120" y="200" font-family="Georgia, 'Times New Roman', serif" font-size="120" fill="#eae8e3">Rüko GPT</text>
-  <text x="124" y="260" font-family="ui-monospace, 'Courier New', monospace" font-size="22" letter-spacing="6" fill="#ceff00">ENTERPRISE RAG — 50+ USERS</text>
+  <text x="224" y="173" font-size="12" letter-spacing="2" fill="#98968f">R&#220;KO GPT / SESSION 0142</text>
+  <circle cx="878" cy="168" r="3" fill="#ceff00"/>
+  <text x="960" y="173" text-anchor="end" font-size="11" letter-spacing="1" fill="#56554f">GPT-4 &#183; LIVE</text>
+  <line x1="120" y1="196" x2="1020" y2="196" stroke="#eae8e3" stroke-opacity="0.08"/>
+
+  <line x1="160" y1="232" x2="480" y2="232" stroke="#eae8e3" stroke-opacity="0.06"/>
+  <text x="570" y="236" text-anchor="middle" font-size="10" letter-spacing="3" fill="#56554f">TODAY &#183; 09:41</text>
+  <line x1="660" y1="232" x2="960" y2="232" stroke="#eae8e3" stroke-opacity="0.06"/>
+
+  <!-- user query bubble -->
+  <text x="960" y="250" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">M. KELLER &#183; 09:41</text>
+  <rect x="540" y="258" width="420" height="84" fill="#141417" stroke="#eae8e3" stroke-opacity="0.1"/>
+  <text x="566" y="292" font-size="14" fill="#eae8e3" fill-opacity="0.85">What is the service interval for</text>
+  <text x="566" y="316" font-size="14" fill="#eae8e3" fill-opacity="0.85">the RW 5000 spindle bearings?</text>
+
+  <!-- grounded answer bubble -->
+  <circle cx="166" cy="380" r="3.5" fill="#ceff00"/>
+  <text x="180" y="384" font-size="11" letter-spacing="1" fill="#98968f">R&#220;KO GPT</text>
+  <text x="268" y="384" font-size="10" letter-spacing="1" fill="#56554f">GROUNDED &#183; 5 SOURCES</text>
+  <rect x="160" y="396" width="620" height="258" fill="#060607" stroke="#eae8e3" stroke-opacity="0.1"/>
+  <g font-size="14" fill="#98968f">
+    <text x="186" y="430">Per service manual &#167;6.2, the RW 5000</text>
+    <text x="186" y="454">spindle bearings are inspected every</text>
+    <text x="186" y="478">2,000 operating hours and re-greased</text>
+    <text x="186" y="502">at 4,000 h. Torque the clamping flange</text>
+    <text x="186" y="526">to 110 Nm after each bearing service.</text>
+  </g>
+  <!-- citation chips -->
+  <g fill="none" stroke="#ceff00" stroke-opacity="0.55">
+    <rect x="186" y="552" width="166" height="26" rx="1"/>
+    <rect x="364" y="552" width="84" height="26" rx="1"/>
+    <rect x="460" y="552" width="126" height="26" rx="1"/>
+  </g>
+  <g font-size="10" letter-spacing="1" fill="#ceff00" fill-opacity="0.85" text-anchor="middle">
+    <text x="269" y="569">RW5000_MANUAL &#183; P.34</text>
+    <text x="406" y="569">SB-2019-07</text>
+    <text x="523" y="569">WIKI/SPINDLE</text>
+  </g>
+  <text x="186" y="630" font-size="10" letter-spacing="1" fill="#56554f">LATENCY 1.4 S &#183; TOKENS 412 &#183; COST $0.004</text>
+
+  <!-- input row -->
+  <rect x="160" y="690" width="748" height="48" fill="#060607" stroke="#eae8e3" stroke-opacity="0.12"/>
+  <rect x="178" y="703" width="1.5" height="22" fill="#ceff00" fill-opacity="0.9"/>
+  <text x="192" y="719" font-size="12" letter-spacing="1" fill="#56554f">ASK ABOUT MACHINES, MANUALS, SAFETY SHEETS&#8230;</text>
+  <rect x="920" y="690" width="60" height="48" fill="#ceff00"/>
+  <path d="M950 723V706M943 712l7-7 7 7" stroke="#0b0f00" stroke-width="2" fill="none"/>
+
+  <!-- retrieval sidebar -->
+  <rect x="990" y="190" width="440" height="540" fill="#141417" stroke="#eae8e3" stroke-opacity="0.16" filter="url(#sh)"/>
+  <text x="1022" y="232" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">RETRIEVAL</text>
+  <text x="1398" y="232" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">TOP-K 5 &#183; COSINE</text>
+  <line x1="990" y1="252" x2="1430" y2="252" stroke="#eae8e3" stroke-opacity="0.1"/>
+  <!-- chunk rows -->
+  <g>
+    <text x="1022" y="288" font-size="11" fill="#98968f">RW5000_MANUAL.PDF &#8212; &#167;6.2 SPINDLE</text>
+    <text x="1398" y="288" text-anchor="end" font-size="11" fill="#ceff00">0.94</text>
+    <rect x="1022" y="300" width="290" height="5" fill="#56554f" fill-opacity="0.35"/>
+    <rect x="1022" y="313" width="220" height="5" fill="#56554f" fill-opacity="0.25"/>
+    <rect x="1022" y="332" width="376" height="3" fill="#eae8e3" fill-opacity="0.07"/>
+    <rect x="1022" y="332" width="353" height="3" fill="#ceff00"/>
+  </g>
+  <g>
+    <text x="1022" y="376" font-size="11" fill="#98968f">SB-2019-07 &#8212; BEARING RECALL NOTE</text>
+    <text x="1398" y="376" text-anchor="end" font-size="11" fill="#56554f">0.81</text>
+    <rect x="1022" y="388" width="270" height="5" fill="#56554f" fill-opacity="0.35"/>
+    <rect x="1022" y="401" width="200" height="5" fill="#56554f" fill-opacity="0.25"/>
+    <rect x="1022" y="420" width="376" height="3" fill="#eae8e3" fill-opacity="0.07"/>
+    <rect x="1022" y="420" width="305" height="3" fill="#98968f" fill-opacity="0.6"/>
+  </g>
+  <g>
+    <text x="1022" y="464" font-size="11" fill="#98968f">WIKI/SPINDLE-CARE &#8212; GREASING</text>
+    <text x="1398" y="464" text-anchor="end" font-size="11" fill="#56554f">0.66</text>
+    <rect x="1022" y="476" width="300" height="5" fill="#56554f" fill-opacity="0.35"/>
+    <rect x="1022" y="489" width="180" height="5" fill="#56554f" fill-opacity="0.25"/>
+    <rect x="1022" y="508" width="376" height="3" fill="#eae8e3" fill-opacity="0.07"/>
+    <rect x="1022" y="508" width="248" height="3" fill="#98968f" fill-opacity="0.5"/>
+  </g>
+  <g>
+    <text x="1022" y="552" font-size="11" fill="#98968f">RW5000_PARTS.XLSX &#8212; BOM ROW 112</text>
+    <text x="1398" y="552" text-anchor="end" font-size="11" fill="#56554f">0.52</text>
+    <rect x="1022" y="564" width="250" height="5" fill="#56554f" fill-opacity="0.35"/>
+    <rect x="1022" y="577" width="210" height="5" fill="#56554f" fill-opacity="0.25"/>
+    <rect x="1022" y="596" width="376" height="3" fill="#eae8e3" fill-opacity="0.07"/>
+    <rect x="1022" y="596" width="196" height="3" fill="#98968f" fill-opacity="0.4"/>
+  </g>
+  <g>
+    <text x="1022" y="640" font-size="11" fill="#98968f">TRAINING_DECK.PPTX &#8212; SLIDE 18</text>
+    <text x="1398" y="640" text-anchor="end" font-size="11" fill="#56554f">0.38</text>
+    <rect x="1022" y="652" width="280" height="5" fill="#56554f" fill-opacity="0.35"/>
+    <rect x="1022" y="665" width="160" height="5" fill="#56554f" fill-opacity="0.25"/>
+    <rect x="1022" y="684" width="376" height="3" fill="#eae8e3" fill-opacity="0.07"/>
+    <rect x="1022" y="684" width="143" height="3" fill="#98968f" fill-opacity="0.35"/>
+  </g>
+  <text x="1022" y="714" font-size="10" letter-spacing="1" fill="#56554f">INDEX: 12,408 CHUNKS &#183; 1536-D</text>
+
+  <!-- pipeline strip -->
+  <text x="120" y="800" font-size="10" letter-spacing="2" fill="#56554f">PIPELINE</text>
+  <text x="1480" y="800" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">END-TO-END 1.4 S</text>
+  <g fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.12">
+    <rect x="120" y="812" width="200" height="72"/>
+    <rect x="410" y="812" width="200" height="72"/>
+    <rect x="700" y="812" width="200" height="72"/>
+    <rect x="990" y="812" width="200" height="72"/>
+    <rect x="1280" y="812" width="200" height="72"/>
+  </g>
+  <g font-size="9" fill="#56554f">
+    <text x="132" y="830">01</text>
+    <text x="422" y="830">02</text>
+    <text x="712" y="830">03</text>
+    <text x="1002" y="830">04</text>
+    <text x="1292" y="830">05</text>
+  </g>
+  <g font-size="13" letter-spacing="2" text-anchor="middle" fill="#eae8e3" fill-opacity="0.85">
+    <text x="220" y="846">DOCS</text>
+    <text x="510" y="846">CHUNK</text>
+    <text x="800" y="846">EMBED</text>
+    <text x="1090" y="846">RETRIEVE</text>
+    <text x="1380" y="846" fill="#ceff00" fill-opacity="1">ANSWER</text>
+  </g>
+  <g font-size="9" letter-spacing="1" text-anchor="middle" fill="#56554f">
+    <text x="220" y="868">PDF &#183; DOCX &#183; WIKI</text>
+    <text x="510" y="868">512 TOK &#183; 64 OVL</text>
+    <text x="800" y="868">1536-D VECTORS</text>
+    <text x="1090" y="868">COSINE TOP-K</text>
+    <text x="1380" y="868">GPT-4 + CITATIONS</text>
+  </g>
+  <g stroke="#ceff00" stroke-opacity="0.8" stroke-width="1.5" fill="none">
+    <use href="#arr" x="339" y="848"/>
+    <use href="#arr" x="629" y="848"/>
+    <use href="#arr" x="919" y="848"/>
+    <use href="#arr" x="1209" y="848"/>
+  </g>
+
+  <!-- bottom measurement rule -->
+  <line x1="120" y1="928" x2="1480" y2="928" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <g stroke="#eae8e3" stroke-opacity="0.14">
+    <line x1="120" y1="924" x2="120" y2="932"/>
+    <line x1="460" y1="924" x2="460" y2="932"/>
+    <line x1="800" y1="924" x2="800" y2="932"/>
+    <line x1="1140" y1="924" x2="1140" y2="932"/>
+    <line x1="1480" y1="924" x2="1480" y2="932"/>
+  </g>
 </svg>

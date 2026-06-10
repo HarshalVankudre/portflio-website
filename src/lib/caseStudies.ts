@@ -75,10 +75,13 @@ export const caseStudies: CaseStudy[] = [
     },
     metrics: [
       { value: "50+", label: { en: "Employees served", de: "Mitarbeitende" } },
-      { value: "1", label: { en: "Source of truth", de: "Wissensquelle" } },
       {
-        value: "100%",
-        label: { en: "Answers grounded in documents", de: "Antworten aus Dokumenten" },
+        value: "2025",
+        label: { en: "In production since", de: "Produktiv im Einsatz seit" },
+      },
+      {
+        value: "E2E",
+        label: { en: "Designed and built solo", de: "Allein konzipiert und gebaut" },
       },
     ],
     hero: {
@@ -189,20 +192,20 @@ export const caseStudies: CaseStudy[] = [
     },
     result: {
       en: [
-        "A working full-stack application with a clean UI — and the foundation for the production systems I build today. The repository is public on GitHub.",
+        "A working full-stack application with a clean UI — and the foundation for the production systems I build today. The code lives on my GitHub.",
       ],
       de: [
-        "Eine funktionierende Full-Stack-Anwendung mit aufgeräumter UI — und das Fundament für die Produktionssysteme, die ich heute baue. Das Repository ist öffentlich auf GitHub.",
+        "Eine funktionierende Full-Stack-Anwendung mit aufgeräumter UI — und das Fundament für die Produktionssysteme, die ich heute baue. Der Code liegt auf meinem GitHub.",
       ],
     },
     metrics: [
       {
-        value: "Full-stack",
-        label: { en: "Front end to API", de: "Frontend bis API" },
+        value: "2024",
+        label: { en: "Built from scratch", de: "Von Grund auf gebaut" },
       },
       {
         value: "Open",
-        label: { en: "Source on GitHub", de: "Quellcode auf GitHub" },
+        label: { en: "Code on GitHub", de: "Code auf GitHub" },
       },
     ],
     hero: {

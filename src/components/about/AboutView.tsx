@@ -21,9 +21,14 @@ export default function AboutView() {
   const { t, language } = useLanguage();
 
   return (
-    <main className="relative min-h-screen">
+    <>
       <Navbar />
 
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="relative min-h-screen outline-none"
+      >
       {/* Page hero */}
       <section className="px-gutter pb-24 pt-36 sm:pt-44">
         <p className="label-mono mb-8">{t("aboutPage.label")}</p>
@@ -60,6 +65,18 @@ export default function AboutView() {
               <dt className="label-mono">{t("contact.location")}</dt>
               <dd className="mt-1 font-mono text-sm text-fg">
                 {t("hero.location")}
+              </dd>
+            </div>
+            <div>
+              <dt className="label-mono">CV</dt>
+              <dd className="mt-1">
+                <a
+                  href="/cv.pdf"
+                  download
+                  className="link-draw font-mono text-sm text-fg"
+                >
+                  {t("contact.downloadCv")} ↓
+                </a>
               </dd>
             </div>
           </dl>
@@ -128,9 +145,10 @@ export default function AboutView() {
           </TransitionLink>
         </Magnetic>
       </section>
+      </main>
 
       <Footer />
       <ChatBot />
-    </main>
+    </>
   );
 }

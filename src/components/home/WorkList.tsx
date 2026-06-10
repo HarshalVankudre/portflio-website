@@ -38,6 +38,16 @@ export default function WorkList() {
       const preview = previewRef.current;
       if (!preview || !hasFinePointer()) return;
 
+      // Initial state lives on the GSAP transform — an inline CSS `scale`
+      // would compose multiplicatively with it and never resolve to 1.
+      gsap.set(preview, { scale: 0.88 });
+
+      // Warm the cache so fast row-switching never flashes a stale frame
+      caseStudies.forEach((cs) => {
+        const img = new Image();
+        img.src = cs.hero.src;
+      });
+
       const xTo = gsap.quickTo(preview, "x", { duration: 0.55, ease: "power3" });
       const yTo = gsap.quickTo(preview, "y", { duration: 0.55, ease: "power3" });
 
@@ -150,12 +160,14 @@ export default function WorkList() {
       <div
         ref={previewRef}
         aria-hidden
-        className="pointer-events-none fixed left-0 top-0 z-[60] hidden w-[26rem] -translate-x-1/2 -translate-y-1/2 opacity-0 lg:block"
-        style={{ scale: "0.88" }}
+        className="pointer-events-none fixed left-0 top-0 z-[85] hidden w-[min(26rem,38vw)] -translate-x-1/2 -translate-y-1/2 opacity-0 lg:block"
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           ref={previewImgRef}
+          src={caseStudies[0].hero.src}
           alt=""
+          decoding="async"
           className="aspect-[16/10] w-full rounded-sm border border-line-strong object-cover shadow-[0_40px_80px_rgba(0,0,0,0.55)]"
         />
       </div>

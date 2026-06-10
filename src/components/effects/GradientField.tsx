@@ -131,10 +131,16 @@ export default function GradientField() {
     const wrap = wrapRef.current;
     if (!wrap) return;
 
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+
     let renderer: Renderer;
     try {
       renderer = new Renderer({
-        dpr: Math.min(window.devicePixelRatio || 1, 1.5) * 0.5,
+        // extra 0.7x on coarse pointers — the soft gradient hides it
+        dpr:
+          Math.min(window.devicePixelRatio || 1, 1.5) *
+          0.5 *
+          (coarse ? 0.7 : 1),
         alpha: false,
         antialias: false,
         powerPreference: "low-power",
@@ -163,6 +169,23 @@ export default function GradientField() {
     });
     const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
 
+    let scroll = 0;
+    let raf = 0;
+    let running = true;
+    let lost = false;
+    let lostTimer = 0;
+    let maxScroll = 1;
+    let lastFrame = -1000; // negative so the first throttled frame renders
+    let lastMeasure = 0;
+    const reduced = prefersReducedMotion();
+
+    const measure = () => {
+      maxScroll = Math.max(
+        document.documentElement.scrollHeight - window.innerHeight,
+        1
+      );
+    };
+
     const resize = () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
       canvas.style.width = "100%";
@@ -171,6 +194,9 @@ export default function GradientField() {
         window.innerWidth,
         window.innerHeight,
       ];
+      measure();
+      // loop is parked under reduced motion / hidden tab — repaint once
+      if (!lost && (reduced || !running)) renderer.render({ scene: mesh });
     };
     resize();
     window.addEventListener("resize", resize);
@@ -183,17 +209,17 @@ export default function GradientField() {
     };
     window.addEventListener("mousemove", onPointer, { passive: true });
 
-    let scroll = 0;
-    let raf = 0;
-    let running = true;
-    const reduced = prefersReducedMotion();
-
     const frame = (now: number) => {
-      const max = Math.max(
-        document.documentElement.scrollHeight - window.innerHeight,
-        1
-      );
-      scroll += (window.scrollY / max - scroll) * 0.06;
+      if (running && !reduced && !lost) raf = requestAnimationFrame(frame);
+      if (coarse && now - lastFrame < 33) return; // ~30fps cap
+      lastFrame = now;
+      if (now - lastMeasure > 2000) {
+        // pick up content-height changes without per-frame layout reads
+        lastMeasure = now;
+        measure();
+      }
+
+      scroll += (window.scrollY / maxScroll - scroll) * 0.06;
       pointer[0] += (pointerTarget[0] - pointer[0]) * 0.05;
       pointer[1] += (pointerTarget[1] - pointer[1]) * 0.05;
 
@@ -201,26 +227,48 @@ export default function GradientField() {
       program.uniforms.uScroll.value = scroll;
       program.uniforms.uPointer.value = pointer;
       renderer.render({ scene: mesh });
-
-      if (running && !reduced) raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame); // reduced motion: single static frame
 
     const onVisibility = () => {
       running = document.visibilityState === "visible";
-      if (running && !reduced) {
+      if (running && !reduced && !lost) {
         cancelAnimationFrame(raf);
         raf = requestAnimationFrame(frame);
       }
     };
     document.addEventListener("visibilitychange", onVisibility);
 
+    const onContextLost = (e: Event) => {
+      e.preventDefault(); // signals the browser we want a restore
+      lost = true;
+      cancelAnimationFrame(raf);
+      // never restored → drop the canvas so .gradient-fallback shows
+      lostTimer = window.setTimeout(() => {
+        if (lost && canvas.parentNode === wrap) wrap.removeChild(canvas);
+      }, 4000);
+    };
+    const onContextRestored = () => {
+      window.clearTimeout(lostTimer);
+      lost = false;
+      resize(); // repaints once when the loop stays parked
+      if (running && !reduced) {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(frame);
+      }
+    };
+    canvas.addEventListener("webglcontextlost", onContextLost);
+    canvas.addEventListener("webglcontextrestored", onContextRestored);
+
     return () => {
       cancelAnimationFrame(raf);
+      window.clearTimeout(lostTimer);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onPointer);
       document.removeEventListener("visibilitychange", onVisibility);
-      wrap.removeChild(canvas);
+      canvas.removeEventListener("webglcontextlost", onContextLost);
+      canvas.removeEventListener("webglcontextrestored", onContextRestored);
+      if (canvas.parentNode === wrap) wrap.removeChild(canvas);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
   }, []);

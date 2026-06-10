@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
+import { PRELOADER_DONE_EVENT, PRELOADER_STORAGE_KEY } from "@/lib/preloader";
 
 /**
  * Full-viewport opening statement: the name in huge Fraunces lines
@@ -15,28 +16,54 @@ export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useGSAP(
-    () => {
+    (_, contextSafe) => {
       if (prefersReducedMotion() || !sectionRef.current) return;
 
-      // First visit: wait for the preloader's wipe. Refresh: start almost at once.
-      const firstVisit = !sessionStorage.getItem("portfolio_loaded");
-      const delay = firstVisit ? 2.45 : 0.25;
+      const enter = contextSafe!((delay: number) => {
+        gsap.to("[data-hero-line]", {
+          yPercent: 0,
+          duration: 1.3,
+          ease: "power4.out",
+          stagger: 0.12,
+          delay,
+        });
+        gsap.to("[data-hero-meta]", {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.1,
+          delay: delay + 0.55,
+        });
+      });
 
-      gsap.from("[data-hero-line]", {
-        yPercent: 115,
-        duration: 1.3,
-        ease: "power4.out",
-        stagger: 0.12,
-        delay,
-      });
-      gsap.from("[data-hero-meta]", {
-        autoAlpha: 0,
-        y: 24,
-        duration: 0.9,
-        ease: "power3.out",
-        stagger: 0.1,
-        delay: delay + 0.55,
-      });
+      // First visit: pre-hide while the preloader covers the page, then
+      // start when its wipe actually finishes (event-driven, with a
+      // failsafe). Refresh: start almost at once.
+      let firstVisit = true;
+      try {
+        firstVisit = !sessionStorage.getItem(PRELOADER_STORAGE_KEY);
+      } catch {
+        // Storage blocked — assume first visit; the event/failsafe covers it.
+      }
+      gsap.set("[data-hero-line]", { yPercent: 115 });
+      gsap.set("[data-hero-meta]", { autoAlpha: 0, y: 24 });
+      let failsafe: ReturnType<typeof setTimeout> | undefined;
+      const onPreloaderDone = () => {
+        if (failsafe) clearTimeout(failsafe);
+        enter(0.05);
+      };
+      if (firstVisit) {
+        window.addEventListener(PRELOADER_DONE_EVENT, onPreloaderDone, {
+          once: true,
+        });
+        failsafe = setTimeout(() => {
+          window.removeEventListener(PRELOADER_DONE_EVENT, onPreloaderDone);
+          enter(0);
+        }, 6000);
+      } else {
+        enter(0.25);
+      }
 
       // Parallax out
       gsap.to("[data-hero-parallax]", {
@@ -50,6 +77,11 @@ export default function Hero() {
           scrub: true,
         },
       });
+
+      return () => {
+        if (failsafe) clearTimeout(failsafe);
+        window.removeEventListener(PRELOADER_DONE_EVENT, onPreloaderDone);
+      };
     },
     { scope: sectionRef }
   );

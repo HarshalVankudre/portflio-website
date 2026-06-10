@@ -53,6 +53,7 @@ export default function ParallaxImage({
         alt={alt}
         className="h-full w-full scale-[1.22] object-cover"
         loading="lazy"
+        decoding="async"
       />
     </div>
   );

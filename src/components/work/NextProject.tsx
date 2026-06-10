@@ -23,7 +23,7 @@ export default function NextProject({ next }: { next: CaseStudy }) {
         alt=""
         aria-hidden
         loading="lazy"
-        className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-20"
+        className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-20 [@media(hover:none)]:opacity-[0.16]"
       />
       <span className="label-mono relative">{t("work.next")}</span>
       <span className="work-title relative mt-6 font-display text-display-lg text-fg">

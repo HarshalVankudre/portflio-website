@@ -1,41 +1,180 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" font-family="ui-monospace,'Cascadia Mono','Courier New',monospace">
   <defs>
-    <radialGradient id="g1" cx="78%" cy="20%" r="70%">
-      <stop offset="0%" stop-color="#0b2b2b"/>
-      <stop offset="100%" stop-color="#0c0c0e"/>
+    <radialGradient id="gt" cx="84%" cy="10%" r="60%">
+      <stop offset="0%" stop-color="#0b2b2b" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#0b2b2b" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="g2" cx="15%" cy="85%" r="55%">
-      <stop offset="0%" stop-color="#ceff00" stop-opacity="0.08"/>
+    <radialGradient id="gv" cx="10%" cy="92%" r="50%">
+      <stop offset="0%" stop-color="#221440" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#221440" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ga" cx="30%" cy="40%" r="36%">
+      <stop offset="0%" stop-color="#ceff00" stop-opacity="0.06"/>
       <stop offset="100%" stop-color="#ceff00" stop-opacity="0"/>
     </radialGradient>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#eae8e3" fill-opacity="0.045"/>
+    </pattern>
+    <filter id="sh" x="-8%" y="-12%" width="116%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
   </defs>
+
   <rect width="1600" height="1000" fill="#060607"/>
-  <rect width="1600" height="1000" fill="url(#g1)"/>
-  <rect width="1600" height="1000" fill="url(#g2)"/>
+  <rect width="1600" height="1000" fill="url(#gt)"/>
+  <rect width="1600" height="1000" fill="url(#gv)"/>
+  <rect width="1600" height="1000" fill="url(#ga)"/>
+  <rect width="1600" height="1000" fill="url(#dots)"/>
+
+  <!-- frame: corner ticks + top rule -->
+  <g stroke="#eae8e3" stroke-opacity="0.18" fill="none">
+    <path d="M56 78v-22h22"/>
+    <path d="M1544 78v-22h-22"/>
+    <path d="M56 922v22h22"/>
+    <path d="M1544 922v22h-22"/>
+  </g>
+  <text x="110" y="96" font-size="11" letter-spacing="2" fill="#56554f">FIG. 02 / MULTI-AGENT ORCHESTRATION</text>
+  <line x1="480" y1="92" x2="1130" y2="92" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <text x="1490" y="96" text-anchor="end" font-size="11" letter-spacing="2" fill="#56554f">TEAMS-BOT &#8212; FIELD KNOWLEDGE</text>
+
+  <!-- client window -->
+  <rect x="110" y="130" width="1030" height="680" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.12" filter="url(#sh)"/>
+  <g fill="#eae8e3" fill-opacity="0.12">
+    <circle cx="140" cy="162" r="4"/>
+    <circle cx="158" cy="162" r="4"/>
+    <circle cx="176" cy="162" r="4"/>
+  </g>
+  <text x="210" y="167" font-size="12" letter-spacing="2" fill="#98968f">R&#220;KO EQUIPMENT DESK &#8212; TEAMS</text>
+  <circle cx="980" cy="162" r="3" fill="#ceff00"/>
+  <text x="1108" y="167" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">SYNCED &#183; 09:41</text>
+  <line x1="110" y1="190" x2="1140" y2="190" stroke="#eae8e3" stroke-opacity="0.08"/>
+
+  <!-- left rail -->
+  <line x1="348" y1="190" x2="348" y2="810" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <text x="138" y="224" font-size="9" letter-spacing="2" fill="#56554f">CHANNELS</text>
+  <g font-size="12" fill="#56554f">
+    <text x="144" y="256"># announcements</text>
+    <text x="144" y="298"># maintenance</text>
+    <text x="144" y="340"># spindle-support</text>
+    <text x="144" y="426"># logistics</text>
+    <text x="144" y="468"># wheel-balancers</text>
+  </g>
+  <rect x="126" y="362" width="210" height="34" fill="#141417"/>
+  <rect x="126" y="362" width="2" height="34" fill="#ceff00"/>
+  <text x="144" y="383" font-size="12" fill="#eae8e3" fill-opacity="0.9"># equipment-desk</text>
+  <text x="138" y="516" font-size="9" letter-spacing="2" fill="#56554f">DIRECT</text>
+  <rect x="138" y="530" width="18" height="18" fill="#141417" stroke="#eae8e3" stroke-opacity="0.1"/>
+  <rect x="166" y="536" width="92" height="6" fill="#56554f" fill-opacity="0.5"/>
+  <rect x="138" y="558" width="18" height="18" fill="#141417" stroke="#eae8e3" stroke-opacity="0.1"/>
+  <rect x="166" y="564" width="70" height="6" fill="#56554f" fill-opacity="0.4"/>
+
+  <!-- thread: date divider -->
+  <line x1="386" y1="222" x2="640" y2="222" stroke="#eae8e3" stroke-opacity="0.06"/>
+  <text x="743" y="226" text-anchor="middle" font-size="10" letter-spacing="2" fill="#56554f">TODAY &#183; 09:41</text>
+  <line x1="850" y1="222" x2="1100" y2="222" stroke="#eae8e3" stroke-opacity="0.06"/>
+
+  <!-- user message -->
+  <rect x="386" y="250" width="36" height="36" fill="#141417" stroke="#eae8e3" stroke-opacity="0.1"/>
+  <text x="404" y="273" text-anchor="middle" font-size="11" fill="#98968f">MK</text>
+  <text x="438" y="262" font-size="11" fill="#98968f">M. KELLER</text>
+  <text x="528" y="262" font-size="10" fill="#56554f">09:41</text>
+  <text x="438" y="286" font-size="14" fill="#eae8e3" fill-opacity="0.8">specs for the RW 3500 truck wheel balancer?</text>
+
+  <!-- bot answer card -->
+  <rect x="438" y="318" width="620" height="372" fill="#141417" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
+  <rect x="462" y="342" width="36" height="36" fill="#060607" stroke="#ceff00" stroke-opacity="0.7"/>
+  <text x="480" y="365" text-anchor="middle" font-size="11" fill="#ceff00">RB</text>
+  <text x="514" y="356" font-size="12" fill="#eae8e3" fill-opacity="0.9">R&#220;KO BOT</text>
+  <rect x="610" y="343" width="44" height="18" fill="none" stroke="#eae8e3" stroke-opacity="0.14"/>
+  <text x="632" y="356" text-anchor="middle" font-size="9" letter-spacing="1" fill="#56554f">APP</text>
+  <text x="1034" y="356" text-anchor="end" font-size="10" fill="#56554f">09:41 &#183; 1.8 S</text>
+  <line x1="462" y1="392" x2="1034" y2="392" stroke="#eae8e3" stroke-opacity="0.07"/>
+  <text x="462" y="414" font-size="12" fill="#98968f">RW 3500 &#8212; heavy truck wheel balancer</text>
+  <!-- spec table -->
   <g stroke="#eae8e3" stroke-opacity="0.07">
-    <line x1="0" y1="250" x2="1600" y2="250"/>
-    <line x1="0" y1="750" x2="1600" y2="750"/>
-    <line x1="400" y1="0" x2="400" y2="1000"/>
-    <line x1="1200" y1="0" x2="1200" y2="1000"/>
+    <line x1="462" y1="458" x2="1034" y2="458"/>
+    <line x1="462" y1="492" x2="1034" y2="492"/>
+    <line x1="462" y1="526" x2="1034" y2="526"/>
+    <line x1="462" y1="560" x2="1034" y2="560"/>
+    <line x1="462" y1="594" x2="1034" y2="594"/>
   </g>
-  <g transform="translate(950,420)" stroke="#eae8e3" stroke-opacity="0.18" fill="none">
-    <circle cx="250" cy="150" r="56" fill="#141417"/>
-    <circle cx="80" cy="40" r="40" fill="#0c0c0e"/>
-    <circle cx="430" cy="50" r="40" fill="#0c0c0e"/>
-    <circle cx="90" cy="270" r="40" fill="#0c0c0e"/>
-    <circle cx="420" cy="260" r="40" fill="#0c0c0e"/>
-    <line x1="118" y1="68" x2="205" y2="118"/>
-    <line x1="394" y1="74" x2="298" y2="122"/>
-    <line x1="126" y1="246" x2="206" y2="186"/>
-    <line x1="384" y1="238" x2="297" y2="182"/>
+  <g font-size="10" letter-spacing="1" fill="#56554f">
+    <text x="478" y="446">MODEL</text>
+    <text x="478" y="480">MAX WHEEL &#216;</text>
+    <text x="478" y="514">SHAFT &#216;</text>
+    <text x="478" y="548">DRIVE</text>
+    <text x="478" y="582">CYCLE TIME</text>
   </g>
-  <circle cx="1200" cy="570" r="10" fill="#ceff00"/>
-  <text x="120" y="200" font-family="Georgia, 'Times New Roman', serif" font-size="120" fill="#eae8e3">Teams-BOT</text>
-  <text x="124" y="260" font-family="ui-monospace, 'Courier New', monospace" font-size="22" letter-spacing="6" fill="#ceff00">MULTI-AGENT — 2,395+ RECORDS</text>
-  <g transform="translate(120,560)">
-    <rect x="0" y="0" width="560" height="56" rx="10" fill="#141417" stroke="#eae8e3" stroke-opacity="0.12"/>
-    <rect x="18" y="22" width="300" height="12" rx="6" fill="#98968f" opacity="0.5"/>
-    <rect x="0" y="76" width="480" height="56" rx="10" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.08"/>
-    <rect x="18" y="98" width="360" height="12" rx="6" fill="#56554f"/>
+  <g font-size="12" text-anchor="end" fill="#eae8e3" fill-opacity="0.8">
+    <text x="1018" y="446">RW 3500</text>
+    <text x="1018" y="480">950 MM</text>
+    <text x="1018" y="514">40 MM</text>
+    <text x="1018" y="548">230 V &#183; 0.15 KW</text>
+    <text x="1018" y="582">6 S</text>
   </g>
+  <rect x="462" y="594" width="572" height="34" fill="#ceff00" fill-opacity="0.06"/>
+  <rect x="462" y="594" width="2" height="34" fill="#ceff00"/>
+  <text x="478" y="616" font-size="10" letter-spacing="1" fill="#ceff00" fill-opacity="0.7">MATCHED</text>
+  <text x="1018" y="616" text-anchor="end" font-size="12" fill="#ceff00">2,395+ RECORDS</text>
+  <text x="462" y="660" font-size="10" letter-spacing="1" fill="#56554f">SOURCES: SQL.EQUIPMENT &#183; SHAREPOINT/SPECS &#183; 340 MS</text>
+
+  <!-- message input -->
+  <rect x="386" y="730" width="714" height="46" fill="#060607" stroke="#eae8e3" stroke-opacity="0.1"/>
+  <text x="410" y="758" font-size="12" letter-spacing="1" fill="#56554f">MESSAGE # EQUIPMENT-DESK</text>
+  <text x="1076" y="758" text-anchor="end" font-size="9" letter-spacing="1" fill="#56554f">RETURN</text>
+
+  <!-- agent trace overlay -->
+  <rect x="1080" y="240" width="400" height="470" fill="#141417" stroke="#eae8e3" stroke-opacity="0.18" filter="url(#sh)"/>
+  <text x="1108" y="280" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">AGENT TRACE</text>
+  <text x="1452" y="280" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">RUN 0427</text>
+  <line x1="1080" y1="300" x2="1480" y2="300" stroke="#eae8e3" stroke-opacity="0.1"/>
+  <!-- edges (hot path volt) -->
+  <g stroke="#eae8e3" stroke-opacity="0.16" fill="none">
+    <path d="M1280 354L1160 430"/>
+    <path d="M1280 354L1400 430"/>
+    <path d="M1160 476L1280 540"/>
+    <path d="M1400 476L1280 540"/>
+  </g>
+  <g stroke="#ceff00" stroke-opacity="0.45" fill="none">
+    <path d="M1280 354V430"/>
+    <path d="M1280 476V540"/>
+  </g>
+  <g font-size="9" fill="#56554f" text-anchor="middle">
+    <text x="1186" y="398">8 MS</text>
+    <text x="1310" y="398">210 MS</text>
+    <text x="1386" y="398">95 MS</text>
+  </g>
+  <!-- nodes -->
+  <rect x="1226" y="324" width="108" height="30" fill="#060607" stroke="#eae8e3" stroke-opacity="0.14"/>
+  <text x="1280" y="343" text-anchor="middle" font-size="10" letter-spacing="1" fill="#98968f">QUERY</text>
+  <rect x="1108" y="430" width="104" height="46" fill="#060607" stroke="#eae8e3" stroke-opacity="0.14"/>
+  <text x="1160" y="450" text-anchor="middle" font-size="10" letter-spacing="1" fill="#98968f">RESOLVER</text>
+  <text x="1160" y="465" text-anchor="middle" font-size="8" fill="#56554f">INTENT</text>
+  <rect x="1228" y="430" width="104" height="46" fill="#060607" stroke="#ceff00" stroke-opacity="0.7"/>
+  <circle cx="1330" cy="432" r="2.5" fill="#ceff00"/>
+  <text x="1280" y="450" text-anchor="middle" font-size="10" letter-spacing="1" fill="#ceff00">FETCHER</text>
+  <text x="1280" y="465" text-anchor="middle" font-size="8" fill="#56554f">SQL &#183; GRAPH</text>
+  <rect x="1348" y="430" width="104" height="46" fill="#060607" stroke="#eae8e3" stroke-opacity="0.14"/>
+  <text x="1400" y="450" text-anchor="middle" font-size="10" letter-spacing="1" fill="#98968f">COMPOSER</text>
+  <text x="1400" y="465" text-anchor="middle" font-size="8" fill="#56554f">ADAPTIVE CARD</text>
+  <rect x="1222" y="540" width="116" height="34" fill="#060607" stroke="#eae8e3" stroke-opacity="0.2"/>
+  <text x="1280" y="561" text-anchor="middle" font-size="10" letter-spacing="1" fill="#eae8e3" fill-opacity="0.9">ANSWER</text>
+  <!-- run log -->
+  <line x1="1080" y1="600" x2="1480" y2="600" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <g font-size="10" fill="#56554f">
+    <text x="1108" y="628">RESOLVER  OK          8 MS</text>
+    <text x="1108" y="650" fill="#98968f">FETCHER   2,395 ROWS  210 MS</text>
+    <text x="1108" y="672">COMPOSER  CARD 1.2 KB 95 MS</text>
+  </g>
+
+  <!-- bottom rule -->
+  <line x1="110" y1="868" x2="1480" y2="868" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <g stroke="#eae8e3" stroke-opacity="0.14">
+    <line x1="110" y1="864" x2="110" y2="872"/>
+    <line x1="567" y1="864" x2="567" y2="872"/>
+    <line x1="1024" y1="864" x2="1024" y2="872"/>
+    <line x1="1480" y1="864" x2="1480" y2="872"/>
+  </g>
+  <text x="110" y="900" font-size="10" letter-spacing="1" fill="#56554f">AZURE BOT FRAMEWORK &#183; GRAPH API &#183; SQL</text>
+  <text x="1480" y="900" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">LATENCY P50 1.8 S</text>
 </svg>

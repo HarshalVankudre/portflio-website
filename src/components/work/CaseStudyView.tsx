@@ -84,9 +84,14 @@ export default function CaseStudyView({ slug }: { slug: CaseStudy["slug"] }) {
   );
 
   return (
-    <main className="relative min-h-screen">
+    <>
       <Navbar />
 
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="relative min-h-screen outline-none"
+      >
       {/* Case hero */}
       <div ref={headerRef} className="px-gutter pb-16 pt-36 sm:pt-44">
         <p data-case-meta className="label-mono mb-8">
@@ -182,7 +187,8 @@ export default function CaseStudyView({ slug }: { slug: CaseStudy["slug"] }) {
       )}
 
       <NextProject next={next} />
+      </main>
       <ChatBot />
-    </main>
+    </>
   );
 }

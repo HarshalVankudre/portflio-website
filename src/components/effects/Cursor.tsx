@@ -84,17 +84,22 @@ export default function Cursor() {
     const onOver = (e: MouseEvent) => setMode(modeFor(e.target as Element));
     const onLeaveWindow = () => gsap.to([dot, ring], { autoAlpha: 0, duration: 0.2 });
     const onEnterWindow = () => seen && gsap.to([dot, ring], { autoAlpha: 1, duration: 0.2 });
+    // The hovered element unmounts during page transitions — without this the
+    // ring stays stuck in its expanded "view"/link state on the new page.
+    const onNavigate = () => setMode("default");
 
     window.addEventListener("mousemove", onMove, { passive: true });
     document.addEventListener("mouseover", onOver, { passive: true });
     document.documentElement.addEventListener("mouseleave", onLeaveWindow);
     document.documentElement.addEventListener("mouseenter", onEnterWindow);
+    window.addEventListener("hv:navigate", onNavigate);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseover", onOver);
       document.documentElement.removeEventListener("mouseleave", onLeaveWindow);
       document.documentElement.removeEventListener("mouseenter", onEnterWindow);
+      window.removeEventListener("hv:navigate", onNavigate);
       gsap.killTweensOf([dot, ring, label]);
     };
   }, [enabled]);

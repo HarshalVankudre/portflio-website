@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Instrument_Sans, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
@@ -11,7 +13,10 @@ import SwRegistrar from "@/components/SwRegistrar";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
-  axes: ["opsz", "SOFT", "WONK"],
+  // opsz for display rendering; true italics for the hero/CTA flourishes.
+  // SOFT/WONK were loaded but never used — dropped to cut font bytes.
+  axes: ["opsz"],
+  style: ["normal", "italic"],
   variable: "--font-fraunces",
   display: "swap",
 });
@@ -37,6 +42,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
   userScalable: true,
   themeColor: "#060607",
+  colorScheme: "dark",
 };
 
 export const metadata: Metadata = {
@@ -63,13 +69,13 @@ export const metadata: Metadata = {
   authors: [{ name: "Harshal Vankudre", url: SITE_URL }],
   creator: "Harshal Vankudre",
   manifest: "/manifest.json",
+  // favicon.ico is served by the app/favicon.ico file convention — listing it
+  // here too produced duplicate <link rel="icon"> tags.
   icons: {
     icon: [
-      { url: "/favicon.ico?v=hv2", sizes: "any" },
       { url: "/favicon.svg?v=hv2", type: "image/svg+xml" },
       { url: "/icon-192.png?v=hv2", sizes: "192x192", type: "image/png" },
     ],
-    shortcut: ["/favicon.ico?v=hv2"],
     apple: [{ url: "/icon-192.png?v=hv2", sizes: "192x192", type: "image/png" }],
   },
   alternates: {
@@ -147,22 +153,49 @@ const personJsonLd = {
   knowsLanguage: ["English", "German"],
 };
 
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Harshal Vankudre — Portfolio",
+  url: SITE_URL,
+  author: { "@type": "Person", name: "Harshal Vankudre" },
+  inLanguage: ["en", "de"],
+};
+
+/* Runs before paint: covers the page on first visit so nothing flashes
+   before the React preloader mounts. The .preloading class is removed by
+   the Preloader (with a CSS animation failsafe if hydration never runs). */
+const preloaderCoverScript = `try{if(!sessionStorage.getItem("portfolio_loaded"))document.documentElement.classList.add("preloading")}catch(e){}`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: the pre-paint cover script (and the language
+    // preference) legitimately mutate <html> attributes before/after hydration.
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: preloaderCoverScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
       <body
         className={`${instrumentSans.variable} ${geistMono.variable} ${fraunces.variable} font-sans antialiased`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:bg-accent focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:font-semibold focus:uppercase focus:tracking-widest focus:text-accent-ink"
+        >
+          Skip to content
+        </a>
         <LanguageProvider>
           <SmoothScrollProvider>
             <TransitionProvider>
@@ -174,6 +207,8 @@ export default function RootLayout({
             </TransitionProvider>
           </SmoothScrollProvider>
         </LanguageProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

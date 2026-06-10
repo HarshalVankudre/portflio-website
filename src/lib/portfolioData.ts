@@ -10,9 +10,9 @@ export const portfolioData = {
     linkedin: "https://www.linkedin.com/in/harshal-vankudre/",
     title: "AI Developer & Software Engineer",
     summary:
-      "Ambitious developer with fluent German and English. Passionate about software development and data analysis, with hands-on experience in Java, Python, and modern web frameworks.",
+      "AI developer in Karlsruhe building enterprise RAG systems, multi-agent chatbots, and the full-stack products around them. Currently designing and shipping Rüko GPT at RÜKO GmbH while finishing a B.Sc. in Data Science at Hochschule Karlsruhe. Fluent in German and English.",
     focus:
-      "He focuses on work that combines software engineering, AI systems, and data analysis to create measurable impact.",
+      "He focuses on AI systems that hold up in production — retrieval quality, evaluation, and interfaces people trust.",
   },
 
   skills: {
@@ -32,7 +32,7 @@ export const portfolioData = {
       period: "Oct 2025 - Present",
       current: true,
       highlights: [
-        "Designing and building 'Rüko GPT' - an internal AI chatbot for querying company data",
+        "Designing and building Rüko GPT — the company's internal AI assistant for querying its own knowledge",
         "Full-stack development with Next.js, TypeScript, Prisma, and PostgreSQL",
         "Integrating the OpenAI API for intelligent responses",
         "Implementing user authentication with NextAuth.js",

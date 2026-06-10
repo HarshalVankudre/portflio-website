@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
+import { caseStudies, getCaseStudy } from "@/lib/caseStudies";
 
-export const alt = "Harshal Vankudre — AI Developer";
+export const alt = "Case study — Harshal Vankudre";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -10,7 +11,21 @@ const FG = "#EAE8E3";
 const DIM = "#98968F";
 const LINE = "rgba(234, 232, 227, 0.14)";
 
-export default function OpengraphImage() {
+export function generateStaticParams() {
+  return caseStudies.map((cs) => ({ slug: cs.slug }));
+}
+
+export default async function OgImage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const cs = getCaseStudy(slug);
+  const title = cs?.title ?? "Case study";
+  const oneLiner = cs?.oneLiner.en ?? "";
+  const metrics = cs?.metrics.slice(0, 3) ?? [];
+
   return new ImageResponse(
     (
       <div
@@ -40,21 +55,10 @@ export default function OpengraphImage() {
             letterSpacing: "0.22em",
           }}
         >
-          <span>HARSHAL VANKUDRE — PORTFOLIO</span>
-          <span style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <span
-              style={{
-                width: 12,
-                height: 12,
-                borderRadius: 9999,
-                background: ACCENT,
-              }}
-            />
-            AI SYSTEMS IN PRODUCTION
-          </span>
+          <span>CASE STUDY — {cs?.index ?? "—"}</span>
+          <span>HARSHAL VANKUDRE</span>
         </div>
 
-        {/* Name */}
         <div
           style={{
             display: "flex",
@@ -64,55 +68,51 @@ export default function OpengraphImage() {
         >
           <div
             style={{
-              fontSize: 132,
+              fontSize: 116,
               fontWeight: 700,
               color: FG,
-              lineHeight: 0.95,
+              lineHeight: 1,
               letterSpacing: "-0.03em",
               display: "flex",
-              flexDirection: "column",
             }}
           >
-            <span>Harshal</span>
-            <span style={{ display: "flex" }}>
-              Vankudre<span style={{ color: ACCENT }}>.</span>
-            </span>
+            {title}
+            <span style={{ color: ACCENT }}>.</span>
           </div>
           <div
             style={{
-              marginTop: 30,
-              fontSize: 28,
+              marginTop: 28,
+              fontSize: 27,
               color: DIM,
+              lineHeight: 1.4,
+              maxWidth: 980,
               display: "flex",
-              alignItems: "center",
-              gap: "20px",
             }}
           >
-            <span>AI Developer · RAG Systems · Karlsruhe, Germany</span>
+            {oneLiner}
           </div>
-          <div
-            style={{
-              marginTop: 32,
-              display: "flex",
-              gap: "14px",
-            }}
-          >
-            {["RAG", "LLMs", "Next.js", "Python"].map((tag) => (
-              <span
-                key={tag}
-                style={{
-                  border: `1px solid ${LINE}`,
-                  borderRadius: 9999,
-                  color: FG,
-                  padding: "10px 24px",
-                  fontSize: 24,
-                  letterSpacing: "0.08em",
-                }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+          {metrics.length > 0 && (
+            <div style={{ marginTop: 36, display: "flex", gap: "14px" }}>
+              {metrics.map((m) => (
+                <span
+                  key={m.label.en}
+                  style={{
+                    border: `1px solid ${LINE}`,
+                    borderRadius: 9999,
+                    color: FG,
+                    padding: "10px 24px",
+                    fontSize: 22,
+                    letterSpacing: "0.06em",
+                    display: "flex",
+                    gap: "10px",
+                  }}
+                >
+                  <span style={{ color: ACCENT }}>{m.value}</span>
+                  <span style={{ color: DIM }}>{m.label.en}</span>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Accent edge */}

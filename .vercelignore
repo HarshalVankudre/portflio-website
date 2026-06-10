@@ -1,0 +1,7 @@
+# Local-only artifacts — keep deploys lean.
+# The Remotion pipeline (npm run video) needs public/audio locally,
+# but no page references it, so it must not ship to production.
+public/audio
+out
+assets
+scripts
