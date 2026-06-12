@@ -2,22 +2,145 @@
 
 import { useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { gsap, useGSAP } from "@/lib/gsap";
-import { prefersReducedMotion } from "@/lib/motion";
+import VelocityLean from "@/components/effects/VelocityLean";
+import { gsap, SplitText, useGSAP } from "@/lib/gsap";
+import { hasFinePointer, prefersReducedMotion } from "@/lib/motion";
+import { setGlow } from "@/lib/glow";
 import { PRELOADER_DONE_EVENT, PRELOADER_STORAGE_KEY } from "@/lib/preloader";
+
+/**
+ * Kill-switch for the per-char weight bloom — it animates font weight,
+ * which reflows the h1 while hovered. Flip to false to fall back to
+ * glow + velocity skew only if profiling ever shows jank.
+ */
+const HERO_CHAR_INTERACTION = true;
+
+/** Pointer falloff radius (px) and variable-weight range for the bloom. */
+const CHAR_RADIUS = 200;
+const WEIGHT_MIN = 420;
+const WEIGHT_MAX = 640;
 
 /**
  * Full-viewport opening statement: the name in huge Fraunces lines
  * revealed from behind masks, drifting upward at a slower rate than
  * the scroll (parallax) while fading toward the work list.
+ *
+ * After the entrance settles (fine pointers only), the name turns
+ * tactile: characters bloom in weight around the cursor and the
+ * shader's volt pool swells behind the headline.
  */
 export default function Hero() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
+  const h1Ref = useRef<HTMLHeadingElement>(null);
 
   useGSAP(
     (_, contextSafe) => {
       if (prefersReducedMotion() || !sectionRef.current) return;
+
+      // --- Interactive name — armed once, after the entrance finishes ---
+      let armed = false;
+      let cleanupName: (() => void) | undefined;
+
+      const armName = contextSafe!(() => {
+        const h1 = h1Ref.current;
+        if (armed || !h1 || !hasFinePointer()) return;
+        armed = true;
+
+        // The reveal masks have done their job — release the clipping so
+        // the per-char lift can rise above the line box.
+        gsap.set(".mask", { overflow: "visible" });
+
+        const onEnterGlow = () => setGlow(1);
+        const onLeaveGlow = () => setGlow(0);
+        h1.addEventListener("pointerenter", onEnterGlow);
+        h1.addEventListener("pointerleave", onLeaveGlow);
+
+        if (!HERO_CHAR_INTERACTION) {
+          cleanupName = () => {
+            h1.removeEventListener("pointerenter", onEnterGlow);
+            h1.removeEventListener("pointerleave", onLeaveGlow);
+            setGlow(0);
+          };
+          return;
+        }
+
+        const split = SplitText.create("[data-hero-line]", { type: "chars" });
+        const chars = split.chars as HTMLElement[];
+        const centers = chars.map(() => ({ x: 0, y: 0 }));
+        const weights = chars.map(() => WEIGHT_MIN);
+        const setW = chars.map((c) => gsap.quickSetter(c, "fontWeight"));
+        const setY = chars.map((c) => gsap.quickSetter(c, "y", "px"));
+
+        let px = 0;
+        let py = 0;
+
+        // Viewport coords are only valid for the scroll position they were
+        // measured at — re-measured on every hover start, so no stale cache.
+        const measure = () => {
+          chars.forEach((c, i) => {
+            const r = c.getBoundingClientRect();
+            centers[i].x = r.left + r.width / 2;
+            centers[i].y = r.top + r.height / 2;
+          });
+        };
+
+        // One batched write pass per frame; pointermove only stores coords.
+        const tick = () => {
+          for (let i = 0; i < chars.length; i++) {
+            const d = Math.hypot(px - centers[i].x, py - centers[i].y);
+            const f = Math.max(0, 1 - d / CHAR_RADIUS);
+            const bloom = f * f;
+            const target = WEIGHT_MIN + bloom * (WEIGHT_MAX - WEIGHT_MIN);
+            weights[i] += (target - weights[i]) * 0.22;
+            setW[i](Math.round(weights[i]));
+            setY[i](-bloom * 6);
+          }
+        };
+
+        const onEnter = (e: PointerEvent) => {
+          // A relax tween may still be running from the last hover — the
+          // ticker takes over from wherever the chars currently sit.
+          gsap.killTweensOf(chars);
+          chars.forEach((c, i) => {
+            weights[i] = parseFloat(c.style.fontWeight) || WEIGHT_MIN;
+          });
+          px = e.clientX;
+          py = e.clientY;
+          measure();
+          gsap.ticker.add(tick);
+        };
+        const onMove = (e: PointerEvent) => {
+          px = e.clientX;
+          py = e.clientY;
+        };
+        const onLeave = contextSafe!(() => {
+          gsap.ticker.remove(tick);
+          weights.fill(WEIGHT_MIN);
+          gsap.to(chars, {
+            fontWeight: WEIGHT_MIN,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            overwrite: true,
+          });
+        });
+
+        h1.addEventListener("pointerenter", onEnter);
+        h1.addEventListener("pointermove", onMove, { passive: true });
+        h1.addEventListener("pointerleave", onLeave);
+
+        cleanupName = () => {
+          gsap.ticker.remove(tick);
+          h1.removeEventListener("pointerenter", onEnter);
+          h1.removeEventListener("pointermove", onMove);
+          h1.removeEventListener("pointerleave", onLeave);
+          h1.removeEventListener("pointerenter", onEnterGlow);
+          h1.removeEventListener("pointerleave", onLeaveGlow);
+          setGlow(0);
+          split.revert();
+        };
+      });
 
       const enter = contextSafe!((delay: number) => {
         gsap.to("[data-hero-line]", {
@@ -26,6 +149,7 @@ export default function Hero() {
           ease: "power4.out",
           stagger: 0.12,
           delay,
+          onComplete: armName,
         });
         gsap.to("[data-hero-meta]", {
           autoAlpha: 1,
@@ -81,6 +205,7 @@ export default function Hero() {
       return () => {
         if (failsafe) clearTimeout(failsafe);
         window.removeEventListener(PRELOADER_DONE_EVENT, onPreloaderDone);
+        cleanupName?.();
       };
     },
     { scope: sectionRef }
@@ -97,21 +222,23 @@ export default function Hero() {
           {t("home.role")} — RÜKO GmbH · {t("hero.location")}
         </p>
 
-        <h1 className="font-display text-fg">
-          <span className="mask">
-            <span data-hero-line className="block text-display-xl tracking-tight">
-              Harshal
+        <VelocityLean strength={1.2}>
+          <h1 ref={h1Ref} className="font-display text-fg">
+            <span className="mask">
+              <span data-hero-line className="block text-display-xl tracking-tight">
+                Harshal
+              </span>
             </span>
-          </span>
-          <span className="mask">
-            <span
-              data-hero-line
-              className="block text-display-xl italic tracking-tight text-fg sm:ml-[10vw]"
-            >
-              Vankudre<span className="not-italic text-accent">.</span>
+            <span className="mask">
+              <span
+                data-hero-line
+                className="block text-display-xl italic tracking-tight text-fg sm:ml-[10vw]"
+              >
+                Vankudre<span className="not-italic text-accent">.</span>
+              </span>
             </span>
-          </span>
-        </h1>
+          </h1>
+        </VelocityLean>
       </div>
 
       <div

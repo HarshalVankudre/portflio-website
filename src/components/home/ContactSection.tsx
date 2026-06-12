@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import RevealText from "@/components/ui/RevealText";
+import ScrambleLabel from "@/components/ui/ScrambleLabel";
 import Magnetic from "@/components/ui/Magnetic";
 
 const EMAIL = "harshalvankudre@gmail.com";
@@ -74,7 +75,9 @@ export default function ContactSection() {
   return (
     <section id="contact" className="relative px-gutter py-section">
       <div className="mb-14 border-b border-line pb-5">
-        <h2 className="label-mono">03 — {t("contact.tag")}</h2>
+        <h2 className="label-mono">
+          <ScrambleLabel>{`04 — ${t("contact.tag")}`}</ScrambleLabel>
+        </h2>
       </div>
 
       <RevealText

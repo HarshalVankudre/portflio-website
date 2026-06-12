@@ -283,6 +283,20 @@ h6 {
   transform: translateX(0.5rem);
 }
 
+/* Volt duplicate of the row title, swept in left-to-right on hover.
+   Same .work-title metrics on both copies keeps the glyphs aligned. */
+.work-title-fill {
+  color: var(--accent);
+  pointer-events: none;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+    font-weight 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .work-title-fill {
+  clip-path: inset(0 0 0 0);
+}
+
 /* CSS-only entrance — server-rendered pages and lightweight widgets */
 .fade-up {
   opacity: 0;
@@ -333,6 +347,7 @@ h6 {
   }
 }
 
+
 /* Expand a small control's hit area to ≥44px without changing its look.
    Don't use on controls packed closer than 44px. */
 .touch-target {
@@ -347,6 +362,38 @@ h6 {
   height: max(100%, 44px);
   width: max(100%, 44px);
   transform: translate(-50%, -50%);
+}
+
+/* Capabilities marquee terms — outlined idle, volt-filled under the pointer */
+.cap-term {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(234, 232, 227, 0.35);
+  transition: color 0.35s ease, -webkit-text-stroke-color 0.35s ease;
+}
+
+.cap-term:hover {
+  color: var(--accent);
+  -webkit-text-stroke-color: rgba(206, 255, 0, 0);
+}
+
+/* Chapter ticks on the scroll rail — dash grows + ignites volt when active */
+.rail-tick {
+  display: block;
+  height: 1px;
+  width: 0.75rem;
+  background: var(--line-strong);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.rail-tick-btn:hover .rail-tick,
+.rail-tick-btn:focus-visible .rail-tick {
+  width: 1.25rem;
+  background: var(--dim);
+}
+
+.rail-tick-btn.rail-tick-active .rail-tick {
+  width: 1.25rem;
+  background: var(--accent);
 }
 
 /* Static gradient fallback (no WebGL / reduced motion / SSR first paint) */

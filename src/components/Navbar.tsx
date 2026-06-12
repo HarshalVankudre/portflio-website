@@ -191,6 +191,7 @@ export default function Navbar() {
                 <li key={link.href}>
                   <TransitionLink
                     href={link.href}
+                    transitionLabel={link.label}
                     aria-current={isActive(link.href) ? "page" : undefined}
                     className="group inline-flex min-h-11 items-center"
                   >
@@ -211,6 +212,7 @@ export default function Navbar() {
             <Magnetic strength={0.25}>
               <TransitionLink
                 href="/#contact"
+                transitionLabel={t("nav.contact")}
                 className="inline-flex h-10 items-center rounded-full bg-accent px-5 font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-ink transition-transform hover:scale-[1.03]"
               >
                 {t("nav.letsTalk")}
@@ -254,6 +256,7 @@ export default function Navbar() {
                     <TransitionLink
                       data-menu-link
                       href={link.href}
+                      transitionLabel={link.label}
                       aria-current={isActive(link.href) ? "page" : undefined}
                       onClick={() => setMenuOpen(false)}
                       className={`block font-display text-display-md transition-colors hover:text-accent ${

@@ -4,14 +4,23 @@ import Link from "next/link";
 import { type ComponentProps, type MouseEvent } from "react";
 import { useTransitionRouter } from "@/components/providers/TransitionProvider";
 
-type Props = ComponentProps<typeof Link> & { href: string };
+type Props = ComponentProps<typeof Link> & {
+  href: string;
+  /** Shown in the curtain's center during the wipe (e.g. the case title). */
+  transitionLabel?: string;
+};
 
 /**
  * Drop-in next/link replacement that routes through the curtain
  * transition. External links, modified clicks and new-tab targets
  * fall through to default browser behavior.
  */
-export default function TransitionLink({ href, onClick, ...rest }: Props) {
+export default function TransitionLink({
+  href,
+  onClick,
+  transitionLabel,
+  ...rest
+}: Props) {
   const { navigate } = useTransitionRouter();
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
@@ -23,7 +32,7 @@ export default function TransitionLink({ href, onClick, ...rest }: Props) {
     if (/^(https?:)?\/\//.test(href) || href.startsWith("mailto:")) return;
 
     e.preventDefault();
-    navigate(href);
+    navigate(href, { label: transitionLabel });
   };
 
   return <Link href={href} onClick={handleClick} {...rest} />;

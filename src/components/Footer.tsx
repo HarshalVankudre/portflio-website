@@ -80,6 +80,7 @@ export default function Footer() {
               <li key={item.href}>
                 <TransitionLink
                   href={item.href}
+                  transitionLabel={t(item.key)}
                   className="group inline-flex min-h-9 items-center"
                 >
                   <span className="link-draw font-mono text-xs uppercase tracking-[0.18em] text-dim">

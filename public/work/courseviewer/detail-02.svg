@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" font-family="ui-monospace,'Cascadia Mono','Courier New',monospace">
+  <defs>
+    <radialGradient id="gv" cx="82%" cy="16%" r="50%">
+      <stop offset="0%" stop-color="#221440" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#221440" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gt" cx="14%" cy="84%" r="46%">
+      <stop offset="0%" stop-color="#0b2b2b" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#0b2b2b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ga" cx="40%" cy="4%" r="32%">
+      <stop offset="0%" stop-color="#ceff00" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#ceff00" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#eae8e3" fill-opacity="0.045"/>
+    </pattern>
+    <filter id="sh" x="-8%" y="-12%" width="116%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#060607"/>
+  <rect width="1600" height="1000" fill="url(#gv)"/>
+  <rect width="1600" height="1000" fill="url(#gt)"/>
+  <rect width="1600" height="1000" fill="url(#ga)"/>
+  <rect width="1600" height="1000" fill="url(#dots)"/>
+
+  <g stroke="#eae8e3" stroke-opacity="0.18" fill="none">
+    <path d="M56 78v-22h22"/>
+    <path d="M1544 78v-22h-22"/>
+    <path d="M56 922v22h22"/>
+    <path d="M1544 922v22h-22"/>
+  </g>
+  <text x="120" y="96" font-size="11" letter-spacing="2" fill="#56554f">FIG. 03 / INTERFACE STATES</text>
+  <line x1="380" y1="92" x2="1120" y2="92" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <text x="1480" y="96" text-anchor="end" font-size="11" letter-spacing="2" fill="#56554f">BROWSE &#183; READ &#183; MANAGE</text>
+
+  <!-- state 01: browse -->
+  <rect x="120" y="160" width="420" height="600" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
+  <text x="148" y="198" font-size="10" letter-spacing="2" fill="#56554f">STATE 01 &#8212; BROWSE</text>
+  <line x1="120" y1="212" x2="540" y2="212" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <rect x="148" y="236" width="364" height="36" fill="#060607" stroke="#eae8e3" stroke-opacity="0.12"/>
+  <rect x="160" y="250" width="1.5" height="12" fill="#ceff00" fill-opacity="0.9"/>
+  <text x="172" y="260" font-size="10" letter-spacing="1" fill="#56554f">SEARCH COURSES&#8230;</text>
+  <g fill="#141417" stroke="#eae8e3" stroke-opacity="0.1">
+    <rect x="148" y="296" width="364" height="92"/>
+    <rect x="148" y="404" width="364" height="92"/>
+    <rect x="148" y="512" width="364" height="92"/>
+    <rect x="148" y="620" width="364" height="92"/>
+  </g>
+  <g font-size="11" fill="#98968f">
+    <text x="172" y="332">DATA STRUCTURES 101</text>
+    <text x="172" y="440">REACT PATTERNS</text>
+    <text x="172" y="548">NODE.JS IN PRACTICE</text>
+    <text x="172" y="656">SQL FOUNDATIONS</text>
+  </g>
+  <g font-size="9" letter-spacing="1" fill="#56554f">
+    <text x="172" y="356">12 LESSONS</text>
+    <text x="172" y="464">9 LESSONS</text>
+    <text x="172" y="572">14 LESSONS</text>
+    <text x="172" y="680">8 LESSONS</text>
+  </g>
+  <rect x="430" y="316" width="58" height="5" fill="#ceff00" fill-opacity="0.85"/>
+  <rect x="430" y="424" width="38" height="5" fill="#56554f" fill-opacity="0.5"/>
+  <rect x="430" y="532" width="48" height="5" fill="#56554f" fill-opacity="0.5"/>
+  <rect x="430" y="640" width="30" height="5" fill="#56554f" fill-opacity="0.5"/>
+
+  <!-- state 02: read -->
+  <rect x="590" y="160" width="420" height="600" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
+  <text x="618" y="198" font-size="10" letter-spacing="2" fill="#56554f">STATE 02 &#8212; READ</text>
+  <line x1="590" y1="212" x2="1010" y2="212" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <text x="618" y="252" font-size="14" fill="#eae8e3" fill-opacity="0.85">REACT PATTERNS / LESSON 04</text>
+  <text x="618" y="276" font-size="10" letter-spacing="1" fill="#ceff00" fill-opacity="0.85">COMPOSITION OVER INHERITANCE</text>
+  <g fill="#56554f">
+    <rect x="618" y="304" width="364" height="5" fill-opacity="0.4"/>
+    <rect x="618" y="322" width="340" height="5" fill-opacity="0.35"/>
+    <rect x="618" y="340" width="352" height="5" fill-opacity="0.4"/>
+    <rect x="618" y="358" width="300" height="5" fill-opacity="0.3"/>
+    <rect x="618" y="376" width="364" height="5" fill-opacity="0.4"/>
+    <rect x="618" y="394" width="280" height="5" fill-opacity="0.3"/>
+  </g>
+  <rect x="618" y="424" width="364" height="160" fill="#060607" stroke="#eae8e3" stroke-opacity="0.12"/>
+  <g font-size="11" fill="#98968f">
+    <text x="642" y="458">function Panel({ children }) {</text>
+    <text x="642" y="482">&#160;&#160;return &#60;section&#62;</text>
+    <text x="642" y="506">&#160;&#160;&#160;&#160;{children}</text>
+    <text x="642" y="530">&#160;&#160;&#60;/section&#62;</text>
+    <text x="642" y="554">}</text>
+  </g>
+  <g fill="#56554f">
+    <rect x="618" y="612" width="364" height="5" fill-opacity="0.4"/>
+    <rect x="618" y="630" width="320" height="5" fill-opacity="0.35"/>
+    <rect x="618" y="648" width="348" height="5" fill-opacity="0.4"/>
+  </g>
+  <line x1="618" y1="694" x2="982" y2="694" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <text x="618" y="724" font-size="9" letter-spacing="1" fill="#56554f">&#8592; LESSON 03</text>
+  <text x="982" y="724" text-anchor="end" font-size="9" letter-spacing="1" fill="#ceff00" fill-opacity="0.85">LESSON 05 &#8594;</text>
+
+  <!-- state 03: manage -->
+  <rect x="1060" y="160" width="420" height="600" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
+  <text x="1088" y="198" font-size="10" letter-spacing="2" fill="#56554f">STATE 03 &#8212; MANAGE</text>
+  <line x1="1060" y1="212" x2="1480" y2="212" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <g font-size="10" letter-spacing="1">
+    <text x="1088" y="248" fill="#98968f">TITLE</text>
+  </g>
+  <rect x="1088" y="260" width="364" height="36" fill="#060607" stroke="#eae8e3" stroke-opacity="0.12"/>
+  <text x="1104" y="284" font-size="11" fill="#eae8e3" fill-opacity="0.7">SQL Foundations</text>
+  <text x="1088" y="332" font-size="10" letter-spacing="1" fill="#98968f">DESCRIPTION</text>
+  <rect x="1088" y="344" width="364" height="92" fill="#060607" stroke="#eae8e3" stroke-opacity="0.12"/>
+  <g fill="#56554f">
+    <rect x="1104" y="368" width="330" height="5" fill-opacity="0.35"/>
+    <rect x="1104" y="386" width="290" height="5" fill-opacity="0.3"/>
+    <rect x="1104" y="404" width="310" height="5" fill-opacity="0.35"/>
+  </g>
+  <text x="1088" y="472" font-size="10" letter-spacing="1" fill="#98968f">LESSONS</text>
+  <g fill="#141417" stroke="#eae8e3" stroke-opacity="0.1">
+    <rect x="1088" y="484" width="364" height="40"/>
+    <rect x="1088" y="536" width="364" height="40"/>
+    <rect x="1088" y="588" width="364" height="40"/>
+  </g>
+  <g font-size="10" fill="#98968f">
+    <text x="1112" y="509">01 &#8212; SELECT BASICS</text>
+    <text x="1112" y="561">02 &#8212; JOINS</text>
+    <text x="1112" y="613">03 &#8212; INDEXES</text>
+  </g>
+  <g font-size="9" letter-spacing="1" fill="#56554f" text-anchor="end">
+    <text x="1428" y="509">EDIT</text>
+    <text x="1428" y="561">EDIT</text>
+    <text x="1428" y="613">EDIT</text>
+  </g>
+  <rect x="1088" y="664" width="120" height="40" fill="#ceff00"/>
+  <text x="1148" y="689" text-anchor="middle" font-size="10" letter-spacing="2" fill="#0b0f00">SAVE</text>
+  <rect x="1224" y="664" width="120" height="40" fill="none" stroke="#eae8e3" stroke-opacity="0.25"/>
+  <text x="1284" y="689" text-anchor="middle" font-size="10" letter-spacing="2" fill="#98968f">CANCEL</text>
+
+  <!-- footer note -->
+  <text x="120" y="836" font-size="10" letter-spacing="1" fill="#56554f">2024 &#8212; BUILT FROM SCRATCH &#183; CODE OPEN ON GITHUB &#183; THE FOUNDATION FOR TODAY'S PRODUCTION SYSTEMS</text>
+
+  <!-- bottom measurement rule -->
+  <line x1="120" y1="928" x2="1480" y2="928" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <g stroke="#eae8e3" stroke-opacity="0.14">
+    <line x1="120" y1="924" x2="120" y2="932"/>
+    <line x1="460" y1="924" x2="460" y2="932"/>
+    <line x1="800" y1="924" x2="800" y2="932"/>
+    <line x1="1140" y1="924" x2="1140" y2="932"/>
+    <line x1="1480" y1="924" x2="1480" y2="932"/>
+  </g>
+</svg>

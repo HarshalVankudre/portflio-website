@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import RevealText from "@/components/ui/RevealText";
 import TransitionLink from "@/components/ui/TransitionLink";
+import ScrambleLabel from "@/components/ui/ScrambleLabel";
 import Magnetic from "@/components/ui/Magnetic";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
@@ -62,7 +63,7 @@ export default function AboutTeaser() {
     >
       <div>
         <h2 className="label-mono lg:sticky lg:top-28">
-          02 — {t("home.aboutLabel")}
+          <ScrambleLabel>{`03 — ${t("home.aboutLabel")}`}</ScrambleLabel>
         </h2>
       </div>
 
@@ -97,6 +98,7 @@ export default function AboutTeaser() {
         <Magnetic className="mt-16">
           <TransitionLink
             href="/about"
+            transitionLabel={t("nav.about")}
             className="link-draw inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.18em] text-dim"
           >
             {t("home.moreAbout")}

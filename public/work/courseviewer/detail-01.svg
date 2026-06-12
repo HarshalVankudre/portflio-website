@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" font-family="ui-monospace,'Cascadia Mono','Courier New',monospace">
+  <defs>
+    <radialGradient id="gv" cx="16%" cy="14%" r="52%">
+      <stop offset="0%" stop-color="#221440" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#221440" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gt" cx="86%" cy="82%" r="46%">
+      <stop offset="0%" stop-color="#0b2b2b" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#0b2b2b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ga" cx="76%" cy="6%" r="35%">
+      <stop offset="0%" stop-color="#ceff00" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#ceff00" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#eae8e3" fill-opacity="0.045"/>
+    </pattern>
+    <filter id="sh" x="-8%" y="-12%" width="116%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#060607"/>
+  <rect width="1600" height="1000" fill="url(#gv)"/>
+  <rect width="1600" height="1000" fill="url(#gt)"/>
+  <rect width="1600" height="1000" fill="url(#ga)"/>
+  <rect width="1600" height="1000" fill="url(#dots)"/>
+
+  <g stroke="#eae8e3" stroke-opacity="0.18" fill="none">
+    <path d="M56 78v-22h22"/>
+    <path d="M1544 78v-22h-22"/>
+    <path d="M56 922v22h22"/>
+    <path d="M1544 922v22h-22"/>
+  </g>
+  <text x="120" y="96" font-size="11" letter-spacing="2" fill="#56554f">FIG. 02 / APP ANATOMY</text>
+  <line x1="340" y1="92" x2="1060" y2="92" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <text x="1480" y="96" text-anchor="end" font-size="11" letter-spacing="2" fill="#56554f">COURSEVIEWER &#8212; DELIBERATE PRACTICE</text>
+
+  <!-- component tree -->
+  <rect x="120" y="150" width="800" height="500" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
+  <text x="152" y="192" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">COMPONENT TREE</text>
+  <text x="888" y="192" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">REACT</text>
+  <line x1="120" y1="208" x2="920" y2="208" stroke="#eae8e3" stroke-opacity="0.08"/>
+
+  <g font-size="13" fill="#98968f">
+    <text x="180" y="256" fill="#eae8e3" fill-opacity="0.85">&#9492; &#60;App&#62;</text>
+    <text x="220" y="296">&#9492; &#60;Layout&#62;</text>
+    <text x="260" y="336">&#9500; &#60;Sidebar&#62;</text>
+    <text x="260" y="376" fill="#ceff00">&#9500; &#60;CourseList&#62;</text>
+    <text x="300" y="416">&#9492; &#60;CourseCard&#62; &#215; n</text>
+    <text x="260" y="456" fill="#ceff00">&#9500; &#60;CourseDetail&#62;</text>
+    <text x="300" y="496">&#9500; &#60;LessonTree&#62;</text>
+    <text x="300" y="536">&#9492; &#60;ContentPane&#62;</text>
+    <text x="260" y="576">&#9492; &#60;ManagePanel&#62;</text>
+  </g>
+  <text x="152" y="622" font-size="10" letter-spacing="1" fill="#56554f">CLEAR HIERARCHY &#8212; THE UI GETS OUT OF THE CONTENT'S WAY</text>
+
+  <!-- api column -->
+  <rect x="1000" y="150" width="480" height="500" fill="#141417" stroke="#eae8e3" stroke-opacity="0.16" filter="url(#sh)"/>
+  <text x="1032" y="192" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">REST API</text>
+  <text x="1448" y="192" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">NODE.JS</text>
+  <line x1="1000" y1="208" x2="1480" y2="208" stroke="#eae8e3" stroke-opacity="0.1"/>
+  <g font-size="12">
+    <text x="1032" y="252" fill="#ceff00">GET</text>
+    <text x="1110" y="252" fill="#98968f">/courses</text>
+    <text x="1032" y="292" fill="#ceff00">GET</text>
+    <text x="1110" y="292" fill="#98968f">/courses/:id</text>
+    <text x="1032" y="332" fill="#ceff00">GET</text>
+    <text x="1110" y="332" fill="#98968f">/courses/:id/lessons</text>
+    <text x="1032" y="372" fill="#eae8e3" fill-opacity="0.7">POST</text>
+    <text x="1110" y="372" fill="#98968f">/courses</text>
+    <text x="1032" y="412" fill="#eae8e3" fill-opacity="0.7">PUT</text>
+    <text x="1110" y="412" fill="#98968f">/courses/:id</text>
+    <text x="1032" y="452" fill="#eae8e3" fill-opacity="0.5">DELETE</text>
+    <text x="1110" y="452" fill="#98968f">/courses/:id</text>
+  </g>
+  <line x1="1032" y1="484" x2="1448" y2="484" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <g font-size="10" letter-spacing="1" fill="#56554f">
+    <text x="1032" y="516">CLEAN CONTRACTS &#8212; ONE RESOURCE,</text>
+    <text x="1032" y="536">PREDICTABLE VERBS, NO SURPRISES</text>
+  </g>
+  <g fill="none" stroke="#ceff00" stroke-opacity="0.55">
+    <rect x="1032" y="568" width="180" height="26" rx="1"/>
+  </g>
+  <text x="1122" y="585" text-anchor="middle" font-size="10" letter-spacing="1" fill="#ceff00" fill-opacity="0.85">STATE LIVES IN ONE PLACE</text>
+
+  <!-- practice strip -->
+  <rect x="120" y="720" width="1360" height="160" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
+  <text x="152" y="762" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">WHAT IT TRAINED</text>
+  <text x="1448" y="762" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">PATTERNS USED PROFESSIONALLY TODAY</text>
+  <line x1="120" y1="778" x2="1480" y2="778" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <g fill="none" stroke="#eae8e3" stroke-opacity="0.25">
+    <rect x="152" y="806" width="280" height="34" rx="1"/>
+    <rect x="456" y="806" width="260" height="34" rx="1"/>
+    <rect x="740" y="806" width="230" height="34" rx="1"/>
+  </g>
+  <g font-size="11" letter-spacing="1" fill="#98968f" text-anchor="middle">
+    <text x="292" y="828">COMPONENT ARCHITECTURE</text>
+    <text x="586" y="828">STATE MANAGEMENT</text>
+    <text x="855" y="828">CLEAN API DESIGN</text>
+  </g>
+
+  <!-- bottom measurement rule -->
+  <line x1="120" y1="928" x2="1480" y2="928" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <g stroke="#eae8e3" stroke-opacity="0.14">
+    <line x1="120" y1="924" x2="120" y2="932"/>
+    <line x1="460" y1="924" x2="460" y2="932"/>
+    <line x1="800" y1="924" x2="800" y2="932"/>
+    <line x1="1140" y1="924" x2="1140" y2="932"/>
+    <line x1="1480" y1="924" x2="1480" y2="932"/>
+  </g>
+</svg>

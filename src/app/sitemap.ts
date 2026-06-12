@@ -6,7 +6,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://vankudre.com";
 export default function sitemap(): MetadataRoute.Sitemap {
   // Pin to the last real content change — new Date() would tell crawlers
   // every page changed on every build.
-  const lastModified = new Date("2026-06-10");
+  const lastModified = new Date("2026-06-13");
   return [
     {
       url: SITE_URL,

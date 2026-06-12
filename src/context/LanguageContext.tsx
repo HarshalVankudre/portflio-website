@@ -121,6 +121,24 @@ const translations = {
     "home.metricAutomation": "Tier-1 inquiries automated",
     "home.metricFaster": "Faster responses",
 
+    // Capabilities strip
+    "home.capabilitiesLabel": "What I do",
+    "home.cap1.title": "RAG & multi-agent systems",
+    "home.cap1.desc":
+      "Retrieval pipelines and agent teams grounded in real data — built for production, measured by evaluation.",
+    "home.cap2.title": "Full-stack products",
+    "home.cap2.desc":
+      "From schema to interface: Next.js, TypeScript and Python applications people use daily.",
+    "home.cap3.title": "Automation & integrations",
+    "home.cap3.desc":
+      "Bots and APIs that meet people where they already work — Teams, internal tools, existing systems.",
+    "home.capTerm1": "RAG Systems",
+    "home.capTerm2": "Multi-Agent",
+    "home.capTerm3": "Full-Stack",
+    "home.capTerm4": "Automation",
+    "home.capTerm5": "Retrieval",
+    "home.capTerm6": "Evaluation",
+
     // About page
     "aboutPage.label": "About",
     "aboutPage.statement": "I turn messy problems into tools people rely on.",
@@ -241,6 +259,24 @@ const translations = {
     "home.metricUsers": "Interne Nutzer",
     "home.metricAutomation": "Tier-1 automatisiert",
     "home.metricFaster": "Schnellere Antworten",
+
+    // Capabilities strip
+    "home.capabilitiesLabel": "Was ich mache",
+    "home.cap1.title": "RAG- & Multi-Agent-Systeme",
+    "home.cap1.desc":
+      "Retrieval-Pipelines und Agenten-Teams auf Basis echter Daten — gebaut für die Produktion, gemessen per Evaluation.",
+    "home.cap2.title": "Full-Stack-Produkte",
+    "home.cap2.desc":
+      "Vom Schema bis zur Oberfläche: Next.js-, TypeScript- und Python-Anwendungen im täglichen Einsatz.",
+    "home.cap3.title": "Automatisierung & Integrationen",
+    "home.cap3.desc":
+      "Bots und APIs dort, wo bereits gearbeitet wird — Teams, interne Tools, bestehende Systeme.",
+    "home.capTerm1": "RAG-Systeme",
+    "home.capTerm2": "Multi-Agent",
+    "home.capTerm3": "Full-Stack",
+    "home.capTerm4": "Automatisierung",
+    "home.capTerm5": "Retrieval",
+    "home.capTerm6": "Evaluation",
 
     // About page
     "aboutPage.label": "Über mich",

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Renderer, Program, Mesh, Triangle } from "ogl";
 import { prefersReducedMotion } from "@/lib/motion";
+import { GLOW_EVENT, type GlowEventDetail } from "@/lib/glow";
 
 const VERTEX = /* glsl */ `
 attribute vec2 uv;
@@ -19,6 +20,7 @@ precision highp float;
 
 uniform float uTime;
 uniform float uScroll;
+uniform float uBoost;
 uniform vec2 uPointer;
 uniform vec2 uResolution;
 varying vec2 vUv;
@@ -100,7 +102,8 @@ void main() {
   // Scroll shifts the mood: violet fades, teal takes over down-page
   float wViolet = smoothstep(0.85, 0.0, dViolet) * (1.0 - uScroll * 0.45);
   float wTeal   = smoothstep(0.95, 0.0, dTeal) * (0.65 + uScroll * 0.5);
-  float wVolt   = smoothstep(0.42, 0.0, dVolt) * 0.06;
+  // uBoost (hero hover) widens and brightens the volt pool
+  float wVolt   = smoothstep(0.42 + uBoost * 0.22, 0.0, dVolt) * (0.06 + uBoost * 0.10);
 
   vec3 col = base;
   col = mix(col, violet, wViolet);
@@ -163,6 +166,7 @@ export default function GradientField() {
       uniforms: {
         uTime: { value: 0 },
         uScroll: { value: 0 },
+        uBoost: { value: 0 },
         uPointer: { value: [0.5, 0.5] },
         uResolution: { value: [1, 1] },
       },
@@ -209,6 +213,16 @@ export default function GradientField() {
     };
     window.addEventListener("mousemove", onPointer, { passive: true });
 
+    // Glow swell requests (hero name hover). No-op while the loop is
+    // parked (reduced motion / hidden tab) — the static frame stays correct.
+    let boost = 0;
+    let boostTarget = 0;
+    const onGlow = (e: Event) => {
+      const v = (e as CustomEvent<GlowEventDetail>).detail?.v ?? 0;
+      boostTarget = Math.min(Math.max(v, 0), 1);
+    };
+    window.addEventListener(GLOW_EVENT, onGlow);
+
     const frame = (now: number) => {
       if (running && !reduced && !lost) raf = requestAnimationFrame(frame);
       if (coarse && now - lastFrame < 33) return; // ~30fps cap
@@ -222,10 +236,12 @@ export default function GradientField() {
       scroll += (window.scrollY / maxScroll - scroll) * 0.06;
       pointer[0] += (pointerTarget[0] - pointer[0]) * 0.05;
       pointer[1] += (pointerTarget[1] - pointer[1]) * 0.05;
+      boost += (boostTarget - boost) * 0.08;
 
       program.uniforms.uTime.value = now / 1000;
       program.uniforms.uScroll.value = scroll;
       program.uniforms.uPointer.value = pointer;
+      program.uniforms.uBoost.value = boost;
       renderer.render({ scene: mesh });
     };
     raf = requestAnimationFrame(frame); // reduced motion: single static frame
@@ -265,6 +281,7 @@ export default function GradientField() {
       window.clearTimeout(lostTimer);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onPointer);
+      window.removeEventListener(GLOW_EVENT, onGlow);
       document.removeEventListener("visibilitychange", onVisibility);
       canvas.removeEventListener("webglcontextlost", onContextLost);
       canvas.removeEventListener("webglcontextrestored", onContextRestored);

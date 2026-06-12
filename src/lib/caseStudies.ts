@@ -4,6 +4,22 @@
 
 export type Localized<T = string> = { en: T; de: T };
 
+export interface CaseMediaItem {
+  src: string;
+  alt: Localized;
+  /** Rendered as a label-mono figure caption. */
+  caption?: Localized;
+}
+
+export interface CaseMediaSection {
+  /** "full" = full-bleed break · "duo" = 2-up grid · "figure" = captioned single */
+  layout: "full" | "duo" | "figure";
+  /** Which prose chapter this renders after. */
+  after: "problem" | "approach" | "result";
+  /** 1 item for full/figure, 2 for duo. */
+  items: CaseMediaItem[];
+}
+
 export interface CaseStudy {
   slug: "ruko-gpt" | "teams-bot" | "courseviewer";
   index: string; // "01"…"03"
@@ -18,6 +34,8 @@ export interface CaseStudy {
   result: Localized<string[]>;
   metrics: { value: string; label: Localized }[];
   hero: { src: string; alt: Localized };
+  /** Optional in-flow visuals; absent → the page renders prose-only. */
+  media?: CaseMediaSection[];
   links?: { live?: string; repo?: string };
   nextSlug: CaseStudy["slug"];
 }
@@ -91,6 +109,38 @@ export const caseStudies: CaseStudy[] = [
         de: "Rüko GPT — Enterprise-RAG-Chatbot-Oberfläche",
       },
     },
+    media: [
+      {
+        layout: "full",
+        after: "approach",
+        items: [
+          {
+            src: "/work/ruko-gpt/detail-01.svg",
+            alt: {
+              en: "System architecture of Rüko GPT — Next.js client, retrieval pipeline core, PostgreSQL data tier and REST API extension",
+              de: "Systemarchitektur von Rüko GPT — Next.js-Client, Retrieval-Pipeline, PostgreSQL-Datenebene und REST-API-Erweiterung",
+            },
+          },
+        ],
+      },
+      {
+        layout: "figure",
+        after: "result",
+        items: [
+          {
+            src: "/work/ruko-gpt/detail-02.svg",
+            alt: {
+              en: "Rollout loop and adoption panel — ship, observe, tune; 50+ employees served",
+              de: "Rollout-Schleife und Adoption — ausliefern, beobachten, verbessern; 50+ Mitarbeitende",
+            },
+            caption: {
+              en: "Fig. 03 — Iterative rollout: ship early, tune retrieval on real questions.",
+              de: "Fig. 03 — Iterativer Rollout: früh ausliefern, Retrieval an echten Fragen schärfen.",
+            },
+          },
+        ],
+      },
+    ],
     nextSlug: "teams-bot",
   },
   {
@@ -158,6 +208,38 @@ export const caseStudies: CaseStudy[] = [
         de: "Teams-BOT — Multi-Agent-Gerätebot in Microsoft Teams",
       },
     },
+    media: [
+      {
+        layout: "full",
+        after: "approach",
+        items: [
+          {
+            src: "/work/teams-bot/detail-01.svg",
+            alt: {
+              en: "Agent topology — a router agent dispatching resolver, fetcher and composer agents over the equipment database",
+              de: "Agenten-Topologie — ein Router-Agent verteilt Resolver-, Fetcher- und Composer-Agenten über die Gerätedatenbank",
+            },
+          },
+        ],
+      },
+      {
+        layout: "figure",
+        after: "result",
+        items: [
+          {
+            src: "/work/teams-bot/detail-02.svg",
+            alt: {
+              en: "Parallel execution lanes of the Teams bot with outcome figures",
+              de: "Parallele Ausführungs-Lanes des Teams-Bots mit Ergebniszahlen",
+            },
+            caption: {
+              en: "Fig. 03 — Parallel agent lanes: no question queues behind another.",
+              de: "Fig. 03 — Parallele Agenten-Lanes: keine Frage wartet auf eine andere.",
+            },
+          },
+        ],
+      },
+    ],
     nextSlug: "courseviewer",
   },
   {
@@ -215,6 +297,38 @@ export const caseStudies: CaseStudy[] = [
         de: "CourseViewer — Anwendung zum Durchsuchen von Kursen",
       },
     },
+    media: [
+      {
+        layout: "full",
+        after: "approach",
+        items: [
+          {
+            src: "/work/courseviewer/detail-01.svg",
+            alt: {
+              en: "Application anatomy — React component tree beside the Node.js REST API",
+              de: "Anatomie der Anwendung — React-Komponentenbaum neben der Node.js-REST-API",
+            },
+          },
+        ],
+      },
+      {
+        layout: "figure",
+        after: "result",
+        items: [
+          {
+            src: "/work/courseviewer/detail-02.svg",
+            alt: {
+              en: "Interface states of CourseViewer: browse, read and manage",
+              de: "Oberflächenzustände von CourseViewer: Durchsuchen, Lesen und Verwalten",
+            },
+            caption: {
+              en: "Fig. 03 — Three interface states: browse, read, manage.",
+              de: "Fig. 03 — Drei Zustände der Oberfläche: Durchsuchen, Lesen, Verwalten.",
+            },
+          },
+        ],
+      },
+    ],
     links: { repo: "https://github.com/HarshalVankudre" },
     nextSlug: "ruko-gpt",
   },

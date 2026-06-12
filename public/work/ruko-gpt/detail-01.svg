@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" font-family="ui-monospace,'Cascadia Mono','Courier New',monospace">
+  <defs>
+    <radialGradient id="gv" cx="14%" cy="16%" r="55%">
+      <stop offset="0%" stop-color="#221440" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#221440" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gt" cx="90%" cy="80%" r="45%">
+      <stop offset="0%" stop-color="#0b2b2b" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#0b2b2b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ga" cx="50%" cy="6%" r="38%">
+      <stop offset="0%" stop-color="#ceff00" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#ceff00" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#eae8e3" fill-opacity="0.045"/>
+    </pattern>
+    <filter id="sh" x="-8%" y="-12%" width="116%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+    <path id="arr" d="M0 0h52m0 0l-9 -6m9 6l-9 6"/>
+    <path id="arrv" d="M0 0v44m0 0l-6 -9m6 9l6 -9"/>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#060607"/>
+  <rect width="1600" height="1000" fill="url(#gv)"/>
+  <rect width="1600" height="1000" fill="url(#gt)"/>
+  <rect width="1600" height="1000" fill="url(#ga)"/>
+  <rect width="1600" height="1000" fill="url(#dots)"/>
+
+  <g stroke="#eae8e3" stroke-opacity="0.18" fill="none">
+    <path d="M56 78v-22h22"/>
+    <path d="M1544 78v-22h-22"/>
+    <path d="M56 922v22h22"/>
+    <path d="M1544 922v22h-22"/>
+  </g>
+  <text x="120" y="96" font-size="11" letter-spacing="2" fill="#56554f">FIG. 02 / SYSTEM ARCHITECTURE</text>
+  <line x1="400" y1="92" x2="1080" y2="92" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <text x="1480" y="96" text-anchor="end" font-size="11" letter-spacing="2" fill="#56554f">R&#220;KO GPT &#8212; END TO END, BUILT SOLO</text>
+
+  <!-- client tier -->
+  <rect x="120" y="150" width="640" height="190" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
+  <text x="152" y="190" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">CLIENT</text>
+  <text x="728" y="190" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">50+ EMPLOYEES</text>
+  <line x1="120" y1="206" x2="760" y2="206" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <g font-size="12" fill="#98968f">
+    <text x="152" y="244">NEXT.JS &#183; TYPESCRIPT</text>
+    <text x="152" y="272">CHAT UI &#183; SOURCE CITATIONS &#183; SESSIONS</text>
+  </g>
+  <rect x="152" y="294" width="120" height="24" fill="none" stroke="#ceff00" stroke-opacity="0.55"/>
+  <text x="212" y="310" text-anchor="middle" font-size="10" letter-spacing="1" fill="#ceff00" fill-opacity="0.85">COMPANY SSO</text>
+  <text x="296" y="310" font-size="10" letter-spacing="1" fill="#56554f">NEXTAUTH.JS &#8212; FIRMENKONTEN</text>
+
+  <!-- openai tier -->
+  <rect x="900" y="150" width="580" height="190" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
+  <text x="932" y="190" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">GENERATION</text>
+  <text x="1448" y="190" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">OPENAI API</text>
+  <line x1="900" y1="206" x2="1480" y2="206" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <g font-size="12" fill="#98968f">
+    <text x="932" y="244">GROUNDED PROMPTS &#8212; CONTEXT FROM</text>
+    <text x="932" y="272">COMPANY SOURCES ONLY</text>
+  </g>
+  <text x="932" y="310" font-size="10" letter-spacing="1" fill="#ceff00" fill-opacity="0.85">NO ANSWER WITHOUT A SOURCE</text>
+
+  <!-- app core -->
+  <rect x="120" y="420" width="1360" height="220" fill="#141417" stroke="#eae8e3" stroke-opacity="0.16" filter="url(#sh)"/>
+  <text x="152" y="460" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">APPLICATION CORE</text>
+  <text x="1448" y="460" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">RETRIEVAL PIPELINE</text>
+  <line x1="120" y1="476" x2="1480" y2="476" stroke="#eae8e3" stroke-opacity="0.1"/>
+  <g fill="#060607" stroke="#eae8e3" stroke-opacity="0.12">
+    <rect x="152" y="500" width="236" height="108"/>
+    <rect x="446" y="500" width="236" height="108"/>
+    <rect x="740" y="500" width="236" height="108"/>
+    <rect x="1034" y="500" width="236" height="108"/>
+  </g>
+  <g font-size="9" fill="#56554f">
+    <text x="164" y="522">A</text>
+    <text x="458" y="522">B</text>
+    <text x="752" y="522">C</text>
+    <text x="1046" y="522">D</text>
+  </g>
+  <g font-size="13" letter-spacing="2" text-anchor="middle" fill="#eae8e3" fill-opacity="0.85">
+    <text x="270" y="546">INGEST</text>
+    <text x="564" y="546">CHUNK + EMBED</text>
+    <text x="858" y="546">RETRIEVE</text>
+    <text x="1152" y="546" fill="#ceff00" fill-opacity="1">CITE</text>
+  </g>
+  <g font-size="9" letter-spacing="1" text-anchor="middle" fill="#56554f">
+    <text x="270" y="570">PDF &#183; DOCX &#183; WIKI</text>
+    <text x="564" y="570">PIPELINE RUNS ON UPLOAD</text>
+    <text x="858" y="570">TOP-K OVER COMPANY DOCS</text>
+    <text x="1152" y="570">SOURCES PINNED TO ANSWER</text>
+  </g>
+  <g stroke="#ceff00" stroke-opacity="0.8" stroke-width="1.5" fill="none">
+    <use href="#arr" x="396" y="554"/>
+    <use href="#arr" x="690" y="554"/>
+    <use href="#arr" x="984" y="554"/>
+  </g>
+
+  <!-- data tier -->
+  <rect x="120" y="720" width="640" height="160" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
+  <text x="152" y="760" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">DATA</text>
+  <text x="728" y="760" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">CONFIDENTIAL &#8212; STAYS INTERNAL</text>
+  <line x1="120" y1="776" x2="760" y2="776" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <g font-size="12" fill="#98968f">
+    <text x="152" y="814">POSTGRESQL &#183; PRISMA</text>
+    <text x="152" y="842">DOCUMENTS &#183; EMBEDDINGS &#183; SESSIONS</text>
+  </g>
+
+  <!-- rest extension -->
+  <rect x="900" y="720" width="580" height="160" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
+  <text x="932" y="760" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">REST API SERVER</text>
+  <text x="1448" y="760" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">SEPARATE SERVICE</text>
+  <line x1="900" y1="776" x2="1480" y2="776" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <g font-size="12" fill="#98968f">
+    <text x="932" y="814">EXTENDS THE SYSTEM INTO THE WIDER</text>
+    <text x="932" y="842">KNOWLEDGE-MANAGEMENT LANDSCAPE</text>
+  </g>
+
+  <!-- vertical flows -->
+  <g stroke="#ceff00" stroke-opacity="0.8" stroke-width="1.5" fill="none">
+    <use href="#arrv" x="440" y="348"/>
+    <use href="#arrv" x="1190" y="348"/>
+    <use href="#arrv" x="440" y="648"/>
+    <use href="#arrv" x="1190" y="648"/>
+  </g>
+  <g font-size="9" letter-spacing="1" fill="#56554f">
+    <text x="456" y="372">QUERY</text>
+    <text x="1206" y="372">PROMPT + CONTEXT</text>
+    <text x="456" y="672">SQL</text>
+    <text x="1206" y="672">SYNC</text>
+  </g>
+
+  <!-- bottom measurement rule -->
+  <line x1="120" y1="928" x2="1480" y2="928" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <g stroke="#eae8e3" stroke-opacity="0.14">
+    <line x1="120" y1="924" x2="120" y2="932"/>
+    <line x1="460" y1="924" x2="460" y2="932"/>
+    <line x1="800" y1="924" x2="800" y2="932"/>
+    <line x1="1140" y1="924" x2="1140" y2="932"/>
+    <line x1="1480" y1="924" x2="1480" y2="932"/>
+  </g>
+</svg>

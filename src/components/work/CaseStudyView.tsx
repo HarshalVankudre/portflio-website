@@ -6,18 +6,23 @@ import { useLanguage } from "@/context/LanguageContext";
 import Navbar from "@/components/Navbar";
 import TransitionLink from "@/components/ui/TransitionLink";
 import RevealText from "@/components/ui/RevealText";
+import ScrambleLabel from "@/components/ui/ScrambleLabel";
 import ParallaxImage from "@/components/work/ParallaxImage";
+import MediaSection from "@/components/work/MediaSection";
 import MetricsBand from "@/components/work/MetricsBand";
 import NextProject from "@/components/work/NextProject";
+import ScrollRail from "@/components/effects/ScrollRail";
 import ChatBot from "@/components/ChatBot";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 
 function ProseBlock({
+  id,
   number,
   label,
   paragraphs,
 }: {
+  id: string;
   number: string;
   label: string;
   paragraphs: string[];
@@ -42,10 +47,11 @@ function ProseBlock({
   return (
     <div
       ref={ref}
+      id={id}
       className="grid grid-cols-1 gap-8 border-t border-line px-gutter py-20 lg:grid-cols-[1fr_2.5fr]"
     >
       <h2 className="label-mono lg:sticky lg:top-28 lg:self-start">
-        {number} — {label}
+        <ScrambleLabel>{`${number} — ${label}`}</ScrambleLabel>
       </h2>
       <div className="max-w-[65ch] space-y-6">
         {paragraphs.map((p) => (
@@ -67,6 +73,11 @@ export default function CaseStudyView({ slug }: { slug: CaseStudy["slug"] }) {
   const cs = getCaseStudy(slug)!;
   const next = getCaseStudy(cs.nextSlug)!;
   const headerRef = useRef<HTMLDivElement>(null);
+
+  const mediaAfter = (slot: "problem" | "approach" | "result") =>
+    cs.media
+      ?.filter((m) => m.after === slot)
+      .map((m, i) => <MediaSection key={`${slot}-${i}`} section={m} />);
 
   useGSAP(
     () => {
@@ -95,7 +106,11 @@ export default function CaseStudyView({ slug }: { slug: CaseStudy["slug"] }) {
       {/* Case hero */}
       <div ref={headerRef} className="px-gutter pb-16 pt-36 sm:pt-44">
         <p data-case-meta className="label-mono mb-8">
-          <TransitionLink href="/#work" className="link-draw">
+          <TransitionLink
+            href="/#work"
+            transitionLabel={t("nav.work")}
+            className="link-draw"
+          >
             {t("work.back")}
           </TransitionLink>
           <span className="mx-3 text-faint" aria-hidden>
@@ -150,28 +165,35 @@ export default function CaseStudyView({ slug }: { slug: CaseStudy["slug"] }) {
         <ParallaxImage
           src={cs.hero.src}
           alt={cs.hero.alt[language]}
+          reveal="enter"
           className="aspect-[16/9] w-full"
         />
       </div>
 
       <ProseBlock
+        id="problem"
         number="01"
         label={t("work.problem")}
         paragraphs={cs.problem[language]}
       />
+      {mediaAfter("problem")}
       <ProseBlock
+        id="approach"
         number="02"
         label={t("work.approach")}
         paragraphs={cs.approach[language]}
       />
+      {mediaAfter("approach")}
 
       <MetricsBand metrics={cs.metrics} />
 
       <ProseBlock
+        id="result"
         number="03"
         label={t("work.result")}
         paragraphs={cs.result[language]}
       />
+      {mediaAfter("result")}
 
       {cs.links?.repo && (
         <div className="border-t border-line px-gutter py-10">
@@ -187,6 +209,13 @@ export default function CaseStudyView({ slug }: { slug: CaseStudy["slug"] }) {
       )}
 
       <NextProject next={next} />
+      <ScrollRail
+        chapters={[
+          { id: "problem", label: t("work.problem") },
+          { id: "approach", label: t("work.approach") },
+          { id: "result", label: t("work.result") },
+        ]}
+      />
       </main>
       <ChatBot />
     </>

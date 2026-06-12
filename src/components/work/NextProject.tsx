@@ -14,6 +14,7 @@ export default function NextProject({ next }: { next: CaseStudy }) {
   return (
     <TransitionLink
       href={`/work/${next.slug}`}
+      transitionLabel={next.title}
       data-cursor="view"
       className="group relative flex min-h-[70svh] flex-col items-center justify-center overflow-hidden border-t border-line px-gutter text-center"
     >

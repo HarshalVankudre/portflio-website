@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" font-family="ui-monospace,'Cascadia Mono','Courier New',monospace">
+  <defs>
+    <radialGradient id="gv" cx="84%" cy="14%" r="50%">
+      <stop offset="0%" stop-color="#221440" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#221440" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gt" cx="10%" cy="86%" r="45%">
+      <stop offset="0%" stop-color="#0b2b2b" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#0b2b2b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ga" cx="30%" cy="10%" r="35%">
+      <stop offset="0%" stop-color="#ceff00" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#ceff00" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#eae8e3" fill-opacity="0.045"/>
+    </pattern>
+    <filter id="sh" x="-8%" y="-12%" width="116%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#060607"/>
+  <rect width="1600" height="1000" fill="url(#gv)"/>
+  <rect width="1600" height="1000" fill="url(#gt)"/>
+  <rect width="1600" height="1000" fill="url(#ga)"/>
+  <rect width="1600" height="1000" fill="url(#dots)"/>
+
+  <g stroke="#eae8e3" stroke-opacity="0.18" fill="none">
+    <path d="M56 78v-22h22"/>
+    <path d="M1544 78v-22h-22"/>
+    <path d="M56 922v22h22"/>
+    <path d="M1544 922v22h-22"/>
+  </g>
+  <text x="120" y="96" font-size="11" letter-spacing="2" fill="#56554f">FIG. 03 / ITERATIVE ROLLOUT</text>
+  <line x1="380" y1="92" x2="1060" y2="92" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <text x="1480" y="96" text-anchor="end" font-size="11" letter-spacing="2" fill="#56554f">SHIP EARLY &#8212; TUNE ON REAL QUESTIONS</text>
+
+  <!-- rollout timeline -->
+  <rect x="120" y="150" width="1360" height="300" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
+  <text x="152" y="192" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">ROLLOUT LOOP</text>
+  <text x="1448" y="192" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">2025 &#8212; IN PRODUCTION</text>
+  <line x1="120" y1="208" x2="1480" y2="208" stroke="#eae8e3" stroke-opacity="0.08"/>
+
+  <line x1="180" y1="330" x2="1420" y2="330" stroke="#eae8e3" stroke-opacity="0.14"/>
+  <g fill="#ceff00">
+    <circle cx="280" cy="330" r="5"/>
+    <circle cx="660" cy="330" r="5"/>
+    <circle cx="1040" cy="330" r="5"/>
+    <circle cx="1340" cy="330" r="5" fill-opacity="0.4"/>
+  </g>
+  <g font-size="12" letter-spacing="2" text-anchor="middle" fill="#eae8e3" fill-opacity="0.85">
+    <text x="280" y="290">SHIP</text>
+    <text x="660" y="290">OBSERVE</text>
+    <text x="1040" y="290">TUNE</text>
+    <text x="1340" y="290" fill-opacity="0.5">REPEAT</text>
+  </g>
+  <g font-size="9" letter-spacing="1" text-anchor="middle" fill="#56554f">
+    <text x="280" y="368">TO REAL USERS, EARLY</text>
+    <text x="660" y="368">HOW EMPLOYEES ACTUALLY ASK</text>
+    <text x="1040" y="368">RETRIEVAL QUALITY &#183; UX</text>
+    <text x="1340" y="368">EVERY CYCLE</text>
+  </g>
+  <g font-size="10" letter-spacing="1" text-anchor="middle" fill="#98968f">
+    <text x="470" y="320">QUESTIONS IN</text>
+    <text x="850" y="320">FINDINGS OUT</text>
+  </g>
+  <text x="152" y="420" font-size="10" letter-spacing="1" fill="#56554f">EVERY ANSWER GROUNDED IN R&#220;KO'S OWN DOCUMENTS &#8212; NOT A MODEL'S IMAGINATION</text>
+
+  <!-- adoption panel -->
+  <rect x="120" y="520" width="800" height="360" fill="#141417" stroke="#eae8e3" stroke-opacity="0.16" filter="url(#sh)"/>
+  <text x="152" y="562" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">ADOPTION</text>
+  <text x="888" y="562" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">INTERNAL ANSWER MACHINE</text>
+  <line x1="120" y1="578" x2="920" y2="578" stroke="#eae8e3" stroke-opacity="0.1"/>
+
+  <text x="152" y="700" font-size="96" fill="#ceff00">50+</text>
+  <text x="152" y="740" font-size="11" letter-spacing="2" fill="#98968f">EMPLOYEES SERVED &#8212; DAILY QUESTIONS</text>
+
+  <g font-size="11" fill="#98968f">
+    <text x="152" y="800">BEFORE &#8212; DIG THROUGH FOLDERS, INTERRUPT A COLLEAGUE</text>
+    <text x="152" y="836">AFTER &#8212; ASK THE BOT, GET A CITED ANSWER</text>
+  </g>
+  <g>
+    <rect x="660" y="788" width="200" height="5" fill="#56554f" fill-opacity="0.5"/>
+    <rect x="660" y="824" width="64" height="5" fill="#ceff00"/>
+  </g>
+
+  <!-- scope panel -->
+  <rect x="1000" y="520" width="480" height="360" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
+  <text x="1032" y="562" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">SCOPE</text>
+  <line x1="1000" y1="578" x2="1480" y2="578" stroke="#eae8e3" stroke-opacity="0.1"/>
+  <g font-size="12" fill="#98968f">
+    <text x="1032" y="624">MACHINE SPECS</text>
+    <text x="1032" y="660">INTERNAL PROCESSES</text>
+    <text x="1032" y="696">PROJECT DOCUMENTS</text>
+  </g>
+  <g fill="none" stroke="#ceff00" stroke-opacity="0.55">
+    <rect x="1032" y="724" width="170" height="26" rx="1"/>
+    <rect x="1214" y="724" width="120" height="26" rx="1"/>
+  </g>
+  <g font-size="10" letter-spacing="1" fill="#ceff00" fill-opacity="0.85" text-anchor="middle">
+    <text x="1117" y="741">DESIGNED + BUILT E2E</text>
+    <text x="1274" y="741">ONE PERSON</text>
+  </g>
+  <text x="1032" y="800" font-size="10" letter-spacing="1" fill="#56554f">CONFIDENTIAL DATA &#8212; OFF-THE-SHELF</text>
+  <text x="1032" y="820" font-size="10" letter-spacing="1" fill="#56554f">CHATBOTS WERE NEVER AN OPTION</text>
+
+  <!-- bottom measurement rule -->
+  <line x1="120" y1="928" x2="1480" y2="928" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <g stroke="#eae8e3" stroke-opacity="0.14">
+    <line x1="120" y1="924" x2="120" y2="932"/>
+    <line x1="460" y1="924" x2="460" y2="932"/>
+    <line x1="800" y1="924" x2="800" y2="932"/>
+    <line x1="1140" y1="924" x2="1140" y2="932"/>
+    <line x1="1480" y1="924" x2="1480" y2="932"/>
+  </g>
+</svg>

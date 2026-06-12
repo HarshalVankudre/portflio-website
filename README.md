@@ -25,8 +25,11 @@ A multi-page, motion-rich portfolio built on the Next.js App Router — case stu
 ## Highlights
 
 - **Cinematic opening** — a once-per-session preloader (counter + wipe) with a pre-paint cover script so nothing ever flashes, gated on font readiness, hands off to the hero via a custom event
-- **WebGL gradient field** — an OGL fragment shader (domain-warped simplex noise) that drifts with scroll and pointer, throttled on mobile, with context-loss recovery and a CSS fallback
-- **Case studies** at `/work/[slug]` — localized long-form problem → approach → result, count-up metrics, parallax art-directed covers, per-page Open Graph images
+- **Interactive hero** — after the entrance, the name splits into characters whose variable-font weight blooms around the cursor while the shader's volt pool swells behind the headline; fast scrolling shears the type and it settles back
+- **WebGL gradient field** — an OGL fragment shader (domain-warped simplex noise) that drifts with scroll and pointer, brightens on request via an `hv:glow` event, throttled on mobile, with context-loss recovery and a CSS fallback
+- **Work list with presence** — oversized rows with a volt clip-sweep across titles and a cursor-trailing preview that crossfades between projects and tilts with pointer velocity
+- **Capabilities band** — outlined oversized terms drifting in a marquee that accelerates with scroll velocity (decorative; the cards below carry the content), over three capability cards
+- **Case studies** at `/work/[slug]` — localized long-form problem → approach → result with in-flow architecture and outcome plates (art-directed FIG. panels driven by a `media` schema), a chapter-aware scroll rail, count-up metrics, clip-reveal parallax covers, per-page Open Graph images
 - **AI assistant** — streaming chat (Groq) grounded in `portfolioData.ts`, bilingual, with deterministic local fallback answers when no API key is set, lazy-loaded out of the initial bundle
 - **Fully bilingual** — EN/DE with persisted preference, synced `<html lang>`, and consistent du-register German
 - **Accessible** — WCAG AA contrast, focus traps + Escape on overlays, skip links, live regions, reduced-motion paths through every effect, 44px touch targets
@@ -38,7 +41,7 @@ A multi-page, motion-rich portfolio built on the Next.js App Router — case stu
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Hero, selected work, about teaser, contact |
+| `/` | Hero, selected work, capabilities, about teaser, contact |
 | `/about` | Experience timeline, skills, education, languages, CV download |
 | `/work/[slug]` | Case studies: `ruko-gpt`, `teams-bot`, `courseviewer` |
 | `/now` | What I'm building / learning / reading right now |
@@ -99,9 +102,10 @@ NEXT_PUBLIC_SITE_URL=https://vankudre.com
 
 - `src/app/layout.tsx` — fonts (Fraunces with true italics + optical sizing), JSON-LD, the pre-paint preloader cover script, providers, analytics
 - `src/components/providers/SmoothScrollProvider.tsx` — Lenis on the GSAP ticker via a `useLenis` bridge component (see the comment in that file before touching it — wheel scrolling depends on it)
-- `src/components/providers/TransitionProvider.tsx` — clip-path curtain transitions with a stuck-curtain failsafe; emits `hv:navigate` / `hv:page-revealed`
-- `src/lib/preloader.ts` — the contract between the preloader and the hero (`hv:preloader-done`)
-- `src/lib/caseStudies.ts` — single source of truth for case studies (pages, OG images, llms.txt all derive from it)
+- `src/components/providers/TransitionProvider.tsx` — clip-path curtain transitions with a stuck-curtain failsafe; shows the destination's label mid-wipe; emits `hv:navigate` / `hv:page-revealed`
+- `src/lib/preloader.ts` / `src/lib/glow.ts` — event contracts: the preloader→hero handoff (`hv:preloader-done`) and the gradient-field swell (`hv:glow`)
+- `src/components/ui/ScrambleLabel.tsx`, `src/components/effects/VelocityLean.tsx`, `src/components/effects/ScrollRail.tsx` — reusable motion primitives (scramble-in labels, scroll-velocity skew, progress rail with optional chapter ticks)
+- `src/lib/caseStudies.ts` — single source of truth for case studies, including the in-flow `media` sections (pages, OG images, llms.txt all derive from it; real screenshots slot in as `src` changes)
 - `src/lib/portfolioData.ts` — lean knowledge base for the chatbot and its fallback answers
 - `src/context/LanguageContext.tsx` — EN/DE copy via `t(...)`, persisted, synced to `<html lang>`
 

@@ -15,12 +15,14 @@ import { prefersReducedMotion } from "@/lib/motion";
 
 interface TransitionContextValue {
   /** Navigate with the curtain wipe. Accepts paths and path#hash. */
-  navigate: (href: string) => void;
+  navigate: (href: string, opts?: { label?: string }) => void;
 }
 
 const TransitionContext = createContext<TransitionContextValue>({
   navigate: () => {},
 });
+
+const DEFAULT_CURTAIN_LABEL = "HV — PORTFOLIO";
 
 export const useTransitionRouter = () => useContext(TransitionContext);
 
@@ -39,6 +41,7 @@ export default function TransitionProvider({
   const pathname = usePathname();
   const lenis = useLenis();
   const curtainRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
   const pendingHash = useRef<string | null>(null);
   const inTransit = useRef(false);
   const failsafe = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -64,11 +67,13 @@ export default function TransitionProvider({
       gsap.killTweensOf(curtain);
       gsap.set(curtain, { display: "none", clipPath: "inset(100% 0 0 0)" });
     }
+    if (labelRef.current)
+      labelRef.current.textContent = DEFAULT_CURTAIN_LABEL;
     lenis?.start();
   }, [lenis]);
 
   const navigate = useCallback(
-    (href: string) => {
+    (href: string, opts?: { label?: string }) => {
       // A wipe is already running — swallow rapid re-clicks instead of
       // snapping the curtain and dropping the first navigation.
       if (inTransit.current) return;
@@ -93,6 +98,10 @@ export default function TransitionProvider({
       }
 
       inTransit.current = true;
+      // Plain textContent write before the wipe — no re-render, no new tweens.
+      if (labelRef.current)
+        labelRef.current.textContent =
+          opts?.label?.trim() || DEFAULT_CURTAIN_LABEL;
       window.dispatchEvent(new CustomEvent("hv:navigate"));
       lenis?.stop();
       gsap.killTweensOf(curtain);
@@ -148,6 +157,8 @@ export default function TransitionProvider({
         delay: 0.1,
         onComplete: () => {
           gsap.set(curtain, { display: "none" });
+          if (labelRef.current)
+            labelRef.current.textContent = DEFAULT_CURTAIN_LABEL;
           window.dispatchEvent(new CustomEvent("hv:page-revealed"));
           lenis?.start();
         },
@@ -167,8 +178,11 @@ export default function TransitionProvider({
       >
         <div className="absolute inset-x-0 top-0 h-px bg-accent" />
         <div className="absolute inset-x-0 bottom-0 h-px bg-accent" />
-        <span className="label-mono absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-faint">
-          HV — PORTFOLIO
+        <span
+          ref={labelRef}
+          className="label-mono absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-faint"
+        >
+          {DEFAULT_CURTAIN_LABEL}
         </span>
       </div>
     </TransitionContext.Provider>
