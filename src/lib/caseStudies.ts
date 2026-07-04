@@ -21,8 +21,8 @@ export interface CaseMediaSection {
 }
 
 export interface CaseStudy {
-  slug: "ruko-gpt" | "teams-bot" | "courseviewer";
-  index: string; // "01"…"03"
+  slug: "ruko-gpt" | "teams-bot" | "enbw-chatbot" | "courseviewer";
+  index: string; // "01"…"04"
   title: string;
   year: string;
   client: string;
@@ -36,7 +36,8 @@ export interface CaseStudy {
   hero: { src: string; alt: Localized };
   /** Optional in-flow visuals; absent → the page renders prose-only. */
   media?: CaseMediaSection[];
-  links?: { live?: string; repo?: string };
+  /** reference = employer reference letter (Arbeitszeugnis) backing the work. */
+  links?: { live?: string; repo?: string; reference?: string };
   nextSlug: CaseStudy["slug"];
 }
 
@@ -45,7 +46,7 @@ export const caseStudies: CaseStudy[] = [
     slug: "ruko-gpt",
     index: "01",
     title: "Rüko GPT",
-    year: "2025 —",
+    year: "2025 — 2026",
     client: "RÜKO GmbH Baumaschinen",
     role: { en: "AI Developer", de: "KI-Entwickler" },
     stack: [
@@ -73,14 +74,14 @@ export const caseStudies: CaseStudy[] = [
     },
     approach: {
       en: [
-        "I design and build Rüko GPT end to end: a Next.js + TypeScript application with Prisma and PostgreSQL underneath, NextAuth.js for company-account authentication, and the OpenAI API for generation.",
+        "I designed and built Rüko GPT end to end: a Next.js + TypeScript application with Prisma and PostgreSQL underneath, NextAuth.js for company-account authentication, and the OpenAI API for generation.",
         "Documents are processed into a retrieval pipeline so every answer is grounded in real company sources. A separate REST API server extends the system into the company's wider knowledge-management landscape.",
-        "Rollout is iterative — shipping to real users early, then tuning retrieval quality and UX based on how employees actually ask questions.",
+        "Rollout was iterative — shipping to real users early, then tuning retrieval quality and UX based on how employees actually ask questions.",
       ],
       de: [
-        "Ich konzipiere und entwickle Rüko GPT von Anfang bis Ende: eine Next.js + TypeScript-Anwendung mit Prisma und PostgreSQL darunter, NextAuth.js für die Authentifizierung mit Firmenkonten und der OpenAI API für die Generierung.",
+        "Ich habe Rüko GPT von Anfang bis Ende konzipiert und entwickelt: eine Next.js + TypeScript-Anwendung mit Prisma und PostgreSQL darunter, NextAuth.js für die Authentifizierung mit Firmenkonten und der OpenAI API für die Generierung.",
         "Dokumente laufen durch eine Retrieval-Pipeline, sodass jede Antwort auf echten Unternehmensquellen basiert. Ein separater REST-API-Server bindet das System an das weitere Wissensmanagement des Unternehmens an.",
-        "Der Rollout ist iterativ — früh zu echten Nutzern, dann Retrieval-Qualität und UX anhand echter Fragen verbessern.",
+        "Der Rollout war iterativ — früh zu echten Nutzern, dann Retrieval-Qualität und UX anhand echter Fragen verbessern.",
       ],
     },
     result: {
@@ -141,6 +142,7 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
     ],
+    links: { reference: "/rueko-arbeitszeugnis.pdf" },
     nextSlug: "teams-bot",
   },
   {
@@ -240,11 +242,109 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
     ],
+    links: { reference: "/rueko-arbeitszeugnis.pdf" },
+    nextSlug: "enbw-chatbot",
+  },
+  {
+    slug: "enbw-chatbot",
+    index: "03",
+    title: "EnBW Chatbot",
+    year: "2024 — 2025",
+    client: "EnBW GmbH",
+    role: { en: "Working Student", de: "Werkstudent" },
+    stack: ["GPT-based NLP", "Chatbot", "HubSpot", "Data Analysis", "Process Automation"],
+    oneLiner: {
+      en: "A chatbot project and GPT-based NLP pilot at one of Germany's largest energy companies — 35% faster responses and ~60% of tier-1 inquiries automated.",
+      de: "Ein Chatbot-Projekt und GPT-basierter NLP-Pilot bei einem der größten Energieunternehmen Deutschlands — 35% schnellere Antworten und ~60% der Tier-1-Anfragen automatisiert.",
+    },
+    problem: {
+      en: [
+        "Inside EnBW's trading and direct-marketing operations, routine tier-1 inquiries queued up faster than the team could answer them. Every repetitive question cost time that should have gone to the cases that actually needed a human.",
+        "The volume wasn't the hard part — the variety was. Inquiries arrived in free-form language, and any automation had to understand them reliably before it was allowed to answer.",
+      ],
+      de: [
+        "Im Trading- und Direktvermarktungsumfeld von EnBW liefen Tier-1-Standardanfragen schneller auf, als das Team sie beantworten konnte. Jede repetitive Frage kostete Zeit, die eigentlich den Fällen gehörte, die wirklich einen Menschen brauchten.",
+        "Das Volumen war nicht das Schwierige — die Vielfalt war es. Anfragen kamen in freier Sprache, und jede Automatisierung musste sie zuverlässig verstehen, bevor sie antworten durfte.",
+      ],
+    },
+    approach: {
+      en: [
+        "Over four months I delivered a chatbot project focused on the response path itself: understanding the inquiry, retrieving the right answer, and getting it back to the requester faster than the manual workflow could.",
+        "I then led a three-month pilot integrating GPT-based NLP into the inquiry flow — classifying free-form tier-1 questions and answering the ones the model could handle safely, while everything ambiguous stayed with the team.",
+        "The work sat close to the operations it automated: data lived in HubSpot and Excel, and the pilot was measured against the team's real workload, not a demo dataset.",
+      ],
+      de: [
+        "Über vier Monate habe ich ein Chatbot-Projekt umgesetzt, das am Antwortweg selbst ansetzt: die Anfrage verstehen, die richtige Antwort finden und sie schneller zurückspielen, als es der manuelle Workflow konnte.",
+        "Danach habe ich einen dreimonatigen Pilot geleitet, der GPT-basiertes NLP in den Anfrageprozess integriert — Tier-1-Fragen in freier Sprache klassifizieren und die sicher beantwortbaren automatisch erledigen, während alles Mehrdeutige beim Team blieb.",
+        "Die Arbeit fand nah an den automatisierten Abläufen statt: Die Daten lagen in HubSpot und Excel, und der Pilot wurde an der echten Arbeitslast des Teams gemessen — nicht an einem Demo-Datensatz.",
+      ],
+    },
+    result: {
+      en: [
+        "Response times improved by roughly 35%, and the GPT pilot automated about 60% of tier-1 inquiries — the repetitive share of the queue — freeing the team for the cases that needed judgment. It was also the project that pulled my work permanently toward production AI systems.",
+      ],
+      de: [
+        "Die Antwortzeiten verbesserten sich um rund 35%, und der GPT-Pilot automatisierte etwa 60% der Tier-1-Anfragen — den repetitiven Teil der Warteschlange — und gab dem Team Zeit für die Fälle, die Urteilsvermögen brauchen. Es war außerdem das Projekt, das meine Arbeit dauerhaft Richtung produktiver KI-Systeme gezogen hat.",
+      ],
+    },
+    metrics: [
+      {
+        value: "35%",
+        label: { en: "Faster responses", de: "Schnellere Antworten" },
+      },
+      {
+        value: "60%",
+        label: { en: "Tier-1 inquiries automated", de: "Tier-1-Anfragen automatisiert" },
+      },
+      {
+        value: "7 mo",
+        label: { en: "Project + pilot, end to end", de: "Projekt + Pilot, Ende zu Ende" },
+      },
+    ],
+    hero: {
+      src: "/work/enbw-chatbot/hero.svg",
+      alt: {
+        en: "EnBW chatbot — tier-1 inquiry automation interface",
+        de: "EnBW-Chatbot — Oberfläche zur Automatisierung von Tier-1-Anfragen",
+      },
+    },
+    media: [
+      {
+        layout: "full",
+        after: "approach",
+        items: [
+          {
+            src: "/work/enbw-chatbot/detail-01.svg",
+            alt: {
+              en: "Inquiry pipeline — classify free-form questions, answer safe tier-1 cases automatically, escalate everything ambiguous",
+              de: "Anfrage-Pipeline — Fragen in freier Sprache klassifizieren, sichere Tier-1-Fälle automatisch beantworten, alles Mehrdeutige eskalieren",
+            },
+          },
+        ],
+      },
+      {
+        layout: "figure",
+        after: "result",
+        items: [
+          {
+            src: "/work/enbw-chatbot/detail-02.svg",
+            alt: {
+              en: "Before/after view of the inquiry queue — 35% faster responses, 60% of tier-1 automated",
+              de: "Vorher/Nachher-Ansicht der Anfrage-Warteschlange — 35% schnellere Antworten, 60% Tier-1 automatisiert",
+            },
+            caption: {
+              en: "Fig. 03 — The queue after the pilot: the repetitive share answers itself.",
+              de: "Fig. 03 — Die Warteschlange nach dem Pilot: der repetitive Anteil beantwortet sich selbst.",
+            },
+          },
+        ],
+      },
+    ],
     nextSlug: "courseviewer",
   },
   {
     slug: "courseviewer",
-    index: "03",
+    index: "04",
     title: "CourseViewer",
     year: "2024",
     client: "Personal project",
@@ -329,7 +429,7 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
     ],
-    links: { repo: "https://github.com/HarshalVankudre" },
+    links: { repo: "https://github.com/HarshalVankudre/CourseViewer" },
     nextSlug: "ruko-gpt",
   },
 ];

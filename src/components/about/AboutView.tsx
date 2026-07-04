@@ -52,7 +52,7 @@ export default function AboutView() {
             <div>
               <dt className="label-mono">{t("home.role")}</dt>
               <dd className="mt-1 font-mono text-sm text-fg">
-                RÜKO GmbH Baumaschinen
+                {t("home.company")}
               </dd>
             </div>
             <div>

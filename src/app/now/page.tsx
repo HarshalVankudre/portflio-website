@@ -7,7 +7,14 @@ export const metadata: Metadata = {
   title: "Now",
   description:
     "A snapshot of what Harshal Vankudre is focused on right now — building, learning, reading.",
-  alternates: { canonical: "/now" },
+  alternates: {
+    canonical: "/now",
+    languages: {
+      en: "/now",
+      de: "/now?lang=de",
+      "x-default": "/now",
+    },
+  },
   openGraph: {
     title: "Now | Harshal Vankudre",
     description:

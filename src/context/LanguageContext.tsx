@@ -25,12 +25,15 @@ const translations = {
     "nav.about": "About",
     "nav.contact": "Contact",
     "nav.letsTalk": "Let's Talk",
+    "nav.openMenu": "Open menu",
+    "nav.closeMenu": "Close menu",
+    "nav.language": "Language",
 
     // Shared
     "hero.location": "Karlsruhe, Germany",
 
     // About
-    "about.summary": "I build AI systems that survive contact with real users — RAG pipelines, enterprise chatbots, and the full-stack products around them. By day I'm the AI Developer at RÜKO GmbH Baumaschinen; alongside, I'm finishing a B.Sc. in Data Science at Hochschule Karlsruhe.",
+    "about.summary": "I build AI systems that survive contact with real users — RAG pipelines, enterprise chatbots, and the full-stack products around them. Since July 2026 I work on AI in cyber security at Mercedes-Benz Tech Innovation; alongside, I'm finishing a B.Sc. in Data Science at Hochschule Karlsruhe.",
     "about.chess": "Off hours: long chess games when I should be sleeping, and too many retrieval papers. Based in",
     "about.looking": "I'm drawn to problems where the model is the easy part — where the real work is the data, the evaluation, and an interface people trust.",
 
@@ -43,6 +46,10 @@ const translations = {
     "skills.tools": "Work Tools",
 
     // Experience highlights (Timeline on /about)
+    // Mercedes-Benz Tech Innovation
+    "exp.mbti.role": "AI Cyber Security",
+    "exp.mbti.h1": "Working on AI applications in cyber security at Mercedes-Benz Tech Innovation",
+    "exp.mbti.h2": "Building on production experience with RAG systems, agents, and enterprise chatbots",
     // RÜKO
     "exp.ruko.role": "AI Developer",
     "exp.ruko.h1": "Designing and building Rüko GPT — the company's internal AI assistant for querying its own knowledge",
@@ -79,9 +86,11 @@ const translations = {
 
     // Contact
     "contact.tag": "Get In Touch",
-    "contact.title": "Have a problem worth solving?",
+    "contact.title": "Have something worth discussing?",
     "contact.titleHighlight": "Tell me about it",
+    "contact.availability": "Heads up: I've just started at Mercedes-Benz Tech Innovation and I'm not looking for work right now. For questions, ideas, or a good conversation, my inbox is always open.",
     "contact.quickLinks": "Elsewhere",
+    "contact.reference": "Reference Letter",
     "contact.respondFastest": "I usually respond fastest on email.",
     "contact.email": "Email",
     "contact.location": "Location",
@@ -107,9 +116,11 @@ const translations = {
     // Noir home
     "nav.work": "Work",
     "nav.now": "Now",
-    "home.role": "AI Developer",
+    "home.role": "AI Cyber Security",
+    "home.company": "Mercedes-Benz Tech Innovation",
+    "home.jobLocation": "Stuttgart, Germany",
     "home.tagline": "Building RAG systems and enterprise chatbots that people actually use.",
-    "home.status": "Now shipping Rüko GPT",
+    "home.status": "Now at Mercedes-Benz Tech Innovation",
     "home.scroll": "Scroll",
     "home.selectedWork": "Selected Work",
     "home.viewCase": "View case study",
@@ -117,9 +128,9 @@ const translations = {
     "home.aboutStatement": "I turn messy, undocumented problems into working software — RAG systems with daily users, agents that hold up in production, and interfaces that don't need a manual.",
     "home.moreAbout": "More about me",
     "home.metricYears": "Years of experience",
-    "home.metricUsers": "Internal users served",
-    "home.metricAutomation": "Tier-1 inquiries automated",
-    "home.metricFaster": "Faster responses",
+    "home.metricUsers": "Internal users served · RÜKO",
+    "home.metricAutomation": "Tier-1 automated · EnBW",
+    "home.metricFaster": "Faster responses · EnBW",
 
     // Capabilities strip
     "home.capabilitiesLabel": "What I do",
@@ -158,18 +169,22 @@ const translations = {
     "work.role": "Role",
     "work.client": "Client",
     "work.stack": "Stack",
+    "work.reference": "Reference letter (PDF)",
   },
   de: {
     // Navbar
     "nav.about": "Über mich",
     "nav.contact": "Kontakt",
-    "nav.letsTalk": "Kontakt",
+    "nav.letsTalk": "Schreib mir",
+    "nav.openMenu": "Menü öffnen",
+    "nav.closeMenu": "Menü schließen",
+    "nav.language": "Sprache",
 
     // Shared
     "hero.location": "Karlsruhe, Deutschland",
 
     // About
-    "about.summary": "Ich baue KI-Systeme, die den Kontakt mit echten Nutzern überleben — RAG-Pipelines, Enterprise-Chatbots und die Full-Stack-Produkte drumherum. Tagsüber bin ich KI-Entwickler bei RÜKO GmbH Baumaschinen; nebenher mache ich meinen B.Sc. in Data Science an der Hochschule Karlsruhe fertig.",
+    "about.summary": "Ich baue KI-Systeme, die den Kontakt mit echten Nutzern überleben — RAG-Pipelines, Enterprise-Chatbots und die Full-Stack-Produkte drumherum. Seit Juli 2026 arbeite ich an KI in der Cyber Security bei Mercedes-Benz Tech Innovation; nebenher mache ich meinen B.Sc. in Data Science an der Hochschule Karlsruhe fertig.",
     "about.chess": "Nach Feierabend: lange Schachpartien, wenn ich eigentlich schlafen sollte — und zu viele Retrieval-Paper. Zuhause in",
     "about.looking": "Mich reizen Probleme, bei denen das Modell der einfache Teil ist — und die eigentliche Arbeit in den Daten, der Evaluation und einer Oberfläche steckt, der man vertraut.",
 
@@ -182,6 +197,10 @@ const translations = {
     "skills.tools": "Arbeits-Tools",
 
     // Experience highlights (Timeline on /about)
+    // Mercedes-Benz Tech Innovation
+    "exp.mbti.role": "AI Cyber Security",
+    "exp.mbti.h1": "Arbeit an KI-Anwendungen in der Cyber Security bei Mercedes-Benz Tech Innovation",
+    "exp.mbti.h2": "Aufbauend auf Produktionserfahrung mit RAG-Systemen, Agenten und Enterprise-Chatbots",
     // RÜKO
     "exp.ruko.role": "KI-Entwickler",
     "exp.ruko.h1": "Konzeption und Entwicklung von Rüko GPT — dem internen KI-Assistenten für das Unternehmenswissen",
@@ -218,9 +237,11 @@ const translations = {
 
     // Contact
     "contact.tag": "Kontakt aufnehmen",
-    "contact.title": "Ein Problem, das sich lohnt?",
+    "contact.title": "Etwas, das sich zu besprechen lohnt?",
     "contact.titleHighlight": "Erzähl mir davon",
+    "contact.availability": "Kurzer Hinweis: Ich habe gerade bei Mercedes-Benz Tech Innovation angefangen und suche aktuell keine neue Stelle. Für Fragen, Ideen oder ein gutes Gespräch ist mein Postfach immer offen.",
     "contact.quickLinks": "Anderswo",
+    "contact.reference": "Arbeitszeugnis",
     "contact.respondFastest": "Ich antworte am schnellsten per E-Mail.",
     "contact.email": "E-Mail",
     "contact.location": "Standort",
@@ -246,9 +267,11 @@ const translations = {
     // Noir home
     "nav.work": "Projekte",
     "nav.now": "Jetzt",
-    "home.role": "KI-Entwickler",
+    "home.role": "AI Cyber Security",
+    "home.company": "Mercedes-Benz Tech Innovation",
+    "home.jobLocation": "Stuttgart, Deutschland",
     "home.tagline": "Ich baue RAG-Systeme und Enterprise-Chatbots, die wirklich genutzt werden.",
-    "home.status": "Gerade live: Rüko GPT",
+    "home.status": "Jetzt bei Mercedes-Benz Tech Innovation",
     "home.scroll": "Scrollen",
     "home.selectedWork": "Ausgewählte Arbeiten",
     "home.viewCase": "Fallstudie ansehen",
@@ -256,9 +279,9 @@ const translations = {
     "home.aboutStatement": "Ich verwandle unübersichtliche, undokumentierte Probleme in funktionierende Software — RAG-Systeme mit täglichen Nutzern, Agenten, die der Produktion standhalten, und Oberflächen, die kein Handbuch brauchen.",
     "home.moreAbout": "Mehr über mich",
     "home.metricYears": "Jahre Erfahrung",
-    "home.metricUsers": "Interne Nutzer",
-    "home.metricAutomation": "Tier-1 automatisiert",
-    "home.metricFaster": "Schnellere Antworten",
+    "home.metricUsers": "Interne Nutzer · RÜKO",
+    "home.metricAutomation": "Tier-1 automatisiert · EnBW",
+    "home.metricFaster": "Schnellere Antworten · EnBW",
 
     // Capabilities strip
     "home.capabilitiesLabel": "Was ich mache",
@@ -297,6 +320,7 @@ const translations = {
     "work.role": "Rolle",
     "work.client": "Kunde",
     "work.stack": "Stack",
+    "work.reference": "Arbeitszeugnis (PDF)",
   },
 } satisfies Record<Language, Record<string, string>>;
 
@@ -310,12 +334,16 @@ const STORAGE_KEY = "hv-lang";
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
 
-  // Restore the saved preference after hydration (SSR always renders EN,
-  // so reading localStorage in the initializer would mismatch).
+  // Restore the preference after hydration (SSR always renders EN, so
+  // reading localStorage in the initializer would mismatch). An explicit
+  // ?lang= URL parameter wins over the saved preference — it makes both
+  // languages linkable (and is what the hreflang alternates point at).
   useEffect(() => {
     try {
+      const fromUrl = new URLSearchParams(window.location.search).get("lang");
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved === "de") {
+      const preferred = fromUrl === "de" || fromUrl === "en" ? fromUrl : saved;
+      if (preferred === "de") {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setLanguage("de");
       }

@@ -9,12 +9,27 @@ import { prefersReducedMotion } from "@/lib/motion";
    the short impact lines are inline-localized. */
 const ENTRIES = [
   {
+    company: "Mercedes-Benz Tech Innovation",
+    period: "2026 —",
+    location: "Stuttgart, DE",
+    roleKey: "exp.mbti.role" as const,
+    highlightKeys: ["exp.mbti.h1", "exp.mbti.h2"] as const,
+    impact: {
+      en: "AI × cyber security",
+      de: "KI × Cyber Security",
+    },
+  },
+  {
     company: "RÜKO GmbH Baumaschinen",
-    period: "2025 —",
+    period: "2025 — 2026",
     location: "Karlsruhe, DE",
     roleKey: "exp.ruko.role" as const,
     highlightKeys: ["exp.ruko.h1", "exp.ruko.h2", "exp.ruko.h5"] as const,
     impact: { en: "50+ internal users", de: "50+ interne Nutzer" },
+    reference: {
+      href: "/rueko-arbeitszeugnis.pdf",
+      label: { en: "Reference letter (PDF) ↗", de: "Arbeitszeugnis (PDF) ↗" },
+    },
   },
   {
     company: "EnBW GmbH",
@@ -118,6 +133,18 @@ export default function Timeline() {
             <p className="mt-4 font-mono text-xs uppercase tracking-[0.14em] text-accent">
               {e.impact[language]}
             </p>
+            {"reference" in e && e.reference && (
+              <p className="mt-3">
+                <a
+                  href={e.reference.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-draw font-mono text-xs uppercase tracking-[0.14em] text-dim"
+                >
+                  {e.reference.label[language]}
+                </a>
+              </p>
+            )}
           </li>
         ))}
       </ol>

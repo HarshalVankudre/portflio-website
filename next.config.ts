@@ -72,7 +72,7 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: "/:file(favicon.svg|icon-192.png|icon-512.png|icon-maskable-512.png|profile.jpg)",
+        source: "/:file(favicon.svg|icon-192.png|icon-512.png|icon-maskable-512.png)",
         headers: [
           {
             key: "Cache-Control",
@@ -81,7 +81,7 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: "/cv.pdf",
+        source: "/:file(cv.pdf|rueko-arbeitszeugnis.pdf)",
         headers: [
           {
             key: "Cache-Control",

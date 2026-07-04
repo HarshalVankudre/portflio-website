@@ -219,7 +219,7 @@ export default function Hero() {
     >
       <div data-hero-parallax>
         <p data-hero-meta className="label-mono mb-6 sm:mb-10">
-          {t("home.role")} — RÜKO GmbH · {t("hero.location")}
+          {t("home.role")} — {t("home.company")} · {t("home.jobLocation")}
         </p>
 
         <VelocityLean strength={1.2}>

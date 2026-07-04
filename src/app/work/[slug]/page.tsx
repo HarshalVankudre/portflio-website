@@ -20,7 +20,14 @@ export async function generateMetadata({
   return {
     title: cs.title,
     description: cs.oneLiner.en,
-    alternates: { canonical: `/work/${cs.slug}` },
+    alternates: {
+      canonical: `/work/${cs.slug}`,
+      languages: {
+        en: `/work/${cs.slug}`,
+        de: `/work/${cs.slug}?lang=de`,
+        "x-default": `/work/${cs.slug}`,
+      },
+    },
     openGraph: {
       title: `${cs.title} | Harshal Vankudre`,
       description: cs.oneLiner.en,

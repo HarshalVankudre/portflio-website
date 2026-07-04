@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     template: "%s | Harshal Vankudre",
   },
   description:
-    "Portfolio of Harshal Vankudre — AI Developer building enterprise RAG systems, multi-agent chatbots, and modern web products with Python, Next.js, and OpenAI. Based in Karlsruhe, Germany.",
+    "Portfolio of Harshal Vankudre — AI Developer working on AI in cyber security at Mercedes-Benz Tech Innovation. Builder of enterprise RAG systems, multi-agent chatbots, and modern web products with Python, Next.js, and OpenAI. Based in Karlsruhe, Germany.",
   keywords: [
     "AI Developer",
     "Software Engineer",
@@ -61,9 +61,12 @@ export const metadata: Metadata = {
     "Machine Learning",
     "RAG",
     "Chatbot",
+    "AI Security",
+    "Cyber Security",
     "Next.js",
     "Python",
     "Karlsruhe",
+    "Stuttgart",
     "Germany",
   ],
   authors: [{ name: "Harshal Vankudre", url: SITE_URL }],
@@ -80,6 +83,13 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
+    // The UI is fully bilingual (client-side toggle); ?lang= makes each
+    // language directly linkable for crawlers and shared links.
+    languages: {
+      en: "/",
+      de: "/?lang=de",
+      "x-default": "/",
+    },
   },
   appleWebApp: {
     capable: true,
@@ -120,10 +130,10 @@ const personJsonLd = {
   name: "Harshal Vankudre",
   url: SITE_URL,
   image: `${SITE_URL}/opengraph-image`,
-  jobTitle: "AI Developer",
+  jobTitle: "AI Cyber Security",
   worksFor: {
     "@type": "Organization",
-    name: "RÜKO GmbH Baumaschinen",
+    name: "Mercedes-Benz Tech Innovation",
   },
   alumniOf: [
     {
@@ -144,6 +154,7 @@ const personJsonLd = {
   knowsAbout: [
     "Artificial Intelligence",
     "Retrieval Augmented Generation",
+    "AI Security",
     "Full-Stack Development",
     "Python",
     "TypeScript",

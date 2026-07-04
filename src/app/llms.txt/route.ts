@@ -24,7 +24,9 @@ export function GET(): Response {
 
   const body = `# Harshal Vankudre — AI Developer
 
-${personal.title} based in ${personal.location}. Currently AI Developer at RÜKO GmbH Baumaschinen, building enterprise RAG systems and AI agents. ${personal.focus}
+${personal.title} based in ${personal.location}. Since July 2026 working on AI in cyber security at Mercedes-Benz Tech Innovation (Stuttgart). Previously built enterprise RAG systems and AI agents at RÜKO GmbH Baumaschinen and chatbot automation at EnBW. ${personal.focus}
+
+Availability: not looking for a new role or freelance work right now.
 
 ## Selected work
 
@@ -45,6 +47,7 @@ ${work}
 - LinkedIn: ${personal.linkedin}
 - Email: ${personal.email}
 - CV: ${SITE_URL}/cv.pdf
+- Reference letter (RÜKO GmbH Baumaschinen): ${SITE_URL}/rueko-arbeitszeugnis.pdf
 `;
 
   return new Response(body, {

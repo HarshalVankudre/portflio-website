@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" font-family="ui-monospace,'Cascadia Mono','Courier New',monospace">
+  <defs>
+    <radialGradient id="gt" cx="88%" cy="12%" r="55%">
+      <stop offset="0%" stop-color="#0b2b2b" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#0b2b2b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gv" cx="8%" cy="90%" r="50%">
+      <stop offset="0%" stop-color="#221440" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#221440" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ga" cx="34%" cy="36%" r="36%">
+      <stop offset="0%" stop-color="#ceff00" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#ceff00" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#eae8e3" fill-opacity="0.045"/>
+    </pattern>
+    <filter id="sh" x="-8%" y="-12%" width="116%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#060607"/>
+  <rect width="1600" height="1000" fill="url(#gt)"/>
+  <rect width="1600" height="1000" fill="url(#gv)"/>
+  <rect width="1600" height="1000" fill="url(#ga)"/>
+  <rect width="1600" height="1000" fill="url(#dots)"/>
+
+  <!-- frame: corner ticks + top rule -->
+  <g stroke="#eae8e3" stroke-opacity="0.18" fill="none">
+    <path d="M56 78v-22h22"/>
+    <path d="M1544 78v-22h-22"/>
+    <path d="M56 922v22h22"/>
+    <path d="M1544 922v22h-22"/>
+  </g>
+  <text x="110" y="96" font-size="11" letter-spacing="2" fill="#56554f">FIG. 01 / TIER-1 AUTOMATION</text>
+  <line x1="470" y1="92" x2="1120" y2="92" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <text x="1490" y="96" text-anchor="end" font-size="11" letter-spacing="2" fill="#56554f">ENBW &#8212; INQUIRY DESK</text>
+
+  <!-- inquiry queue window -->
+  <rect x="110" y="130" width="640" height="680" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.12" filter="url(#sh)"/>
+  <g fill="#eae8e3" fill-opacity="0.12">
+    <circle cx="140" cy="162" r="4"/>
+    <circle cx="158" cy="162" r="4"/>
+    <circle cx="176" cy="162" r="4"/>
+  </g>
+  <text x="210" y="167" font-size="12" letter-spacing="2" fill="#98968f">TIER-1 QUEUE</text>
+  <text x="718" y="167" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">LIVE &#183; 08:15</text>
+  <line x1="110" y1="190" x2="750" y2="190" stroke="#eae8e3" stroke-opacity="0.08"/>
+
+  <!-- queue rows -->
+  <g font-size="12">
+    <!-- auto-handled -->
+    <rect x="134" y="218" width="592" height="64" fill="#101012" stroke="#ceff00" stroke-opacity="0.28"/>
+    <rect x="134" y="218" width="2" height="64" fill="#ceff00"/>
+    <text x="154" y="245" fill="#eae8e3" fill-opacity="0.9">#4127 &#8212; contract data update</text>
+    <text x="154" y="268" font-size="10" fill="#56554f">CLASSIFIED &#183; TIER-1 &#183; CONFIDENCE HIGH</text>
+    <text x="706" y="245" text-anchor="end" fill="#ceff00" font-size="10" letter-spacing="2">AUTO</text>
+
+    <rect x="134" y="296" width="592" height="64" fill="#101012" stroke="#ceff00" stroke-opacity="0.28"/>
+    <rect x="134" y="296" width="2" height="64" fill="#ceff00"/>
+    <text x="154" y="323" fill="#eae8e3" fill-opacity="0.9">#4128 &#8212; feed-in report request</text>
+    <text x="154" y="346" font-size="10" fill="#56554f">CLASSIFIED &#183; TIER-1 &#183; CONFIDENCE HIGH</text>
+    <text x="706" y="323" text-anchor="end" fill="#ceff00" font-size="10" letter-spacing="2">AUTO</text>
+
+    <!-- escalated -->
+    <rect x="134" y="374" width="592" height="64" fill="#101012" stroke="#eae8e3" stroke-opacity="0.1"/>
+    <text x="154" y="401" fill="#eae8e3" fill-opacity="0.9">#4129 &#8212; pricing exception, multi-site</text>
+    <text x="154" y="424" font-size="10" fill="#56554f">AMBIGUOUS &#183; NEEDS JUDGMENT</text>
+    <text x="706" y="401" text-anchor="end" fill="#98968f" font-size="10" letter-spacing="2">TEAM</text>
+
+    <rect x="134" y="452" width="592" height="64" fill="#101012" stroke="#ceff00" stroke-opacity="0.28"/>
+    <rect x="134" y="452" width="2" height="64" fill="#ceff00"/>
+    <text x="154" y="479" fill="#eae8e3" fill-opacity="0.9">#4130 &#8212; portal access reset</text>
+    <text x="154" y="502" font-size="10" fill="#56554f">CLASSIFIED &#183; TIER-1 &#183; CONFIDENCE HIGH</text>
+    <text x="706" y="479" text-anchor="end" fill="#ceff00" font-size="10" letter-spacing="2">AUTO</text>
+
+    <rect x="134" y="530" width="592" height="64" fill="#101012" stroke="#ceff00" stroke-opacity="0.28"/>
+    <rect x="134" y="530" width="2" height="64" fill="#ceff00"/>
+    <text x="154" y="557" fill="#eae8e3" fill-opacity="0.9">#4131 &#8212; invoice copy request</text>
+    <text x="154" y="580" font-size="10" fill="#56554f">CLASSIFIED &#183; TIER-1 &#183; CONFIDENCE HIGH</text>
+    <text x="706" y="557" text-anchor="end" fill="#ceff00" font-size="10" letter-spacing="2">AUTO</text>
+
+    <rect x="134" y="608" width="592" height="64" fill="#101012" stroke="#eae8e3" stroke-opacity="0.1"/>
+    <text x="154" y="635" fill="#eae8e3" fill-opacity="0.9">#4132 &#8212; new marketing partner setup</text>
+    <text x="154" y="658" font-size="10" fill="#56554f">AMBIGUOUS &#183; NEEDS JUDGMENT</text>
+    <text x="706" y="635" text-anchor="end" fill="#98968f" font-size="10" letter-spacing="2">TEAM</text>
+  </g>
+
+  <!-- queue footer -->
+  <line x1="110" y1="712" x2="750" y2="712" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <text x="134" y="748" font-size="10" letter-spacing="2" fill="#56554f">TODAY</text>
+  <text x="134" y="778" font-size="12" fill="#98968f">31 inquiries &#183; 19 answered automatically</text>
+  <circle cx="706" cy="762" r="3" fill="#ceff00"/>
+
+  <!-- answer panel -->
+  <rect x="810" y="200" width="680" height="480" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.12" filter="url(#sh)"/>
+  <text x="838" y="242" font-size="12" letter-spacing="2" fill="#98968f">#4127 &#8212; CONTRACT DATA UPDATE</text>
+  <text x="1462" y="242" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">GPT-NLP &#183; CLASSIFY + DRAFT</text>
+  <line x1="810" y1="262" x2="1490" y2="262" stroke="#eae8e3" stroke-opacity="0.08"/>
+
+  <!-- inbound message -->
+  <rect x="838" y="292" width="500" height="76" fill="#141417" stroke="#eae8e3" stroke-opacity="0.1"/>
+  <text x="858" y="322" font-size="12" fill="#98968f">"Hello, our bank details changed &#8212; how do I</text>
+  <text x="858" y="344" font-size="12" fill="#98968f">update the contract data for our plant?"</text>
+
+  <!-- classification chip -->
+  <rect x="838" y="392" width="292" height="30" fill="#101012" stroke="#ceff00" stroke-opacity="0.35"/>
+  <text x="856" y="412" font-size="10" letter-spacing="2" fill="#ceff00">INTENT: DATA CHANGE &#183; 0.97</text>
+
+  <!-- bot reply -->
+  <rect x="948" y="446" width="514" height="150" fill="#101012" stroke="#ceff00" stroke-opacity="0.3"/>
+  <rect x="948" y="446" width="2" height="150" fill="#ceff00"/>
+  <text x="972" y="478" font-size="12" fill="#eae8e3" fill-opacity="0.92">You can update contract and payment data</text>
+  <text x="972" y="502" font-size="12" fill="#eae8e3" fill-opacity="0.92">directly in the portal under "Master data".</text>
+  <text x="972" y="526" font-size="12" fill="#eae8e3" fill-opacity="0.92">I've attached the step-by-step guide.</text>
+  <text x="972" y="566" font-size="10" letter-spacing="2" fill="#56554f">ANSWERED AUTOMATICALLY &#183; 41 SEC</text>
+
+  <!-- panel footer -->
+  <line x1="810" y1="628" x2="1490" y2="628" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <circle cx="838" cy="654" r="3" fill="#ceff00"/>
+  <text x="852" y="658" font-size="10" letter-spacing="2" fill="#56554f">SAFE TO ANSWER &#183; AMBIGUOUS CASES GO TO THE TEAM</text>
+
+  <!-- bottom metric strip -->
+  <g font-size="11" letter-spacing="2">
+    <text x="810" y="760" fill="#56554f">RESPONSE TIME</text>
+    <text x="810" y="796" font-size="26" fill="#ceff00">-35%</text>
+    <text x="1090" y="760" fill="#56554f">TIER-1 AUTOMATED</text>
+    <text x="1090" y="796" font-size="26" fill="#ceff00">~60%</text>
+    <text x="1370" y="760" fill="#56554f">PILOT</text>
+    <text x="1370" y="796" font-size="26" fill="#eae8e3" fill-opacity="0.85">LIVE</text>
+  </g>
+
+  <text x="110" y="944" font-size="10" letter-spacing="2" fill="#56554f">CONCEPT PANEL &#8212; PRODUCTION UI IS INTERNAL</text>
+  <text x="1490" y="944" text-anchor="end" font-size="10" letter-spacing="2" fill="#56554f">2024&#8211;2025 &#183; KARLSRUHE</text>
+</svg>

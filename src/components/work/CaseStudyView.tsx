@@ -195,16 +195,28 @@ export default function CaseStudyView({ slug }: { slug: CaseStudy["slug"] }) {
       />
       {mediaAfter("result")}
 
-      {cs.links?.repo && (
-        <div className="border-t border-line px-gutter py-10">
-          <a
-            href={cs.links.repo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-draw font-mono text-xs uppercase tracking-[0.18em] text-dim"
-          >
-            GitHub ↗
-          </a>
+      {(cs.links?.repo || cs.links?.reference) && (
+        <div className="flex flex-wrap gap-10 border-t border-line px-gutter py-10">
+          {cs.links?.repo && (
+            <a
+              href={cs.links.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-draw font-mono text-xs uppercase tracking-[0.18em] text-dim"
+            >
+              GitHub ↗
+            </a>
+          )}
+          {cs.links?.reference && (
+            <a
+              href={cs.links.reference}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-draw font-mono text-xs uppercase tracking-[0.18em] text-dim"
+            >
+              {t("work.reference")} ↗
+            </a>
+          )}
         </div>
       )}
 

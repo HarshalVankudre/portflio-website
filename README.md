@@ -2,7 +2,7 @@
 
 # vankudre.com
 
-### Cinematic Noir — the portfolio of Harshal Vankudre, AI Developer in Karlsruhe.
+### Cinematic Noir — the portfolio of Harshal Vankudre, AI Developer (AI Cyber Security @ Mercedes-Benz Tech Innovation).
 
 [![Live Site](https://img.shields.io/badge/Live-vankudre.com-ceff00?style=for-the-badge&labelColor=060607&color=ceff00)](https://vankudre.com)
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs)](https://nextjs.org)
@@ -43,7 +43,7 @@ A multi-page, motion-rich portfolio built on the Next.js App Router — case stu
 | --- | --- |
 | `/` | Hero, selected work, capabilities, about teaser, contact |
 | `/about` | Experience timeline, skills, education, languages, CV download |
-| `/work/[slug]` | Case studies: `ruko-gpt`, `teams-bot`, `courseviewer` |
+| `/work/[slug]` | Case studies: `ruko-gpt`, `teams-bot`, `enbw-chatbot`, `courseviewer` |
 | `/now` | What I'm building / learning / reading right now |
 | `/offline` | Service-worker fallback when the network is gone |
 | `/llms.txt` | Machine-readable summary for AI crawlers |

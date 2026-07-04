@@ -88,6 +88,10 @@ export default function ContactSection() {
         {`${t("contact.title")} ${t("contact.titleHighlight")}.`}
       </RevealText>
 
+      <p className="mt-8 max-w-2xl border-l border-line-strong pl-4 text-sm leading-relaxed text-dim">
+        {t("contact.availability")}
+      </p>
+
       <Magnetic className="mt-12" strength={0.2}>
         <a
           href={`mailto:${EMAIL}`}
@@ -238,6 +242,18 @@ export default function ContactSection() {
                 >
                   <span className="link-draw font-mono text-sm uppercase tracking-[0.14em] text-dim">
                     {t("contact.downloadCv")} ↓
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/rueko-arbeitszeugnis.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex min-h-9 items-center"
+                >
+                  <span className="link-draw font-mono text-sm uppercase tracking-[0.14em] text-dim">
+                    {t("contact.reference")} ↗
                   </span>
                 </a>
               </li>

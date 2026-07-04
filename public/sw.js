@@ -1,4 +1,4 @@
-const CACHE_NAME = 'hv-portfolio-v3'; // bumped: offline fallback + cache strategy rework
+const CACHE_NAME = 'hv-portfolio-v4'; // bumped: Mercedes-Benz update + EnBW case study
 const RUNTIME_CACHE = `${CACHE_NAME}-runtime`;
 const MAX_RUNTIME_ENTRIES = 60;
 const OFFLINE_URL = '/offline';

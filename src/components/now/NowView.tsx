@@ -8,11 +8,11 @@ import type { Localized } from "@/lib/caseStudies";
 
 const SECTIONS: { label: Localized; items: Localized[] }[] = [
   {
-    label: { en: "Building", de: "Bauen" },
+    label: { en: "Working on", de: "Arbeiten an" },
     items: [
       {
-        en: "Rüko GPT — an internal AI assistant for 50+ employees at RÜKO GmbH, from RAG pipeline to the Next.js front-end.",
-        de: "Rüko GPT — ein interner KI-Assistent für 50+ Mitarbeitende der RÜKO GmbH, von der RAG-Pipeline bis zum Next.js-Frontend.",
+        en: "AI in cyber security at Mercedes-Benz Tech Innovation in Stuttgart — I joined in July 2026, so right now: learning fast and earning trust. (Not looking for work, by the way.)",
+        de: "KI in der Cyber Security bei Mercedes-Benz Tech Innovation in Stuttgart — ich habe im Juli 2026 angefangen, also gerade: schnell lernen und Vertrauen aufbauen. (Ich suche übrigens keine neue Stelle.)",
       },
       {
         en: "This very site — rebuilt from scratch, by hand, more times than I'd like to admit.",
@@ -24,8 +24,8 @@ const SECTIONS: { label: Localized; items: Localized[] }[] = [
     label: { en: "Learning", de: "Lernen" },
     items: [
       {
-        en: "Evaluation for RAG systems — turning 'it feels better' into something I can actually measure.",
-        de: "Evaluation für RAG-Systeme — aus 'fühlt sich besser an' etwas machen, das ich wirklich messen kann.",
+        en: "Where LLMs and security meet — what breaks, what defends, and what evaluation looks like in an adversarial setting.",
+        de: "Wo LLMs und Security sich treffen — was kaputtgeht, was verteidigt, und wie Evaluation in einem adversarialen Umfeld aussieht.",
       },
       {
         en: "Agentic workflows and tool-use patterns that don't fall apart in production.",
@@ -65,8 +65,8 @@ const FOOT = {
     de: " — eine Momentaufnahme, kein Lebenslauf. Sie ändert sich, wenn sich mein Leben ändert.",
   },
   updated: {
-    en: "Updated June 2026 · Karlsruhe, DE",
-    de: "Stand Juni 2026 · Karlsruhe, DE",
+    en: "Updated July 2026 · Karlsruhe, DE",
+    de: "Stand Juli 2026 · Karlsruhe, DE",
   },
 };
 

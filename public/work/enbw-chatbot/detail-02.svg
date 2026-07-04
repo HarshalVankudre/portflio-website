@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" font-family="ui-monospace,'Cascadia Mono','Courier New',monospace">
+  <defs>
+    <radialGradient id="gv" cx="84%" cy="14%" r="50%">
+      <stop offset="0%" stop-color="#221440" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#221440" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="gt" cx="10%" cy="86%" r="45%">
+      <stop offset="0%" stop-color="#0b2b2b" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#0b2b2b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ga" cx="30%" cy="10%" r="35%">
+      <stop offset="0%" stop-color="#ceff00" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#ceff00" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#eae8e3" fill-opacity="0.045"/>
+    </pattern>
+    <filter id="sh" x="-8%" y="-12%" width="116%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#060607"/>
+  <rect width="1600" height="1000" fill="url(#gv)"/>
+  <rect width="1600" height="1000" fill="url(#gt)"/>
+  <rect width="1600" height="1000" fill="url(#ga)"/>
+  <rect width="1600" height="1000" fill="url(#dots)"/>
+
+  <g stroke="#eae8e3" stroke-opacity="0.18" fill="none">
+    <path d="M56 78v-22h22"/>
+    <path d="M1544 78v-22h-22"/>
+    <path d="M56 922v22h22"/>
+    <path d="M1544 922v22h-22"/>
+  </g>
+  <text x="110" y="96" font-size="11" letter-spacing="2" fill="#56554f">FIG. 03 / BEFORE &#8212; AFTER</text>
+  <line x1="450" y1="92" x2="1160" y2="92" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <text x="1490" y="96" text-anchor="end" font-size="11" letter-spacing="2" fill="#56554f">THE QUEUE, MEASURED</text>
+
+  <!-- BEFORE panel -->
+  <rect x="110" y="150" width="640" height="520" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.12" filter="url(#sh)"/>
+  <text x="138" y="192" font-size="12" letter-spacing="2" fill="#98968f">BEFORE</text>
+  <text x="722" y="192" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">EVERY INQUIRY WAITS FOR A HUMAN</text>
+  <line x1="110" y1="212" x2="750" y2="212" stroke="#eae8e3" stroke-opacity="0.08"/>
+
+  <!-- before bars: all manual (grey) -->
+  <g fill="#56554f" fill-opacity="0.55">
+    <rect x="150" y="560" width="52" height="80"/>
+    <rect x="222" y="500" width="52" height="140"/>
+    <rect x="294" y="470" width="52" height="170"/>
+    <rect x="366" y="520" width="52" height="120"/>
+    <rect x="438" y="440" width="52" height="200"/>
+    <rect x="510" y="490" width="52" height="150"/>
+    <rect x="582" y="455" width="52" height="185"/>
+    <rect x="654" y="530" width="52" height="110"/>
+  </g>
+  <line x1="140" y1="640" x2="720" y2="640" stroke="#eae8e3" stroke-opacity="0.14"/>
+  <text x="138" y="290" font-size="10" letter-spacing="2" fill="#56554f">HANDLING TIME PER INQUIRY</text>
+  <text x="138" y="316" font-size="12" fill="#98968f">100% manual &#183; repetitive cases queue with complex ones</text>
+
+  <!-- AFTER panel -->
+  <rect x="850" y="150" width="640" height="520" fill="#0c0c0e" stroke="#ceff00" stroke-opacity="0.25" filter="url(#sh)"/>
+  <text x="878" y="192" font-size="12" letter-spacing="2" fill="#98968f">AFTER</text>
+  <text x="1462" y="192" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">TIER-1 ANSWERS ITSELF</text>
+  <line x1="850" y1="212" x2="1490" y2="212" stroke="#eae8e3" stroke-opacity="0.08"/>
+
+  <!-- after bars: majority volt (auto), shorter overall -->
+  <g>
+    <rect x="890" y="600" width="52" height="40" fill="#ceff00" fill-opacity="0.8"/>
+    <rect x="962" y="590" width="52" height="50" fill="#ceff00" fill-opacity="0.8"/>
+    <rect x="1034" y="505" width="52" height="135" fill="#56554f" fill-opacity="0.55"/>
+    <rect x="1106" y="595" width="52" height="45" fill="#ceff00" fill-opacity="0.8"/>
+    <rect x="1178" y="585" width="52" height="55" fill="#ceff00" fill-opacity="0.8"/>
+    <rect x="1250" y="480" width="52" height="160" fill="#56554f" fill-opacity="0.55"/>
+    <rect x="1322" y="600" width="52" height="40" fill="#ceff00" fill-opacity="0.8"/>
+    <rect x="1394" y="588" width="52" height="52" fill="#ceff00" fill-opacity="0.8"/>
+  </g>
+  <line x1="880" y1="640" x2="1460" y2="640" stroke="#eae8e3" stroke-opacity="0.14"/>
+  <text x="878" y="290" font-size="10" letter-spacing="2" fill="#56554f">HANDLING TIME PER INQUIRY</text>
+  <text x="878" y="316" font-size="12" fill="#98968f">~60% answered automatically &#183; team keeps the judgment calls</text>
+
+  <!-- legend -->
+  <rect x="878" y="356" width="14" height="14" fill="#ceff00" fill-opacity="0.8"/>
+  <text x="904" y="368" font-size="10" letter-spacing="1" fill="#56554f">AUTO (GPT-NLP)</text>
+  <rect x="1058" y="356" width="14" height="14" fill="#56554f" fill-opacity="0.55"/>
+  <text x="1084" y="368" font-size="10" letter-spacing="1" fill="#56554f">TEAM</text>
+
+  <!-- outcome band -->
+  <line x1="110" y1="740" x2="1490" y2="740" stroke="#eae8e3" stroke-opacity="0.08"/>
+  <g font-size="11" letter-spacing="2">
+    <text x="110" y="790" fill="#56554f">RESPONSE TIME</text>
+    <text x="110" y="836" font-size="30" fill="#ceff00">-35%</text>
+    <text x="530" y="790" fill="#56554f">TIER-1 AUTOMATED</text>
+    <text x="530" y="836" font-size="30" fill="#ceff00">~60%</text>
+    <text x="950" y="790" fill="#56554f">DURATION</text>
+    <text x="950" y="836" font-size="30" fill="#eae8e3" fill-opacity="0.85">7 MO</text>
+    <text x="1270" y="790" fill="#56554f">SCOPE</text>
+    <text x="1270" y="836" font-size="30" fill="#eae8e3" fill-opacity="0.85">TIER-1</text>
+  </g>
+
+  <text x="110" y="944" font-size="10" letter-spacing="2" fill="#56554f">CONCEPT PANEL &#8212; FIGURES FROM THE MEASURED PILOT</text>
+  <text x="1490" y="944" text-anchor="end" font-size="10" letter-spacing="2" fill="#56554f">ENBW &#183; 2024&#8211;2025</text>
+</svg>

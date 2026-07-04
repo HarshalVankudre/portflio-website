@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useLenis } from "lenis/react";
 import { useLanguage } from "@/context/LanguageContext";
 import TransitionLink from "@/components/ui/TransitionLink";
@@ -39,13 +39,17 @@ const CONNECT = [
 export default function Footer() {
   const { t } = useLanguage();
   const lenis = useLenis();
-  const [clock, setClock] = useState<{ time: string; zone: string } | null>(
-    null
-  );
+  // The clock writes straight to the DOM node — a setState here would
+  // re-render the whole footer every second for a text swap.
+  const clockRef = useRef<HTMLParagraphElement>(null);
   const year = new Date().getFullYear();
 
   useEffect(() => {
-    const tick = () => setClock(formatBerlinTime());
+    const tick = () => {
+      if (!clockRef.current) return;
+      const { time, zone } = formatBerlinTime();
+      clockRef.current.textContent = `${time} ${zone}`;
+    };
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
@@ -132,10 +136,11 @@ export default function Footer() {
         <div>
           <h3 className="label-mono mb-4">{t("footer.localTime")}</h3>
           <p
+            ref={clockRef}
             className="font-mono text-sm text-dim tabular-nums"
             suppressHydrationWarning
           >
-            {clock ? `${clock.time} ${clock.zone}` : "--:--:--"}
+            --:--:--
           </p>
           <p className="label-mono mt-2">Karlsruhe, DE</p>
         </div>
