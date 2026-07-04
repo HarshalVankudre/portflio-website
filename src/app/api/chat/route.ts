@@ -46,6 +46,22 @@ function getFallbackAnswer(message: string, language: ChatLanguage = "en") {
   const de = language === "de";
 
   if (
+    query.includes("hire") ||
+    query.includes("hiring") ||
+    query.includes("available") ||
+    query.includes("freelance") ||
+    query.includes("recruit") ||
+    query.includes("open to work") ||
+    query.includes("einstellen") ||
+    query.includes("verfügbar") ||
+    query.includes("freiberuflich")
+  ) {
+    return de
+      ? `Harshal hat im Juli 2026 bei Mercedes-Benz Tech Innovation angefangen (AI Cyber Security, Stuttgart) und sucht aktuell keine neue Stelle und keine Freelance-Projekte. Für Fragen, Ideen oder ein gutes Gespräch erreichst du ihn unter ${personal.email}.`
+      : `Harshal joined Mercedes-Benz Tech Innovation in July 2026 (AI Cyber Security, Stuttgart) and is not looking for a new role or freelance work right now. For questions, ideas, or a good conversation, you can reach him at ${personal.email}.`;
+  }
+
+  if (
     query.includes("contact") ||
     query.includes("email") ||
     query.includes("reach") ||
@@ -81,8 +97,8 @@ function getFallbackAnswer(message: string, language: ChatLanguage = "en") {
   ) {
     const current = experience.find((item) => item.current);
     return de
-      ? `Harshal ist aktuell ${current?.role} bei ${current?.company} und baut Enterprise-KI-Tools für internen Wissenszugriff. Außerdem hat er Erfahrung bei EnBW, Enpal und Bhumi NGO — Chatbot-Automatisierung, Daten-Workflows, Finanzanalyse und Unterricht.`
-      : `Harshal is currently an ${current?.role} at ${current?.company}, building enterprise AI tools for internal knowledge access. He also has experience at EnBW, Enpal, and Bhumi NGO, including chatbot automation, data workflows, financial analysis, and teaching.`;
+      ? `Harshal arbeitet seit Juli 2026 an KI in der Cyber Security bei ${current?.company} in Stuttgart. Davor hat er bei RÜKO GmbH Baumaschinen Rüko GPT gebaut — einen Enterprise-RAG-Chatbot für 50+ Mitarbeitende — und bei EnBW Chatbot-Automatisierung mit ~35% schnelleren Antworten und ~60% Tier-1-Automatisierung geliefert.`
+      : `Since July 2026, Harshal works on AI in cyber security at ${current?.company} in Stuttgart. Before that he built Rüko GPT at RÜKO GmbH Baumaschinen — an enterprise RAG chatbot serving 50+ employees — and delivered chatbot automation at EnBW with ~35% faster responses and ~60% tier-1 automation.`;
   }
 
   if (
@@ -164,10 +180,12 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Sanitize history: keep only well-formed user/assistant turns, never "system".
+    // Sanitize history: keep only well-formed user/assistant turns, never
+    // "system". Only the most recent turns matter, so cap the work up front
+    // instead of iterating an arbitrarily large payload.
     const sanitizedHistory: { role: "user" | "assistant"; content: string }[] = [];
     if (Array.isArray(history)) {
-      for (const msg of history) {
+      for (const msg of history.slice(-20)) {
         if (
           msg &&
           typeof msg.content === "string" &&

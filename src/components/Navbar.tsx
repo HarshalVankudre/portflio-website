@@ -134,7 +134,11 @@ export default function Navbar() {
   );
 
   const langToggle = (
-    <div className="flex items-center gap-1 font-mono text-xs uppercase tracking-[0.18em]">
+    <div
+      role="group"
+      aria-label={t("nav.language")}
+      className="flex items-center gap-1 font-mono text-xs uppercase tracking-[0.18em]"
+    >
       <button
         onClick={() => setLanguage("en")}
         aria-pressed={language === "en"}
@@ -225,7 +229,7 @@ export default function Navbar() {
             ref={triggerRef}
             onClick={() => (menuOpen ? closeMenu() : setMenuOpen(true))}
             aria-expanded={menuOpen}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-label={menuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
             className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 md:hidden"
           >
             <span
@@ -246,6 +250,9 @@ export default function Navbar() {
       {menuOpen && (
         <div
           ref={overlayRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label={t("footer.menu")}
           className="fixed inset-0 z-[75] flex flex-col justify-between gap-10 overflow-y-auto overscroll-contain bg-bg/95 px-gutter pb-10 pt-28 backdrop-blur-lg md:hidden"
         >
           <nav aria-label="Mobile">
