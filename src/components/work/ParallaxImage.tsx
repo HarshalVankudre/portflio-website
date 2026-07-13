@@ -16,12 +16,14 @@ export default function ParallaxImage({
   className = "",
   reveal,
   frame = true,
+  fit = "cover",
 }: {
   src: string;
   alt: string;
   className?: string;
   reveal?: "enter" | "scrub";
   frame?: boolean;
+  fit?: "cover" | "contain";
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -71,7 +73,7 @@ export default function ParallaxImage({
         );
       }
     },
-    { scope: wrapRef, dependencies: [reveal] }
+    { scope: wrapRef, dependencies: [reveal, fit] }
   );
 
   return (
@@ -79,14 +81,18 @@ export default function ParallaxImage({
       ref={wrapRef}
       className={`relative overflow-hidden ${
         frame ? "rounded-sm border border-line" : ""
-      } ${className}`}
+      } ${fit === "contain" ? "bg-[#0c0c0e]" : ""} ${className}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={imgRef}
         src={src}
         alt={alt}
-        className="h-full w-full scale-[1.22] object-cover"
+        className={`h-full w-full ${
+          fit === "contain"
+            ? "scale-[1.04] object-contain"
+            : "scale-[1.22] object-cover"
+        }`}
         loading="lazy"
         decoding="async"
       />
