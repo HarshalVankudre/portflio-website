@@ -25,6 +25,7 @@ export default function MediaSection({
             key={item.src}
             src={item.src}
             alt={item.alt[language]}
+            fit={item.fit}
             reveal="enter"
             className="aspect-[16/10] w-full"
           />
@@ -40,6 +41,7 @@ export default function MediaSection({
         <ParallaxImage
           src={item.src}
           alt={item.alt[language]}
+          fit={item.fit}
           reveal="enter"
           className="aspect-[16/9] w-full"
         />
@@ -59,6 +61,7 @@ export default function MediaSection({
       <ParallaxImage
         src={item.src}
         alt={item.alt[language]}
+        fit={item.fit}
         reveal="scrub"
         frame={false}
         className="aspect-[16/9] w-full"

@@ -169,6 +169,8 @@ const translations = {
     "work.role": "Role",
     "work.client": "Client",
     "work.stack": "Stack",
+    "work.live": "Live product",
+    "work.download": "Download",
     "work.reference": "Reference letter (PDF)",
   },
   de: {
@@ -320,6 +322,8 @@ const translations = {
     "work.role": "Rolle",
     "work.client": "Kunde",
     "work.stack": "Stack",
+    "work.live": "Live-Produkt",
+    "work.download": "Download",
     "work.reference": "Arbeitszeugnis (PDF)",
   },
 } satisfies Record<Language, Record<string, string>>;

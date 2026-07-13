@@ -1,12 +1,14 @@
 // Case-study content for /work/[slug] and the home work list.
 // Long-form, localized (EN/DE). Kept separate from portfolioData.ts so the
-// chatbot context stays lean. All numbers here are real — no invented metrics.
+// chatbot context stays lean. All numbers here come from the shipped products.
 
 export type Localized<T = string> = { en: T; de: T };
 
 export interface CaseMediaItem {
   src: string;
   alt: Localized;
+  /** Use contain for portrait or UI captures that should never be cropped. */
+  fit?: "cover" | "contain";
   /** Rendered as a label-mono figure caption. */
   caption?: Localized;
 }
@@ -21,7 +23,7 @@ export interface CaseMediaSection {
 }
 
 export interface CaseStudy {
-  slug: "ruko-gpt" | "teams-bot" | "enbw-chatbot" | "courseviewer";
+  slug: "studyos" | "ember" | "marq" | "teams-bot";
   index: string; // "01"…"04"
   title: string;
   year: string;
@@ -33,81 +35,88 @@ export interface CaseStudy {
   approach: Localized<string[]>;
   result: Localized<string[]>;
   metrics: { value: string; label: Localized }[];
-  hero: { src: string; alt: Localized };
+  hero: { src: string; alt: Localized; fit?: "cover" | "contain" };
   /** Optional in-flow visuals; absent → the page renders prose-only. */
   media?: CaseMediaSection[];
-  /** reference = employer reference letter (Arbeitszeugnis) backing the work. */
-  links?: { live?: string; repo?: string; reference?: string };
+  links?: {
+    live?: string;
+    repo?: string;
+    download?: string;
+    reference?: string;
+  };
   nextSlug: CaseStudy["slug"];
 }
 
 export const caseStudies: CaseStudy[] = [
   {
-    slug: "ruko-gpt",
+    slug: "studyos",
     index: "01",
-    title: "Rüko GPT",
-    year: "2025 — 2026",
-    client: "RÜKO GmbH Baumaschinen",
-    role: { en: "AI Developer", de: "KI-Entwickler" },
+    title: "StudyOS",
+    year: "2026",
+    client: "Harshal Vankudre",
+    role: { en: "Product Engineer", de: "Produktentwickler" },
     stack: [
       "Next.js",
       "TypeScript",
       "Prisma",
       "PostgreSQL",
-      "OpenAI API",
-      "NextAuth.js",
-      "RAG",
+      "AI SDK",
+      "Clerk",
+      "Stripe",
     ],
     oneLiner: {
-      en: "An enterprise RAG chatbot that lets 50+ employees of a construction-machinery company query internal knowledge in plain language.",
-      de: "Ein Enterprise-RAG-Chatbot, mit dem 50+ Mitarbeitende eines Baumaschinen-Unternehmens internes Wissen in natürlicher Sprache abfragen.",
+      en: "An AI-native study workspace that turns one sentence about a semester into structured courses, assignments, planners and reading lists — ready in seconds.",
+      de: "Ein KI-nativer Lern-Workspace, der aus einem Satz über das Semester strukturierte Kurse, Aufgaben, Planer und Leselisten erstellt — in Sekunden einsatzbereit.",
     },
     problem: {
       en: [
-        "RÜKO's institutional knowledge — machine specs, internal processes, project documents — lived scattered across folders and in people's heads. Finding an answer meant knowing whom to ask, and asking cost both sides time.",
-        "Off-the-shelf chatbots couldn't be used: the data is confidential, the questions are domain-specific, and answers need to be grounded in the company's own documents rather than a model's imagination.",
+        "Students often start a semester by rebuilding the same planning system across notes, calendars and spreadsheets. Generic templates still begin empty, so the setup work arrives before the actual studying can start.",
+        "The useful context already exists in a syllabus or a short description of the courses. The product needed to turn that context into editable, structured data instead of another page of generated prose.",
       ],
       de: [
-        "Das institutionelle Wissen von RÜKO — Maschinendaten, interne Prozesse, Projektdokumente — lag verstreut in Ordnern und in den Köpfen der Mitarbeitenden. Eine Antwort zu finden hieß zu wissen, wen man fragt — und Fragen kostete beide Seiten Zeit.",
-        "Chatbots von der Stange kamen nicht in Frage: Die Daten sind vertraulich, die Fragen domänenspezifisch, und Antworten müssen auf den eigenen Dokumenten basieren statt auf der Fantasie eines Modells.",
+        "Studierende beginnen ein Semester oft damit, dasselbe Planungssystem aus Notizen, Kalendern und Tabellen neu zusammenzubauen. Allgemeine Vorlagen starten trotzdem leer — die Einrichtungsarbeit kommt vor dem eigentlichen Lernen.",
+        "Der relevante Kontext steckt bereits im Lehrplan oder in einer kurzen Kursbeschreibung. Das Produkt musste daraus bearbeitbare, strukturierte Daten machen statt nur eine weitere Seite mit generiertem Text.",
       ],
     },
     approach: {
       en: [
-        "I designed and built Rüko GPT end to end: a Next.js + TypeScript application with Prisma and PostgreSQL underneath, NextAuth.js for company-account authentication, and the OpenAI API for generation.",
-        "Documents are processed into a retrieval pipeline so every answer is grounded in real company sources. A separate REST API server extends the system into the company's wider knowledge-management landscape.",
-        "Rollout was iterative — shipping to real users early, then tuning retrieval quality and UX based on how employees actually ask questions.",
+        "I built StudyOS as a production Next.js application: a guided prompt becomes typed courses, assignments and readings backed by Prisma and PostgreSQL, then appears immediately in a complete workspace.",
+        "The same records power table, board and calendar views. Inline edits autosave, while the built-in assistant can add or update workspace data from plain-language requests without forcing the user through menus.",
+        "The product includes authentication, billing, syllabus import, calendar feeds and full localization across ten languages, including right-to-left layout for Arabic.",
       ],
       de: [
-        "Ich habe Rüko GPT von Anfang bis Ende konzipiert und entwickelt: eine Next.js + TypeScript-Anwendung mit Prisma und PostgreSQL darunter, NextAuth.js für die Authentifizierung mit Firmenkonten und der OpenAI API für die Generierung.",
-        "Dokumente laufen durch eine Retrieval-Pipeline, sodass jede Antwort auf echten Unternehmensquellen basiert. Ein separater REST-API-Server bindet das System an das weitere Wissensmanagement des Unternehmens an.",
-        "Der Rollout war iterativ — früh zu echten Nutzern, dann Retrieval-Qualität und UX anhand echter Fragen verbessern.",
+        "Ich habe StudyOS als produktive Next.js-Anwendung gebaut: Aus einem geführten Prompt entstehen typisierte Kurse, Aufgaben und Lektüren in Prisma und PostgreSQL, die sofort in einem vollständigen Workspace erscheinen.",
+        "Dieselben Datensätze treiben Tabellen-, Board- und Kalenderansicht an. Änderungen speichern automatisch; der integrierte Assistent ergänzt oder aktualisiert Workspace-Daten über natürliche Sprache, ohne Menüsuche.",
+        "Das Produkt umfasst Authentifizierung, Abrechnung, Lehrplan-Import, Kalender-Feeds und eine vollständige Lokalisierung in zehn Sprachen — inklusive RTL-Layout für Arabisch.",
       ],
     },
     result: {
       en: [
-        "Rüko GPT is in production as the company's internal answer machine, serving 50+ employees. Instead of digging through folders or interrupting a colleague, people ask the bot — and get answers grounded in RÜKO's own documents.",
+        "StudyOS is live as an end-to-end SaaS product. Its public product flow demonstrates a complete workspace built in an average of 9.4 seconds, with one data set staying synchronized across three planning views.",
       ],
       de: [
-        "Rüko GPT ist produktiv im Einsatz als interne Antwortmaschine des Unternehmens — für 50+ Mitarbeitende. Statt in Ordnern zu suchen oder Kolleg:innen zu unterbrechen, fragt man den Bot — und bekommt Antworten auf Basis der eigenen RÜKO-Dokumente.",
+        "StudyOS ist als vollständiges SaaS-Produkt live. Der öffentliche Produkt-Flow zeigt einen kompletten Workspace, der durchschnittlich in 9,4 Sekunden entsteht — mit einem Datensatz, der über drei Planungsansichten synchron bleibt.",
       ],
     },
     metrics: [
-      { value: "50+", label: { en: "Employees served", de: "Mitarbeitende" } },
       {
-        value: "2025",
-        label: { en: "In production since", de: "Produktiv im Einsatz seit" },
+        value: "9.4s",
+        label: { en: "Average workspace build", de: "Ø Workspace-Erstellung" },
       },
       {
-        value: "E2E",
-        label: { en: "Designed and built solo", de: "Allein konzipiert und gebaut" },
+        value: "10",
+        label: { en: "Localized languages", de: "Lokalisierte Sprachen" },
+      },
+      {
+        value: "3",
+        label: { en: "Views from one data set", de: "Ansichten aus einem Datensatz" },
       },
     ],
     hero: {
-      src: "/work/ruko-gpt/hero.svg",
+      src: "/work/studyos/hero.png",
       alt: {
-        en: "Rüko GPT — enterprise RAG chatbot interface",
-        de: "Rüko GPT — Enterprise-RAG-Chatbot-Oberfläche",
+        en: "StudyOS landing page showing an AI-generated semester workspace",
+        de: "StudyOS-Startseite mit einem KI-generierten Semester-Workspace",
       },
     },
     media: [
@@ -116,10 +125,10 @@ export const caseStudies: CaseStudy[] = [
         after: "approach",
         items: [
           {
-            src: "/work/ruko-gpt/detail-01.svg",
+            src: "/work/studyos/organize.png",
             alt: {
-              en: "System architecture of Rüko GPT — Next.js client, retrieval pipeline core, PostgreSQL data tier and REST API extension",
-              de: "Systemarchitektur von Rüko GPT — Next.js-Client, Retrieval-Pipeline, PostgreSQL-Datenebene und REST-API-Erweiterung",
+              en: "StudyOS product capabilities for generation, spaced repetition, calendar sync, syllabus import and structured data",
+              de: "StudyOS-Funktionen für Generierung, verteilte Wiederholung, Kalendersync, Lehrplan-Import und strukturierte Daten",
             },
           },
         ],
@@ -129,85 +138,213 @@ export const caseStudies: CaseStudy[] = [
         after: "result",
         items: [
           {
-            src: "/work/ruko-gpt/detail-02.svg",
+            src: "/work/studyos/ask.png",
             alt: {
-              en: "Rollout loop and adoption panel — ship, observe, tune; 50+ employees served",
-              de: "Rollout-Schleife und Adoption — ausliefern, beobachten, verbessern; 50+ Mitarbeitende",
+              en: "StudyOS assistant adding a weighted midterm to a workspace from a natural-language request",
+              de: "StudyOS-Assistent fügt per natürlicher Sprache eine gewichtete Zwischenprüfung zum Workspace hinzu",
             },
             caption: {
-              en: "Fig. 03 — Iterative rollout: ship early, tune retrieval on real questions.",
-              de: "Fig. 03 — Iterativer Rollout: früh ausliefern, Retrieval an echten Fragen schärfen.",
+              en: "Fig. 03 — A plain-language request becomes a structured database change.",
+              de: "Abb. 03 — Eine natürliche Anfrage wird zur strukturierten Datenbankänderung.",
             },
           },
         ],
       },
     ],
-    links: { reference: "/rueko-arbeitszeugnis.pdf" },
-    nextSlug: "teams-bot",
+    links: {
+      live: "https://studyos-mu-henna.vercel.app",
+      repo: "https://github.com/HarshalVankudre/StudyOS",
+    },
+    nextSlug: "ember",
   },
   {
-    slug: "teams-bot",
+    slug: "ember",
     index: "02",
-    title: "Teams-BOT",
-    year: "2025",
-    client: "RÜKO GmbH Baumaschinen",
-    role: { en: "AI Developer", de: "KI-Entwickler" },
-    stack: [
-      "Python",
-      "Microsoft Teams API",
-      "Multi-agent AI",
-      "Vector DB",
-      "Cloud-native",
-    ],
+    title: "Ember",
+    year: "2026",
+    client: "Harshal Vankudre",
+    role: { en: "Desktop Product Engineer", de: "Desktop-Produktentwickler" },
+    stack: ["Electron", "JavaScript", "Node.js", "Claude Code", "Codex", "Windows"],
     oneLiner: {
-      en: "A multi-agent AI bot living inside Microsoft Teams, answering equipment questions from a database of 2,395+ construction machines.",
-      de: "Ein Multi-Agent-KI-Bot direkt in Microsoft Teams, der Gerätefragen aus einer Datenbank mit 2.395+ Baumaschinen beantwortet.",
+      en: "A privacy-first Windows widget that combines Claude Code and Codex usage, plan limits, tokens and API-equivalent cost in one live view.",
+      de: "Ein datenschutzfreundliches Windows-Widget, das Claude-Code- und Codex-Nutzung, Planlimits, Tokens und API-äquivalente Kosten live zusammenführt.",
     },
     problem: {
       en: [
-        "Equipment data for thousands of construction machines sat in a database that most employees never touched directly. Looking up a machine's details meant switching tools, knowing the schema, or asking someone who did.",
-        "The audience already lived in Microsoft Teams all day — the answer had to come to them, not the other way around.",
+        "Using Claude Code and Codex means watching two different sets of session limits, weekly limits and local logs. The important numbers were fragmented — or invisible until a limit interrupted the work.",
+        "A useful tracker also had to respect the local nature of coding sessions. Requiring another account or uploading detailed project activity would defeat the point.",
       ],
       de: [
-        "Die Gerätedaten von Tausenden Baumaschinen lagen in einer Datenbank, mit der die meisten Mitarbeitenden nie direkt arbeiteten. Maschinendetails nachzuschlagen hieß Tool-Wechsel, Schema-Wissen — oder jemanden fragen, der beides hat.",
-        "Die Zielgruppe verbringt ihren Tag ohnehin in Microsoft Teams — die Antwort musste zu ihnen kommen, nicht umgekehrt.",
+        "Wer Claude Code und Codex parallel nutzt, hat zwei verschiedene Sätze aus Session-Limits, Wochenlimits und lokalen Logs. Die wichtigen Zahlen waren verteilt — oder unsichtbar, bis ein Limit die Arbeit unterbrach.",
+        "Ein sinnvoller Tracker musste außerdem den lokalen Charakter der Coding-Sessions respektieren. Ein weiteres Konto oder das Hochladen detaillierter Projektaktivität kam nicht infrage.",
       ],
     },
     approach: {
       en: [
-        "I built a Python bot that plugs directly into the Microsoft Teams API, so asking about a machine is as easy as messaging a colleague.",
-        "Under the hood, multiple specialized agents run in parallel — one resolves what machine is meant, others fetch and compose the answer — which keeps responses fast even when a question touches several data sources.",
-        "The system is deployed cloud-native and indexes 2,395+ equipment records.",
+        "I merged two earlier single-provider widgets into Ember, one Electron desktop product that reads both providers' local session data and refreshes the interface every second.",
+        "Each provider is priced with its own billing rules before totals are combined. The UI exposes plan meters, reset countdowns, model filters, daily spend, cache behavior and durable project history without double-counting reasoning tokens.",
+        "Everything is read-only and local: no Ember account, no telemetry and no session upload. The app ships as both a one-click Windows installer and a portable executable.",
       ],
       de: [
-        "Ich habe einen Python-Bot gebaut, der direkt an die Microsoft Teams API andockt — eine Maschine abzufragen ist so einfach wie eine Nachricht an Kolleg:innen.",
-        "Unter der Haube laufen mehrere spezialisierte Agenten parallel — einer löst auf, welche Maschine gemeint ist, andere holen und komponieren die Antwort. Das hält die Antwortzeiten kurz, auch wenn eine Frage mehrere Datenquellen berührt.",
-        "Das System ist cloud-native deployt und indexiert 2.395+ Gerätedatensätze.",
+        "Ich habe zwei frühere Ein-Anbieter-Widgets in Ember zusammengeführt: ein Electron-Desktopprodukt, das lokale Session-Daten beider Anbieter liest und die Oberfläche jede Sekunde aktualisiert.",
+        "Jeder Anbieter wird zunächst nach seinen eigenen Abrechnungsregeln berechnet. Die Oberfläche zeigt Planlimits, Reset-Countdowns, Modellfilter, Tageskosten, Cache-Verhalten und dauerhafte Projektverläufe, ohne Reasoning-Tokens doppelt zu zählen.",
+        "Alles bleibt lokal und schreibgeschützt: kein Ember-Konto, keine Telemetrie, kein Upload von Sessions. Die App erscheint als Ein-Klick-Installer und als portable Windows-Datei.",
       ],
     },
     result: {
       en: [
-        "Equipment knowledge that used to require database access is now one Teams message away. The bot answers from 2,395+ indexed records, with parallel agent execution keeping latency low.",
+        "Ember turns two opaque usage systems into one glanceable desktop instrument. It ships through GitHub Releases and keeps the numbers useful even after original session logs have been deleted.",
       ],
       de: [
-        "Gerätewissen, das früher Datenbankzugriff erforderte, ist jetzt eine Teams-Nachricht entfernt. Der Bot antwortet aus 2.395+ indexierten Datensätzen — parallele Agenten halten die Latenz niedrig.",
+        "Ember macht aus zwei undurchsichtigen Nutzungssystemen ein Desktop-Instrument, das auf einen Blick verständlich ist. Die App wird über GitHub Releases ausgeliefert und behält die Historie, selbst wenn ursprüngliche Session-Logs gelöscht wurden.",
       ],
     },
     metrics: [
-      {
-        value: "2,395+",
-        label: { en: "Equipment records indexed", de: "Indexierte Datensätze" },
+      { value: "2", label: { en: "Providers in one view", de: "Anbieter in einer Ansicht" } },
+      { value: "1s", label: { en: "Live refresh interval", de: "Live-Aktualisierung" } },
+      { value: "0", label: { en: "Accounts or telemetry", de: "Konten oder Telemetrie" } },
+    ],
+    hero: {
+      src: "/work/ember/hero.png",
+      fit: "contain",
+      alt: {
+        en: "Ember desktop widget with Claude and Codex limits, costs and token statistics",
+        de: "Ember-Desktop-Widget mit Claude- und Codex-Limits, Kosten und Token-Statistiken",
       },
-      {
-        value: "0",
-        label: { en: "Tool switches needed", de: "Tool-Wechsel nötig" },
+    },
+    links: {
+      download: "https://github.com/HarshalVankudre/Ember-usage-widget/releases/latest",
+      repo: "https://github.com/HarshalVankudre/Ember-usage-widget",
+    },
+    nextSlug: "marq",
+  },
+  {
+    slug: "marq",
+    index: "03",
+    title: "Marq",
+    year: "2026",
+    client: "Harshal Vankudre",
+    role: { en: "Windows Desktop Engineer", de: "Windows-Desktop-Entwickler" },
+    stack: ["Rust", "Tauri", "comrak", "syntect", "HTML", "CSS"],
+    oneLiner: {
+      en: "A native Windows Markdown reader that opens instantly, typesets documents like a book and exports print-ready PDFs with one keystroke.",
+      de: "Ein nativer Markdown-Reader für Windows, der sofort öffnet, Dokumente wie ein Buch setzt und per Tastendruck druckfertige PDFs exportiert.",
+    },
+    problem: {
+      en: [
+        "Markdown files are pleasant to write but often disappointing to read. Opening one usually means raw text, a full editor, or a browser preview that feels temporary rather than finished.",
+        "The ideal reader had to feel native: launch instantly from Explorer, stay out of the way, render the complete Markdown surface safely and export without browser chrome.",
+      ],
+      de: [
+        "Markdown-Dateien lassen sich angenehm schreiben, aber oft enttäuschend lesen. Beim Öffnen landet man meist in Rohtext, einem vollständigen Editor oder einer Browser-Vorschau, die unfertig wirkt.",
+        "Der ideale Reader musste sich nativ anfühlen: sofort aus dem Explorer starten, unauffällig bleiben, die gesamte Markdown-Oberfläche sicher darstellen und ohne Browser-Rahmen exportieren.",
+      ],
+    },
+    approach: {
+      en: [
+        "I built Marq as a small Rust and Tauri application. comrak handles GitHub-flavored Markdown, syntect provides native syntax highlighting, and sanitized rendering blocks scripts and unsafe embeds.",
+        "A tray-resident process makes repeated opens immediate. File changes re-render in about 200 ms while preserving scroll position, and Windows file association turns a double-click on any .md file into the complete reading experience.",
+        "The same rendering pipeline powers interactive reading and headless PDF export, including embedded fonts, highlighted code and predictable A4 output.",
+      ],
+      de: [
+        "Ich habe Marq als kleine Rust- und Tauri-Anwendung gebaut. comrak verarbeitet GitHub-Flavored Markdown, syntect liefert natives Syntax-Highlighting und die bereinigte Darstellung blockiert Skripte und unsichere Einbettungen.",
+        "Ein Prozess im Infobereich macht wiederholtes Öffnen sofort möglich. Dateiänderungen werden in etwa 200 ms neu gerendert, die Scrollposition bleibt erhalten, und die Windows-Dateizuordnung macht den Doppelklick auf jede .md-Datei zum vollständigen Leseerlebnis.",
+        "Dieselbe Rendering-Pipeline treibt interaktives Lesen und den headless PDF-Export an — mit eingebetteten Schriften, hervorgehobenem Code und reproduzierbarem A4-Layout.",
+      ],
+    },
+    result: {
+      en: [
+        "Marq ships as a 2.3 MB Windows installer and a 7.5 MB application. When parked in the tray it releases the renderer and settles at roughly 33 MB, while remaining ready for the next Markdown file.",
+      ],
+      de: [
+        "Marq wird als 2,3-MB-Windows-Installer und 7,5-MB-Anwendung ausgeliefert. Im Infobereich gibt die App den Renderer frei und liegt bei ungefähr 33 MB — bereit für die nächste Markdown-Datei.",
+      ],
+    },
+    metrics: [
+      { value: "7.5 MB", label: { en: "Installed application", de: "Installierte Anwendung" } },
+      { value: "2.3 MB", label: { en: "Windows installer", de: "Windows-Installer" } },
+      { value: "~33 MB", label: { en: "Parked memory", de: "Speicher im Ruhezustand" } },
+    ],
+    hero: {
+      src: "/work/marq/hero.png",
+      alt: {
+        en: "Marq rendering a Markdown showcase in its dark reading theme",
+        de: "Marq zeigt ein Markdown-Dokument im dunklen Lesethema",
       },
+    },
+    media: [
+      {
+        layout: "full",
+        after: "approach",
+        items: [
+          {
+            src: "/work/marq/light.png",
+            alt: {
+              en: "Marq light theme with typeset text, emoji and Rust syntax highlighting",
+              de: "Marq im hellen Thema mit gesetztem Text, Emoji und Rust-Syntax-Highlighting",
+            },
+          },
+        ],
+      },
+    ],
+    links: {
+      download: "https://github.com/HarshalVankudre/marq/releases/latest",
+      repo: "https://github.com/HarshalVankudre/marq",
+    },
+    nextSlug: "teams-bot",
+  },
+  {
+    slug: "teams-bot",
+    index: "04",
+    title: "Teams-BOT",
+    year: "2025 — 2026",
+    client: "RÜKO GmbH Baumaschinen",
+    role: { en: "AI Developer", de: "KI-Entwickler" },
+    stack: ["FastAPI", "LangGraph", "Gemini", "PostgreSQL", "Pinecone", "Redis"],
+    oneLiner: {
+      en: "A German-language equipment assistant inside Microsoft Teams that combines inventory lookup, document retrieval and advisory planning in one service.",
+      de: "Ein deutschsprachiger Geräteassistent in Microsoft Teams, der Bestandssuche, Dokumenten-Retrieval und Projektberatung in einem Dienst verbindet.",
+    },
+    problem: {
+      en: [
+        "Equipment data for thousands of construction machines was split between structured inventory, manuals and specialist knowledge. Answering a field question meant switching tools, knowing the database, or finding the right colleague.",
+        "Employees already worked in Microsoft Teams, so the answer needed to arrive in the conversation — with the system choosing the right knowledge path behind the scenes.",
+      ],
+      de: [
+        "Gerätedaten für Tausende Baumaschinen waren auf strukturierten Bestand, Handbücher und Spezialwissen verteilt. Eine Frage aus dem Feld zu beantworten bedeutete Tool-Wechsel, Datenbankwissen oder die Suche nach der richtigen Person.",
+        "Die Mitarbeitenden arbeiteten bereits in Microsoft Teams. Die Antwort musste deshalb direkt im Gespräch ankommen — während das System im Hintergrund den passenden Wissenspfad auswählt.",
+      ],
+    },
+    approach: {
+      en: [
+        "I built a FastAPI service around the Teams webhook and used LangGraph to route each request to the right capability: PostgreSQL inventory lookup, Pinecone retrieval over manuals, or Gemini-based advisory planning.",
+        "The orchestration keeps structured facts and document evidence separate until answer composition. Redis preserves per-thread context when available, while health, reset and admin surfaces make the service operable beyond the happy path.",
+        "The result is one deployable backend for direct equipment queries and open-ended project recommendations, rather than a collection of disconnected demos.",
+      ],
+      de: [
+        "Ich habe einen FastAPI-Dienst um den Teams-Webhook gebaut und LangGraph genutzt, um jede Anfrage an die passende Fähigkeit zu leiten: PostgreSQL-Bestandssuche, Pinecone-Retrieval über Handbücher oder Gemini-basierte Projektberatung.",
+        "Die Orchestrierung hält strukturierte Fakten und Dokumentbelege bis zur Antwortgenerierung getrennt. Redis speichert bei Verfügbarkeit den Kontext pro Thread; Health-, Reset- und Admin-Oberflächen machen den Dienst auch jenseits des Idealpfads betreibbar.",
+        "So entstand ein deploybares Backend für direkte Gerätefragen und offene Projektempfehlungen statt einer Sammlung unverbundener Demos.",
+      ],
+    },
+    result: {
+      en: [
+        "Equipment knowledge covering 2,395+ indexed records is available from the Teams conversation employees already use. The same assistant can move from an exact machine lookup to supporting documents or a broader advisory request without changing tools.",
+      ],
+      de: [
+        "Gerätewissen aus 2.395+ indexierten Datensätzen ist direkt im gewohnten Teams-Gespräch verfügbar. Derselbe Assistent wechselt von der exakten Maschinensuche zu passenden Dokumenten oder einer breiteren Beratungsanfrage — ohne Tool-Wechsel.",
+      ],
+    },
+    metrics: [
+      { value: "2,395+", label: { en: "Equipment records indexed", de: "Indexierte Gerätedatensätze" } },
+      { value: "3", label: { en: "Connected knowledge paths", de: "Verbundene Wissenspfade" } },
+      { value: "1", label: { en: "Teams conversation surface", de: "Teams-Gesprächsoberfläche" } },
     ],
     hero: {
       src: "/work/teams-bot/hero.svg",
       alt: {
-        en: "Teams-BOT — multi-agent equipment bot in Microsoft Teams",
-        de: "Teams-BOT — Multi-Agent-Gerätebot in Microsoft Teams",
+        en: "Teams-BOT answering an equipment question with an orchestration trace",
+        de: "Teams-BOT beantwortet eine Gerätefrage mit Orchestrierungs-Trace",
       },
     },
     media: [
@@ -218,8 +355,8 @@ export const caseStudies: CaseStudy[] = [
           {
             src: "/work/teams-bot/detail-01.svg",
             alt: {
-              en: "Agent topology — a router agent dispatching resolver, fetcher and composer agents over the equipment database",
-              de: "Agenten-Topologie — ein Router-Agent verteilt Resolver-, Fetcher- und Composer-Agenten über die Gerätedatenbank",
+              en: "Teams-BOT routing an equipment question through specialist retrieval capabilities",
+              de: "Teams-BOT leitet eine Gerätefrage durch spezialisierte Retrieval-Fähigkeiten",
             },
           },
         ],
@@ -231,208 +368,24 @@ export const caseStudies: CaseStudy[] = [
           {
             src: "/work/teams-bot/detail-02.svg",
             alt: {
-              en: "Parallel execution lanes of the Teams bot with outcome figures",
-              de: "Parallele Ausführungs-Lanes des Teams-Bots mit Ergebniszahlen",
+              en: "Teams-BOT execution lanes and outcome figures",
+              de: "Ausführungswege und Ergebniszahlen des Teams-BOT",
             },
             caption: {
-              en: "Fig. 03 — Parallel agent lanes: no question queues behind another.",
-              de: "Fig. 03 — Parallele Agenten-Lanes: keine Frage wartet auf eine andere.",
+              en: "Fig. 03 — One Teams message can draw on structured records and retrieved context.",
+              de: "Abb. 03 — Eine Teams-Nachricht greift auf strukturierte Datensätze und Retrieval-Kontext zu.",
             },
           },
         ],
       },
     ],
-    links: { reference: "/rueko-arbeitszeugnis.pdf" },
-    nextSlug: "enbw-chatbot",
-  },
-  {
-    slug: "enbw-chatbot",
-    index: "03",
-    title: "EnBW Chatbot",
-    year: "2024 — 2025",
-    client: "EnBW GmbH",
-    role: { en: "Working Student", de: "Werkstudent" },
-    stack: ["GPT-based NLP", "Chatbot", "HubSpot", "Data Analysis", "Process Automation"],
-    oneLiner: {
-      en: "A chatbot project and GPT-based NLP pilot at one of Germany's largest energy companies — 35% faster responses and ~60% of tier-1 inquiries automated.",
-      de: "Ein Chatbot-Projekt und GPT-basierter NLP-Pilot bei einem der größten Energieunternehmen Deutschlands — 35% schnellere Antworten und ~60% der Tier-1-Anfragen automatisiert.",
+    links: {
+      repo: "https://github.com/HarshalVankudre/Teams-BOT",
+      reference: "/rueko-arbeitszeugnis.pdf",
     },
-    problem: {
-      en: [
-        "Inside EnBW's trading and direct-marketing operations, routine tier-1 inquiries queued up faster than the team could answer them. Every repetitive question cost time that should have gone to the cases that actually needed a human.",
-        "The volume wasn't the hard part — the variety was. Inquiries arrived in free-form language, and any automation had to understand them reliably before it was allowed to answer.",
-      ],
-      de: [
-        "Im Trading- und Direktvermarktungsumfeld von EnBW liefen Tier-1-Standardanfragen schneller auf, als das Team sie beantworten konnte. Jede repetitive Frage kostete Zeit, die eigentlich den Fällen gehörte, die wirklich einen Menschen brauchten.",
-        "Das Volumen war nicht das Schwierige — die Vielfalt war es. Anfragen kamen in freier Sprache, und jede Automatisierung musste sie zuverlässig verstehen, bevor sie antworten durfte.",
-      ],
-    },
-    approach: {
-      en: [
-        "Over four months I delivered a chatbot project focused on the response path itself: understanding the inquiry, retrieving the right answer, and getting it back to the requester faster than the manual workflow could.",
-        "I then led a three-month pilot integrating GPT-based NLP into the inquiry flow — classifying free-form tier-1 questions and answering the ones the model could handle safely, while everything ambiguous stayed with the team.",
-        "The work sat close to the operations it automated: data lived in HubSpot and Excel, and the pilot was measured against the team's real workload, not a demo dataset.",
-      ],
-      de: [
-        "Über vier Monate habe ich ein Chatbot-Projekt umgesetzt, das am Antwortweg selbst ansetzt: die Anfrage verstehen, die richtige Antwort finden und sie schneller zurückspielen, als es der manuelle Workflow konnte.",
-        "Danach habe ich einen dreimonatigen Pilot geleitet, der GPT-basiertes NLP in den Anfrageprozess integriert — Tier-1-Fragen in freier Sprache klassifizieren und die sicher beantwortbaren automatisch erledigen, während alles Mehrdeutige beim Team blieb.",
-        "Die Arbeit fand nah an den automatisierten Abläufen statt: Die Daten lagen in HubSpot und Excel, und der Pilot wurde an der echten Arbeitslast des Teams gemessen — nicht an einem Demo-Datensatz.",
-      ],
-    },
-    result: {
-      en: [
-        "Response times improved by roughly 35%, and the GPT pilot automated about 60% of tier-1 inquiries — the repetitive share of the queue — freeing the team for the cases that needed judgment. It was also the project that pulled my work permanently toward production AI systems.",
-      ],
-      de: [
-        "Die Antwortzeiten verbesserten sich um rund 35%, und der GPT-Pilot automatisierte etwa 60% der Tier-1-Anfragen — den repetitiven Teil der Warteschlange — und gab dem Team Zeit für die Fälle, die Urteilsvermögen brauchen. Es war außerdem das Projekt, das meine Arbeit dauerhaft Richtung produktiver KI-Systeme gezogen hat.",
-      ],
-    },
-    metrics: [
-      {
-        value: "35%",
-        label: { en: "Faster responses", de: "Schnellere Antworten" },
-      },
-      {
-        value: "60%",
-        label: { en: "Tier-1 inquiries automated", de: "Tier-1-Anfragen automatisiert" },
-      },
-      {
-        value: "7 mo",
-        label: { en: "Project + pilot, end to end", de: "Projekt + Pilot, Ende zu Ende" },
-      },
-    ],
-    hero: {
-      src: "/work/enbw-chatbot/hero.svg",
-      alt: {
-        en: "EnBW chatbot — tier-1 inquiry automation interface",
-        de: "EnBW-Chatbot — Oberfläche zur Automatisierung von Tier-1-Anfragen",
-      },
-    },
-    media: [
-      {
-        layout: "full",
-        after: "approach",
-        items: [
-          {
-            src: "/work/enbw-chatbot/detail-01.svg",
-            alt: {
-              en: "Inquiry pipeline — classify free-form questions, answer safe tier-1 cases automatically, escalate everything ambiguous",
-              de: "Anfrage-Pipeline — Fragen in freier Sprache klassifizieren, sichere Tier-1-Fälle automatisch beantworten, alles Mehrdeutige eskalieren",
-            },
-          },
-        ],
-      },
-      {
-        layout: "figure",
-        after: "result",
-        items: [
-          {
-            src: "/work/enbw-chatbot/detail-02.svg",
-            alt: {
-              en: "Before/after view of the inquiry queue — 35% faster responses, 60% of tier-1 automated",
-              de: "Vorher/Nachher-Ansicht der Anfrage-Warteschlange — 35% schnellere Antworten, 60% Tier-1 automatisiert",
-            },
-            caption: {
-              en: "Fig. 03 — The queue after the pilot: the repetitive share answers itself.",
-              de: "Fig. 03 — Die Warteschlange nach dem Pilot: der repetitive Anteil beantwortet sich selbst.",
-            },
-          },
-        ],
-      },
-    ],
-    nextSlug: "courseviewer",
-  },
-  {
-    slug: "courseviewer",
-    index: "04",
-    title: "CourseViewer",
-    year: "2024",
-    client: "Personal project",
-    role: { en: "Full-stack Developer", de: "Full-Stack-Entwickler" },
-    stack: ["JavaScript", "React", "Node.js"],
-    oneLiner: {
-      en: "A clean full-stack application for browsing and managing educational content — built to learn the craft properly.",
-      de: "Eine aufgeräumte Full-Stack-Anwendung zum Durchsuchen und Verwalten von Lerninhalten — gebaut, um das Handwerk richtig zu lernen.",
-    },
-    problem: {
-      en: [
-        "Course material tends to end up as a pile of files and links with no structure. I wanted a single clean interface for browsing and managing educational content — and a project meaty enough to practice real full-stack architecture on.",
-      ],
-      de: [
-        "Kursmaterial endet oft als Haufen von Dateien und Links ohne Struktur. Ich wollte eine einzige aufgeräumte Oberfläche zum Durchsuchen und Verwalten von Lerninhalten — und ein Projekt, das groß genug ist, um echte Full-Stack-Architektur zu üben.",
-      ],
-    },
-    approach: {
-      en: [
-        "A React front end backed by Node.js, with the UI doing the heavy lifting: clear hierarchy, fast browsing, and an interface that gets out of the way of the content.",
-        "The project doubled as deliberate practice in component architecture, state management and clean API design — patterns I now use professionally every day.",
-      ],
-      de: [
-        "Ein React-Frontend mit Node.js dahinter — die UI übernimmt die Hauptarbeit: klare Hierarchie, schnelles Browsen und eine Oberfläche, die den Inhalten nicht im Weg steht.",
-        "Das Projekt war zugleich gezieltes Training in Komponentenarchitektur, State-Management und sauberem API-Design — Muster, die ich heute täglich beruflich einsetze.",
-      ],
-    },
-    result: {
-      en: [
-        "A working full-stack application with a clean UI — and the foundation for the production systems I build today. The code lives on my GitHub.",
-      ],
-      de: [
-        "Eine funktionierende Full-Stack-Anwendung mit aufgeräumter UI — und das Fundament für die Produktionssysteme, die ich heute baue. Der Code liegt auf meinem GitHub.",
-      ],
-    },
-    metrics: [
-      {
-        value: "2024",
-        label: { en: "Built from scratch", de: "Von Grund auf gebaut" },
-      },
-      {
-        value: "Open",
-        label: { en: "Code on GitHub", de: "Code auf GitHub" },
-      },
-    ],
-    hero: {
-      src: "/work/courseviewer/hero.svg",
-      alt: {
-        en: "CourseViewer — course browsing application",
-        de: "CourseViewer — Anwendung zum Durchsuchen von Kursen",
-      },
-    },
-    media: [
-      {
-        layout: "full",
-        after: "approach",
-        items: [
-          {
-            src: "/work/courseviewer/detail-01.svg",
-            alt: {
-              en: "Application anatomy — React component tree beside the Node.js REST API",
-              de: "Anatomie der Anwendung — React-Komponentenbaum neben der Node.js-REST-API",
-            },
-          },
-        ],
-      },
-      {
-        layout: "figure",
-        after: "result",
-        items: [
-          {
-            src: "/work/courseviewer/detail-02.svg",
-            alt: {
-              en: "Interface states of CourseViewer: browse, read and manage",
-              de: "Oberflächenzustände von CourseViewer: Durchsuchen, Lesen und Verwalten",
-            },
-            caption: {
-              en: "Fig. 03 — Three interface states: browse, read, manage.",
-              de: "Fig. 03 — Drei Zustände der Oberfläche: Durchsuchen, Lesen, Verwalten.",
-            },
-          },
-        ],
-      },
-    ],
-    links: { repo: "https://github.com/HarshalVankudre/CourseViewer" },
-    nextSlug: "ruko-gpt",
+    nextSlug: "studyos",
   },
 ];
 
 export const getCaseStudy = (slug: string): CaseStudy | undefined =>
-  caseStudies.find((c) => c.slug === slug);
+  caseStudies.find((caseStudy) => caseStudy.slug === slug);

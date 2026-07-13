@@ -165,6 +165,7 @@ export default function CaseStudyView({ slug }: { slug: CaseStudy["slug"] }) {
         <ParallaxImage
           src={cs.hero.src}
           alt={cs.hero.alt[language]}
+          fit={cs.hero.fit}
           reveal="enter"
           className="aspect-[16/9] w-full"
         />
@@ -195,8 +196,31 @@ export default function CaseStudyView({ slug }: { slug: CaseStudy["slug"] }) {
       />
       {mediaAfter("result")}
 
-      {(cs.links?.repo || cs.links?.reference) && (
+      {(cs.links?.live ||
+        cs.links?.download ||
+        cs.links?.repo ||
+        cs.links?.reference) && (
         <div className="flex flex-wrap gap-10 border-t border-line px-gutter py-10">
+          {cs.links?.live && (
+            <a
+              href={cs.links.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-draw font-mono text-xs uppercase tracking-[0.18em] text-dim"
+            >
+              {t("work.live")} ↗
+            </a>
+          )}
+          {cs.links?.download && (
+            <a
+              href={cs.links.download}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-draw font-mono text-xs uppercase tracking-[0.18em] text-dim"
+            >
+              {t("work.download")} ↓
+            </a>
+          )}
           {cs.links?.repo && (
             <a
               href={cs.links.repo}

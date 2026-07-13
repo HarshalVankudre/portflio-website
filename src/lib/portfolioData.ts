@@ -18,8 +18,17 @@ export const portfolioData = {
   },
 
   skills: {
-    languages: ["Python", "TypeScript", "JavaScript", "Java", "SQL", "HTML/CSS"],
-    frameworks: ["Next.js", "React", "FastAPI", "Node.js", "Prisma", "Tailwind CSS"],
+    languages: ["Python", "TypeScript", "JavaScript", "Rust", "Java", "SQL", "HTML/CSS"],
+    frameworks: [
+      "Next.js",
+      "React",
+      "FastAPI",
+      "Node.js",
+      "Prisma",
+      "Electron",
+      "Tauri",
+      "Tailwind CSS",
+    ],
     databases: ["PostgreSQL", "MongoDB", "Pinecone", "Vector Databases"],
     cloud: ["AWS", "Google Cloud", "Azure", "Docker", "Vercel"],
     ai: ["OpenAI API", "LangChain", "RAG", "Ollama", "Prompt Engineering"],
@@ -107,32 +116,32 @@ export const portfolioData = {
 
   projects: [
     {
-      name: "Rüko GPT",
+      name: "StudyOS",
       description:
-        "Enterprise RAG chatbot for RÜKO GmbH Baumaschinen. Lets 50+ employees query internal company knowledge in plain language, with answers grounded in real company documents. Built end to end with Next.js, TypeScript, Prisma, PostgreSQL, and the OpenAI API.",
-      technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "OpenAI API", "RAG"],
-      highlight: "Production system serving 50+ employees",
+        "AI-native study workspace that turns one sentence about a semester into structured courses, assignments, planners, reading lists, flashcards, and calendar feeds. The full-stack SaaS includes editable database views, an assistant that changes workspace data, billing, and localization across 10 languages.",
+      technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "AI SDK", "Clerk", "Stripe"],
+      highlight: "9.4-second average workspace build across 10 languages",
+    },
+    {
+      name: "Ember",
+      description:
+        "Privacy-first Windows desktop widget combining Claude Code and Codex usage, plan limits, token counts, API-equivalent cost, and durable project history. It reads local session data, refreshes every second, and sends no telemetry.",
+      technologies: ["Electron", "JavaScript", "Node.js", "Claude Code", "Codex"],
+      highlight: "Two AI coding providers, one local view, zero telemetry",
+    },
+    {
+      name: "Marq",
+      description:
+        "Native Windows Markdown reader built in Rust and Tauri. It provides book-like typography, live reload, safe GitHub-flavored Markdown rendering, native syntax highlighting, and one-keystroke PDF export.",
+      technologies: ["Rust", "Tauri", "comrak", "syntect"],
+      highlight: "7.5 MB application with a 2.3 MB installer",
     },
     {
       name: "Teams-BOT",
       description:
-        "Multi-agent AI bot for Microsoft Teams with equipment database. Features parallel agent execution, 2,395+ construction equipment records, and cloud-native deployment.",
-      technologies: ["Python", "Microsoft Teams API", "Multi-agent AI"],
-      highlight: "2,395+ equipment records indexed",
-    },
-    {
-      name: "EnBW Chatbot",
-      description:
-        "A 4-month chatbot project plus a 3-month GPT-based NLP pilot at EnBW, improving response times by ~35% and automating ~60% of tier-1 inquiries.",
-      technologies: ["GPT Integration", "NLP", "HubSpot", "Data Analysis"],
-      highlight: "35% faster responses, 60% tier-1 automation",
-    },
-    {
-      name: "CourseViewer",
-      description:
-        "A modern course viewing application built with JavaScript. Clean UI for browsing and managing educational content.",
-      technologies: ["JavaScript", "React", "Node.js"],
-      highlight: "Full-stack learning project",
+        "German-language Microsoft Teams assistant that routes equipment questions across PostgreSQL inventory, Pinecone document retrieval, and Gemini-based advisory planning, with LangGraph orchestration and Redis conversation state.",
+      technologies: ["FastAPI", "LangGraph", "Gemini", "PostgreSQL", "Pinecone", "Redis"],
+      highlight: "2,395+ equipment records available inside Teams",
     },
   ],
 
