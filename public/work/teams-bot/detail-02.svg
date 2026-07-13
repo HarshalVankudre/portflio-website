@@ -32,13 +32,13 @@
     <path d="M56 922v22h22"/>
     <path d="M1544 922v22h-22"/>
   </g>
-  <text x="120" y="96" font-size="11" letter-spacing="2" fill="#56554f">FIG. 03 / PARALLEL EXECUTION</text>
+  <text x="120" y="96" font-size="11" letter-spacing="2" fill="#56554f">FIG. 03 / KNOWLEDGE PATHS</text>
   <line x1="390" y1="92" x2="1030" y2="92" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
-  <text x="1480" y="96" text-anchor="end" font-size="11" letter-spacing="2" fill="#56554f">LATENCY STAYS LOW &#8212; AGENTS DON'T QUEUE</text>
+  <text x="1480" y="96" text-anchor="end" font-size="11" letter-spacing="2" fill="#56554f">ROUTE EXACT QUERIES &#183; RETRIEVE DOCS &#183; PLAN</text>
 
   <!-- execution lanes -->
   <rect x="120" y="150" width="1360" height="420" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#sh)"/>
-  <text x="152" y="192" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">ONE QUESTION &#8212; THREE LANES</text>
+  <text x="152" y="192" font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.85">ONE ASSISTANT &#8212; THREE KNOWLEDGE PATHS</text>
   <text x="1448" y="192" text-anchor="end" font-size="10" letter-spacing="1" fill="#56554f">T &#8594;</text>
   <line x1="120" y1="208" x2="1480" y2="208" stroke="#eae8e3" stroke-opacity="0.08"/>
 
@@ -53,9 +53,9 @@
 
   <g font-size="11" fill="#98968f">
     <text x="152" y="262">ROUTER</text>
-    <text x="152" y="334">RESOLVER</text>
-    <text x="152" y="406">FETCHER</text>
-    <text x="152" y="478">COMPOSER</text>
+    <text x="152" y="334">INVENTORY</text>
+    <text x="152" y="406">DOCUMENTS</text>
+    <text x="152" y="478">ADVISOR</text>
   </g>
   <!-- bars: router short, resolver+fetcher overlap, composer waits only for slowest -->
   <rect x="300" y="246" width="120" height="20" fill="#56554f" fill-opacity="0.5"/>
@@ -63,16 +63,16 @@
   <rect x="420" y="390" width="440" height="20" fill="#ceff00" fill-opacity="0.85"/>
   <rect x="860" y="462" width="260" height="20" fill="#eae8e3" fill-opacity="0.35"/>
   <g font-size="9" letter-spacing="1" fill="#56554f">
-    <text x="300" y="240">PARSE + DISPATCH</text>
-    <text x="420" y="312">RUNS IN PARALLEL</text>
-    <text x="420" y="384">RUNS IN PARALLEL</text>
-    <text x="860" y="456">STARTS WHEN DATA LANDS</text>
+    <text x="300" y="240">PARSE + SELECT</text>
+    <text x="420" y="312">POSTGRESQL LOOKUP</text>
+    <text x="420" y="384">PINECONE RETRIEVAL</text>
+    <text x="860" y="456">GEMINI ADVISORY</text>
   </g>
   <line x1="1120" y1="208" x2="1120" y2="500" stroke="#ceff00" stroke-opacity="0.4" stroke-dasharray="2 6"/>
   <text x="1136" y="478" font-size="10" letter-spacing="1" fill="#ceff00" fill-opacity="0.85">REPLY POSTED</text>
 
   <!-- ghost: sequential alternative -->
-  <text x="152" y="538" font-size="9" letter-spacing="1" fill="#56554f">SEQUENTIAL GHOST &#8212; SAME WORK, ONE LANE</text>
+  <text x="152" y="538" font-size="9" letter-spacing="1" fill="#56554f">PER-THREAD CONTEXT &#8212; REDIS WHEN AVAILABLE</text>
   <rect x="420" y="546" width="770" height="6" fill="#56554f" fill-opacity="0.25"/>
   <line x1="1300" y1="528" x2="1300" y2="560" stroke="#eae8e3" stroke-opacity="0.2" stroke-dasharray="2 6"/>
 
@@ -84,17 +84,17 @@
   </g>
   <g font-size="56" fill="#ceff00">
     <text x="152" y="744">2,395+</text>
-    <text x="617" y="744">0</text>
+    <text x="617" y="744">3 PATHS</text>
     <text x="1082" y="744">1 MSG</text>
   </g>
   <g font-size="10" letter-spacing="2" fill="#98968f">
     <text x="152" y="788">EQUIPMENT RECORDS INDEXED</text>
-    <text x="617" y="788">TOOL SWITCHES NEEDED</text>
+    <text x="617" y="788">CONNECTED KNOWLEDGE MODES</text>
     <text x="1082" y="788">FROM QUESTION TO ANSWER</text>
   </g>
   <g font-size="10" letter-spacing="1" fill="#56554f">
     <text x="152" y="836">SPECS &#183; WEIGHTS &#183; SERVICE DATA</text>
-    <text x="617" y="836">NO SCHEMA KNOWLEDGE REQUIRED</text>
+    <text x="617" y="836">SQL &#183; DOCS &#183; ADVISORY</text>
     <text x="1082" y="836">INSIDE THE TEAMS THREAD</text>
   </g>
 

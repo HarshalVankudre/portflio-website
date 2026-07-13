@@ -43,7 +43,7 @@ A multi-page, motion-rich portfolio built on the Next.js App Router — case stu
 | --- | --- |
 | `/` | Hero, selected work, capabilities, about teaser, contact |
 | `/about` | Experience timeline, skills, education, languages, CV download |
-| `/work/[slug]` | Case studies: `ruko-gpt`, `teams-bot`, `enbw-chatbot`, `courseviewer` |
+| `/work/[slug]` | Case studies: `studyos`, `ember`, `marq`, `teams-bot` |
 | `/now` | What I'm building / learning / reading right now |
 | `/offline` | Service-worker fallback when the network is gone |
 | `/llms.txt` | Machine-readable summary for AI crawlers |
