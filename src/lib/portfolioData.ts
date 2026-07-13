@@ -29,9 +29,9 @@ export const portfolioData = {
       "Tauri",
       "Tailwind CSS",
     ],
-    databases: ["PostgreSQL", "MongoDB", "Pinecone", "Vector Databases"],
+    databases: ["PostgreSQL", "MongoDB", "Weaviate", "Pinecone", "Vector Databases"],
     cloud: ["AWS", "Google Cloud", "Azure", "Docker", "Vercel"],
-    ai: ["OpenAI API", "LangChain", "RAG", "Ollama", "Prompt Engineering"],
+    ai: ["OpenAI API", "LangChain", "RAG", "Cohere", "Ollama", "Prompt Engineering"],
     tools: ["Git", "VS Code", "Jira", "HubSpot", "Microsoft Excel"],
   },
 
@@ -142,6 +142,20 @@ export const portfolioData = {
         "German-language Microsoft Teams assistant that routes equipment questions across PostgreSQL inventory, Pinecone document retrieval, and Gemini-based advisory planning, with LangGraph orchestration and Redis conversation state.",
       technologies: ["FastAPI", "LangGraph", "Gemini", "PostgreSQL", "Pinecone", "Redis"],
       highlight: "2,395+ equipment records available inside Teams",
+    },
+    {
+      name: "Machinery AI",
+      description:
+        "Enterprise-ready RAG support platform for technical machinery documentation. It combines multi-format document intelligence, Weaviate hybrid retrieval, reranking, source-backed streaming answers, role-based access, multi-tenancy, and a full monitoring stack.",
+      technologies: ["FastAPI", "React", "TypeScript", "Weaviate", "MongoDB", "Docker"],
+      highlight: "Six document formats, two retrieval modes, and three access roles",
+    },
+    {
+      name: "Harshal Hand",
+      description:
+        "Personal handwriting digitized as a compact TrueType font for the web, desktop documents, and design tools. The typeface includes uppercase and lowercase letters plus numerals while preserving the irregular character of the original hand.",
+      technologies: ["TrueType", "CSS @font-face", "Typography"],
+      highlight: "62 letter and number glyphs in a 19 KB font file",
     },
   ],
 
