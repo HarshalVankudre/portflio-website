@@ -23,8 +23,14 @@ export interface CaseMediaSection {
 }
 
 export interface CaseStudy {
-  slug: "studyos" | "ember" | "marq" | "teams-bot";
-  index: string; // "01"…"04"
+  slug:
+    | "studyos"
+    | "ember"
+    | "marq"
+    | "teams-bot"
+    | "machinery-ai"
+    | "harshal-hand";
+  index: string; // "01"…"06"
   title: string;
   year: string;
   client: string;
@@ -382,6 +388,163 @@ export const caseStudies: CaseStudy[] = [
     links: {
       repo: "https://github.com/HarshalVankudre/Teams-BOT",
       reference: "/rueko-arbeitszeugnis.pdf",
+    },
+    nextSlug: "machinery-ai",
+  },
+  {
+    slug: "machinery-ai",
+    index: "05",
+    title: "Machinery AI",
+    year: "2026",
+    client: "Open-source product",
+    role: { en: "AI Product Engineer", de: "KI-Produktentwickler" },
+    stack: ["FastAPI", "React", "TypeScript", "Weaviate", "MongoDB", "Docker"],
+    oneLiner: {
+      en: "An enterprise-ready RAG support system that turns machinery manuals, tables and images into secure, source-backed answers with a complete admin and observability layer.",
+      de: "Ein unternehmenstaugliches RAG-Supportsystem, das Maschinenhandbücher, Tabellen und Bilder in sichere, quellenbasierte Antworten überführt — inklusive Admin- und Observability-Ebene.",
+    },
+    problem: {
+      en: [
+        "Technical support knowledge lives across manuals, scanned pages, tables and the memories of specialists. Keyword search alone misses the relationship between a symptom, a component and the right procedure, while a generic chatbot cannot show where an answer came from.",
+        "For an enterprise workflow, retrieval quality was only half the problem. The system also needed controlled access, isolated user data, document operations and enough telemetry to diagnose a weak answer in production.",
+      ],
+      de: [
+        "Wissen für den technischen Support steckt in Handbüchern, gescannten Seiten, Tabellen und den Köpfen von Fachleuten. Reine Stichwortsuche übersieht den Zusammenhang zwischen Symptom, Bauteil und passender Anleitung; ein allgemeiner Chatbot kann zudem keine belastbare Quelle nennen.",
+        "Für einen Unternehmens-Workflow war die Retrieval-Qualität nur die halbe Aufgabe. Das System brauchte außerdem geregelte Zugriffe, isolierte Nutzerdaten, Dokumentenverwaltung und genug Telemetrie, um schwache Antworten im Betrieb nachvollziehen zu können.",
+      ],
+    },
+    approach: {
+      en: [
+        "I built a React and TypeScript workspace around a FastAPI backend, with server-sent events for responsive chat and dedicated surfaces for documents, profiles and administration.",
+        "The ingestion pipeline accepts PDF, DOCX, PPTX, XLSX, JPG and PNG files, then combines OCR, table extraction, semantic chunking and metadata enrichment. At query time, Weaviate blends vector and BM25 search before Cohere reranking and context compression; every composed answer retains source attribution.",
+        "Argon2 password hashing, JWT sessions, email verification, role-based access and Weaviate multi-tenancy protect the workflow. Docker Compose, Prometheus, Grafana, Sentry and structured logs make the complete system operable instead of leaving it as a retrieval demo.",
+      ],
+      de: [
+        "Ich habe einen React- und TypeScript-Workspace um ein FastAPI-Backend gebaut — mit Server-Sent Events für reaktionsschnellen Chat und eigenen Oberflächen für Dokumente, Profile und Administration.",
+        "Die Ingestion-Pipeline verarbeitet PDF, DOCX, PPTX, XLSX, JPG und PNG und kombiniert OCR, Tabellenextraktion, semantisches Chunking und Metadaten-Anreicherung. Bei einer Anfrage verbindet Weaviate Vektor- und BM25-Suche, bevor Cohere-Reranking und Kontextkompression greifen; jede Antwort behält ihre Quellenangaben.",
+        "Argon2-Passworthashing, JWT-Sitzungen, E-Mail-Verifizierung, rollenbasierter Zugriff und Weaviate-Mandantentrennung sichern den Workflow. Docker Compose, Prometheus, Grafana, Sentry und strukturierte Logs machen aus dem Retrieval-Prototyp ein betreibbares Gesamtsystem.",
+      ],
+    },
+    result: {
+      en: [
+        "The repository delivers a container-ready support platform spanning streaming chat, document intelligence, authentication, admin workflows and monitoring. It demonstrates how a serious RAG product is assembled around retrieval — not just how to call a model with a few chunks.",
+      ],
+      de: [
+        "Das Repository liefert eine containerfähige Supportplattform mit Streaming-Chat, Dokumentenintelligenz, Authentifizierung, Admin-Workflows und Monitoring. Es zeigt, wie ein belastbares RAG-Produkt rund um Retrieval entsteht — nicht nur, wie ein Modell einige Chunks erhält.",
+      ],
+    },
+    metrics: [
+      { value: "2", label: { en: "Retrieval modes", de: "Retrieval-Modi" } },
+      { value: "6", label: { en: "Document formats", de: "Dokumentformate" } },
+      { value: "3", label: { en: "Access roles", de: "Zugriffsrollen" } },
+    ],
+    hero: {
+      src: "/work/machinery-ai/hero.svg",
+      fit: "contain",
+      alt: {
+        en: "Machinery AI support conversation beside a transparent RAG execution trace",
+        de: "Machinery-AI-Supportgespräch neben einem transparenten RAG-Ausführungs-Trace",
+      },
+    },
+    media: [
+      {
+        layout: "full",
+        after: "approach",
+        items: [
+          {
+            src: "/work/machinery-ai/architecture.svg",
+            fit: "contain",
+            alt: {
+              en: "Machinery AI architecture from document ingestion through hybrid retrieval to a source-backed answer",
+              de: "Machinery-AI-Architektur von der Dokumentenaufnahme über hybrides Retrieval bis zur quellenbasierten Antwort",
+            },
+          },
+        ],
+      },
+    ],
+    links: {
+      repo: "https://github.com/HarshalVankudre/Baumachschinen-KI-Chatbot",
+    },
+    nextSlug: "harshal-hand",
+  },
+  {
+    slug: "harshal-hand",
+    index: "06",
+    title: "Harshal Hand",
+    year: "2026",
+    client: "Harshal Vankudre",
+    role: { en: "Typeface Designer", de: "Schriftdesigner" },
+    stack: ["TrueType", "CSS @font-face", "Typography", "Web & Desktop"],
+    oneLiner: {
+      en: "A 19 KB TrueType font that turns Harshal's real handwriting into a warm, reusable typeface for websites, documents and design tools.",
+      de: "Eine 19 KB große TrueType-Schrift, die Harshals echte Handschrift in eine warme, wiederverwendbare Schrift für Websites, Dokumente und Design-Tools verwandelt.",
+    },
+    problem: {
+      en: [
+        "Handwritten notes carry a character that standard script fonts usually polish away. The challenge was to preserve the uneven rhythm and recognizable forms of one person's writing while making every character reusable and consistent enough for digital composition.",
+        "The result also needed to travel easily: one small file that works in a browser, installs on a desktop and can be selected inside common design tools.",
+      ],
+      de: [
+        "Handschriftliche Notizen haben einen Charakter, den Standardschriften meist glattbügeln. Die Aufgabe bestand darin, den unregelmäßigen Rhythmus und die wiedererkennbaren Formen einer persönlichen Handschrift zu bewahren und zugleich jedes Zeichen digital wiederverwendbar zu machen.",
+        "Das Ergebnis musste außerdem leicht mitkommen: eine kleine Datei, die im Browser funktioniert, sich auf dem Desktop installieren lässt und in gängigen Design-Tools auswählbar ist.",
+      ],
+    },
+    approach: {
+      en: [
+        "I digitized the uppercase alphabet, lowercase alphabet and numerals from my own handwriting, keeping the human variation visible instead of forcing every stroke into a geometric system.",
+        "The complete character set is packaged as a 19 KB TrueType file. A documented CSS @font-face path covers web use, while the same file installs directly into Windows, creative applications and document workflows.",
+        "A specimen sheet tests the full alphabet, digits and pangrams together, making spacing, scale and the voice of the typeface visible before download.",
+      ],
+      de: [
+        "Ich habe Großbuchstaben, Kleinbuchstaben und Ziffern aus meiner eigenen Handschrift digitalisiert und die menschlichen Abweichungen sichtbar gelassen, statt jeden Strich in ein geometrisches System zu zwingen.",
+        "Der vollständige Zeichensatz steckt in einer 19 KB großen TrueType-Datei. Ein dokumentierter CSS-@font-face-Weg deckt die Web-Nutzung ab; dieselbe Datei lässt sich direkt unter Windows, in Kreativprogrammen und Dokument-Workflows installieren.",
+        "Ein Schriftmuster prüft Alphabet, Ziffern und Pangramme gemeinsam und macht Abstände, Größenwirkung und die Stimme der Schrift schon vor dem Download sichtbar.",
+      ],
+    },
+    result: {
+      en: [
+        "Harshal Hand turns a personal visual signature into a practical digital asset: 62 letter and number glyphs, one lightweight file and the same recognizable voice across web and desktop use.",
+      ],
+      de: [
+        "Harshal Hand macht aus einer persönlichen visuellen Signatur ein praktisches digitales Asset: 62 Buchstaben- und Zahlzeichen, eine kompakte Datei und dieselbe erkennbare Stimme in Web- und Desktop-Anwendungen.",
+      ],
+    },
+    metrics: [
+      { value: "62", label: { en: "Letter & number glyphs", de: "Buchstaben & Ziffern" } },
+      { value: "19 KB", label: { en: "TrueType file", de: "TrueType-Datei" } },
+      { value: "2", label: { en: "Web & desktop modes", de: "Web- & Desktop-Modi" } },
+    ],
+    hero: {
+      src: "/work/harshal-hand/preview.png",
+      fit: "contain",
+      alt: {
+        en: "Harshal Hand specimen with handwritten alphabets, numerals and pangrams",
+        de: "Harshal-Hand-Schriftmuster mit handgeschriebenen Alphabeten, Ziffern und Pangrammen",
+      },
+    },
+    media: [
+      {
+        layout: "figure",
+        after: "approach",
+        items: [
+          {
+            src: "/work/harshal-hand/banner.png",
+            fit: "contain",
+            alt: {
+              en: "Complete Harshal Hand type specimen on ruled paper",
+              de: "Vollständiges Harshal-Hand-Schriftmuster auf liniertem Papier",
+            },
+            caption: {
+              en: "Fig. 02 — One personal hand, translated into a reusable digital character set.",
+              de: "Abb. 02 — Eine persönliche Handschrift, übersetzt in einen wiederverwendbaren digitalen Zeichensatz.",
+            },
+          },
+        ],
+      },
+    ],
+    links: {
+      download: "https://raw.githubusercontent.com/HarshalVankudre/harshal-hand-font/main/HarshalHand-Regular.ttf",
+      repo: "https://github.com/HarshalVankudre/harshal-hand-font",
     },
     nextSlug: "studyos",
   },

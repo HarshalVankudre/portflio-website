@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" font-family="ui-monospace,'Cascadia Mono','Courier New',monospace">
+  <defs>
+    <radialGradient id="a" cx="18%" cy="12%" r="60%">
+      <stop offset="0%" stop-color="#29194b" stop-opacity="0.52"/>
+      <stop offset="100%" stop-color="#29194b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b" cx="86%" cy="76%" r="56%">
+      <stop offset="0%" stop-color="#0b3435" stop-opacity="0.58"/>
+      <stop offset="100%" stop-color="#0b3435" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1" fill="#eae8e3" fill-opacity="0.045"/>
+    </pattern>
+    <filter id="s" x="-8%" y="-12%" width="116%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="22" flood-color="#000" flood-opacity="0.52"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0l10 5-10 5z" fill="#ceff00" fill-opacity="0.72"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#060607"/>
+  <rect width="1600" height="1000" fill="url(#a)"/>
+  <rect width="1600" height="1000" fill="url(#b)"/>
+  <rect width="1600" height="1000" fill="url(#dots)"/>
+
+  <g stroke="#eae8e3" stroke-opacity="0.18" fill="none">
+    <path d="M56 78V56h22"/>
+    <path d="M1544 78V56h-22"/>
+    <path d="M56 922v22h22"/>
+    <path d="M1544 922v22h-22"/>
+  </g>
+  <text x="100" y="98" font-size="11" letter-spacing="2" fill="#686761">FIG. 06 / PRODUCTION RAG ARCHITECTURE</text>
+  <line x1="460" y1="94" x2="1114" y2="94" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <text x="1500" y="98" text-anchor="end" font-size="11" letter-spacing="2" fill="#686761">INGEST · RETRIEVE · ANSWER · OBSERVE</text>
+
+  <!-- Ingestion lane -->
+  <text x="100" y="150" font-size="10" letter-spacing="2" fill="#686761">01 / KNOWLEDGE INGESTION</text>
+  <g filter="url(#s)">
+    <rect x="100" y="178" width="280" height="150" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14"/>
+    <rect x="450" y="178" width="280" height="150" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14"/>
+    <rect x="800" y="178" width="280" height="150" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14"/>
+    <rect x="1150" y="178" width="350" height="150" fill="#111114" stroke="#ceff00" stroke-opacity="0.42"/>
+  </g>
+  <g font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.86">
+    <text x="126" y="218">DOCUMENTS</text>
+    <text x="476" y="218">EXTRACT</text>
+    <text x="826" y="218">ENRICH</text>
+    <text x="1176" y="218">WEAVIATE</text>
+  </g>
+  <g font-size="10" fill="#8e8c85">
+    <text x="126" y="254">PDF · DOCX · PPTX</text>
+    <text x="126" y="278">XLSX · JPG · PNG</text>
+    <text x="126" y="302" fill="#686761">UPLOAD + STATUS EVENTS</text>
+    <text x="476" y="254">OCR · TABLES · IMAGES</text>
+    <text x="476" y="278">DOCLING · ARYN/SYCAMORE</text>
+    <text x="476" y="302" fill="#686761">LOCAL FALLBACK PATH</text>
+    <text x="826" y="254">SEMANTIC CHUNKS</text>
+    <text x="826" y="278">METADATA + PROPERTIES</text>
+    <text x="826" y="302" fill="#686761">VISION DESCRIPTIONS</text>
+    <text x="1176" y="254">VECTORS + BM25</text>
+    <text x="1176" y="278">TENANT-ISOLATED CHUNKS</text>
+    <text x="1176" y="302" fill="#ceff00">INDEX READY</text>
+  </g>
+  <g stroke="#ceff00" stroke-opacity="0.68" fill="none" marker-end="url(#arrow)">
+    <path d="M380 253H438"/>
+    <path d="M730 253H788"/>
+    <path d="M1080 253H1138"/>
+  </g>
+
+  <!-- Query lane -->
+  <text x="100" y="404" font-size="10" letter-spacing="2" fill="#686761">02 / SECURE QUERY PATH</text>
+  <rect x="100" y="432" width="300" height="136" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#s)"/>
+  <rect x="470" y="432" width="300" height="136" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#s)"/>
+  <rect x="840" y="432" width="300" height="136" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#s)"/>
+  <rect x="1210" y="432" width="290" height="136" fill="#111114" stroke="#ceff00" stroke-opacity="0.42" filter="url(#s)"/>
+  <g font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.86">
+    <text x="126" y="472">FASTAPI GATEWAY</text>
+    <text x="496" y="472">HYBRID RETRIEVAL</text>
+    <text x="866" y="472">QUALITY LAYER</text>
+    <text x="1236" y="472">ANSWER</text>
+  </g>
+  <g font-size="10" fill="#8e8c85">
+    <text x="126" y="508">JWT · RBAC · RATE LIMIT</text>
+    <text x="126" y="534" fill="#686761">TENANT CONTEXT</text>
+    <text x="496" y="508">VECTOR + BM25 FUSION</text>
+    <text x="496" y="534" fill="#686761">SOURCE CANDIDATES</text>
+    <text x="866" y="508">COHERE RERANK</text>
+    <text x="866" y="534" fill="#686761">CONTEXT COMPRESSION</text>
+    <text x="1236" y="508">OPENAI · ATTRIBUTION</text>
+    <text x="1236" y="534" fill="#ceff00">SSE STREAM</text>
+  </g>
+  <g stroke="#ceff00" stroke-opacity="0.68" fill="none" marker-end="url(#arrow)">
+    <path d="M400 500H458"/>
+    <path d="M770 500H828"/>
+    <path d="M1140 500H1198"/>
+  </g>
+  <path d="M1324 328v70H620v22" fill="none" stroke="#ceff00" stroke-opacity="0.38" stroke-dasharray="5 7" marker-end="url(#arrow)"/>
+  <text x="976" y="387" font-size="9" letter-spacing="1" fill="#686761">TENANT-SCOPED SEARCH</text>
+
+  <!-- State and operations -->
+  <text x="100" y="650" font-size="10" letter-spacing="2" fill="#686761">03 / PRODUCT + OPERATIONS</text>
+  <rect x="100" y="678" width="420" height="148" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#s)"/>
+  <rect x="590" y="678" width="420" height="148" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#s)"/>
+  <rect x="1080" y="678" width="420" height="148" fill="#0c0c0e" stroke="#eae8e3" stroke-opacity="0.14" filter="url(#s)"/>
+  <g font-size="12" letter-spacing="2" fill="#eae8e3" fill-opacity="0.86">
+    <text x="126" y="718">MONGODB</text>
+    <text x="616" y="718">ADMIN + SECURITY</text>
+    <text x="1106" y="718">OBSERVABILITY</text>
+  </g>
+  <g font-size="10" fill="#8e8c85">
+    <text x="126" y="754">USERS · SESSIONS · CONVERSATIONS</text>
+    <text x="126" y="780">DOCUMENTS · AUDIT LOGS</text>
+    <text x="126" y="804" fill="#686761">DURABLE PRODUCT STATE</text>
+    <text x="616" y="754">EMAIL VERIFY · APPROVAL FLOW</text>
+    <text x="616" y="780">REGULAR · SUPERUSER · ADMIN</text>
+    <text x="616" y="804" fill="#686761">ARGON2 · INPUT VALIDATION</text>
+    <text x="1106" y="754">PROMETHEUS · GRAFANA · SENTRY</text>
+    <text x="1106" y="780">TRACES · CACHE · TOKEN USAGE</text>
+    <text x="1106" y="804" fill="#ceff00">OPERABLE END TO END</text>
+  </g>
+
+  <line x1="100" y1="890" x2="1500" y2="890" stroke="#eae8e3" stroke-opacity="0.12" stroke-dasharray="1 7"/>
+  <text x="100" y="924" font-size="10" letter-spacing="1" fill="#686761">REACT 19 · FASTAPI · MONGODB · WEAVIATE · DOCKER COMPOSE</text>
+  <text x="1500" y="924" text-anchor="end" font-size="10" letter-spacing="1" fill="#686761">ONE CONTAINER-READY SUPPORT PLATFORM</text>
+</svg>
