@@ -5,6 +5,8 @@ import { useLenis } from "lenis/react";
 import { useLanguage } from "@/context/LanguageContext";
 import TransitionLink from "@/components/ui/TransitionLink";
 import Magnetic from "@/components/ui/Magnetic";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { prefersReducedMotion } from "@/lib/motion";
 
 /* timeZoneName comes from the formatter so the label flips CET/CEST
    with daylight saving instead of being hardcoded. */
@@ -42,7 +44,27 @@ export default function Footer() {
   // The clock writes straight to the DOM node — a setState here would
   // re-render the whole footer every second for a text swap.
   const clockRef = useRef<HTMLParagraphElement>(null);
+  const signoffRef = useRef<HTMLDivElement>(null);
   const year = new Date().getFullYear();
+
+  // Sign-off reveal — one masked y-rise on first scroll into view,
+  // consistent with the work-list rows. Skipped under reduced motion.
+  useGSAP(
+    () => {
+      if (prefersReducedMotion() || !signoffRef.current) return;
+      gsap.from("[data-signoff-line]", {
+        yPercent: 115,
+        duration: 1.2,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: signoffRef.current,
+          start: "top 92%",
+          once: true,
+        },
+      });
+    },
+    { scope: signoffRef }
+  );
 
   useEffect(() => {
     const tick = () => {
@@ -156,6 +178,25 @@ export default function Footer() {
             </button>
           </Magnetic>
         </div>
+      </div>
+
+      {/* Cinematic sign-off — giant ghost-outline name; a volt duplicate
+          sweeps in on hover. Decorative: one sr-only copy names the block. */}
+      <div
+        ref={signoffRef}
+        className="group mt-16 border-t border-line pt-10 sm:mt-20"
+      >
+        <span className="sr-only">Harshal Vankudre</span>
+        <span className="mask" aria-hidden>
+          <span data-signoff-line className="relative block">
+            <span className="footer-signoff block font-display text-[clamp(3rem,11.5vw,11rem)] leading-none tracking-tight">
+              Harshal Vankudre
+            </span>
+            <span className="footer-signoff-fill absolute inset-0 block font-display text-[clamp(3rem,11.5vw,11rem)] leading-none tracking-tight">
+              Harshal Vankudre
+            </span>
+          </span>
+        </span>
       </div>
     </footer>
   );

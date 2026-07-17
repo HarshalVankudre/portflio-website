@@ -160,8 +160,14 @@ export default function WorkList() {
                 data-preview={cs.hero.src}
                 data-cursor="view"
                 aria-label={`${cs.title} — ${t("home.viewCase")}`}
-                className="group grid grid-cols-1 gap-4 py-10 sm:grid-cols-[4rem_1fr_auto] sm:items-baseline sm:gap-8 sm:py-14"
+                className="group relative grid grid-cols-1 gap-4 py-10 sm:grid-cols-[4rem_1fr_auto] sm:items-baseline sm:gap-8 sm:py-14"
               >
+                {/* Full-bleed volt wash rising behind the row on hover */}
+                <span
+                  aria-hidden
+                  className="work-row-wash absolute inset-y-0 -inset-x-gutter -z-10"
+                />
+
                 {/* Touch-only thumbnail */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img

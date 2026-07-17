@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type PointerEvent } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import ScrambleLabel from "@/components/ui/ScrambleLabel";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
@@ -113,6 +113,18 @@ export default function Capabilities() {
     { scope: sectionRef, dependencies: [reduced, language] }
   );
 
+  // Cursor-tracking spotlight: write the pointer position into CSS custom
+  // props on the card itself — no state, no re-renders. The glow's
+  // visibility is gated in CSS (@media pointer: fine + no-preference);
+  // bail out here too so touch/reduced-motion never writes at all.
+  const onCardPointerMove = (e: PointerEvent<HTMLDivElement>) => {
+    if (reduced || e.pointerType === "touch") return;
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
+  };
+
   const terms = (copy: number) => (
     <div key={copy} className="flex items-baseline">
       {TERM_KEYS.map((k) => (
@@ -159,15 +171,25 @@ export default function Capabilities() {
         className="mt-16 grid grid-cols-1 gap-x-10 gap-y-14 px-gutter md:grid-cols-3"
       >
         {CARDS.map((card, i) => (
+          // GSAP owns the [data-cap] entrance transform; the panel's hover
+          // lift lives on the inner element so the two never fight.
           <div key={card.title} data-cap>
-            <span className="label-mono text-faint">C.0{i + 1}</span>
-            <h3 className="mt-4 font-display text-display-sm text-fg">
-              {t(card.title)}
-            </h3>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-dim sm:text-base">
-              {t(card.desc)}
-            </p>
-            <p className="label-mono mt-5 text-faint">{card.stack}</p>
+            <div
+              onPointerEnter={onCardPointerMove}
+              onPointerMove={onCardPointerMove}
+              className="cap-panel group relative h-full overflow-hidden border border-line p-8 transition-[border-color,translate] duration-300 hover:-translate-y-1 hover:border-line-strong sm:p-10"
+            >
+              <span className="label-mono text-faint">C.0{i + 1}</span>
+              <h3 className="mt-4 font-display text-display-sm text-fg">
+                {t(card.title)}
+              </h3>
+              <p className="mt-3 max-w-sm text-sm leading-relaxed text-dim sm:text-base">
+                {t(card.desc)}
+              </p>
+              <p className="label-mono mt-5 text-faint transition-colors group-hover:text-dim">
+                {card.stack}
+              </p>
+            </div>
           </div>
         ))}
       </div>
