@@ -26,6 +26,7 @@
   /* The one saturated accent: VOLT */
   --accent: #ceff00;
   --accent-soft: rgba(206, 255, 0, 0.12);
+  --accent-wash: rgba(206, 255, 0, 0.07); /* faint full-bleed row wash */
   --accent-ink: #0b0f00; /* text on accent fills */
 
   /* WebGL undertones (shader + CSS fallback glows) */
@@ -295,6 +296,63 @@ h6 {
 
 .group:hover .work-title-fill {
   clip-path: inset(0 0 0 0);
+}
+
+/* Work-list row hover wash — full-bleed volt panel rising behind the row.
+   Positioned by utilities on the element (absolute inset-y-0 -inset-x-gutter
+   -z-10); this class owns only the material + motion. Under reduced motion
+   the global block kills the transition, so the wash simply snaps on. */
+.work-row-wash {
+  background: var(--accent-wash);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.group:hover .work-row-wash {
+  transform: scaleY(1);
+}
+
+/* Footer sign-off — the name as giant ghost-outline type; a volt duplicate
+   sweeps in left-to-right on hover (same clip-path pattern as .work-title-fill). */
+.footer-signoff {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line-strong);
+}
+
+.footer-signoff-fill {
+  color: var(--accent);
+  pointer-events: none;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.group:hover .footer-signoff-fill {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Capabilities panel — cursor-tracking volt spotlight. The card's pointer
+   handler writes --mx/--my custom props; the glow stays hidden on coarse
+   pointers and under reduced motion. */
+.cap-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 50%),
+    var(--accent-soft),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .cap-panel:hover::before {
+    opacity: 1;
+  }
 }
 
 /* CSS-only entrance — server-rendered pages and lightweight widgets */
