@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { caseStudies } from "@/lib/caseStudies";
 import TransitionLink from "@/components/ui/TransitionLink";
-import ScrambleLabel from "@/components/ui/ScrambleLabel";
+import SectionHeader from "@/components/ui/SectionHeader";
 import VelocityLean from "@/components/effects/VelocityLean";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { hasFinePointer, prefersReducedMotion } from "@/lib/motion";
@@ -140,14 +140,10 @@ export default function WorkList() {
 
   return (
     <section ref={sectionRef} id="work" className="relative px-gutter py-section">
-      <div className="mb-14 flex items-baseline justify-between border-b border-line pb-5">
-        <h2 className="label-mono">
-          <ScrambleLabel>{`01 — ${t("home.selectedWork")}`}</ScrambleLabel>
-        </h2>
-        <span className="label-mono" aria-hidden>
-          (0{caseStudies.length})
-        </span>
-      </div>
+      <SectionHeader
+        label={`01 — ${t("home.selectedWork")}`}
+        meta={`(0${caseStudies.length})`}
+      />
 
       <VelocityLean strength={1.5}>
         <ul>

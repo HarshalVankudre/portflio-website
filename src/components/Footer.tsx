@@ -5,6 +5,7 @@ import { useLenis } from "lenis/react";
 import { useLanguage } from "@/context/LanguageContext";
 import TransitionLink from "@/components/ui/TransitionLink";
 import Magnetic from "@/components/ui/Magnetic";
+import RegMark from "@/components/ui/RegMark";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { prefersReducedMotion } from "@/lib/motion";
 
@@ -184,8 +185,10 @@ export default function Footer() {
           sweeps in on hover. Decorative: one sr-only copy names the block. */}
       <div
         ref={signoffRef}
-        className="group mt-16 border-t border-line pt-10 sm:mt-20"
+        className="group relative mt-16 border-t border-line pt-10 sm:mt-20"
       >
+        <RegMark className="-top-[5px] left-0" />
+        <RegMark className="-top-[5px] right-0" />
         <span className="sr-only">Harshal Vankudre</span>
         <span className="mask" aria-hidden>
           <span data-signoff-line className="relative block">

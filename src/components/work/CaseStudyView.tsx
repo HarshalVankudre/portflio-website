@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import TransitionLink from "@/components/ui/TransitionLink";
 import RevealText from "@/components/ui/RevealText";
 import ScrambleLabel from "@/components/ui/ScrambleLabel";
+import RegMark from "@/components/ui/RegMark";
 import ParallaxImage from "@/components/work/ParallaxImage";
 import MediaSection from "@/components/work/MediaSection";
 import MetricsBand from "@/components/work/MetricsBand";
@@ -136,7 +137,9 @@ export default function CaseStudyView({ slug }: { slug: CaseStudy["slug"] }) {
           {cs.oneLiner[language]}
         </RevealText>
 
-        <dl className="mt-14 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-line pt-8 sm:grid-cols-4">
+        <dl className="relative mt-14 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-line pt-8 sm:grid-cols-4">
+          <RegMark className="-top-[5px] left-0" />
+          <RegMark className="-top-[5px] right-0" />
           <div data-case-meta>
             <dt className="label-mono">{t("work.year")}</dt>
             <dd className="mt-2 font-mono text-sm text-fg">{cs.year}</dd>

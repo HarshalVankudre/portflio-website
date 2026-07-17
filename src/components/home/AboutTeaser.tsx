@@ -81,7 +81,11 @@ export default function AboutTeaser() {
           className="mt-16 grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-4"
         >
           {METRICS.map((m) => (
-            <div key={m.key} data-metric>
+            <div
+              key={m.key}
+              data-metric
+              className="sm:border-l sm:border-line sm:pl-6 sm:first:border-l-0 sm:first:pl-0"
+            >
               <span
                 data-count={m.value}
                 data-suffix={m.suffix}

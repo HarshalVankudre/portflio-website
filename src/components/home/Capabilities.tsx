@@ -2,7 +2,7 @@
 
 import { useRef, type PointerEvent } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import ScrambleLabel from "@/components/ui/ScrambleLabel";
+import SectionHeader from "@/components/ui/SectionHeader";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { useReducedMotion } from "@/lib/motion";
 
@@ -146,11 +146,10 @@ export default function Capabilities() {
       id="capabilities"
       className="relative py-section"
     >
-      <div className="mb-14 border-b border-line px-gutter pb-5">
-        <h2 className="label-mono">
-          <ScrambleLabel>{`02 — ${t("home.capabilitiesLabel")}`}</ScrambleLabel>
-        </h2>
-      </div>
+      <SectionHeader
+        label={`02 — ${t("home.capabilitiesLabel")}`}
+        className="px-gutter"
+      />
 
       {/* Decorative marquee — the grid below carries the real content */}
       <div

@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import VelocityLean from "@/components/effects/VelocityLean";
+import RegMark from "@/components/ui/RegMark";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 import { hasFinePointer, prefersReducedMotion } from "@/lib/motion";
 import { setGlow } from "@/lib/glow";
@@ -159,6 +160,13 @@ export default function Hero() {
           stagger: 0.1,
           delay: delay + 0.55,
         });
+        // Ghost monogram: slow materialize behind the headline
+        gsap.to("[data-hero-mono]", {
+          autoAlpha: 1,
+          duration: 2.2,
+          ease: "power2.out",
+          delay: delay + 0.9,
+        });
       });
 
       // First visit: pre-hide while the preloader covers the page, then
@@ -172,6 +180,7 @@ export default function Hero() {
       }
       gsap.set("[data-hero-line]", { yPercent: 115 });
       gsap.set("[data-hero-meta]", { autoAlpha: 0, y: 24 });
+      gsap.set("[data-hero-mono]", { autoAlpha: 0 });
       let failsafe: ReturnType<typeof setTimeout> | undefined;
       const onPreloaderDone = () => {
         if (failsafe) clearTimeout(failsafe);
@@ -202,6 +211,18 @@ export default function Hero() {
         },
       });
 
+      // The monogram sinks faster than the headline — depth, not decoration
+      gsap.to("[data-hero-mono]", {
+        yPercent: 22,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
       return () => {
         if (failsafe) clearTimeout(failsafe);
         window.removeEventListener(PRELOADER_DONE_EVENT, onPreloaderDone);
@@ -217,10 +238,32 @@ export default function Hero() {
       id="home"
       className="relative flex min-h-[100svh] flex-col justify-between px-gutter pb-12 pt-32 sm:pt-40"
     >
+      {/* Ghost monogram — a blueprint "HV" drifting behind the headline,
+          echoing the footer sign-off. Stroke-only; decor stays off AT. */}
+      <span
+        data-hero-mono
+        aria-hidden
+        className="ghost-mark pointer-events-none absolute -right-[3vw] top-[6%] hidden select-none italic sm:block"
+      >
+        HV
+      </span>
+
       <div data-hero-parallax>
-        <p data-hero-meta className="label-mono mb-6 sm:mb-10">
-          {t("home.role")} — {t("home.company")} · {t("home.jobLocation")}
-        </p>
+        <div
+          data-hero-meta
+          className="relative mb-6 border-b border-line pb-4 sm:mb-10"
+        >
+          <p className="label-mono flex items-baseline justify-between gap-6">
+            <span>
+              {t("home.role")} — {t("home.company")} · {t("home.jobLocation")}
+            </span>
+            <span className="hidden shrink-0 md:block" aria-hidden>
+              Portfolio — ©2026
+            </span>
+          </p>
+          <RegMark className="-bottom-[5px] left-0" />
+          <RegMark className="-bottom-[5px] right-0" />
+        </div>
 
         <VelocityLean strength={1.2}>
           <h1 ref={h1Ref} className="font-display text-fg">
@@ -243,33 +286,38 @@ export default function Hero() {
 
       <div
         data-hero-parallax
-        className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between"
+        className="relative border-t border-line pt-8"
       >
-        <p
-          data-hero-meta
-          className="max-w-md text-base leading-relaxed text-dim sm:text-lg"
-        >
-          {t("home.tagline")}
-        </p>
+        <RegMark className="-top-[5px] left-0" />
+        <RegMark className="-top-[5px] right-0" />
 
-        <div data-hero-meta className="flex items-center gap-10">
-          <span className="inline-flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.18em] text-dim">
-            <span className="relative flex h-2 w-2" aria-hidden>
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-            </span>
-            {t("home.status")}
-          </span>
-
-          <span
-            className="hidden items-center gap-3 sm:inline-flex"
-            aria-hidden
+        <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
+          <p
+            data-hero-meta
+            className="max-w-md text-base leading-relaxed text-dim sm:text-lg"
           >
-            <span className="label-mono">{t("home.scroll")}</span>
-            <span className="relative h-12 w-px overflow-hidden bg-line-strong">
-              <span className="animate-cue-drop absolute left-0 top-0 h-4 w-px bg-accent" />
+            {t("home.tagline")}
+          </p>
+
+          <div data-hero-meta className="flex items-center gap-10">
+            <span className="inline-flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.18em] text-dim">
+              <span className="relative flex h-2 w-2" aria-hidden>
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              </span>
+              {t("home.status")}
             </span>
-          </span>
+
+            <span
+              className="hidden items-center gap-3 sm:inline-flex"
+              aria-hidden
+            >
+              <span className="label-mono">{t("home.scroll")}</span>
+              <span className="relative h-12 w-px overflow-hidden bg-line-strong">
+                <span className="animate-cue-drop absolute left-0 top-0 h-4 w-px bg-accent" />
+              </span>
+            </span>
+          </div>
         </div>
       </div>
     </section>

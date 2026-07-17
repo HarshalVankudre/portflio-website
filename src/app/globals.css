@@ -434,6 +434,31 @@ h6 {
   -webkit-text-stroke-color: rgba(206, 255, 0, 0);
 }
 
+/* Registration cross — a volt "+" marking the ends of structural rules
+   (chapter headers, hero spec bars). The dossier motif: hairlines read as
+   measured, not just drawn. Decorative; always mounted aria-hidden. */
+.reg-mark {
+  position: absolute;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.625rem;
+  line-height: 1;
+  color: var(--accent);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Hero monogram — giant ghost-outline "HV" drifting behind the headline.
+   Stroke-only, echoing the footer sign-off; the restraint rule is that
+   these two are the only ghost type on the site. */
+.ghost-mark {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(234, 232, 227, 0.13);
+  font-size: clamp(14rem, 30vw, 30rem);
+  font-weight: 560;
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+}
+
 /* Chapter ticks on the scroll rail — dash grows + ignites volt when active */
 .rail-tick {
   display: block;
