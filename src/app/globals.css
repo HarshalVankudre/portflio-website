@@ -10,8 +10,6 @@
 
   /* Surfaces */
   --bg: #faf9f5; /* warm white */
-  --surface: #f1efe9;
-  --elevated: #e7e4dc;
 
   /* Ink */
   --fg: #1f1e1d;
@@ -25,17 +23,12 @@
   /* The one accent: terracotta */
   --accent: #c15f3c;
   --accent-ink: #ffffff;
-
-  --ok: #1a7f37;
-  --err: #b3261e;
 }
 
 /* Bind tokens to Tailwind so utilities resolve:
-   bg-bg / bg-surface / text-fg / text-dim / text-accent / font-display … */
+   bg-bg / text-fg / text-dim / text-accent / font-display … */
 @theme inline {
   --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-elevated: var(--elevated);
   --color-fg: var(--fg);
   --color-dim: var(--dim);
   --color-faint: var(--faint);
@@ -43,8 +36,6 @@
   --color-accent-ink: var(--accent-ink);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
-  --color-ok: var(--ok);
-  --color-err: var(--err);
 
   --font-display: var(--font-serif), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -130,22 +121,6 @@ h6 {
 .group:hover .link-draw {
   text-decoration-color: var(--fg);
   color: var(--fg);
-}
-
-/* Expand a small control's hit area to ≥44px without changing its look.
-   Don't use on controls packed closer than 44px. */
-.touch-target {
-  position: relative;
-}
-
-.touch-target::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  height: max(100%, 44px);
-  width: max(100%, 44px);
-  transform: translate(-50%, -50%);
 }
 
 @media (prefers-reduced-motion: reduce) {

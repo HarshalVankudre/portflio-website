@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-/** Registers the PWA service worker — headless, mounted once in layout. */
+/** Installs the teardown worker so returning visitors drop the old PWA cache. */
 export default function SwRegistrar() {
   useEffect(() => {
     if (!("serviceWorker" in navigator)) return;

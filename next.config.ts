@@ -2,10 +2,9 @@ import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV === "development";
 
-// The site is third-party-free (self-hosted fonts, same-origin APIs and
-// analytics), which keeps the policy tight. 'unsafe-inline' covers Next's
-// hydration scripts and the JSON-LD blocks; dev additionally needs eval
-// and websockets for HMR.
+// Tight policy: first-party only. 'unsafe-inline' covers Next's hydration
+// scripts and the JSON-LD blocks; dev additionally needs eval and
+// websockets for HMR.
 const csp = [
   "default-src 'self'",
   // Vercel analytics/speed-insights are same-origin in production but load
@@ -62,15 +61,6 @@ const nextConfig: NextConfig = {
       },
       // Hand-managed public/ assets never get content hashes — give them a
       // sane cache life instead of revalidating on every visit.
-      {
-        source: "/work/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=86400, stale-while-revalidate=604800",
-          },
-        ],
-      },
       {
         source: "/:file(favicon.svg|icon-192.png|icon-512.png|icon-maskable-512.png)",
         headers: [

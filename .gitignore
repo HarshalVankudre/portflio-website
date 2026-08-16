@@ -41,6 +41,9 @@ yarn-error.log*
 # local Claude Code session config
 .claude/
 
+# local browser verification
+.playwright-mcp/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

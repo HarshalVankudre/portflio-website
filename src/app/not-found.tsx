@@ -21,12 +21,6 @@ export default function NotFound() {
         >
           Back home
         </Link>
-        <Link
-          href="/#work"
-          className="link-draw inline-flex min-h-11 items-center text-sm text-fg"
-        >
-          Selected work
-        </Link>
       </div>
     </main>
   );
