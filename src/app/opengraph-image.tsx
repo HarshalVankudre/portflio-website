@@ -1,14 +1,14 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Harshal Vankudre — AI Developer";
+export const alt = "Harshal Vankudre — AI Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const ACCENT = "#CEFF00";
-const BG = "#060607";
-const FG = "#EAE8E3";
-const DIM = "#98968F";
-const LINE = "rgba(234, 232, 227, 0.14)";
+const ACCENT = "#C15F3C";
+const BG = "#FAF9F5";
+const FG = "#1F1E1D";
+const DIM = "#5E5C57";
+const LINE = "rgba(31, 30, 29, 0.16)";
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -23,8 +23,6 @@ export default function OpengraphImage() {
           padding: "64px 72px",
           fontFamily: "sans-serif",
           position: "relative",
-          backgroundImage:
-            "radial-gradient(42% 55% at 18% 20%, rgba(34, 20, 64, 0.9), rgba(6, 6, 7, 0) 70%), radial-gradient(40% 50% at 85% 80%, rgba(11, 43, 43, 0.9), rgba(6, 6, 7, 0) 70%), radial-gradient(24% 30% at 62% 12%, rgba(206, 255, 0, 0.10), rgba(6, 6, 7, 0) 75%)",
         }}
       >
         {/* Top meta row */}
@@ -40,18 +38,8 @@ export default function OpengraphImage() {
             letterSpacing: "0.22em",
           }}
         >
-          <span>HARSHAL VANKUDRE — PORTFOLIO</span>
-          <span style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-            <span
-              style={{
-                width: 12,
-                height: 12,
-                borderRadius: 9999,
-                background: ACCENT,
-              }}
-            />
-            AI SYSTEMS IN PRODUCTION
-          </span>
+          <span>HARSHAL VANKUDRE</span>
+          <span>KARLSRUHE, GERMANY</span>
         </div>
 
         {/* Name */}
@@ -88,30 +76,7 @@ export default function OpengraphImage() {
               gap: "20px",
             }}
           >
-            <span>AI Developer · RAG Systems · Karlsruhe, Germany</span>
-          </div>
-          <div
-            style={{
-              marginTop: 32,
-              display: "flex",
-              gap: "14px",
-            }}
-          >
-            {["RAG", "LLMs", "Next.js", "Python"].map((tag) => (
-              <span
-                key={tag}
-                style={{
-                  border: `1px solid ${LINE}`,
-                  borderRadius: 9999,
-                  color: FG,
-                  padding: "10px 24px",
-                  fontSize: 24,
-                  letterSpacing: "0.08em",
-                }}
-              >
-                {tag}
-              </span>
-            ))}
+            <span>AI Engineer · Mercedes-Benz Tech Innovation</span>
           </div>
         </div>
 

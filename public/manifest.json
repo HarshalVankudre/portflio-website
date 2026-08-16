@@ -1,16 +1,19 @@
 {
   "name": "Harshal Vankudre Portfolio",
   "short_name": "HV Portfolio",
-  "description": "Portfolio of Harshal Vankudre — AI developer building enterprise RAG systems and agents in Karlsruhe, Germany.",
+  "description": "Portfolio of Harshal Vankudre, AI engineer in Karlsruhe, Germany.",
   "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "lang": "en",
   "dir": "ltr",
-  "categories": ["portfolio", "technology"],
-  "background_color": "#060607",
-  "theme_color": "#060607",
+  "categories": [
+    "portfolio",
+    "technology"
+  ],
+  "background_color": "#faf9f5",
+  "theme_color": "#faf9f5",
   "icons": [
     {
       "src": "/icon-192.png",

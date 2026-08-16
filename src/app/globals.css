@@ -1,39 +1,33 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Design tokens — "Cinematic Noir"
-   Noir black, bone-white serif headlines, one volt accent.
-   Soft WebGL glow behind everything, film grain on top.
+   Design tokens — plain and light
+   Warm white canvas, near-black ink, serif headings, one quiet
+   terracotta accent. No decoration beyond hairlines.
    ============================================================ */
 :root {
-  /* Native UI (autofill, form controls, scrollbars) must render dark */
-  color-scheme: dark;
+  color-scheme: light;
 
   /* Surfaces */
-  --bg: #060607; /* noir black */
-  --surface: #0c0c0e; /* card / panel */
-  --elevated: #141417; /* hover / overlay */
+  --bg: #faf9f5; /* warm white */
+  --surface: #f1efe9;
+  --elevated: #e7e4dc;
 
   /* Ink */
-  --fg: #eae8e3; /* bone white (warm) */
-  --dim: #98968f;
-  --faint: #7d7b72; /* AA-safe quiet text on noir */
+  --fg: #1f1e1d;
+  --dim: #5e5c57;
+  --faint: #75726b;
 
   /* Hairlines */
-  --line: rgba(234, 232, 227, 0.08);
-  --line-strong: rgba(234, 232, 227, 0.16);
+  --line: rgba(31, 30, 29, 0.12);
+  --line-strong: rgba(31, 30, 29, 0.28);
 
-  /* The one saturated accent: VOLT */
-  --accent: #ceff00;
-  --accent-soft: rgba(206, 255, 0, 0.12);
-  --accent-ink: #0b0f00; /* text on accent fills */
+  /* The one accent: terracotta */
+  --accent: #c15f3c;
+  --accent-ink: #ffffff;
 
-  /* WebGL undertones (shader + CSS fallback glows) */
-  --glow-violet: #221440;
-  --glow-teal: #0b2b2b;
-
-  --ok: #3fb950;
-  --err: #ff6166;
+  --ok: #1a7f37;
+  --err: #b3261e;
 }
 
 /* Bind tokens to Tailwind so utilities resolve:
@@ -46,30 +40,25 @@
   --color-dim: var(--dim);
   --color-faint: var(--faint);
   --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
   --color-accent-ink: var(--accent-ink);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
   --color-ok: var(--ok);
   --color-err: var(--err);
 
-  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-display: var(--font-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  /* Fluid display scale */
-  --text-display-xl: clamp(3.4rem, 14vw, 13rem);
-  --text-display-xl--line-height: 0.92;
-  --text-display-lg: clamp(3rem, 9vw, 8rem);
-  --text-display-lg--line-height: 0.95;
-  --text-display-md: clamp(2rem, 5vw, 4.5rem);
-  --text-display-md--line-height: 1.05;
-  --text-display-sm: clamp(1.5rem, 3vw, 2.5rem);
+  /* Heading scale */
+  --text-display-md: clamp(1.9rem, 4vw, 3rem);
+  --text-display-md--line-height: 1.1;
+  --text-display-sm: clamp(1.45rem, 2.6vw, 2.1rem);
   --text-display-sm--line-height: 1.2;
 
   /* Rhythm */
-  --spacing-section: clamp(7rem, 16vh, 12rem);
-  --spacing-gutter: clamp(1.25rem, 4vw, 5rem);
+  --spacing-section: clamp(4.5rem, 10vh, 7rem);
+  --spacing-gutter: clamp(1.25rem, 4vw, 3rem);
 }
 
 * {
@@ -77,276 +66,71 @@
 }
 
 html {
-  /* No CSS smooth scrolling — Lenis owns scroll. */
-  scroll-behavior: auto;
-  /* Firefox scrollbar in-system (WebKit rules below) */
-  scrollbar-color: var(--elevated) var(--bg);
-}
-
-/* First-visit cover: an inline head script adds .preloading before paint so
-   the page never flashes before the React preloader mounts on top of it.
-   The animation is a failsafe — if hydration dies, the cover lifts itself. */
-html.preloading body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 119;
-  background: var(--bg);
-  animation: preloader-cover-timeout 0.4s ease 5s forwards;
-}
-
-@keyframes preloader-cover-timeout {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-instrument), system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  min-height: 100vh;
   overflow-x: clip;
 }
 
-/* Film grain — one fixed pass over the whole screen for materiality */
-body::after {
-  content: "";
-  position: fixed;
-  inset: -50%;
-  z-index: 90;
-  pointer-events: none;
-  opacity: 0.06;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
+section[id] {
+  scroll-margin-top: 5rem;
 }
 
-/* Live grain on capable desktops only */
-@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  body::after {
-    animation: grain-shift 0.9s steps(5) infinite;
-  }
-}
-
-@keyframes grain-shift {
-  0% { transform: translate(0, 0); }
-  20% { transform: translate(-3%, 2%); }
-  40% { transform: translate(2%, -3%); }
-  60% { transform: translate(-2%, -2%); }
-  80% { transform: translate(3%, 3%); }
-  100% { transform: translate(0, 0); }
-}
-
-/* Display serif drives every heading */
+/* Serif headings */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-weight: 420;
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 500;
   letter-spacing: -0.01em;
 }
 
-/* Scrollbar — near invisible */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--elevated);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--faint);
-}
-
-/* Selection — inverted inside accent-filled elements so text stays legible */
 ::selection {
-  background: var(--accent);
-  color: var(--accent-ink);
-}
-
-[class*="bg-accent"] ::selection,
-[class*="bg-accent"]::selection {
   background: var(--fg);
   color: var(--bg);
 }
 
-/* Keyboard focus — always visible, always volt */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--fg);
   outline-offset: 3px;
 }
 
 /* ============================================================
-   Noir utilities
+   Utilities
    ============================================================ */
 
-/* Mono micro-label — indices, meta, breadcrumbs */
+/* Small meta label — dates, section eyebrows, stack lists */
 .label-mono {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.6875rem;
-  font-weight: 400;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.08em;
   color: var(--dim);
 }
 
-/* Link with drawn underline — draws in from the left, exits through the right */
+/* Plain text link — underlined, darkens on hover */
 .link-draw {
-  background-image: linear-gradient(var(--accent), var(--accent));
-  background-size: 0% 1px;
-  background-position: 100% 100%;
-  background-repeat: no-repeat;
-  transition: background-size 0.35s cubic-bezier(0.65, 0, 0.35, 1), color 0.2s ease;
-  padding-bottom: 2px;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s ease, color 0.2s ease;
 }
 
 .link-draw:hover,
 .link-draw:focus-visible,
 .group:hover .link-draw {
-  background-size: 100% 1px;
-  background-position: 0 100%;
-  color: var(--accent);
-}
-
-/* Oversized link that fills with accent on hover (contact email, big CTAs) */
-.link-giant {
-  transition: color 0.3s ease;
-}
-
-.link-giant:hover {
-  color: var(--accent);
-}
-
-/* Form field — hairline underline, volt focus */
-.field {
-  width: 100%;
-  background: transparent;
-  border: 0;
-  /* Inputs need non-text contrast that decorative hairlines don't */
-  border-bottom: 1px solid rgba(234, 232, 227, 0.35);
-  padding: 0.875rem 0;
+  text-decoration-color: var(--fg);
   color: var(--fg);
-  font-size: 1rem;
-  border-radius: 0;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
-
-.field::placeholder {
-  color: var(--faint);
-}
-
-.field:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-
-/* Keyboard focus gets a 2px volt edge, not just a 1px tint */
-.field:focus-visible {
-  border-color: var(--accent);
-  box-shadow: 0 1px 0 0 var(--accent);
-}
-
-/* Keep autofill inside the noir palette (Chrome paints pale yellow otherwise) */
-.field:-webkit-autofill,
-.field:-webkit-autofill:hover,
-.field:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px var(--bg) inset;
-  -webkit-text-fill-color: var(--fg);
-  caret-color: var(--fg);
-  transition: background-color 9999s ease-out;
-}
-
-/* Reveal mask — wrap a line, child translates up into view */
-.mask {
-  overflow: hidden;
-  display: block;
-}
-
-/* Work-list row titles — variable weight breathes on hover */
-.work-title {
-  font-weight: 380;
-  transition: font-weight 0.4s ease, color 0.3s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.group:hover .work-title {
-  font-weight: 600;
-  transform: translateX(0.5rem);
-}
-
-/* Volt duplicate of the row title, swept in left-to-right on hover.
-   Same .work-title metrics on both copies keeps the glyphs aligned. */
-.work-title-fill {
-  color: var(--accent);
-  pointer-events: none;
-  clip-path: inset(0 100% 0 0);
-  transition: clip-path 0.5s cubic-bezier(0.65, 0, 0.35, 1),
-    font-weight 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.group:hover .work-title-fill {
-  clip-path: inset(0 0 0 0);
-}
-
-/* CSS-only entrance — server-rendered pages and lightweight widgets */
-.fade-up {
-  opacity: 0;
-  transform: translateY(14px);
-  animation: fade-up-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@keyframes fade-up-in {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .fade-up {
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
-}
-
-/* Signature flourish draws itself in */
-.signature-stroke {
-  stroke-dasharray: 400;
-  stroke-dashoffset: 400;
-  animation: signature-draw 1.2s ease-in-out 0.4s forwards;
-}
-
-@keyframes signature-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .signature-stroke {
-    stroke-dashoffset: 0;
-    animation: none;
-  }
-}
-
-/* Inline thumbnails: shown on touch devices AND on narrow pointer windows,
-   hidden only where the cursor-follow preview actually exists (fine + ≥lg). */
-@media (pointer: fine) and (min-width: 64rem) {
-  .touch-only {
-    display: none;
-  }
-}
-
 
 /* Expand a small control's hit area to ≥44px without changing its look.
    Don't use on controls packed closer than 44px. */
@@ -364,75 +148,11 @@ h6 {
   transform: translate(-50%, -50%);
 }
 
-/* Capabilities marquee terms — outlined idle, volt-filled under the pointer */
-.cap-term {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(234, 232, 227, 0.35);
-  transition: color 0.35s ease, -webkit-text-stroke-color 0.35s ease;
-}
-
-.cap-term:hover {
-  color: var(--accent);
-  -webkit-text-stroke-color: rgba(206, 255, 0, 0);
-}
-
-/* Chapter ticks on the scroll rail — dash grows + ignites volt when active */
-.rail-tick {
-  display: block;
-  height: 1px;
-  width: 0.75rem;
-  background: var(--line-strong);
-  transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.rail-tick-btn:hover .rail-tick,
-.rail-tick-btn:focus-visible .rail-tick {
-  width: 1.25rem;
-  background: var(--dim);
-}
-
-.rail-tick-btn.rail-tick-active .rail-tick {
-  width: 1.25rem;
-  background: var(--accent);
-}
-
-/* Static gradient fallback (no WebGL / reduced motion / SSR first paint) */
-.gradient-fallback {
-  background:
-    radial-gradient(42% 50% at 18% 22%, color-mix(in srgb, var(--glow-violet) 85%, transparent), transparent 70%),
-    radial-gradient(38% 45% at 82% 70%, color-mix(in srgb, var(--glow-teal) 85%, transparent), transparent 70%),
-    radial-gradient(25% 30% at 60% 15%, var(--accent-soft), transparent 75%),
-    var(--bg);
-}
-
-/* ============================================================
-   Micro animations
-   ============================================================ */
-
-/* Streaming-text caret (chatbot) */
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
-
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
-
-/* Scroll-cue dot descending a rail (hero) */
-@keyframes cue-drop {
-  0% { transform: translateY(0); opacity: 0; }
-  15% { opacity: 1; }
-  85% { opacity: 1; }
-  100% { transform: translateY(2.25rem); opacity: 0; }
-}
-
-.animate-cue-drop {
-  animation: cue-drop 1.8s ease-in-out infinite;
-}
-
-/* Respect reduced-motion preferences — belt and braces */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {

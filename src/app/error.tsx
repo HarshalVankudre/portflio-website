@@ -15,31 +15,20 @@ export default function Error({
 
   return (
     <main className="relative flex min-h-[100svh] flex-col items-center justify-center px-gutter text-center">
-      <p className="fade-up label-mono">Error — unexpected</p>
-
-      <h1
-        className="fade-up mt-8 font-display text-display-lg text-fg"
-        style={{ animationDelay: "0.1s" }}
-      >
-        Something broke<span className="text-accent">.</span>
+      <h1 className="font-display text-display-md text-fg">
+        Something went wrong
       </h1>
 
-      <p
-        className="fade-up mt-8 max-w-md leading-relaxed text-dim"
-        style={{ animationDelay: "0.2s" }}
-      >
-        An unexpected error interrupted the scene. Retry the take, or head back
-        to the start.
+      <p className="mt-6 max-w-md leading-relaxed text-dim">
+        An unexpected error occurred. You can try again or go back to the
+        start.
       </p>
 
-      <div
-        className="fade-up mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-6"
-        style={{ animationDelay: "0.3s" }}
-      >
+      <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-5">
         <button
           type="button"
           onClick={reset}
-          className="inline-flex h-12 items-center rounded-full bg-accent px-8 font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent-ink transition-transform hover:scale-[1.03]"
+          className="inline-flex h-11 items-center rounded-full bg-fg px-6 text-sm font-medium text-bg transition-opacity hover:opacity-85"
         >
           Try again
         </button>
@@ -47,9 +36,9 @@ export default function Error({
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a
           href="/"
-          className="link-draw font-mono text-xs uppercase tracking-[0.18em] text-fg"
+          className="link-draw inline-flex min-h-11 items-center text-sm text-fg"
         >
-          ← Back home
+          Back home
         </a>
       </div>
     </main>

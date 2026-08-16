@@ -1,36 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Instrument_Sans, Geist_Mono } from "next/font/google";
+import { Inter, Source_Serif_4 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
-import { LanguageProvider } from "@/context/LanguageContext";
-import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
-import TransitionProvider from "@/components/providers/TransitionProvider";
-import GradientField from "@/components/effects/GradientField";
-import Cursor from "@/components/effects/Cursor";
-import Preloader from "@/components/Preloader";
 import SwRegistrar from "@/components/SwRegistrar";
 
-const fraunces = Fraunces({
+const inter = Inter({
   subsets: ["latin"],
-  // opsz for display rendering; true italics for the hero/CTA flourishes.
-  // SOFT/WONK were loaded but never used — dropped to cut font bytes.
-  axes: ["opsz"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const sourceSerif = Source_Serif_4({
+  subsets: ["latin"],
   style: ["normal", "italic"],
-  variable: "--font-fraunces",
-  display: "swap",
-});
-
-const instrumentSans = Instrument_Sans({
-  subsets: ["latin"],
-  axes: ["wdth"],
-  variable: "--font-instrument",
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
+  variable: "--font-serif",
   display: "swap",
 });
 
@@ -41,19 +25,20 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  themeColor: "#060607",
-  colorScheme: "dark",
+  themeColor: "#faf9f5",
+  colorScheme: "light",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Harshal Vankudre | AI Developer",
+    default: "Harshal Vankudre | AI Engineer",
     template: "%s | Harshal Vankudre",
   },
   description:
-    "Portfolio of Harshal Vankudre — AI Developer working on AI in cyber security at Mercedes-Benz Tech Innovation. Builder of enterprise RAG systems, multi-agent chatbots, and modern web products with Python, Next.js, and OpenAI. Based in Karlsruhe, Germany.",
+    "AI engineer based in Karlsruhe, working on AI in cyber security at Mercedes-Benz Tech Innovation. Builds RAG systems, agents, and automation used in production.",
   keywords: [
+    "AI Engineer",
     "AI Developer",
     "Software Engineer",
     "Portfolio",
@@ -76,20 +61,13 @@ export const metadata: Metadata = {
   // here too produced duplicate <link rel="icon"> tags.
   icons: {
     icon: [
-      { url: "/favicon.svg?v=hv2", type: "image/svg+xml" },
-      { url: "/icon-192.png?v=hv2", sizes: "192x192", type: "image/png" },
+      { url: "/favicon.svg?v=hv3", type: "image/svg+xml" },
+      { url: "/icon-192.png?v=hv3", sizes: "192x192", type: "image/png" },
     ],
-    apple: [{ url: "/icon-192.png?v=hv2", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/icon-192.png?v=hv3", sizes: "192x192", type: "image/png" }],
   },
   alternates: {
     canonical: "/",
-    // The UI is fully bilingual (client-side toggle); ?lang= makes each
-    // language directly linkable for crawlers and shared links.
-    languages: {
-      en: "/",
-      de: "/?lang=de",
-      "x-default": "/",
-    },
   },
   appleWebApp: {
     capable: true,
@@ -97,9 +75,9 @@ export const metadata: Metadata = {
     title: "HV Portfolio",
   },
   openGraph: {
-    title: "Harshal Vankudre | AI Developer",
+    title: "Harshal Vankudre | AI Engineer",
     description:
-      "AI Developer building enterprise RAG systems and intelligent products with Python, Next.js, and OpenAI.",
+      "AI engineer in Karlsruhe. RAG systems, agents, and automation used in production.",
     url: SITE_URL,
     siteName: "Harshal Vankudre",
     type: "website",
@@ -107,9 +85,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Harshal Vankudre | AI Developer",
+    title: "Harshal Vankudre | AI Engineer",
     description:
-      "AI Developer building enterprise RAG systems and intelligent products.",
+      "AI engineer in Karlsruhe. RAG systems, agents, and automation used in production.",
     creator: "@HarshalVankudre",
   },
   robots: {
@@ -130,7 +108,7 @@ const personJsonLd = {
   name: "Harshal Vankudre",
   url: SITE_URL,
   image: `${SITE_URL}/opengraph-image`,
-  jobTitle: "AI Cyber Security",
+  jobTitle: "AI Engineer — Cyber Security",
   worksFor: {
     "@type": "Organization",
     name: "Mercedes-Benz Tech Innovation",
@@ -161,7 +139,6 @@ const personJsonLd = {
     "Next.js",
     "OpenAI API",
   ],
-  knowsLanguage: ["English", "German"],
 };
 
 const websiteJsonLd = {
@@ -170,13 +147,8 @@ const websiteJsonLd = {
   name: "Harshal Vankudre — Portfolio",
   url: SITE_URL,
   author: { "@type": "Person", name: "Harshal Vankudre" },
-  inLanguage: ["en", "de"],
+  inLanguage: "en",
 };
-
-/* Runs before paint: covers the page on first visit so nothing flashes
-   before the React preloader mounts. The .preloading class is removed by
-   the Preloader (with a CSS animation failsafe if hydration never runs). */
-const preloaderCoverScript = `try{if(!sessionStorage.getItem("portfolio_loaded"))document.documentElement.classList.add("preloading")}catch(e){}`;
 
 export default function RootLayout({
   children,
@@ -184,11 +156,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // suppressHydrationWarning: the pre-paint cover script (and the language
-    // preference) legitimately mutate <html> attributes before/after hydration.
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
-        <script dangerouslySetInnerHTML={{ __html: preloaderCoverScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
@@ -199,7 +168,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${instrumentSans.variable} ${geistMono.variable} ${fraunces.variable} font-sans antialiased`}
+        className={`${inter.variable} ${sourceSerif.variable} font-sans antialiased`}
       >
         <a
           href="#main-content"
@@ -207,17 +176,8 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <LanguageProvider>
-          <SmoothScrollProvider>
-            <TransitionProvider>
-              <GradientField />
-              <div className="relative z-10">{children}</div>
-              <Preloader />
-              <Cursor />
-              <SwRegistrar />
-            </TransitionProvider>
-          </SmoothScrollProvider>
-        </LanguageProvider>
+        {children}
+        <SwRegistrar />
         <Analytics />
         <SpeedInsights />
       </body>
