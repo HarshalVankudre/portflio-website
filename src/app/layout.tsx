@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: "%s | Harshal Vankudre",
   },
   description:
-    "AI engineer based in Karlsruhe, working on AI in cyber security at Mercedes-Benz Tech Innovation. Builds RAG systems, agents, and automation used in production.",
+    "AI engineer building reliable agentic systems and production RAG applications. Working student at Mercedes-Benz Tech Innovation, focused on AI security and browser-agent sandboxing.",
   keywords: [
     "AI Engineer",
     "AI Developer",
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Harshal Vankudre | AI Engineer",
     description:
-      "AI engineer in Karlsruhe. RAG systems, agents, and automation used in production.",
+      "AI engineer building reliable agentic systems and production RAG applications. Working student at Mercedes-Benz Tech Innovation.",
     url: SITE_URL,
     siteName: "Harshal Vankudre",
     type: "website",
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Harshal Vankudre | AI Engineer",
     description:
-      "AI engineer in Karlsruhe. RAG systems, agents, and automation used in production.",
+      "AI engineer building reliable agentic systems and production RAG applications. Working student at Mercedes-Benz Tech Innovation.",
     creator: "@HarshalVankudre",
   },
   robots: {
