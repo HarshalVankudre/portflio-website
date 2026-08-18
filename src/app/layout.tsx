@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: "%s | Harshal Vankudre",
   },
   description:
-    "AI engineer building reliable agentic systems and production RAG applications. Working student at Mercedes-Benz Tech Innovation, focused on AI security and browser-agent sandboxing.",
+    "AI engineer in Karlsruhe, Germany. Internal AI tools built end to end — RAG assistants, Teams bots and the pipelines behind them. Working student at Mercedes-Benz Tech Innovation.",
   keywords: [
     "AI Engineer",
     "AI Developer",
@@ -56,7 +56,6 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Harshal Vankudre", url: SITE_URL }],
   creator: "Harshal Vankudre",
-  manifest: "/manifest.json",
   // favicon.ico is served by the app/favicon.ico file convention — listing it
   // here too produced duplicate <link rel="icon"> tags.
   icons: {
@@ -69,15 +68,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: "HV Portfolio",
-  },
   openGraph: {
     title: "Harshal Vankudre | AI Engineer",
     description:
-      "AI engineer building reliable agentic systems and production RAG applications. Working student at Mercedes-Benz Tech Innovation.",
+      "AI engineer in Karlsruhe, Germany. Internal AI tools built end to end — RAG assistants, Teams bots and the pipelines behind them. Working student at Mercedes-Benz Tech Innovation.",
     url: SITE_URL,
     siteName: "Harshal Vankudre",
     type: "website",
@@ -87,7 +81,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Harshal Vankudre | AI Engineer",
     description:
-      "AI engineer building reliable agentic systems and production RAG applications. Working student at Mercedes-Benz Tech Innovation.",
+      "AI engineer in Karlsruhe, Germany. Internal AI tools built end to end — RAG assistants, Teams bots and the pipelines behind them. Working student at Mercedes-Benz Tech Innovation.",
     creator: "@HarshalVankudre",
   },
   robots: {
@@ -108,7 +102,7 @@ const personJsonLd = {
   name: "Harshal Vankudre",
   url: SITE_URL,
   image: `${SITE_URL}/opengraph-image`,
-  jobTitle: "AI Engineer — Cyber Security",
+  jobTitle: "AI Engineer",
   worksFor: {
     "@type": "Organization",
     name: "Mercedes-Benz Tech Innovation",
@@ -116,7 +110,7 @@ const personJsonLd = {
   alumniOf: [
     {
       "@type": "CollegeOrUniversity",
-      name: "Hochschule Karlsruhe",
+      name: "Karlsruhe University of Applied Sciences (HKA)",
     },
   ],
   address: {
@@ -172,7 +166,7 @@ export default function RootLayout({
       >
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:bg-accent focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:font-semibold focus:uppercase focus:tracking-widest focus:text-accent-ink"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:bg-accent focus:px-4 focus:py-2 focus:text-xs focus:font-semibold focus:uppercase focus:tracking-widest focus:text-accent-ink"
         >
           Skip to content
         </a>

@@ -11,13 +11,12 @@
   /* Surfaces */
   --bg: #faf9f5; /* warm white */
 
-  /* Ink */
+  /* Ink — --faint must stay ≥4.5:1 against --bg (WCAG AA at text-sm) */
   --fg: #1f1e1d;
   --dim: #5e5c57;
-  --faint: #75726b;
+  --faint: #6b6862;
 
   /* Hairlines */
-  --line: rgba(31, 30, 29, 0.12);
   --line-strong: rgba(31, 30, 29, 0.28);
 
   /* The one accent: terracotta */
@@ -34,30 +33,20 @@
   --color-faint: var(--faint);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
-  --color-line: var(--line);
-  --color-line-strong: var(--line-strong);
 
   --font-display: var(--font-serif), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   /* Heading scale */
   --text-display-md: clamp(1.9rem, 4vw, 3rem);
   --text-display-md--line-height: 1.1;
-  --text-display-sm: clamp(1.45rem, 2.6vw, 2.1rem);
-  --text-display-sm--line-height: 1.2;
 
   /* Rhythm */
-  --spacing-section: clamp(4.5rem, 10vh, 7rem);
   --spacing-gutter: clamp(1.25rem, 4vw, 3rem);
 }
 
 * {
   box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {
@@ -66,10 +55,6 @@ body {
   font-family: var(--font-inter), system-ui, sans-serif;
   min-height: 100vh;
   overflow-x: clip;
-}
-
-section[id] {
-  scroll-margin-top: 5rem;
 }
 
 /* Serif headings */
@@ -98,8 +83,8 @@ h6 {
    Utilities
    ============================================================ */
 
-/* Small meta label — dates, section eyebrows, stack lists */
-.label-mono {
+/* Small section heading — overrides the global serif h2 style */
+.section-label {
   font-family: var(--font-inter), system-ui, sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
@@ -117,17 +102,12 @@ h6 {
 }
 
 .link-draw:hover,
-.link-draw:focus-visible,
-.group:hover .link-draw {
+.link-draw:focus-visible {
   text-decoration-color: var(--fg);
   color: var(--fg);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   *,
   *::before,
   *::after {

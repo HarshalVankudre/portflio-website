@@ -16,7 +16,6 @@ const csp = [
   `connect-src 'self'${isDev ? " ws: https://va.vercel-scripts.com" : ""}`,
   "media-src 'self'",
   "worker-src 'self' blob:",
-  "manifest-src 'self'",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -62,7 +61,7 @@ const nextConfig: NextConfig = {
       // Hand-managed public/ assets never get content hashes — give them a
       // sane cache life instead of revalidating on every visit.
       {
-        source: "/:file(favicon.svg|icon-192.png|icon-512.png|icon-maskable-512.png)",
+        source: "/:file(favicon.svg|icon-192.png)",
         headers: [
           {
             key: "Cache-Control",
@@ -71,7 +70,7 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: "/:file(cv.pdf|rueko-arbeitszeugnis.pdf)",
+        source: "/:file(cv.pdf|cv-de.pdf|rueko-arbeitszeugnis.pdf)",
         headers: [
           {
             key: "Cache-Control",

@@ -2,48 +2,52 @@ const EMAIL = "harshalvankudre@gmail.com";
 
 const PROJECTS = [
   {
-    title: "Teams-BOT",
-    tags: "Python · FastAPI · RAG · Microsoft Teams · PostgreSQL",
-    body: "Internal Teams assistant for 2,395 construction machines. Designed the retrieval pipeline and shipped it to production.",
+    title: "RAG assistant & Teams bot (RÜKO)",
+    tags: "Python · FastAPI · LangGraph · OpenAI API · Pinecone · PostgreSQL",
+    body: "Production RAG assistant in daily use by ~50 staff, and a Teams bot answering equipment questions across a fleet of 2,395 construction machines — SQL inventory lookups, manual search, advisory answers. Built both as sole AI developer, plus the shared document-ingestion pipeline.",
     github: "https://github.com/HarshalVankudre/Teams-BOT",
   },
   {
     title: "WinMux",
     tags: "TypeScript · Electron · ConPTY · xterm.js · Claude Code",
-    body: "Tiling Windows terminal for a fleet of Claude Code sessions. Open source, in daily use.",
+    body: "tmux-style tiling terminal for Windows that runs a fleet of parallel Claude Code sessions in one window, on real ConPTY shells. Open source, in daily use.",
     github: "https://github.com/HarshalVankudre/WinMux",
   },
   {
-    title: "Harshal's Hand Font",
+    title: "Harshal’s Hand Font",
     tags: "TrueType · Glyph design · CSS",
-    body: "TrueType font digitized from my handwriting.",
+    body: "TrueType font drawn from my own handwriting.",
     github: "https://github.com/HarshalVankudre/harshal-hand-font",
   },
 ];
 
 const JOBS = [
   {
-    period: "2026 —",
-    text: "Mercedes-Benz Tech Innovation — Working student, AI Cyber Security. Focused on AI security and browser-agent sandboxing.",
+    period: "Jun 2026 —",
+    text: "Mercedes-Benz Tech Innovation — Working student, agentic AI security. Researching sandboxing and isolation for browser agents that run unattended.",
   },
   {
-    period: "2025 – 26",
-    text: "RÜKO GmbH Baumaschinen — Sole AI developer. Built the internal RAG assistant (~50 users) and the Teams equipment bot, from ingestion through production.",
+    period: "Oct 2025 – Apr 2026",
+    text: "RÜKO GmbH Baumaschinen — Working student and sole AI developer. Built the RAG assistant, the Teams equipment bot, and the document pipeline behind both — requirements through production.",
   },
   {
-    period: "2024 – 25",
-    text: "EnBW — Working student. Chatbot project and GPT pilot: ~60% of tier-1 inquiries automated.",
+    period: "Sep 2024 – Feb 2025",
+    text: "EnBW — Working student, NLP and automation. Co-developed a customer-service chatbot and a GPT pilot that automated ~60% of tier-1 inquiries.",
   },
 ];
 
 const SKILLS = [
   {
     label: "Languages",
-    items: "Java · Python · JavaScript / TypeScript · React",
+    items: "Python · TypeScript · JavaScript · Java · SQL",
   },
   {
     label: "AI",
-    items: "Claude Code · Ollama · LLM fine-tuning · Prompt engineering",
+    items: "RAG architecture · Prompt engineering · OpenAI API · MCP servers · Claude Code",
+  },
+  {
+    label: "Stack",
+    items: "FastAPI · Next.js · React · PostgreSQL · Docker · Azure · Git",
   },
 ];
 
@@ -60,14 +64,17 @@ export default function HomeView() {
           Harshal Vankudre
         </h1>
         <p className="mt-3 max-w-xl leading-relaxed text-dim">
-          AI engineer building reliable agentic systems and production RAG
-          applications. Working student at Mercedes-Benz Tech Innovation,
-          currently focused on AI security and browser-agent sandboxing. Based
-          in Karlsruhe, Germany.
+          AI engineer in Karlsruhe, Germany. I build internal AI tools end to end
+          — RAG assistants, Teams bots, and the pipelines behind them. Working
+          student at Mercedes-Benz Tech Innovation: AI security and browser-agent
+          sandboxing.
         </p>
         <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm">
           <li>
-            <a href={`mailto:${EMAIL}`} className="link-draw text-fg">
+            <a
+              href={`mailto:${EMAIL}`}
+              className="link-draw -mx-1 -my-2 inline-block px-1 py-2 text-fg"
+            >
               Email
             </a>
           </li>
@@ -76,7 +83,7 @@ export default function HomeView() {
               href="https://github.com/HarshalVankudre"
               target="_blank"
               rel="noopener noreferrer"
-              className="link-draw text-fg"
+              className="link-draw -mx-1 -my-2 inline-block px-1 py-2 text-fg"
             >
               GitHub
             </a>
@@ -86,19 +93,33 @@ export default function HomeView() {
               href="https://www.linkedin.com/in/harshal-vankudre/"
               target="_blank"
               rel="noopener noreferrer"
-              className="link-draw text-fg"
+              className="link-draw -mx-1 -my-2 inline-block px-1 py-2 text-fg"
             >
               LinkedIn
             </a>
           </li>
           <li>
+            <span className="text-dim">CV</span>{" "}
             <a
               href="/cv.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="link-draw text-fg"
+              className="link-draw -mx-1 -my-2 inline-block px-1 py-2 text-fg"
+              aria-label="CV in English (PDF)"
             >
-              CV
+              EN
+            </a>
+            <span className="text-dim" aria-hidden="true">
+              {" · "}
+            </span>
+            <a
+              href="/cv-de.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-draw -mx-1 -my-2 inline-block px-1 py-2 text-fg"
+              aria-label="CV in German (PDF)"
+            >
+              DE
             </a>
           </li>
           <li>
@@ -106,9 +127,10 @@ export default function HomeView() {
               href="/rueko-arbeitszeugnis.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="link-draw text-fg"
+              className="link-draw -mx-1 -my-2 inline-block px-1 py-2 text-fg"
+              aria-label="RÜKO reference letter, German, PDF"
             >
-              Reference letter
+              Reference letter (German)
             </a>
           </li>
         </ul>
@@ -116,7 +138,7 @@ export default function HomeView() {
 
       {/* Projects */}
       <section aria-labelledby="projects-title" className="mt-12">
-        <h2 id="projects-title" className="label-mono">
+        <h2 id="projects-title" className="section-label">
           Projects
         </h2>
         <ul className="mt-4 space-y-7">
@@ -144,14 +166,14 @@ export default function HomeView() {
 
       {/* Experience */}
       <section aria-labelledby="experience-title" className="mt-12">
-        <h2 id="experience-title" className="label-mono">
+        <h2 id="experience-title" className="section-label">
           Experience
         </h2>
         <ul className="mt-4 space-y-3.5">
           {JOBS.map((job) => (
             <li
               key={job.period}
-              className="grid gap-x-6 gap-y-0.5 sm:grid-cols-[6.5rem_1fr]"
+              className="grid gap-x-6 gap-y-0.5 sm:grid-cols-[9.5rem_1fr]"
             >
               <span className="text-sm text-faint">{job.period}</span>
               <span className="max-w-xl text-sm leading-relaxed text-dim">
@@ -164,14 +186,14 @@ export default function HomeView() {
 
       {/* Skills */}
       <section aria-labelledby="skills-title" className="mt-12">
-        <h2 id="skills-title" className="label-mono">
+        <h2 id="skills-title" className="section-label">
           Skills
         </h2>
         <ul className="mt-4 space-y-3.5">
           {SKILLS.map((skill) => (
             <li
               key={skill.label}
-              className="grid gap-x-6 gap-y-0.5 sm:grid-cols-[6.5rem_1fr]"
+              className="grid gap-x-6 gap-y-0.5 sm:grid-cols-[9.5rem_1fr]"
             >
               <span className="text-sm text-faint">{skill.label}</span>
               <span className="max-w-xl text-sm leading-relaxed text-dim">
@@ -184,7 +206,8 @@ export default function HomeView() {
 
       {/* Footer line */}
       <p className="mt-12 max-w-xl text-sm leading-relaxed text-faint">
-        B.Sc. Data Science at Hochschule Karlsruhe (in progress)
+        B.Sc. Data Science at Karlsruhe University of Applied Sciences (HKA),
+        in progress. German (C1), English (near-native), Hindi (native).
       </p>
     </main>
   );
