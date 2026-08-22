@@ -30,7 +30,7 @@ const PROJECTS = [
 const JOBS = [
   {
     period: "Jun 2026 —",
-    text: "Mercedes-Benz Tech Innovation — Working student, agentic AI security. Researching sandboxing and isolation for browser agents that run unattended.",
+    text: "Mercedes-Benz Tech Innovation — Working student, agentic AI security. Researching sandboxing and isolation for AI agents that run unattended.",
   },
   {
     period: "Oct 2025 – Apr 2026",
@@ -72,7 +72,7 @@ export default function HomeView() {
         <p className="mt-3 max-w-xl leading-relaxed text-dim">
           AI engineer in Karlsruhe, Germany. I build internal AI tools end to end
           — RAG assistants, Teams bots, and the pipelines behind them. Working
-          student at Mercedes-Benz Tech Innovation: AI security and browser-agent
+          student at Mercedes-Benz Tech Innovation: AI security and AI agent
           sandboxing.
         </p>
         <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm">
