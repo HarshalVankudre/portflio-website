@@ -14,6 +14,12 @@ const PROJECTS = [
     github: "https://github.com/HarshalVankudre/WinMux",
   },
   {
+    title: "StudyOS",
+    tags: "Next.js · TypeScript · Prisma · Vercel AI SDK",
+    body: "Turns one sentence about a student’s courses into a populated semester workspace — planner, assignment board, reading list.",
+    github: "https://github.com/HarshalVankudre/StudyOS",
+  },
+  {
     title: "Harshal’s Hand Font",
     tags: "TrueType · Glyph design · CSS",
     body: "TrueType font drawn from my own handwriting.",
@@ -155,6 +161,7 @@ export default function HomeView() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="link-draw text-fg"
+                  aria-label={`${project.title} on GitHub`}
                 >
                   GitHub
                 </a>

@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 export const alt = "Harshal Vankudre — AI Engineer";
 export const size = { width: 1200, height: 630 };
@@ -10,7 +12,15 @@ const FG = "#1F1E1D";
 const DIM = "#5E5C57";
 const LINE = "rgba(31, 30, 29, 0.16)";
 
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
+  // Same faces the page itself uses (latin WOFF subsets; satori can't read woff2).
+  const [sourceSerif, inter] = await Promise.all([
+    readFile(
+      join(process.cwd(), "src/fonts/source-serif-4-latin-600-normal.woff")
+    ),
+    readFile(join(process.cwd(), "src/fonts/inter-latin-400-normal.woff")),
+  ]);
+
   return new ImageResponse(
     (
       <div
@@ -21,7 +31,7 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           padding: "64px 72px",
-          fontFamily: "sans-serif",
+          fontFamily: "Inter",
           position: "relative",
         }}
       >
@@ -52,11 +62,12 @@ export default function OpengraphImage() {
         >
           <div
             style={{
+              fontFamily: "Source Serif 4",
               fontSize: 132,
-              fontWeight: 700,
+              fontWeight: 600,
               color: FG,
               lineHeight: 0.95,
-              letterSpacing: "-0.03em",
+              letterSpacing: "-0.02em",
               display: "flex",
               flexDirection: "column",
             }}
@@ -93,6 +104,17 @@ export default function OpengraphImage() {
         />
       </div>
     ),
-    { ...size }
+    {
+      ...size,
+      fonts: [
+        {
+          name: "Source Serif 4",
+          data: sourceSerif,
+          weight: 600,
+          style: "normal",
+        },
+        { name: "Inter", data: inter, weight: 400, style: "normal" },
+      ],
+    }
   );
 }
